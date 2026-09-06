@@ -1,0 +1,58 @@
+
+yam/
+    docker-compose.yml v 
+    frontend/
+        ├── Dockerfile v
+        ├── package.json v
+        ├── index.html v
+        ├── vite.config.ts v
+        ├── tsconfig.json v
+        └── src/
+            ├── main.tsx v
+            ├── App.tsx v
+    backend/
+        ├── prisma/
+        │   ├── schema.prisma v
+        │   └── migrations/ v
+        ├── src/
+        │   ├── main.ts v
+        │   ├── app.module.ts v
+        │   ├── config/
+        │   ├── common/
+        │   │   ├── guards/
+        │   │   ├── decorators/
+        │   │   ├── filters/
+        │   │   ├── interceptors/
+        │   │   └── pipes/
+        │   ├── modules/
+        │   │   ├── auth/
+        │   │   ├── users/
+        │   │   ├── organizations/
+        │   │   ├── workspaces/
+        │   │   ├── projects/
+        │   │   ├── teams/
+        │   │   ├── roles/
+        │   │   ├── permissions/
+        │   │   ├── entities/
+        │   │   ├── fields/
+        │   │   ├── records/
+        │   │   ├── workflows/
+        │   │   ├── views/
+        │   │   ├── automations/
+        │   │   ├── comments/
+        │   │   ├── activity/
+        │   │   ├── files/
+        │   │   └── modules/
+        │   └── shared/
+        │       ├── prisma/
+        │           ├── prisma.module.ts v
+        │           ├── prisma.service.ts v
+        │       ├── redis/
+        │       ├── queue/
+        │       └── utils/
+        └── Dockerfile v
+        └── package.json v
+        └── tsconfig.json v
+        └── .env v
+        └── .dockerignore v
+        └── prisma.config.ts v

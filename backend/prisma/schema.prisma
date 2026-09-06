@@ -1,0 +1,398 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TENANT / ORGANIZATION
+// ═══════════════════════════════════════════════════════════════
+
+model Organization {
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    workspaces Workspace[]
+    members    OrganizationMember[]
+
+    @@map("organizations")
+}
+
+model OrganizationMember {
+    id             String  @id @default(cuid())
+    organizationId String
+    userId         String
+    role           OrgRole @default(MEMBER)
+
+    organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([organizationId, userId])
+    @@index([userId])
+    @@map("organization_members")
+}
+
+enum OrgRole {
+    OWNER
+    ADMIN
+    MEMBER
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WORKSPACE
+// ═══════════════════════════════════════════════════════════════
+
+model Workspace {
+    id             String   @id @default(cuid())
+    organizationId String
+    name           String
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+    members  WorkspaceMember[]
+    projects Project[]
+
+    @@index([organizationId])
+    @@map("workspaces")
+}
+
+model WorkspaceMember {
+    id          String @id @default(cuid())
+    workspaceId String
+    userId      String
+    role        String @default("member")
+
+    workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([workspaceId, userId])
+    @@index([userId])
+    @@map("workspace_members")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// USERS
+// ═══════════════════════════════════════════════════════════════
+
+model User {
+    id           String   @id @default(cuid())
+    email        String   @unique
+    passwordHash String
+    name         String?
+    avatarUrl    String?
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    organizationMemberships OrganizationMember[]
+    workspaceMemberships    WorkspaceMember[]
+    projectMemberships      ProjectMember[]
+
+    createdRecords Record[]
+    comments       Comment[]
+    uploadedFiles  File[]
+    activityLogs   ActivityLog[]
+
+    @@map("users")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROJECTS
+// ═══════════════════════════════════════════════════════════════
+
+model Project {
+    id          String        @id @default(cuid())
+    workspaceId String
+    name        String
+    description String?
+    status      ProjectStatus @default(ACTIVE)
+    startDate   DateTime?
+    endDate     DateTime?
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+
+    workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+    members      ProjectMember[]
+    modules      ProjectModule[]
+    entities     Entity[]
+    records      Record[]
+    workflows    Workflow[]
+    files        File[]
+    activityLogs ActivityLog[]
+
+    @@index([workspaceId])
+    @@map("projects")
+}
+
+enum ProjectStatus {
+    ACTIVE
+    ARCHIVED
+    COMPLETED
+}
+
+model ProjectMember {
+    id        String @id @default(cuid())
+    projectId String
+    userId    String
+    role      String @default("member")
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([projectId, userId])
+    @@index([userId])
+    @@map("project_members")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CORE: MODULES
+// ═══════════════════════════════════════════════════════════════
+
+model ProjectModule {
+    id        String  @id @default(cuid())
+    projectId String
+    name      String
+    label     String
+    icon      String?
+    config    Json    @default("{}")
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    entities Entity[]
+
+    @@unique([projectId, name])
+    @@index([projectId])
+    @@map("project_modules")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CORE: ENTITIES
+// ═══════════════════════════════════════════════════════════════
+
+model Entity {
+    id        String  @id @default(cuid())
+    projectId String
+    moduleId  String?
+
+    name     String
+    label    String
+    icon     String?
+    color    String?
+    isSystem Boolean @default(false)
+
+    project Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    module  ProjectModule? @relation(fields: [moduleId], references: [id], onDelete: SetNull)
+
+    fields    Field[]
+    records   Record[]
+    workflows Workflow[]
+
+    @@unique([projectId, name])
+    @@index([projectId])
+    @@index([moduleId])
+    @@map("entities")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CORE: FIELDS
+// ═══════════════════════════════════════════════════════════════
+
+model Field {
+    id       String @id @default(cuid())
+    entityId String
+
+    name  String
+    label String
+
+    // Оставляем String намеренно.
+    // Типы будут расширяться через FieldTypeRegistry.
+    type String
+
+    options      Json?
+    isRequired   Boolean @default(false)
+    defaultValue Json?
+
+    entity Entity @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+    @@unique([entityId, name])
+    @@index([entityId])
+    @@map("fields")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RECORDS
+// ═══════════════════════════════════════════════════════════════
+
+model Record {
+    id        String @id @default(cuid())
+    entityId  String
+    projectId String
+
+    data Json
+
+    createdById String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    entity  Entity  @relation(fields: [entityId], references: [id], onDelete: Cascade)
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    creator User    @relation(fields: [createdById], references: [id], onDelete: Restrict)
+
+    comments Comment[]
+
+    @@index([projectId])
+    @@index([entityId])
+    @@index([projectId, entityId])
+    @@index([createdById])
+    @@map("records")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WORKFLOWS
+// ═══════════════════════════════════════════════════════════════
+
+model Workflow {
+    id        String @id @default(cuid())
+    projectId String
+    entityId  String
+    name      String
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    entity  Entity  @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+    steps       WorkflowStep[]
+    transitions WorkflowTransition[]
+
+    @@unique([projectId, entityId, name])
+    @@index([projectId])
+    @@index([entityId])
+    @@map("workflows")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WORKFLOW STEPS
+// ═══════════════════════════════════════════════════════════════
+
+model WorkflowStep {
+    id         String @id @default(cuid())
+    workflowId String
+
+    name  String
+    order Int
+    color String?
+
+    workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+    outgoingTransitions WorkflowTransition[] @relation("fromStep")
+    incomingTransitions WorkflowTransition[] @relation("toStep")
+
+    @@unique([workflowId, order])
+    @@index([workflowId])
+    @@map("workflow_steps")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WORKFLOW TRANSITIONS
+// ═══════════════════════════════════════════════════════════════
+
+model WorkflowTransition {
+    id         String @id @default(cuid())
+    workflowId String
+
+    fromStepId String
+    toStepId   String
+
+    name       String?
+    conditions Json?
+    actions    Json?
+
+    workflow Workflow     @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+    fromStep WorkflowStep @relation("fromStep", fields: [fromStepId], references: [id], onDelete: Cascade)
+    toStep   WorkflowStep @relation("toStep", fields: [toStepId], references: [id], onDelete: Cascade)
+
+    @@index([workflowId])
+    @@index([fromStepId])
+    @@index([toStepId])
+    @@map("workflow_transitions")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COMMENTS
+// ═══════════════════════════════════════════════════════════════
+
+model Comment {
+    id       String @id @default(cuid())
+    recordId String
+    userId   String
+    body     String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    record Record @relation(fields: [recordId], references: [id], onDelete: Cascade)
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([recordId, createdAt])
+    @@index([userId])
+    @@map("comments")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FILES
+// ═══════════════════════════════════════════════════════════════
+
+model File {
+    id        String @id @default(cuid())
+    projectId String
+    userId    String
+
+    storageKey   String
+    originalName String
+    mimeType     String
+    size         Int
+    metadata     Json?
+
+    createdAt DateTime @default(now())
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+    @@index([userId])
+    @@map("files")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ACTIVITY LOG
+// ═══════════════════════════════════════════════════════════════
+
+model ActivityLog {
+    id String @id @default(cuid())
+
+    projectId String?
+    userId    String
+
+    action String
+
+    entityType String
+    entityId   String
+
+    metadata Json?
+
+    createdAt DateTime @default(now())
+
+    project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([projectId, createdAt])
+    @@index([entityType, entityId, createdAt])
+    @@index([userId, createdAt])
+    @@map("activity_logs")
+}

@@ -1,0 +1,26 @@
+# Переменные окружения
+.env
+backend/.env
+frontend/.env
+frontend/.env.production
+
+idea.docx
+
+# Зависимости
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+
+
+# Логи
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
