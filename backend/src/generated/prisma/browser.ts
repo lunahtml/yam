@@ -13,10 +13,10 @@
  * 🟢 You can import this file directly.
  */
 
-import * as Prisma from './internal/prismaNamespaceBrowser'
+import * as Prisma from './internal/prismaNamespaceBrowser.js'
 export { Prisma }
-export * as $Enums from './enums'
-export * from './enums';
+export * as $Enums from './enums.js'
+export * from './enums.js';
 /**
  * Model Organization
  * 
@@ -102,3 +102,23 @@ export type File = Prisma.FileModel
  * 
  */
 export type ActivityLog = Prisma.ActivityLogModel
+/**
+ * Model RefreshToken
+ * 
+ */
+export type RefreshToken = Prisma.RefreshTokenModel
+/**
+ * Model EmailVerification
+ * 
+ */
+export type EmailVerification = Prisma.EmailVerificationModel
+/**
+ * Model LoginAttempt
+ * 
+ */
+export type LoginAttempt = Prisma.LoginAttemptModel
+/**
+ * Model MarketingDashboard
+ * 
+ */
+export type MarketingDashboard = Prisma.MarketingDashboardModel

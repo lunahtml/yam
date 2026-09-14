@@ -3,13 +3,19 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
+import { envSchema } from './config/env.schema.js';
 
 async function bootstrap() {
+    const env = envSchema.parse(process.env);
+
     const app = await NestFactory.create(AppModule);
+
+    const expressApp = app.getHttpAdapter().getInstance();
+    expressApp.set('trust proxy', 1);
 
     app.use(helmet());
     app.enableCors({
-        origin: process.env.CORS_ORIGIN?.split(',') ?? ['http://localhost:5173'],
+        origin: env.CORS_ORIGIN?.split(',') ?? ['http://localhost:5173'],
         credentials: true,
     });
 
@@ -21,9 +27,8 @@ async function bootstrap() {
         }),
     );
 
-    const port = process.env.PORT ?? 3000;
-    await app.listen(port);
-    console.log(`🚀 YAM backend running on http://localhost:${port}`);
+    await app.listen(env.PORT);
+    console.log(`🚀 YAM backend running on http://localhost:${env.PORT}`);
 }
 
 bootstrap();

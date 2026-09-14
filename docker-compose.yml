@@ -9,8 +9,6 @@ services:
       POSTGRES_USER: yam
       POSTGRES_PASSWORD: yam_secret
       POSTGRES_DB: yam
-    ports:
-      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -18,23 +16,29 @@ services:
     image: redis:7-alpine
     container_name: yam-redis
     restart: unless-stopped
+    command: redis-server --requirepass redis_secret
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: yam-mailhog
+    restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "1025:1025"
+      - "8025:8025"
 
   backend:
     build: ./backend
     container_name: yam-backend
     restart: unless-stopped
     env_file:
-      - ./backend/.env
+      - ./backend/.env.docker
     depends_on:
       - postgres
       - redis
-    ports:
-      - "3000:3000"
+      - mailhog
     volumes:
       - ./backend:/app
-    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run start:dev"
+    command: sh -c "npx prisma generate && npm run start:dev"
 
   frontend:
     build: ./frontend
@@ -42,11 +46,21 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
-    ports:
-      - "5173:5173"
     volumes:
       - ./frontend:/app
       - /app/node_modules
+
+  nginx:
+    image: nginx:alpine
+    container_name: yam-nginx
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
 volumes:
   pgdata:

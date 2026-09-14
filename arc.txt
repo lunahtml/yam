@@ -1,58 +1,240 @@
-
 yam/
-    docker-compose.yml v 
-    frontend/
-        ├── Dockerfile v
-        ├── package.json v
-        ├── index.html v
-        ├── vite.config.ts v
-        ├── tsconfig.json v
-        └── src/
-            ├── main.tsx v
-            ├── App.tsx v
-    backend/
-        ├── prisma/
-        │   ├── schema.prisma v
-        │   └── migrations/ v
-        ├── src/
-        │   ├── main.ts v
-        │   ├── app.module.ts v
-        │   ├── config/
-        │   ├── common/
-        │   │   ├── guards/
-        │   │   ├── decorators/
-        │   │   ├── filters/
-        │   │   ├── interceptors/
-        │   │   └── pipes/
-        │   ├── modules/
-        │   │   ├── auth/
-        │   │   ├── users/
-        │   │   ├── organizations/
-        │   │   ├── workspaces/
-        │   │   ├── projects/
-        │   │   ├── teams/
-        │   │   ├── roles/
-        │   │   ├── permissions/
-        │   │   ├── entities/
-        │   │   ├── fields/
-        │   │   ├── records/
-        │   │   ├── workflows/
-        │   │   ├── views/
-        │   │   ├── automations/
-        │   │   ├── comments/
-        │   │   ├── activity/
-        │   │   ├── files/
-        │   │   └── modules/
-        │   └── shared/
-        │       ├── prisma/
-        │           ├── prisma.module.ts v
-        │           ├── prisma.service.ts v
-        │       ├── redis/
-        │       ├── queue/
-        │       └── utils/
-        └── Dockerfile v
-        └── package.json v
-        └── tsconfig.json v
-        └── .env v
-        └── .dockerignore v
-        └── prisma.config.ts v
+├── docker-compose.yml ✅
+│
+├── nginx/
+│   ├── nginx.conf ✅
+├── frontend/
+│   ├── Dockerfile ✅
+│   ├── package.json ✅
+│   ├── index.html ✅
+│   ├── vite.config.ts ✅
+│   ├── tsconfig.json ✅
+│   ├── src ✅
+        ├── main.tsx ✅
+        ├── vite-env.d.ts ✅
+        ├── App.tsx ✅
+        ├── api/
+        │   └── client.ts ✅
+        ├── components/
+        │   ├── Button.tsx ✅
+        │   ├── Input.tsx ✅
+        │   └── Card.tsx ✅
+        │   └── Sidebar.tsx ✅
+        │   └── Layout.tsx ✅
+        ├── pages/
+        │   ├── LoginPage.tsx ✅
+        │   ├── RegisterPage.tsx ✅
+        │   ├── VerifyPage.tsx ✅
+        │   └── DashboardPage.tsx ✅
+        │   └── dashboard/ ✅
+        │       └── marketing/  ✅
+        │           └── MarketingForm.tsx  ✅
+        │           └── MetricsTable.tsx  ✅
+        │           └── metricsConfig.ts  ✅
+        │       └── UtmPage.tsx ✅
+        │       └── AnalyticsPage.tsx ✅
+        │       └── ProjectsPage.tsx ✅
+        │       └── ClientsPage.tsx ✅
+        │       └── ChartsPage.tsx ✅
+        │       └── SeoPage.tsx ✅
+        │       └── TeamPage.tsx ✅
+        │       └── MarketingPage.tsx ✅
+        ├── styles/
+        │   └── global.css ✅
+        └── types/
+            └── api.ts ✅
+│
+└── backend/
+    ├── Dockerfile ✅
+    ├── package.json ✅
+    ├── tsconfig.json ✅
+    ├── .env ✅
+    ├── .env.docker ✅
+    ├── .dockerignore ✅
+    ├── prisma.config.ts ✅
+    │
+    ├── prisma/
+    │   ├── schema.prisma ✅
+    │   └── migrations/ ✅ (пустая)
+    │
+    └── src/
+        ├── main.ts ✅
+        ├── app.module.ts ✅
+        │
+        ├── config/ 
+        │    ├── env.schema.ts ✅
+        ├── infra/
+        │    ├── prisma/
+        │       ├── prisma.module.ts ✅
+        │       └── prisma.service.ts ✅
+        │    ├── redis/
+        │    ├── queue/
+        │    ├── email/
+        │       ├── email.service.ts ✅
+        │       ├── templates/
+        │
+        ├── common/
+        │   ├── guards/ ⬜
+        │   ├── decorators/ ⬜
+        │   ├── filters/ ⬜
+        │   ├── interceptors/ ⬜
+        │   └── pipes/ ⬜
+        │       └── zod-validation.pipe.ts ✅
+        │   └── types/ ⬜
+        │       └── device-info.type.ts ✅
+        │
+        ├── modules/
+        │   ├── marketing-dashboard/ ✅
+        │           ├── marketing-dashboard.controller.ts ✅
+        │           ├── marketing-dashboard.module.ts ✅
+        │           ├── contracts/✅
+        │               ├── update-dashboard.dto.ts✅
+        │               ├── create-dashboard.dto.ts✅
+        │           ├── services/ ✅
+        │               ├── marketing-dashboard.service.ts ✅
+        │   ├── auth/
+        │   │   ├── contracts/
+        │   │   │   ├── register.dto.ts ✅
+        │   │   │   ├── login.dto.ts ✅
+        │   │   │   ├── verify-email.dto.ts ✅
+        │   │   │   └── verify-login.dto.ts ✅
+        │   │   ├── services/
+        │   │       ├── auth.service.ts ✅
+        │   │       └── security.service.ts ✅
+        │   │   ├── strategies/
+        │   │   │   └── jwt.strategy.ts ✅
+        │   │   │   └── jwt-auth.guard.ts ✅
+        │   │   ├── auth.controller.ts ✅
+        │   │   ├── auth.module.ts ✅
+        │   │
+        │   ├── sessions/
+        │   │   ├── sessions.controller.ts ✅
+        │   │   ├── sessions.module.ts ✅
+        │   │   └── sessions.service.ts ✅
+        │   │
+        │   ├── users/
+        │   │   ├── users.module.ts ⬜
+        │   │   ├── users.service.ts ⬜
+        │   │   └── users.controller.ts ⬜
+        │   │
+        │   ├── organizations/
+        │   │   ├── organizations.module.ts ⬜
+        │   │   ├── organizations.service.ts ⬜
+        │   │   └── organizations.controller.ts ⬜
+        │   │
+        │   ├── workspaces/
+        │   │   ├── workspaces.module.ts ⬜
+        │   │   ├── workspaces.service.ts ⬜
+        │   │   └── workspaces.controller.ts ⬜
+        │   │
+        │   ├── projects/
+        │   │   ├── services/  ✅
+        │   │       ├── projects.service.ts  ✅
+        │   │   ├── contracts/  ✅
+        │   │       ├── create-project.dto.ts  ✅
+        │   │   └── projects.controller.ts ✅
+        │   │   └── projects.module.ts ✅
+        │   │
+        │   ├── teams/ ⬜
+        │   ├── roles/ ⬜
+        │   ├── permissions/ ⬜
+        │   ├── entities/ ⬜
+        │   ├── fields/ ⬜
+        │   ├── records/ ⬜
+        │   ├── workflows/ ⬜
+        │   ├── views/ ⬜
+        │   ├── automations/ ⬜
+        │   ├── comments/ ⬜
+        │   ├── activity/ ⬜
+        │   ├── files/ ⬜
+        │   └── modules/ ⬜
+        │
+        ├── generated/
+        │   └── prisma/
+        │       ├── internal/
+        │       │   ├── class.ts ✅
+        │       │   ├── prismaNamespace.ts ✅
+        │       │   └── prismaNamespaceBrowser.tsx ✅
+        │       ├── models/
+        │       │   ├── ActivityLog.ts ✅
+        │       │   ├── LoginAttempt.ts ✅
+        │       │   ├── RefreshToken.ts ✅
+        │       │   ├── EmailVerification.ts ✅
+        │       │   ├── Comment.ts ✅
+        │       │   ├── Entity.ts ✅
+        │       │   ├── Field.ts ✅
+        │       │   ├── File.ts ✅
+        │       │   ├── Organization.ts ✅
+        │       │   ├── OrganizationMember.ts ✅
+        │       │   ├── Project.ts ✅
+        │       │   ├── ProjectMember.ts ✅
+        │       │   ├── ProjectModule.ts ✅
+        │       │   ├── Record.ts ✅
+        │       │   ├── User.ts ✅
+        │       │   ├── Workflow.ts ✅
+        │       │   ├── WorkflowStep.ts ✅
+        │       │   ├── WorkflowTransition.ts ✅
+        │       │   ├── Workspace.ts ✅
+        │       │   └── WorkspaceMember.ts ✅
+        │       ├── browser.ts ✅
+        │       ├── client.ts ✅
+        │       ├── enums.ts ✅
+        │       ├── models.ts ✅
+        │       └── commonInputTypes.ts ✅
+        │
+        └── shared/
+            ├── redis/ ⬜
+            ├── queue/ ⬜
+            └── utils/ ⬜
+
+
+Воронка (конверсии)
+Метрика	Формула
+CTR	clicks / impressions * 100
+CR клик → лид	leads / clicks * 100
+CR лид → MQL	mql / leads * 100
+CR MQL → SQL	sql / mql * 100
+CR SQL → встреча	meetings / sql * 100
+CR встреча → КП	offers / meetings * 100
+CR КП → сделка	deals / offers * 100
+Общая конверсия	deals / clicks * 100
+Стоимости
+Метрика	Формула
+CPC	adBudget / clicks
+CPM	adBudget / impressions * 1000
+CPL	marketingCosts / leads
+CPQL	marketingCosts / mql
+CPSQL	marketingCosts / sql
+CAC	marketingCosts / deals
+CPA	marketingCosts / deals
+CPO	marketingCosts / offers
+ROI / ROMI / ROAS
+Метрика	Формула
+ROMI	(revenue - marketingCosts) / marketingCosts * 100
+ROI	(grossProfit - marketingCosts) / marketingCosts * 100
+ROAS	revenue / adBudget
+ROAS (полный)	revenue / marketingCosts
+Доля маркетинга	marketingCosts / revenue * 100
+ACV (Average Customer Value)	avgRevenuePerClient
+LTV / CAC
+Метрика	Формула
+LTV	avgCheck * avgPurchaseFreq * avgLifetimeMonths * avgGrossMargin
+LTV / CAC	ltv / cac
+Payback period	cac / (avgCheck * avgGrossMargin)
+Эффективность
+Метрика	Формула
+AOV (Average Order Value)	revenue / deals
+AOV (средний чек)	avgCheck
+Retention	repeatClients / activeClients * 100
+Churn	100 - retention
+Bounce rate	bounces / totalVisits * 100
+ОР (органика)	organicVisits / totalVisits * 100
+Доля рынка	som / tam * 100
+Доля SAM	som / sam * 100
+Юнит-экономика
+Метрика	Формула
+Маржа с клиента	avgCheck * avgGrossMargin
+Прибыль с клиента	(avgCheck * avgGrossMargin) - cac
+Точка окупаемости	cac / (avgCheck * avgGrossMargin)
+Выручка на клиента	avgRevenuePerClient
+Прибыль на клиента	revenue - marketingCosts

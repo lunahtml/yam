@@ -94,12 +94,21 @@ model User {
     workspaceMemberships    WorkspaceMember[]
     projectMemberships      ProjectMember[]
 
-    createdRecords Record[]
-    comments       Comment[]
-    uploadedFiles  File[]
-    activityLogs   ActivityLog[]
+    createdRecords     Record[]
+    comments           Comment[]
+    uploadedFiles      File[]
+    activityLogs       ActivityLog[]
+    refreshTokens      RefreshToken[]
+    emailVerifications EmailVerification[]
+    status             UserStatus          @default(ACTIVE)
 
     @@map("users")
+}
+
+enum UserStatus {
+    ACTIVE
+    SUSPENDED
+    DELETED
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -119,13 +128,14 @@ model Project {
 
     workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
-    members      ProjectMember[]
-    modules      ProjectModule[]
-    entities     Entity[]
-    records      Record[]
-    workflows    Workflow[]
-    files        File[]
-    activityLogs ActivityLog[]
+    members             ProjectMember[]
+    modules             ProjectModule[]
+    entities            Entity[]
+    records             Record[]
+    workflows           Workflow[]
+    files               File[]
+    activityLogs        ActivityLog[]
+    marketingDashboards MarketingDashboard[]
 
     @@index([workspaceId])
     @@map("projects")
@@ -395,4 +405,106 @@ model ActivityLog {
     @@index([entityType, entityId, createdAt])
     @@index([userId, createdAt])
     @@map("activity_logs")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════════════
+
+model RefreshToken {
+    id        String    @id @default(cuid())
+    userId    String
+    selector  String    @unique
+    tokenHash String    @unique
+    device    String?
+    ip        String?
+    userAgent String?
+    expiresAt DateTime
+    revokedAt DateTime?
+    createdAt DateTime  @default(now())
+    user      User      @relation(fields: [userId], references: [id])
+}
+
+model EmailVerification {
+    id         String    @id @default(cuid())
+    userId     String
+    codeHash   String
+    expiresAt  DateTime
+    verifiedAt DateTime?
+    createdAt  DateTime  @default(now())
+
+    user     User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    attempts Int  @default(0)
+
+    @@index([userId])
+    @@map("email_verifications")
+}
+
+model LoginAttempt {
+    id        String   @id @default(cuid())
+    userId    String?
+    email     String
+    ip        String
+    userAgent String?
+    success   Boolean
+    createdAt DateTime @default(now())
+
+    @@index([email, createdAt])
+    @@index([ip, createdAt])
+    @@map("login_attempts")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MARKETING DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+
+model MarketingDashboard {
+    id        String @id @default(cuid())
+    projectId String
+    period    String // "Январь 2026"
+
+    // Бюджет
+    adBudget       Float @default(0)
+    marketingCosts Float @default(0)
+    revenue        Float @default(0)
+    grossProfit    Float @default(0)
+
+    // Воронка
+    impressions Float @default(0)
+    clicks      Float @default(0)
+    leads       Float @default(0)
+    mql         Float @default(0)
+    sql         Float @default(0)
+    meetings    Float @default(0)
+    offers      Float @default(0)
+    deals       Float @default(0)
+
+    // Продажи
+    avgCheck            Float @default(0)
+    avgGrossMargin      Float @default(0)
+    avgLifetimeMonths   Float @default(0)
+    avgPurchaseFreq     Float @default(0)
+    avgRevenuePerClient Float @default(0)
+    activeClients       Float @default(0)
+    repeatClients       Float @default(0)
+    retention           Float @default(0)
+
+    // Дополнительно
+    avgProductPrice  Float @default(0)
+    operationalCosts Float @default(0)
+    organicVisits    Float @default(0)
+    totalVisits      Float @default(0)
+    bounces          Float @default(0)
+    newClients       Float @default(0)
+    tam              Float @default(0)
+    sam              Float @default(0)
+    som              Float @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+    @@map("marketing_dashboards")
 }

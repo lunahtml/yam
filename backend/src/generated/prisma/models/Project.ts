@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Project
@@ -222,6 +222,7 @@ export type ProjectWhereInput = {
   workflows?: Prisma.WorkflowListRelationFilter
   files?: Prisma.FileListRelationFilter
   activityLogs?: Prisma.ActivityLogListRelationFilter
+  marketingDashboards?: Prisma.MarketingDashboardListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -242,6 +243,7 @@ export type ProjectOrderByWithRelationInput = {
   workflows?: Prisma.WorkflowOrderByRelationAggregateInput
   files?: Prisma.FileOrderByRelationAggregateInput
   activityLogs?: Prisma.ActivityLogOrderByRelationAggregateInput
+  marketingDashboards?: Prisma.MarketingDashboardOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -265,6 +267,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   workflows?: Prisma.WorkflowListRelationFilter
   files?: Prisma.FileListRelationFilter
   activityLogs?: Prisma.ActivityLogListRelationFilter
+  marketingDashboards?: Prisma.MarketingDashboardListRelationFilter
 }, "id">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -314,6 +317,7 @@ export type ProjectCreateInput = {
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -333,6 +337,7 @@ export type ProjectUncheckedCreateInput = {
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -352,6 +357,7 @@ export type ProjectUpdateInput = {
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -371,6 +377,7 @@ export type ProjectUncheckedUpdateInput = {
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
@@ -614,6 +621,20 @@ export type ProjectUpdateOneWithoutActivityLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutActivityLogsInput, Prisma.ProjectUpdateWithoutActivityLogsInput>, Prisma.ProjectUncheckedUpdateWithoutActivityLogsInput>
 }
 
+export type ProjectCreateNestedOneWithoutMarketingDashboardsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutMarketingDashboardsInput, Prisma.ProjectUncheckedCreateWithoutMarketingDashboardsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutMarketingDashboardsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneRequiredWithoutMarketingDashboardsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutMarketingDashboardsInput, Prisma.ProjectUncheckedCreateWithoutMarketingDashboardsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutMarketingDashboardsInput
+  upsert?: Prisma.ProjectUpsertWithoutMarketingDashboardsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutMarketingDashboardsInput, Prisma.ProjectUpdateWithoutMarketingDashboardsInput>, Prisma.ProjectUncheckedUpdateWithoutMarketingDashboardsInput>
+}
+
 export type ProjectCreateWithoutWorkspaceInput = {
   id?: string
   name: string
@@ -630,6 +651,7 @@ export type ProjectCreateWithoutWorkspaceInput = {
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutWorkspaceInput = {
@@ -648,6 +670,7 @@ export type ProjectUncheckedCreateWithoutWorkspaceInput = {
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutWorkspaceInput = {
@@ -707,6 +730,7 @@ export type ProjectCreateWithoutMembersInput = {
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -725,6 +749,7 @@ export type ProjectUncheckedCreateWithoutMembersInput = {
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -759,6 +784,7 @@ export type ProjectUpdateWithoutMembersInput = {
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -777,6 +803,7 @@ export type ProjectUncheckedUpdateWithoutMembersInput = {
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutModulesInput = {
@@ -795,6 +822,7 @@ export type ProjectCreateWithoutModulesInput = {
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutModulesInput = {
@@ -813,6 +841,7 @@ export type ProjectUncheckedCreateWithoutModulesInput = {
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutModulesInput = {
@@ -847,6 +876,7 @@ export type ProjectUpdateWithoutModulesInput = {
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutModulesInput = {
@@ -865,6 +895,7 @@ export type ProjectUncheckedUpdateWithoutModulesInput = {
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutEntitiesInput = {
@@ -883,6 +914,7 @@ export type ProjectCreateWithoutEntitiesInput = {
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutEntitiesInput = {
@@ -901,6 +933,7 @@ export type ProjectUncheckedCreateWithoutEntitiesInput = {
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutEntitiesInput = {
@@ -935,6 +968,7 @@ export type ProjectUpdateWithoutEntitiesInput = {
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutEntitiesInput = {
@@ -953,6 +987,7 @@ export type ProjectUncheckedUpdateWithoutEntitiesInput = {
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutRecordsInput = {
@@ -971,6 +1006,7 @@ export type ProjectCreateWithoutRecordsInput = {
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutRecordsInput = {
@@ -989,6 +1025,7 @@ export type ProjectUncheckedCreateWithoutRecordsInput = {
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutRecordsInput = {
@@ -1023,6 +1060,7 @@ export type ProjectUpdateWithoutRecordsInput = {
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutRecordsInput = {
@@ -1041,6 +1079,7 @@ export type ProjectUncheckedUpdateWithoutRecordsInput = {
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutWorkflowsInput = {
@@ -1059,6 +1098,7 @@ export type ProjectCreateWithoutWorkflowsInput = {
   records?: Prisma.RecordCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutWorkflowsInput = {
@@ -1077,6 +1117,7 @@ export type ProjectUncheckedCreateWithoutWorkflowsInput = {
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutWorkflowsInput = {
@@ -1111,6 +1152,7 @@ export type ProjectUpdateWithoutWorkflowsInput = {
   records?: Prisma.RecordUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutWorkflowsInput = {
@@ -1129,6 +1171,7 @@ export type ProjectUncheckedUpdateWithoutWorkflowsInput = {
   records?: Prisma.RecordUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutFilesInput = {
@@ -1147,6 +1190,7 @@ export type ProjectCreateWithoutFilesInput = {
   records?: Prisma.RecordCreateNestedManyWithoutProjectInput
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutFilesInput = {
@@ -1165,6 +1209,7 @@ export type ProjectUncheckedCreateWithoutFilesInput = {
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutProjectInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutFilesInput = {
@@ -1199,6 +1244,7 @@ export type ProjectUpdateWithoutFilesInput = {
   records?: Prisma.RecordUpdateManyWithoutProjectNestedInput
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutFilesInput = {
@@ -1217,6 +1263,7 @@ export type ProjectUncheckedUpdateWithoutFilesInput = {
   records?: Prisma.RecordUncheckedUpdateManyWithoutProjectNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutActivityLogsInput = {
@@ -1235,6 +1282,7 @@ export type ProjectCreateWithoutActivityLogsInput = {
   records?: Prisma.RecordCreateNestedManyWithoutProjectInput
   workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
   files?: Prisma.FileCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutActivityLogsInput = {
@@ -1253,6 +1301,7 @@ export type ProjectUncheckedCreateWithoutActivityLogsInput = {
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutProjectInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
   files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutActivityLogsInput = {
@@ -1287,6 +1336,7 @@ export type ProjectUpdateWithoutActivityLogsInput = {
   records?: Prisma.RecordUpdateManyWithoutProjectNestedInput
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutActivityLogsInput = {
@@ -1305,6 +1355,99 @@ export type ProjectUncheckedUpdateWithoutActivityLogsInput = {
   records?: Prisma.RecordUncheckedUpdateManyWithoutProjectNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectCreateWithoutMarketingDashboardsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  status?: $Enums.ProjectStatus
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutProjectsInput
+  members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
+  modules?: Prisma.ProjectModuleCreateNestedManyWithoutProjectInput
+  entities?: Prisma.EntityCreateNestedManyWithoutProjectInput
+  records?: Prisma.RecordCreateNestedManyWithoutProjectInput
+  workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
+  files?: Prisma.FileCreateNestedManyWithoutProjectInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutMarketingDashboardsInput = {
+  id?: string
+  workspaceId: string
+  name: string
+  description?: string | null
+  status?: $Enums.ProjectStatus
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+  modules?: Prisma.ProjectModuleUncheckedCreateNestedManyWithoutProjectInput
+  entities?: Prisma.EntityUncheckedCreateNestedManyWithoutProjectInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutProjectInput
+  workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutMarketingDashboardsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutMarketingDashboardsInput, Prisma.ProjectUncheckedCreateWithoutMarketingDashboardsInput>
+}
+
+export type ProjectUpsertWithoutMarketingDashboardsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutMarketingDashboardsInput, Prisma.ProjectUncheckedUpdateWithoutMarketingDashboardsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutMarketingDashboardsInput, Prisma.ProjectUncheckedCreateWithoutMarketingDashboardsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutMarketingDashboardsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutMarketingDashboardsInput, Prisma.ProjectUncheckedUpdateWithoutMarketingDashboardsInput>
+}
+
+export type ProjectUpdateWithoutMarketingDashboardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
+  members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
+  modules?: Prisma.ProjectModuleUpdateManyWithoutProjectNestedInput
+  entities?: Prisma.EntityUpdateManyWithoutProjectNestedInput
+  records?: Prisma.RecordUpdateManyWithoutProjectNestedInput
+  workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
+  files?: Prisma.FileUpdateManyWithoutProjectNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutMarketingDashboardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+  modules?: Prisma.ProjectModuleUncheckedUpdateManyWithoutProjectNestedInput
+  entities?: Prisma.EntityUncheckedUpdateManyWithoutProjectNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutProjectNestedInput
+  workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyWorkspaceInput = {
@@ -1334,6 +1477,7 @@ export type ProjectUpdateWithoutWorkspaceInput = {
   workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutWorkspaceInput = {
@@ -1352,6 +1496,7 @@ export type ProjectUncheckedUpdateWithoutWorkspaceInput = {
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -1378,6 +1523,7 @@ export type ProjectCountOutputType = {
   workflows: number
   files: number
   activityLogs: number
+  marketingDashboards: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1388,6 +1534,7 @@ export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   workflows?: boolean | ProjectCountOutputTypeCountWorkflowsArgs
   files?: boolean | ProjectCountOutputTypeCountFilesArgs
   activityLogs?: boolean | ProjectCountOutputTypeCountActivityLogsArgs
+  marketingDashboards?: boolean | ProjectCountOutputTypeCountMarketingDashboardsArgs
 }
 
 /**
@@ -1449,6 +1596,13 @@ export type ProjectCountOutputTypeCountActivityLogsArgs<ExtArgs extends runtime.
   where?: Prisma.ActivityLogWhereInput
 }
 
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountMarketingDashboardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MarketingDashboardWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1468,6 +1622,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   workflows?: boolean | Prisma.Project$workflowsArgs<ExtArgs>
   files?: boolean | Prisma.Project$filesArgs<ExtArgs>
   activityLogs?: boolean | Prisma.Project$activityLogsArgs<ExtArgs>
+  marketingDashboards?: boolean | Prisma.Project$marketingDashboardsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -1519,6 +1674,7 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   workflows?: boolean | Prisma.Project$workflowsArgs<ExtArgs>
   files?: boolean | Prisma.Project$filesArgs<ExtArgs>
   activityLogs?: boolean | Prisma.Project$activityLogsArgs<ExtArgs>
+  marketingDashboards?: boolean | Prisma.Project$marketingDashboardsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1539,6 +1695,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     workflows: Prisma.$WorkflowPayload<ExtArgs>[]
     files: Prisma.$FilePayload<ExtArgs>[]
     activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[]
+    marketingDashboards: Prisma.$MarketingDashboardPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1952,6 +2109,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   workflows<T extends Prisma.Project$workflowsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$workflowsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   files<T extends Prisma.Project$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   activityLogs<T extends Prisma.Project$activityLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$activityLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  marketingDashboards<T extends Prisma.Project$marketingDashboardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$marketingDashboardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MarketingDashboardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2556,6 +2714,30 @@ export type Project$activityLogsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.ActivityLogScalarFieldEnum | Prisma.ActivityLogScalarFieldEnum[]
+}
+
+/**
+ * Project.marketingDashboards
+ */
+export type Project$marketingDashboardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MarketingDashboard
+   */
+  select?: Prisma.MarketingDashboardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MarketingDashboard
+   */
+  omit?: Prisma.MarketingDashboardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MarketingDashboardInclude<ExtArgs> | null
+  where?: Prisma.MarketingDashboardWhereInput
+  orderBy?: Prisma.MarketingDashboardOrderByWithRelationInput | Prisma.MarketingDashboardOrderByWithRelationInput[]
+  cursor?: Prisma.MarketingDashboardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MarketingDashboardScalarFieldEnum | Prisma.MarketingDashboardScalarFieldEnum[]
 }
 
 /**

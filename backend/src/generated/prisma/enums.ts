@@ -18,6 +18,15 @@ export const OrgRole = {
 export type OrgRole = (typeof OrgRole)[keyof typeof OrgRole]
 
 
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  DELETED: 'DELETED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
 export const ProjectStatus = {
   ACTIVE: 'ACTIVE',
   ARCHIVED: 'ARCHIVED',

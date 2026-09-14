@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models'
-export type * from './prismaNamespace'
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -67,7 +67,11 @@ export const ModelName = {
   WorkflowTransition: 'WorkflowTransition',
   Comment: 'Comment',
   File: 'File',
-  ActivityLog: 'ActivityLog'
+  ActivityLog: 'ActivityLog',
+  RefreshToken: 'RefreshToken',
+  EmailVerification: 'EmailVerification',
+  LoginAttempt: 'LoginAttempt',
+  MarketingDashboard: 'MarketingDashboard'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -134,7 +138,8 @@ export const UserScalarFieldEnum = {
   name: 'name',
   avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -291,6 +296,88 @@ export const ActivityLogScalarFieldEnum = {
 } as const
 
 export type ActivityLogScalarFieldEnum = (typeof ActivityLogScalarFieldEnum)[keyof typeof ActivityLogScalarFieldEnum]
+
+
+export const RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  selector: 'selector',
+  tokenHash: 'tokenHash',
+  device: 'device',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  codeHash: 'codeHash',
+  expiresAt: 'expiresAt',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt',
+  attempts: 'attempts'
+} as const
+
+export type EmailVerificationScalarFieldEnum = (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum]
+
+
+export const LoginAttemptScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  email: 'email',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  success: 'success',
+  createdAt: 'createdAt'
+} as const
+
+export type LoginAttemptScalarFieldEnum = (typeof LoginAttemptScalarFieldEnum)[keyof typeof LoginAttemptScalarFieldEnum]
+
+
+export const MarketingDashboardScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  period: 'period',
+  adBudget: 'adBudget',
+  marketingCosts: 'marketingCosts',
+  revenue: 'revenue',
+  grossProfit: 'grossProfit',
+  impressions: 'impressions',
+  clicks: 'clicks',
+  leads: 'leads',
+  mql: 'mql',
+  sql: 'sql',
+  meetings: 'meetings',
+  offers: 'offers',
+  deals: 'deals',
+  avgCheck: 'avgCheck',
+  avgGrossMargin: 'avgGrossMargin',
+  avgLifetimeMonths: 'avgLifetimeMonths',
+  avgPurchaseFreq: 'avgPurchaseFreq',
+  avgRevenuePerClient: 'avgRevenuePerClient',
+  activeClients: 'activeClients',
+  repeatClients: 'repeatClients',
+  retention: 'retention',
+  avgProductPrice: 'avgProductPrice',
+  operationalCosts: 'operationalCosts',
+  organicVisits: 'organicVisits',
+  totalVisits: 'totalVisits',
+  bounces: 'bounces',
+  newClients: 'newClients',
+  tam: 'tam',
+  sam: 'sam',
+  som: 'som',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MarketingDashboardScalarFieldEnum = (typeof MarketingDashboardScalarFieldEnum)[keyof typeof MarketingDashboardScalarFieldEnum]
 
 
 export const SortOrder = {

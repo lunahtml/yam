@@ -1,6 +1,7 @@
 # Переменные окружения
 .env
 backend/.env
+backend/.env.docker
 frontend/.env
 frontend/.env.production
 
