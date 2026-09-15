@@ -8,28 +8,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 //backend/src/modules/marketing-dashboard/services/marketing-dashboard.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
+import { MembershipService } from '../../../common/services/membership.service.js';
+import { EDIT_ROLES } from '../../../common/types/roles.type.js';
 let MarketingDashboardService = class MarketingDashboardService {
     prisma;
-    constructor(prisma) {
+    membership;
+    constructor(prisma, membership) {
         this.prisma = prisma;
+        this.membership = membership;
     }
-    async create(projectId, data) {
+    async create(userId, projectId, data) {
+        await this.membership.assertProjectRole(userId, projectId, EDIT_ROLES);
         return this.prisma.client.marketingDashboard.create({
-            data: {
-                projectId,
-                ...data,
-            },
+            data: { projectId, ...data },
         });
     }
-    async update(id, data) {
+    async update(userId, id, data) {
+        // 1. Достаём projectId без выброса NotFoundException
+        const existing = await this.prisma.client.marketingDashboard.findUnique({
+            where: { id },
+            select: { projectId: true },
+        });
+        // 2. Не раскрываем существование — отдаём 403
+        if (!existing) {
+            throw new ForbiddenException('Access denied to dashboard');
+        }
+        // 3. Проверка прав
+        await this.membership.assertProjectRole(userId, existing.projectId, EDIT_ROLES);
+        // 4. Обновление
         return this.prisma.client.marketingDashboard.update({
             where: { id },
             data,
         });
     }
-    async getByProject(projectId) {
+    async getByProject(userId, projectId) {
+        await this.membership.assertProjectMember(userId, projectId);
         const dashboard = await this.prisma.client.marketingDashboard.findFirst({
             where: { projectId },
             orderBy: { createdAt: 'desc' },
@@ -43,7 +58,6 @@ let MarketingDashboardService = class MarketingDashboardService {
     }
     calculateMetrics(d) {
         const safe = (a, b) => (b === 0 ? 0 : a / b);
-        // Конверсии
         const ctr = safe(d.clicks, d.impressions) * 100;
         const crClickLead = safe(d.leads, d.clicks) * 100;
         const crLeadMql = safe(d.mql, d.leads) * 100;
@@ -52,7 +66,6 @@ let MarketingDashboardService = class MarketingDashboardService {
         const crMeetingOffer = safe(d.offers, d.meetings) * 100;
         const crOfferDeal = safe(d.deals, d.offers) * 100;
         const crTotal = safe(d.deals, d.clicks) * 100;
-        // Стоимости
         const cpc = safe(d.adBudget, d.clicks);
         const cpm = safe(d.adBudget, d.impressions) * 1000;
         const cpl = safe(d.marketingCosts, d.leads);
@@ -60,7 +73,6 @@ let MarketingDashboardService = class MarketingDashboardService {
         const cpsql = safe(d.marketingCosts, d.sql);
         const cac = safe(d.marketingCosts, d.deals);
         const cpo = safe(d.marketingCosts, d.offers);
-        // ROI / ROMI / ROAS
         const romi = d.marketingCosts === 0
             ? 0
             : ((d.revenue - d.marketingCosts) / d.marketingCosts) * 100;
@@ -70,14 +82,9 @@ let MarketingDashboardService = class MarketingDashboardService {
         const roas = safe(d.revenue, d.adBudget);
         const roasFull = safe(d.revenue, d.marketingCosts);
         const marketingShare = safe(d.marketingCosts, d.revenue) * 100;
-        // LTV
-        const ltv = d.avgCheck *
-            d.avgPurchaseFreq *
-            d.avgLifetimeMonths *
-            d.avgGrossMargin;
+        const ltv = d.avgCheck * d.avgPurchaseFreq * d.avgLifetimeMonths * d.avgGrossMargin;
         const ltvCac = safe(ltv, cac);
         const payback = safe(cac, d.avgCheck * d.avgGrossMargin);
-        // Эффективность
         const aov = safe(d.revenue, d.deals);
         const retention = safe(d.repeatClients, d.activeClients) * 100;
         const churn = 100 - retention;
@@ -85,7 +92,6 @@ let MarketingDashboardService = class MarketingDashboardService {
         const organicShare = safe(d.organicVisits, d.totalVisits) * 100;
         const marketShare = safe(d.som, d.tam) * 100;
         const samShare = safe(d.som, d.sam) * 100;
-        // Юнит-экономика
         const marginPerClient = d.avgCheck * d.avgGrossMargin;
         const profitPerClient = marginPerClient - cac;
         const breakEven = safe(cac, marginPerClient);
@@ -126,7 +132,8 @@ let MarketingDashboardService = class MarketingDashboardService {
 };
 MarketingDashboardService = __decorate([
     Injectable(),
-    __metadata("design:paramtypes", [PrismaService])
+    __metadata("design:paramtypes", [PrismaService,
+        MembershipService])
 ], MarketingDashboardService);
 export { MarketingDashboardService };
 //# sourceMappingURL=marketing-dashboard.service.js.map

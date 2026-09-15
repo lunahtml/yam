@@ -71,7 +71,7 @@ export default function MarketingPage() {
                     <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16 }}>
                         📊 Показатели за {form.period}
                     </h2>
-                    <MetricsTable metrics={metrics} />
+                    <MetricsTable metrics={metrics} form={form} />
                 </div>
             )}
         </div>

@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module.js';
 import { SessionsModule } from './modules/sessions/sessions.module.js';
 import { MarketingDashboardModule } from './modules/marketing-dashboard/marketing-dashboard.module.js';
 import { ProjectsModule } from './modules/projects/projects.module.js';
+import { MembershipModule } from './common/services/membership.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -25,6 +26,7 @@ AppModule = __decorate([
             SessionsModule,
             MarketingDashboardModule,
             ProjectsModule,
+            MembershipModule,
         ],
     })
 ], AppModule);

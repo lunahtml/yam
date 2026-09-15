@@ -11,7 +11,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 //backend\src\modules\projects\projects.controller.ts
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Req, UseGuards, } from '@nestjs/common';
 import { ProjectsService } from './services/projects.service.js';
 import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
@@ -21,66 +21,72 @@ let ProjectsController = class ProjectsController {
     constructor(projectsService) {
         this.projectsService = projectsService;
     }
-    async create(data) {
-        return this.projectsService.create(data);
+    async create(req, data) {
+        return this.projectsService.create(req.user.userId, data);
     }
-    async findById(id) {
-        return this.projectsService.findById(id);
+    async findById(req, id) {
+        return this.projectsService.findById(req.user.userId, id);
     }
-    async findByWorkspace(workspaceId) {
-        return this.projectsService.findByWorkspace(workspaceId);
+    async findByWorkspace(req, workspaceId) {
+        return this.projectsService.findByWorkspace(req.user.userId, workspaceId);
     }
-    async update(id, data) {
-        return this.projectsService.update(id, data);
+    async update(req, id, data) {
+        return this.projectsService.update(req.user.userId, id, data);
     }
-    async archive(id) {
-        return this.projectsService.archive(id);
+    async archive(req, id) {
+        return this.projectsService.archive(req.user.userId, id);
     }
-    async remove(id) {
-        return this.projectsService.remove(id);
+    async remove(req, id) {
+        return this.projectsService.remove(req.user.userId, id);
     }
 };
 __decorate([
     Post(),
-    __param(0, Body(new ZodValidationPipe(CreateProjectSchema))),
+    __param(0, Req()),
+    __param(1, Body(new ZodValidationPipe(CreateProjectSchema))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ProjectsController.prototype, "create", null);
 __decorate([
     Get(':id'),
-    __param(0, Param('id')),
+    __param(0, Req()),
+    __param(1, Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ProjectsController.prototype, "findById", null);
 __decorate([
     Get('workspace/:workspaceId'),
-    __param(0, Param('workspaceId')),
+    __param(0, Req()),
+    __param(1, Param('workspaceId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ProjectsController.prototype, "findByWorkspace", null);
 __decorate([
     Put(':id'),
-    __param(0, Param('id')),
-    __param(1, Body(new ZodValidationPipe(UpdateProjectSchema))),
+    __param(0, Req()),
+    __param(1, Param('id')),
+    __param(2, Body(new ZodValidationPipe(UpdateProjectSchema))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], ProjectsController.prototype, "update", null);
 __decorate([
     Put(':id/archive'),
-    __param(0, Param('id')),
+    __param(0, Req()),
+    __param(1, Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ProjectsController.prototype, "archive", null);
 __decorate([
     Delete(':id'),
-    __param(0, Param('id')),
+    __param(0, Req()),
+    __param(1, Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ProjectsController.prototype, "remove", null);
 ProjectsController = __decorate([

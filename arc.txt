@@ -78,10 +78,14 @@ yam/
         │   ├── decorators/ ⬜
         │   ├── filters/ ⬜
         │   ├── interceptors/ ⬜
-        │   └── pipes/ ⬜
+        │   ├── services/ 
+        │       ├── membership.service.ts  ✅
+        │       ├── membership.module.ts  ✅
+        │   └── pipes/ 
         │       └── zod-validation.pipe.ts ✅
-        │   └── types/ ⬜
+        │   └── types/ 
         │       └── device-info.type.ts ✅
+        │       └── roles.type.ts ✅
         │
         ├── modules/
         │   ├── marketing-dashboard/ ✅
@@ -155,27 +159,7 @@ yam/
         │       │   ├── class.ts ✅
         │       │   ├── prismaNamespace.ts ✅
         │       │   └── prismaNamespaceBrowser.tsx ✅
-        │       ├── models/
-        │       │   ├── ActivityLog.ts ✅
-        │       │   ├── LoginAttempt.ts ✅
-        │       │   ├── RefreshToken.ts ✅
-        │       │   ├── EmailVerification.ts ✅
-        │       │   ├── Comment.ts ✅
-        │       │   ├── Entity.ts ✅
-        │       │   ├── Field.ts ✅
-        │       │   ├── File.ts ✅
-        │       │   ├── Organization.ts ✅
-        │       │   ├── OrganizationMember.ts ✅
-        │       │   ├── Project.ts ✅
-        │       │   ├── ProjectMember.ts ✅
-        │       │   ├── ProjectModule.ts ✅
-        │       │   ├── Record.ts ✅
-        │       │   ├── User.ts ✅
-        │       │   ├── Workflow.ts ✅
-        │       │   ├── WorkflowStep.ts ✅
-        │       │   ├── WorkflowTransition.ts ✅
-        │       │   ├── Workspace.ts ✅
-        │       │   └── WorkspaceMember.ts ✅
+        │       ├── models/  ✅  all models
         │       ├── browser.ts ✅
         │       ├── client.ts ✅
         │       ├── enums.ts ✅

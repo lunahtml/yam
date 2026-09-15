@@ -11,7 +11,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 //backend\src\modules\marketing-dashboard\marketing-dashboard.controller.ts
-import { Controller, Get, Post, Put, Body, Param, UseGuards, } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, Req, UseGuards, } from '@nestjs/common';
 import { MarketingDashboardService } from './services/marketing-dashboard.service.js';
 import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
@@ -21,37 +21,40 @@ let MarketingDashboardController = class MarketingDashboardController {
     constructor(service) {
         this.service = service;
     }
-    async create(projectId, data) {
-        return this.service.create(projectId, data);
+    async create(req, projectId, data) {
+        return this.service.create(req.user.userId, projectId, data);
     }
-    async update(id, data) {
-        return this.service.update(id, data);
+    async update(req, id, data) {
+        return this.service.update(req.user.userId, id, data);
     }
-    async get(projectId) {
-        return this.service.getByProject(projectId);
+    async get(req, projectId) {
+        return this.service.getByProject(req.user.userId, projectId);
     }
 };
 __decorate([
     Post(':projectId'),
-    __param(0, Param('projectId')),
-    __param(1, Body(new ZodValidationPipe(CreateDashboardSchema))),
+    __param(0, Req()),
+    __param(1, Param('projectId')),
+    __param(2, Body(new ZodValidationPipe(CreateDashboardSchema))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], MarketingDashboardController.prototype, "create", null);
 __decorate([
     Put(':id'),
-    __param(0, Param('id')),
-    __param(1, Body(new ZodValidationPipe(UpdateDashboardSchema))),
+    __param(0, Req()),
+    __param(1, Param('id')),
+    __param(2, Body(new ZodValidationPipe(UpdateDashboardSchema))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], MarketingDashboardController.prototype, "update", null);
 __decorate([
     Get(':projectId'),
-    __param(0, Param('projectId')),
+    __param(0, Req()),
+    __param(1, Param('projectId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], MarketingDashboardController.prototype, "get", null);
 MarketingDashboardController = __decorate([

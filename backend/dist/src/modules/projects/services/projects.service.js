@@ -8,14 +8,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 //backend\src\modules\projects\services\projects.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
+import { MembershipService } from '../../../common/services/membership.service.js';
+import { DESTRUCTIVE_ROLES, EDIT_ROLES } from '../../../common/types/roles.type.js';
 let ProjectsService = class ProjectsService {
     prisma;
-    constructor(prisma) {
+    membership;
+    constructor(prisma, membership) {
         this.prisma = prisma;
+        this.membership = membership;
     }
-    async create(data) {
+    async create(userId, data) {
+        await this.membership.assertWorkspaceMember(userId, data.workspaceId);
         return this.prisma.client.project.create({
             data: {
                 workspaceId: data.workspaceId,
@@ -26,12 +31,8 @@ let ProjectsService = class ProjectsService {
             },
         });
     }
-    async update(id, data) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-        if (!project)
-            throw new NotFoundException('Project not found');
+    async update(userId, id, data) {
+        await this.membership.assertProjectRole(userId, id, EDIT_ROLES);
         return this.prisma.client.project.update({
             where: { id },
             data: {
@@ -42,37 +43,26 @@ let ProjectsService = class ProjectsService {
             },
         });
     }
-    async findById(id) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-        if (!project)
-            throw new NotFoundException('Project not found');
+    async findById(userId, id) {
+        const { project } = await this.membership.assertProjectMember(userId, id);
         return project;
     }
-    async findByWorkspace(workspaceId) {
+    async findByWorkspace(userId, workspaceId) {
+        await this.membership.assertWorkspaceMember(userId, workspaceId);
         return this.prisma.client.project.findMany({
             where: { workspaceId },
             orderBy: { createdAt: 'desc' },
         });
     }
-    async archive(id) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-        if (!project)
-            throw new NotFoundException('Project not found');
+    async archive(userId, id) {
+        await this.membership.assertProjectRole(userId, id, DESTRUCTIVE_ROLES);
         return this.prisma.client.project.update({
             where: { id },
             data: { status: 'ARCHIVED' },
         });
     }
-    async remove(id) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-        if (!project)
-            throw new NotFoundException('Project not found');
+    async remove(userId, id) {
+        await this.membership.assertProjectRole(userId, id, DESTRUCTIVE_ROLES);
         return this.prisma.client.project.delete({
             where: { id },
         });
@@ -80,7 +70,8 @@ let ProjectsService = class ProjectsService {
 };
 ProjectsService = __decorate([
     Injectable(),
-    __metadata("design:paramtypes", [PrismaService])
+    __metadata("design:paramtypes", [PrismaService,
+        MembershipService])
 ], ProjectsService);
 export { ProjectsService };
 //# sourceMappingURL=projects.service.js.map

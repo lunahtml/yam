@@ -1,6 +1,11 @@
 //backend\src\modules\projects\services\projects.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
+import { MembershipService } from '../../../common/services/membership.service.js';
+import { DESTRUCTIVE_ROLES, EDIT_ROLES } from '../../../common/types/roles.type.js';
 import {
     CreateProjectDto,
     UpdateProjectDto,
@@ -8,9 +13,14 @@ import {
 
 @Injectable()
 export class ProjectsService {
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private membership: MembershipService,
+    ) { }
 
-    async create(data: CreateProjectDto) {
+    async create(userId: string, data: CreateProjectDto) {
+        await this.membership.assertWorkspaceMember(userId, data.workspaceId);
+
         return this.prisma.client.project.create({
             data: {
                 workspaceId: data.workspaceId,
@@ -22,12 +32,8 @@ export class ProjectsService {
         });
     }
 
-    async update(id: string, data: UpdateProjectDto) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-
-        if (!project) throw new NotFoundException('Project not found');
+    async update(userId: string, id: string, data: UpdateProjectDto) {
+        await this.membership.assertProjectRole(userId, id, EDIT_ROLES);
 
         return this.prisma.client.project.update({
             where: { id },
@@ -40,28 +46,22 @@ export class ProjectsService {
         });
     }
 
-    async findById(id: string) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-
-        if (!project) throw new NotFoundException('Project not found');
+    async findById(userId: string, id: string) {
+        const { project } = await this.membership.assertProjectMember(userId, id);
         return project;
     }
 
-    async findByWorkspace(workspaceId: string) {
+    async findByWorkspace(userId: string, workspaceId: string) {
+        await this.membership.assertWorkspaceMember(userId, workspaceId);
+
         return this.prisma.client.project.findMany({
             where: { workspaceId },
             orderBy: { createdAt: 'desc' },
         });
     }
 
-    async archive(id: string) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-
-        if (!project) throw new NotFoundException('Project not found');
+    async archive(userId: string, id: string) {
+        await this.membership.assertProjectRole(userId, id, DESTRUCTIVE_ROLES);
 
         return this.prisma.client.project.update({
             where: { id },
@@ -69,12 +69,8 @@ export class ProjectsService {
         });
     }
 
-    async remove(id: string) {
-        const project = await this.prisma.client.project.findUnique({
-            where: { id },
-        });
-
-        if (!project) throw new NotFoundException('Project not found');
+    async remove(userId: string, id: string) {
+        await this.membership.assertProjectRole(userId, id, DESTRUCTIVE_ROLES);
 
         return this.prisma.client.project.delete({
             where: { id },
