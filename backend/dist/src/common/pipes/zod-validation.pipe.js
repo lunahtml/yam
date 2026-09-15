@@ -1,5 +1,6 @@
 //backend\src\common\pipes\zod-validation.pipe.ts
 import { BadRequestException } from '@nestjs/common';
+import { ZodError } from 'zod';
 export class ZodValidationPipe {
     schema;
     constructor(schema) {
@@ -10,7 +11,17 @@ export class ZodValidationPipe {
             return this.schema.parse(value);
         }
         catch (error) {
-            throw new BadRequestException(error);
+            if (error instanceof ZodError) {
+                const issues = error.issues.map((issue) => ({
+                    field: issue.path.join('.'),
+                    message: issue.message,
+                }));
+                throw new BadRequestException({
+                    message: 'Validation failed',
+                    errors: issues,
+                });
+            }
+            throw new BadRequestException('Validation failed');
         }
     }
 }

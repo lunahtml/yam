@@ -77,6 +77,7 @@ yam/
         │   ├── guards/ ⬜
         │   ├── decorators/ ⬜
         │   ├── filters/ ⬜
+        │       ├── all-exceptions.filter.ts ✅
         │   ├── interceptors/ ⬜
         │   ├── services/ 
         │       ├── membership.service.ts  ✅
@@ -98,6 +99,7 @@ yam/
         │               ├── marketing-dashboard.service.ts ✅
         │   ├── auth/
         │   │   ├── contracts/
+        │   │   │   ├── refresh.dto.ts ✅
         │   │   │   ├── register.dto.ts ✅
         │   │   │   ├── login.dto.ts ✅
         │   │   │   ├── verify-email.dto.ts ✅

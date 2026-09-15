@@ -3,12 +3,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import { envSchema } from './config/env.schema.js';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter.js';
 async function bootstrap() {
     const env = envSchema.parse(process.env);
     const app = await NestFactory.create(AppModule);
-    const expressApp = app.getHttpAdapter().getInstance();
-    expressApp.set('trust proxy', 1);
+    app.useGlobalFilters(new AllExceptionsFilter());
+    app.getHttpAdapter().getInstance().set('trust proxy', 1);
+    app.use(cookieParser());
     app.use(helmet());
     app.enableCors({
         origin: env.CORS_ORIGIN?.split(',') ?? ['http://localhost:5173'],

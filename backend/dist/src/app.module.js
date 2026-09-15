@@ -13,6 +13,8 @@ import { SessionsModule } from './modules/sessions/sessions.module.js';
 import { MarketingDashboardModule } from './modules/marketing-dashboard/marketing-dashboard.module.js';
 import { ProjectsModule } from './modules/projects/projects.module.js';
 import { MembershipModule } from './common/services/membership.module.js';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -21,12 +23,24 @@ AppModule = __decorate([
             ConfigModule.forRoot({
                 isGlobal: true,
             }),
+            ThrottlerModule.forRoot([
+                {
+                    ttl: 60000,
+                    limit: 60,
+                },
+            ]),
             PrismaModule,
+            MembershipModule,
             AuthModule,
             SessionsModule,
-            MarketingDashboardModule,
             ProjectsModule,
-            MembershipModule,
+            MarketingDashboardModule,
+        ],
+        providers: [
+            {
+                provide: APP_GUARD,
+                useClass: ThrottlerGuard,
+            },
         ],
     })
 ], AppModule);
