@@ -12,7 +12,6 @@ import { AuthService } from './services/auth.service.js';
 import { SecurityService } from './services/security.service.js';
 import { EmailService } from '../../infra/email/email.service.js';
 import { SessionsModule } from '../sessions/sessions.module.js';
-import { ThrottlerModule } from '@nestjs/throttler';
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -20,16 +19,9 @@ AuthModule = __decorate([
         imports: [
             JwtModule.register({
                 secret: process.env.JWT_SECRET,
-                signOptions: { expiresIn: '15m' },
+                signOptions: { expiresIn: process.env.JWT_EXPIRES_IN || '15m' },
             }),
             SessionsModule,
-            ThrottlerModule.forRoot([
-                {
-                    name: 'auth',
-                    ttl: 60000,
-                    limit: 5,
-                },
-            ]),
         ],
         controllers: [AuthController],
         providers: [AuthService, SecurityService, EmailService],

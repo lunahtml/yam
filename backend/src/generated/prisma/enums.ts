@@ -9,6 +9,26 @@
 * 🟢 You can import this file directly.
 */
 
+export const WorkspaceRole = {
+  owner: 'owner',
+  admin: 'admin',
+  member: 'member',
+  viewer: 'viewer'
+} as const
+
+export type WorkspaceRole = (typeof WorkspaceRole)[keyof typeof WorkspaceRole]
+
+
+export const ProjectRoleEnum = {
+  owner: 'owner',
+  admin: 'admin',
+  member: 'member',
+  viewer: 'viewer'
+} as const
+
+export type ProjectRoleEnum = (typeof ProjectRoleEnum)[keyof typeof ProjectRoleEnum]
+
+
 export const OrgRole = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',

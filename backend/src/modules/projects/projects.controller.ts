@@ -1,4 +1,4 @@
-//backend\src\modules\projects\projects.controller.ts
+//backend/src/modules/projects/projects.controller.ts
 import {
     Controller,
     Get,
@@ -7,12 +7,9 @@ import {
     Delete,
     Body,
     Param,
-    Req,
-    UseGuards,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { ProjectsService } from './services/projects.service.js';
-import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard.js';
+import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
 import {
     CreateProjectSchema,
@@ -21,64 +18,56 @@ import {
     UpdateProjectDto,
 } from './contracts/create-project.dto.js';
 
-interface AuthenticatedRequest extends Request {
-    user: {
-        userId: string;
-        email: string;
-    };
-}
-
 @Controller('projects')
-@UseGuards(JwtAuthGuard)
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) { }
 
     @Post()
     async create(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Body(new ZodValidationPipe(CreateProjectSchema)) data: CreateProjectDto,
     ) {
-        return this.projectsService.create(req.user.userId, data);
+        return this.projectsService.create(userId, data);
     }
 
     @Get(':id')
     async findById(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('id') id: string,
     ) {
-        return this.projectsService.findById(req.user.userId, id);
+        return this.projectsService.findById(userId, id);
     }
 
     @Get('workspace/:workspaceId')
     async findByWorkspace(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('workspaceId') workspaceId: string,
     ) {
-        return this.projectsService.findByWorkspace(req.user.userId, workspaceId);
+        return this.projectsService.findByWorkspace(userId, workspaceId);
     }
 
     @Put(':id')
     async update(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('id') id: string,
         @Body(new ZodValidationPipe(UpdateProjectSchema)) data: UpdateProjectDto,
     ) {
-        return this.projectsService.update(req.user.userId, id, data);
+        return this.projectsService.update(userId, id, data);
     }
 
     @Put(':id/archive')
     async archive(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('id') id: string,
     ) {
-        return this.projectsService.archive(req.user.userId, id);
+        return this.projectsService.archive(userId, id);
     }
 
     @Delete(':id')
     async remove(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('id') id: string,
     ) {
-        return this.projectsService.remove(req.user.userId, id);
+        return this.projectsService.remove(userId, id);
     }
 }

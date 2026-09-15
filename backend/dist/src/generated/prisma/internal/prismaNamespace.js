@@ -121,7 +121,8 @@ export const WorkspaceMemberScalarFieldEnum = {
     id: 'id',
     workspaceId: 'workspaceId',
     userId: 'userId',
-    role: 'role'
+    role: 'role',
+    createdAt: 'createdAt'
 };
 export const UserScalarFieldEnum = {
     id: 'id',
@@ -148,7 +149,8 @@ export const ProjectMemberScalarFieldEnum = {
     id: 'id',
     projectId: 'projectId',
     userId: 'userId',
-    role: 'role'
+    role: 'role',
+    createdAt: 'createdAt'
 };
 export const ProjectModuleScalarFieldEnum = {
     id: 'id',

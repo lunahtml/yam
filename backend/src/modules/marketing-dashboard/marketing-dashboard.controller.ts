@@ -1,4 +1,4 @@
-//backend\src\modules\marketing-dashboard\marketing-dashboard.controller.ts
+//backend/src/modules/marketing-dashboard/marketing-dashboard.controller.ts
 import {
     Controller,
     Get,
@@ -6,12 +6,9 @@ import {
     Put,
     Body,
     Param,
-    Req,
-    UseGuards,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { MarketingDashboardService } from './services/marketing-dashboard.service.js';
-import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard.js';
+import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
 import {
     CreateDashboardSchema,
@@ -20,41 +17,33 @@ import {
     UpdateDashboardDto,
 } from './contracts/create-dashboard.dto.js';
 
-interface AuthenticatedRequest extends Request {
-    user: {
-        userId: string;
-        email: string;
-    };
-}
-
 @Controller('marketing-dashboard')
-@UseGuards(JwtAuthGuard)
 export class MarketingDashboardController {
     constructor(private readonly service: MarketingDashboardService) { }
 
     @Post(':projectId')
     async create(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('projectId') projectId: string,
         @Body(new ZodValidationPipe(CreateDashboardSchema)) data: CreateDashboardDto,
     ) {
-        return this.service.create(req.user.userId, projectId, data);
+        return this.service.create(userId, projectId, data);
     }
 
     @Put(':id')
     async update(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('id') id: string,
         @Body(new ZodValidationPipe(UpdateDashboardSchema)) data: UpdateDashboardDto,
     ) {
-        return this.service.update(req.user.userId, id, data);
+        return this.service.update(userId, id, data);
     }
 
     @Get(':projectId')
     async get(
-        @Req() req: AuthenticatedRequest,
+        @CurrentUserId() userId: string,
         @Param('projectId') projectId: string,
     ) {
-        return this.service.getByProject(req.user.userId, projectId);
+        return this.service.getByProject(userId, projectId);
     }
 }

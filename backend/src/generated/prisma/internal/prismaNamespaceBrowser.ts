@@ -125,7 +125,8 @@ export const WorkspaceMemberScalarFieldEnum = {
   id: 'id',
   workspaceId: 'workspaceId',
   userId: 'userId',
-  role: 'role'
+  role: 'role',
+  createdAt: 'createdAt'
 } as const
 
 export type WorkspaceMemberScalarFieldEnum = (typeof WorkspaceMemberScalarFieldEnum)[keyof typeof WorkspaceMemberScalarFieldEnum]
@@ -164,7 +165,8 @@ export const ProjectMemberScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   userId: 'userId',
-  role: 'role'
+  role: 'role',
+  createdAt: 'createdAt'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]

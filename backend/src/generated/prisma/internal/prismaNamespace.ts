@@ -2065,7 +2065,8 @@ export const WorkspaceMemberScalarFieldEnum = {
   id: 'id',
   workspaceId: 'workspaceId',
   userId: 'userId',
-  role: 'role'
+  role: 'role',
+  createdAt: 'createdAt'
 } as const
 
 export type WorkspaceMemberScalarFieldEnum = (typeof WorkspaceMemberScalarFieldEnum)[keyof typeof WorkspaceMemberScalarFieldEnum]
@@ -2104,7 +2105,8 @@ export const ProjectMemberScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   userId: 'userId',
-  role: 'role'
+  role: 'role',
+  createdAt: 'createdAt'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
@@ -2417,6 +2419,20 @@ export type ListEnumOrgRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
 
 
 /**
+ * Reference to a field of type 'WorkspaceRole'
+ */
+export type EnumWorkspaceRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkspaceRole'>
+    
+
+
+/**
+ * Reference to a field of type 'WorkspaceRole[]'
+ */
+export type ListEnumWorkspaceRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkspaceRole[]'>
+    
+
+
+/**
  * Reference to a field of type 'UserStatus'
  */
 export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus'>
@@ -2441,6 +2457,20 @@ export type EnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'ProjectStatus[]'
  */
 export type ListEnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectRoleEnum'
+ */
+export type EnumProjectRoleEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectRoleEnum'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectRoleEnum[]'
+ */
+export type ListEnumProjectRoleEnumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectRoleEnum[]'>
     
 
 

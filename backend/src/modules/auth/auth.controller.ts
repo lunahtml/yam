@@ -1,4 +1,5 @@
 //backend/src/modules/auth/auth.controller.ts
+//backend/src/modules/auth/auth.controller.ts
 import {
     Controller,
     Post,
@@ -13,6 +14,7 @@ import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './services/auth.service.js';
 import { SessionsService } from '../sessions/sessions.service.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
+import { Public } from '../../common/decorators/public.decorator.js';
 import { RegisterSchema, RegisterDto } from './contracts/register.dto.js';
 import { LoginSchema, LoginDto } from './contracts/login.dto.js';
 import {
@@ -63,16 +65,18 @@ export class AuthController {
         };
     }
 
-    @Post('register')
+    @Public()
     @Throttle({ auth: { limit: 5, ttl: 60000 } })
+    @Post('register')
     async register(
         @Body(new ZodValidationPipe(RegisterSchema)) dto: RegisterDto,
     ) {
         return this.authService.register(dto);
     }
 
-    @Post('verify-email')
+    @Public()
     @Throttle({ auth: { limit: 5, ttl: 60000 } })
+    @Post('verify-email')
     @HttpCode(HttpStatus.OK)
     async verifyEmail(
         @Body(new ZodValidationPipe(VerifyEmailSchema)) dto: VerifyEmailDto,
@@ -80,8 +84,9 @@ export class AuthController {
         return this.authService.verifyEmail(dto);
     }
 
-    @Post('login')
+    @Public()
     @Throttle({ auth: { limit: 5, ttl: 60000 } })
+    @Post('login')
     @HttpCode(HttpStatus.OK)
     async login(
         @Body(new ZodValidationPipe(LoginSchema)) dto: LoginDto,
@@ -91,22 +96,21 @@ export class AuthController {
         return this.authService.login(dto, this.getDeviceInfo(req, res));
     }
 
-    @Post('verify-login')
+    @Public()
     @Throttle({ auth: { limit: 5, ttl: 60000 } })
+    @Post('verify-login')
     @HttpCode(HttpStatus.OK)
     async verifyLogin(
         @Body(new ZodValidationPipe(VerifyLoginSchema)) dto: VerifyLoginDto,
         @Req() req: Request,
         @Res({ passthrough: true }) res: Response,
     ) {
-        return this.authService.verifyLoginCode(
-            dto,
-            this.getDeviceInfo(req, res),
-        );
+        return this.authService.verifyLoginCode(dto, this.getDeviceInfo(req, res));
     }
 
-    @Post('refresh')
+    @Public()
     @Throttle({ auth: { limit: 10, ttl: 60000 } })
+    @Post('refresh')
     @HttpCode(HttpStatus.OK)
     async refresh(
         @Body(new ZodValidationPipe(RefreshSchema)) dto: RefreshDto,
@@ -114,8 +118,9 @@ export class AuthController {
         return this.sessionsService.refresh(dto.refreshToken);
     }
 
-    @Post('logout')
+    @Public()
     @Throttle({ auth: { limit: 10, ttl: 60000 } })
+    @Post('logout')
     @HttpCode(HttpStatus.OK)
     async logout(
         @Body(new ZodValidationPipe(LogoutSchema)) dto: LogoutDto,

@@ -1,29 +1,11 @@
-//backend\src\common\types\roles.type.ts
-export const PROJECT_ROLES = {
-    OWNER: 'owner',
-    ADMIN: 'admin',
-    MEMBER: 'member',
-    VIEWER: 'viewer',
-} as const;
+//backend/src/common/types/roles.type.ts
+import { OrgRole } from '../../generated/prisma/enums.js';
 
-export type ProjectRole = (typeof PROJECT_ROLES)[keyof typeof PROJECT_ROLES];
+export type WorkspaceRole = 'owner' | 'admin' | 'member' | 'viewer';
+export type ProjectRole = 'owner' | 'admin' | 'member' | 'viewer';
 
-/**
- * Роли, которые НЕ МОГУТ быть понижены через ProjectMember.
- * owner/admin воркспейса всегда сохраняют свой уровень.
- */
-export const PRIVILEGED_ROLES: readonly ProjectRole[] = [
-    PROJECT_ROLES.OWNER,
-    PROJECT_ROLES.ADMIN,
-];
+export const PRIVILEGED_ROLES: readonly WorkspaceRole[] = ['owner', 'admin'];
+export const DESTRUCTIVE_ROLES: readonly WorkspaceRole[] = ['owner', 'admin'];
+export const EDIT_ROLES: readonly WorkspaceRole[] = ['owner', 'admin', 'member'];
 
-export const DESTRUCTIVE_ROLES: readonly ProjectRole[] = [
-    PROJECT_ROLES.OWNER,
-    PROJECT_ROLES.ADMIN,
-];
-
-export const EDIT_ROLES: readonly ProjectRole[] = [
-    PROJECT_ROLES.OWNER,
-    PROJECT_ROLES.ADMIN,
-    PROJECT_ROLES.MEMBER,
-];
+export const ORG_PRIVILEGED_ROLES: readonly OrgRole[] = ['OWNER', 'ADMIN'];

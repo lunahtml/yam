@@ -65,10 +65,7 @@ export class SecurityService {
         });
     }
 
-    async isNewDevice(
-        userId: string,
-        deviceInfo: DeviceInfo,
-    ): Promise<boolean> {
+    async isNewDevice(userId: string, deviceInfo: DeviceInfo): Promise<boolean> {
         const knownSession = await this.prisma.client.refreshToken.findFirst({
             where: {
                 userId,

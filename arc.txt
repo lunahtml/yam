@@ -74,9 +74,13 @@ yam/
         │       ├── templates/
         │
         ├── common/
-        │   ├── guards/ ⬜
-        │   ├── decorators/ ⬜
-        │   ├── filters/ ⬜
+        │   ├── guards/ 
+        │       ├── jwt-auth.guard.ts ✅
+        │   ├── decorators/ 
+        │       ├── current-user.decorator.ts  ✅
+        │       ├── current-user-id.decorator.ts  ✅
+        │       ├── public.decorator.ts  ✅
+        │   ├── filters/ 
         │       ├── all-exceptions.filter.ts ✅
         │   ├── interceptors/ ⬜
         │   ├── services/ 
@@ -87,6 +91,7 @@ yam/
         │   └── types/ 
         │       └── device-info.type.ts ✅
         │       └── roles.type.ts ✅
+        │       └── authenticated-user.type.ts ✅
         │
         ├── modules/
         │   ├── marketing-dashboard/ ✅
@@ -109,7 +114,6 @@ yam/
         │   │       └── security.service.ts ✅
         │   │   ├── strategies/
         │   │   │   └── jwt.strategy.ts ✅
-        │   │   │   └── jwt-auth.guard.ts ✅
         │   │   ├── auth.controller.ts ✅
         │   │   ├── auth.module.ts ✅
         │   │
@@ -129,9 +133,13 @@ yam/
         │   │   └── organizations.controller.ts ⬜
         │   │
         │   ├── workspaces/
-        │   │   ├── workspaces.module.ts ⬜
-        │   │   ├── workspaces.service.ts ⬜
-        │   │   └── workspaces.controller.ts ⬜
+                ├── contracts/
+                │   ├── create-workspace.dto.ts ✅
+                │   └── update-workspace.dto.ts ✅
+                ├── services/
+                │   └── workspaces.service.ts ✅
+                ├── workspaces.controller.ts ✅
+                └── workspaces.module.ts ✅
         │   │
         │   ├── projects/
         │   │   ├── services/  ✅

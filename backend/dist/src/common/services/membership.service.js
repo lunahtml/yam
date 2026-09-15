@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 //backend/src/common/services/membership.service.ts
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../infra/prisma/prisma.service.js';
-import { PRIVILEGED_ROLES } from '../types/roles.type.js';
 let MembershipService = class MembershipService {
     prisma;
     constructor(prisma) {
@@ -18,12 +17,17 @@ let MembershipService = class MembershipService {
     }
     async assertWorkspaceMember(userId, workspaceId) {
         const membership = await this.prisma.client.workspaceMember.findUnique({
-            where: {
-                workspaceId_userId: { workspaceId, userId },
-            },
+            where: { workspaceId_userId: { workspaceId, userId } },
         });
         if (!membership) {
             throw new ForbiddenException('Access denied to workspace');
+        }
+        return membership;
+    }
+    async assertWorkspaceRole(userId, workspaceId, allowedRoles) {
+        const membership = await this.assertWorkspaceMember(userId, workspaceId);
+        if (!allowedRoles.includes(membership.role)) {
+            throw new ForbiddenException('Insufficient role');
         }
         return membership;
     }
@@ -35,7 +39,6 @@ let MembershipService = class MembershipService {
         if (!project) {
             throw new ForbiddenException('Access denied to project');
         }
-        // 1. WorkspaceMember
         const wsMembership = await this.prisma.client.workspaceMember.findUnique({
             where: {
                 workspaceId_userId: {
@@ -44,21 +47,16 @@ let MembershipService = class MembershipService {
                 },
             },
         });
-        // 2. Если owner/admin воркспейса — их роль приоритетна
-        if (wsMembership &&
-            PRIVILEGED_ROLES.includes(wsMembership.role)) {
+        const PRIVILEGED = ['owner', 'admin'];
+        if (wsMembership && PRIVILEGED.includes(wsMembership.role)) {
             return { project, membership: wsMembership };
         }
-        // 3. ProjectMember — override для остальных
         const projMembership = await this.prisma.client.projectMember.findUnique({
-            where: {
-                projectId_userId: { projectId, userId },
-            },
+            where: { projectId_userId: { projectId, userId } },
         });
         if (projMembership) {
             return { project, membership: projMembership };
         }
-        // 4. Fallback на WorkspaceMember
         if (wsMembership) {
             return { project, membership: wsMembership };
         }
@@ -66,20 +64,24 @@ let MembershipService = class MembershipService {
     }
     async assertProjectRole(userId, projectId, allowedRoles) {
         const { project, membership } = await this.assertProjectMember(userId, projectId);
-        const role = membership.role;
-        if (!allowedRoles.includes(role)) {
+        if (!allowedRoles.includes(membership.role)) {
             throw new ForbiddenException('Insufficient role');
         }
         return { project, membership };
     }
     async assertOrganizationMember(userId, organizationId) {
         const membership = await this.prisma.client.organizationMember.findUnique({
-            where: {
-                organizationId_userId: { organizationId, userId },
-            },
+            where: { organizationId_userId: { organizationId, userId } },
         });
         if (!membership) {
             throw new ForbiddenException('Access denied to organization');
+        }
+        return membership;
+    }
+    async assertOrganizationRole(userId, organizationId, allowedRoles) {
+        const membership = await this.assertOrganizationMember(userId, organizationId);
+        if (!allowedRoles.includes(membership.role)) {
+            throw new ForbiddenException('Insufficient role');
         }
         return membership;
     }

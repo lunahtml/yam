@@ -11,39 +11,38 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 //backend/src/modules/sessions/sessions.controller.ts
-import { Controller, Get, Delete, Param, Req, UseGuards, } from '@nestjs/common';
+import { Controller, Get, Delete, Param } from '@nestjs/common';
 import { SessionsService } from './sessions.service.js';
-import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard.js';
+import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
 let SessionsController = class SessionsController {
     sessionsService;
     constructor(sessionsService) {
         this.sessionsService = sessionsService;
     }
-    async list(req) {
-        return this.sessionsService.listSessions(req.user.userId);
+    async list(userId) {
+        return this.sessionsService.listSessions(userId);
     }
-    async revoke(req, sessionId) {
-        return this.sessionsService.revokeSession(req.user.userId, sessionId);
+    async revoke(userId, sessionId) {
+        return this.sessionsService.revokeSession(userId, sessionId);
     }
 };
 __decorate([
     Get(),
-    __param(0, Req()),
+    __param(0, CurrentUserId()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], SessionsController.prototype, "list", null);
 __decorate([
     Delete(':id'),
-    __param(0, Req()),
+    __param(0, CurrentUserId()),
     __param(1, Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], SessionsController.prototype, "revoke", null);
 SessionsController = __decorate([
     Controller('sessions'),
-    UseGuards(JwtAuthGuard),
     __metadata("design:paramtypes", [SessionsService])
 ], SessionsController);
 export { SessionsController };

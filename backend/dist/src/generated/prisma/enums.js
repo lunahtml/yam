@@ -7,6 +7,18 @@
 *
 * 🟢 You can import this file directly.
 */
+export const WorkspaceRole = {
+    owner: 'owner',
+    admin: 'admin',
+    member: 'member',
+    viewer: 'viewer'
+};
+export const ProjectRoleEnum = {
+    owner: 'owner',
+    admin: 'admin',
+    member: 'member',
+    viewer: 'viewer'
+};
 export const OrgRole = {
     OWNER: 'OWNER',
     ADMIN: 'ADMIN',

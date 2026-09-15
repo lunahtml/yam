@@ -11,14 +11,18 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 //backend/src/modules/auth/auth.controller.ts
+//backend/src/modules/auth/auth.controller.ts
 import { Controller, Post, Body, HttpCode, HttpStatus, Req, Res, } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './services/auth.service.js';
 import { SessionsService } from '../sessions/sessions.service.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
+import { Public } from '../../common/decorators/public.decorator.js';
 import { RegisterSchema } from './contracts/register.dto.js';
 import { LoginSchema } from './contracts/login.dto.js';
-import { VerifyEmailSchema } from './contracts/verify-email.dto.js';
-import { VerifyLoginSchema } from './contracts/verify-login.dto.js';
+import { VerifyEmailSchema, } from './contracts/verify-email.dto.js';
+import { VerifyLoginSchema, } from './contracts/verify-login.dto.js';
+import { RefreshSchema, LogoutSchema, } from './contracts/refresh.dto.js';
 import { randomBytes } from 'crypto';
 const DEVICE_COOKIE = 'yam_device_id';
 const DEVICE_COOKIE_MAX_AGE = 365 * 24 * 60 * 60 * 1000;
@@ -36,7 +40,7 @@ let AuthController = class AuthController {
             res.cookie(DEVICE_COOKIE, deviceId, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'lax',
                 maxAge: DEVICE_COOKIE_MAX_AGE,
                 path: '/',
             });
@@ -59,14 +63,16 @@ let AuthController = class AuthController {
     async verifyLogin(dto, req, res) {
         return this.authService.verifyLoginCode(dto, this.getDeviceInfo(req, res));
     }
-    async refresh(refreshToken) {
-        return this.sessionsService.refresh(refreshToken);
+    async refresh(dto) {
+        return this.sessionsService.refresh(dto.refreshToken);
     }
-    async logout(refreshToken) {
-        return this.sessionsService.revokeByToken(refreshToken);
+    async logout(dto) {
+        return this.sessionsService.revokeByToken(dto.refreshToken);
     }
 };
 __decorate([
+    Public(),
+    Throttle({ auth: { limit: 5, ttl: 60000 } }),
     Post('register'),
     __param(0, Body(new ZodValidationPipe(RegisterSchema))),
     __metadata("design:type", Function),
@@ -74,6 +80,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
+    Public(),
+    Throttle({ auth: { limit: 5, ttl: 60000 } }),
     Post('verify-email'),
     HttpCode(HttpStatus.OK),
     __param(0, Body(new ZodValidationPipe(VerifyEmailSchema))),
@@ -82,6 +90,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "verifyEmail", null);
 __decorate([
+    Public(),
+    Throttle({ auth: { limit: 5, ttl: 60000 } }),
     Post('login'),
     HttpCode(HttpStatus.OK),
     __param(0, Body(new ZodValidationPipe(LoginSchema))),
@@ -92,6 +102,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    Public(),
+    Throttle({ auth: { limit: 5, ttl: 60000 } }),
     Post('verify-login'),
     HttpCode(HttpStatus.OK),
     __param(0, Body(new ZodValidationPipe(VerifyLoginSchema))),
@@ -102,19 +114,23 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "verifyLogin", null);
 __decorate([
+    Public(),
+    Throttle({ auth: { limit: 10, ttl: 60000 } }),
     Post('refresh'),
     HttpCode(HttpStatus.OK),
-    __param(0, Body('refreshToken')),
+    __param(0, Body(new ZodValidationPipe(RefreshSchema))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refresh", null);
 __decorate([
+    Public(),
+    Throttle({ auth: { limit: 10, ttl: 60000 } }),
     Post('logout'),
     HttpCode(HttpStatus.OK),
-    __param(0, Body('refreshToken')),
+    __param(0, Body(new ZodValidationPipe(LogoutSchema))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 AuthController = __decorate([
