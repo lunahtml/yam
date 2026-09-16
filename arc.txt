@@ -39,6 +39,8 @@ yam/
         │       └── SeoPage.tsx ✅
         │       └── TeamPage.tsx ✅
         │       └── MarketingPage.tsx ✅
+        │       └── WorkspaceDetailPage.tsx ✅
+        │       └── ProjectDetailPage.tsx ✅
         ├── styles/
         │   └── global.css ✅
         └── types/
@@ -128,9 +130,13 @@ yam/
         │   │   └── users.controller.ts ⬜
         │   │
         │   ├── organizations/
-        │   │   ├── organizations.module.ts ⬜
-        │   │   ├── organizations.service.ts ⬜
-        │   │   └── organizations.controller.ts ⬜
+                ├── contracts/
+                │   ├── create-organization.dto.ts ✅
+                │   └── update-organization.dto.ts ✅
+                ├── services/
+                │   └── organizations.service.ts ✅
+                ├── organizations.controller.ts ✅
+                └── organizations.module.ts ✅
         │   │
         │   ├── workspaces/
                 ├── contracts/
@@ -232,3 +238,483 @@ Bounce rate	bounces / totalVisits * 100
 Точка окупаемости	cac / (avgCheck * avgGrossMargin)
 Выручка на клиента	avgRevenuePerClient
 Прибыль на клиента	revenue - marketingCosts
+
+
+
+
+🎯 Вопрос 1: Почему интерсептор не задействован?
+Потому что мы его не создавали. 😅
+В common/interceptors/ — пусто.
+
+Что стоит создать
+logger.interceptor.ts — логирование запросов
+
+api-response.interceptor.ts — единый формат ответа
+
+transform.interceptor.ts — приведение данных
+
+Зачем
+Логирование — видеть все запросы в одном месте
+
+Единый формат — { success: true, data: {...} } или { success: false, error: {...} }
+
+Аудит — для enterprise нужен след каждого действия
+
+Но! Сейчас у нас всё работает без интерсепторов, и это нормально.
+Добавим позже, когда появится реальная потребность.
+
+🎯 Вопрос 2: Интеграции с внешними источниками
+Да, можем. Это правильный путь.
+Это и есть настоящая магия YAM — не просто «ввести цифры», а подтянуть их автоматически.
+
+📋 Какие интеграции нужны
+Для маркетинга
+Яндекс.Директ — расходы, клики, показы, конверсии
+
+VK Ads — то же самое
+
+Google Ads — то же
+
+Telegram Ads — то же
+
+Email (Unisender, Mailchimp) — рассылки, открытия, клики
+
+Для SEO
+Яндекс.Вебмастер — позиции, показы, клики, индексация
+
+Google Search Console — то же
+
+Topvisor, Serpstat — позиции, конкуренты
+
+Ahrefs — бэклинки, аудит
+
+Для аналитики
+Яндекс.Метрика — трафик, конверсии, цели
+
+Google Analytics — то же
+
+Для финансов
+Тинькофф Банк — выписки, платежи
+
+Сбер — то же
+
+Точка — то же
+
+1С — продажи, склад
+
+Для маркетплейсов
+Ozon Seller — заказы, выручка, товары
+
+Wildberries — то же
+
+Яндекс.Маркет — то же
+
+✅ Как это архитектурно делается
+1. Модуль integrations
+text
+modules/integrations/
+├── contracts/
+├── providers/          ← каждый источник = отдельный провайдер
+│   ├── yandex-direct.provider.ts
+│   ├── vk-ads.provider.ts
+│   ├── yandex-metrika.provider.ts
+│   ├── yandex-webmaster.provider.ts
+│   ├── ozon.provider.ts
+│   ├── tinkoff.provider.ts
+│   └── ...
+├── services/
+│   ├── integrations.service.ts
+│   └── oauth.service.ts
+└── integrations.module.ts
+2. Модель в Prisma
+prisma
+model Integration {
+  id           String              @id @default(cuid())
+  projectId    String
+  provider     String              // 'yandex_direct', 'vk_ads', ...
+  status       IntegrationStatus   @default(PENDING)
+  accessToken  String?             // зашифрован
+  refreshToken String?             // зашифрован
+  expiresAt    DateTime?
+  metadata     Json?               // настройки (счётчик, кампания и т.д.)
+  lastSyncAt   DateTime?
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  project      Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  syncLogs     IntegrationSync[]
+
+  @@unique([projectId, provider])
+  @@index([projectId])
+  @@map("integrations")
+}
+
+model IntegrationSync {
+  id            String      @id @default(cuid())
+  integrationId String
+  status        String      // 'success', 'error'
+  recordsCount  Int         @default(0)
+  error         String?
+  startedAt     DateTime    @default(now())
+  finishedAt    DateTime?
+
+  integration   Integration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+
+  @@index([integrationId, startedAt])
+  @@map("integration_syncs")
+}
+
+enum IntegrationStatus {
+  PENDING
+  ACTIVE
+  ERROR
+  DISABLED
+}
+3. Как работает OAuth-флоу
+Пользователь в UI нажимает «Подключить Яндекс.Директ»
+
+Frontend → GET /integrations/yandex_direct/auth-url
+
+Backend генерирует OAuth URL с state (CSRF-защита)
+
+Пользователь редиректится на Яндекс → авторизует
+
+Яндекс редиректит на наш callback с code
+
+Backend меняет code на access + refresh token
+
+Шифрует токены, сохраняет в БД
+
+Синхронизация по расписанию или вручную
+
+🔐 Безопасность при работе с чувствительными данными
+Что мы должны сделать обязательно
+1. Шифрование токенов в БД
+Access и refresh токены — нельзя хранить в открытом виде.
+Решение: AES-256-GCM с ключом из env.
+
+ts
+// infra/crypto/crypto.service.ts
+import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
+
+@Injectable()
+export class CryptoService {
+  private readonly key: Buffer;
+
+  constructor() {
+    this.key = Buffer.from(process.env.ENCRYPTION_KEY!, 'hex');
+  }
+
+  encrypt(plaintext: string): string {
+    const iv = randomBytes(12);
+    const cipher = createCipheriv('aes-256-gcm', this.key, iv);
+    const encrypted = Buffer.concat([
+      cipher.update(plaintext, 'utf8'),
+      cipher.final(),
+    ]);
+    const authTag = cipher.getAuthTag();
+    return `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted.toString('hex')}`;
+  }
+
+  decrypt(ciphertext: string): string {
+    const [ivHex, authTagHex, dataHex] = ciphertext.split(':');
+    const decipher = createDecipheriv(
+      'aes-256-gcm',
+      this.key,
+      Buffer.from(ivHex, 'hex'),
+    );
+    decipher.setAuthTag(Buffer.from(authTagHex, 'hex'));
+    const decrypted = Buffer.concat([
+      decipher.update(Buffer.from(dataHex, 'hex')),
+      decipher.final(),
+    ]);
+    return decrypted.toString('utf8');
+  }
+}
+Новый env:
+
+env
+ENCRYPTION_KEY=<64 hex символа>  # openssl rand -hex 32
+2. OAuth state (CSRF-защита)
+Каждый OAuth-запрос должен иметь уникальный state, который проверяется на callback.
+
+ts
+const state = randomBytes(32).toString('hex');
+// сохраняем в Redis с TTL 10 минут
+await redis.set(`oauth:state:${state}`, userId, 'EX', 600);
+3. Проверка tenant isolation
+Интеграция всегда привязана к projectId.
+Перед любым действием — проверка через MembershipService.
+
+4. Rate limiting для внешних API
+Каждый провайдер имеет лимиты запросов.
+Используем очередь (BullMQ) + retry с backoff.
+
+5. Аудит всех действий
+Каждый факт подключения, синхронизации, отключения — в ActivityLog.
+
+6. Ротация ключей
+Раз в N месяцев — ротация ENCRYPTION_KEY с перешифровкой всех токенов.
+
+7. Минимальные scope'ы
+При OAuth запрашиваем только нужные права, не больше.
+
+📌 Итог: насколько мы безопасны сейчас?
+Область	Статус
+Auth	✅ Банковский уровень
+RBAC	✅ Есть
+Tenant isolation	✅ Есть
+Транспорт	✅ HTTPS через nginx
+Шифрование БД (токены)	❌ Нужно добавить CryptoService
+OAuth flow	❌ Нужно реализовать
+Rate limiting внешних API	❌ Нужно добавить
+Аудит	🟡 Частично (ActivityLog есть, не везде логируется)
+Для приёма чувствительных данных — нужно добавить:
+
+CryptoService (шифрование токенов)
+
+OAuth flow с state
+
+Rate limiting через очередь
+
+Аудит
+
+🎯 Что делаем сейчас
+Вариант A: Сначала Projects + Dashboard (продолжаем текущий путь)
+Закончим базовую функциональность, потом интеграции.
+
+Вариант B: Сразу интеграции
+Начнём с integrations модуля, CryptoService, OAuth flow.
+
+📌 Моя рекомендация
+Вариант A — сначала Projects + Dashboard.
+
+Почему:
+
+Интеграции имеют смысл только когда есть куда данные складывать
+
+Сначала — структура (Projects, Dashboard)
+
+Потом — автозаполнение из внешних источников
+
+Иначе получим данные, которые некуда положить
+
+✅ План на сегодня
+Доделать Projects — список проектов внутри workspace
+
+Связать с Dashboard — сохранение метрик в БД
+
+Потом — Integrations (следующий большой блок)
+
+Говори:
+
+«Продолжаем Projects» → дам следующие файлы
+
+«Начинаем Integrations» → переключимся на этот блок
+
+Бро, канбан — обязательно! 🎯
+И он идеально ложится на нашу архитектуру.
+
+✅ Почему канбан — это правильно
+У нас уже есть всё для канбана:
+
+1. Workflow + WorkflowStep + WorkflowTransition
+Это ядро канбана:
+
+text
+Workflow: «Задачи проекта»
+├── Step: Backlog (order: 0)
+├── Step: To Do (order: 1)
+├── Step: In Progress (order: 2)
+├── Step: Review (order: 3)
+└── Step: Done (order: 4)
+
+Transitions:
+├── Backlog → To Do
+├── To Do → In Progress
+├── In Progress → Review
+├── Review → Done
+└── Review → In Progress (reject)
+2. Record.data (JSONB)
+Каждая карточка = Record с:
+
+status (текущий step)
+
+assignee
+
+priority
+
+dueDate
+
+любые кастомные поля через Field
+
+3. Entity + Field
+Пользователь сам определяет:
+
+какие поля у карточки
+
+какие статусы
+
+какой workflow
+
+🎯 Мультифакторный канбан
+Ты сказала «мультифакторовая» — это ключевое!
+Канбан должен поддерживать:
+
+1. Разные workflow для разных проектов
+SEO-проект: Audit → Fix → Verify → Done
+
+Разработка: Backlog → Dev → QA → Prod
+
+Маркетинг: Idea → Draft → Review → Published
+
+Продажи: Lead → MQL → SQL → Deal
+
+Один движок — разные процессы.
+
+2. Разные сущности на одной доске
+Канбан может показывать разные типы карточек:
+
+🟦 Задачи
+
+🟩 Баги
+
+🟨 Идеи
+
+🟥 Инциденты
+
+Каждый тип — свой Entity, но на одной доске.
+
+3. Фильтры и группировки
+По исполнителю
+
+По приоритету
+
+По дедлайну
+
+По тегам
+
+По кастомным полям
+
+4. Разные представления
+Канбан (по статусам)
+
+Список (таблица)
+
+Календарь (по датам)
+
+Timeline (Gantt)
+
+Дашборд (виджеты)
+
+Всё это — одни и те же Record, разные View.
+
+🏗 Архитектура канбана
+Backend
+text
+modules/views/
+├── contracts/
+│   ├── create-view.dto.ts
+│   └── update-view.dto.ts
+├── services/
+│   └── views.service.ts
+├── views.controller.ts
+└── views.module.ts
+Модель
+prisma
+model View {
+  id        String    @id @default(cuid())
+  projectId String
+  entityId  String
+  name      String
+  type      ViewType  @default(KANBAN)
+  config    Json      @default("{}")
+  
+  // config:
+  // {
+  //   "groupBy": "status",
+  //   "filters": [...],
+  //   "sort": [...],
+  //   "columns": [...],
+  //   "cardFields": [...]
+  // }
+  
+  project   Project   @relation(...)
+  entity    Entity    @relation(...)
+  
+  @@index([projectId])
+  @@map("views")
+}
+
+enum ViewType {
+  TABLE
+  KANBAN
+  CALENDAR
+  TIMELINE
+  DASHBOARD
+}
+🎯 Что даёт мультифакторность
+Сценарий 1: SEO-агентство
+Доска «SEO-задачи»
+
+Workflow: Detected → Analyzing → In Progress → Review → Resolved
+
+Поля: URL, Severity, Type, Assignee
+
+Группировка: по Severity
+
+Доска «Контент»
+
+Workflow: Idea → Draft → Review → Published
+
+Поля: Title, Keywords, Author, PublishDate
+
+Группировка: по Author
+
+Сценарий 2: Разработка
+Доска «Спринт»
+
+Workflow: Backlog → To Do → In Progress → Review → Done
+
+Поля: Story Points, Assignee, Priority
+
+Группировка: по Assignee
+
+Доска «Баги»
+
+Workflow: New → Triaged → Fixing → Testing → Closed
+
+Поля: Severity, Affected, Environment
+
+Группировка: по Severity
+
+Сценарий 3: Маркетинг
+Доска «Кампании»
+
+Workflow: Idea → Planning → Active → Paused → Completed
+
+Поля: Budget, Channel, CTR, ROI
+
+Группировка: по Channel
+
+📌 Что делаем
+Канбан — отдельный большой модуль, который появится на фазе 4 roadmap.
+
+Но у нас уже готов фундамент:
+
+✅ Workflow + Step + Transition
+
+✅ Record.data (JSONB)
+
+✅ Entity + Field
+
+✅ ProjectModule
+
+Осталось:
+
+⬜ View (модель + API + UI)
+
+⬜ DnD-интерфейс на фронте
+
+⬜ Real-time обновления через WebSocket
+

@@ -7,12 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-//backend\src\modules\auth\strategies\jwt.strategy.ts
+//backend/src/modules/auth/strategies/jwt.strategy.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
-let JwtStrategy = class JwtStrategy extends PassportStrategy(Strategy) {
+let JwtStrategy = class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     prisma;
     constructor(prisma) {
         super({

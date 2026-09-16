@@ -1,6 +1,6 @@
 //frontend\src\api\client.ts
 const API_BASE = '/api';
-
+import { Organization, Workspace, Project } from '../types/api';
 async function request<T>(
     path: string,
     options: RequestInit = {},
@@ -73,13 +73,51 @@ export const api = {
         name: string;
         description?: string;
     }) =>
-        request('/projects', {
+        request<Project>('/projects', {
             method: 'POST',
             body: JSON.stringify(data),
         }),
 
+    getProjectsByWorkspace: (workspaceId: string) =>
+        request<Project[]>(`/projects/workspace/${workspaceId}`),
+
     getProject: (id: string) => request(`/projects/${id}`),
 
-    getProjectsByWorkspace: (workspaceId: string) =>
-        request(`/projects/workspace/${workspaceId}`),
+
+    // Organizations
+    createOrganization: (name: string) =>
+        request<Organization>('/organizations', {
+            method: 'POST',
+            body: JSON.stringify({ name }),
+        }),
+
+    getMyOrganizations: () =>
+        request<Organization[]>('/organizations/my'),
+
+    getOrganization: (id: string) =>
+        request<Organization>(`/organizations/${id}`),
+
+    updateOrganization: (id: string, name: string) =>
+        request<Organization>(`/organizations/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({ name }),
+        }),
+
+    deleteOrganization: (id: string) =>
+        request<void>(`/organizations/${id}`, {
+            method: 'DELETE',
+        }),
+
+    // Workspaces
+    createWorkspace: (organizationId: string, name: string) =>
+        request<Workspace>('/workspaces', {
+            method: 'POST',
+            body: JSON.stringify({ organizationId, name }),
+        }),
+
+    getMyWorkspaces: () =>
+        request<Workspace[]>('/workspaces/my'),
+
+    getWorkspacesByOrganization: (organizationId: string) =>
+        request<Workspace[]>(`/workspaces/organization/${organizationId}`),
 };

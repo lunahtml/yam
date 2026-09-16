@@ -25,9 +25,35 @@ export interface Project {
     createdAt: string;
     updatedAt: string;
 }
+export interface Organization {
+    id: string;
+    name: string;
+    role?: string;
+    createdAt: string;
+    updatedAt: string;
+    _count?: {
+        workspaces: number;
+        members: number;
+    };
+}
 
+export interface Workspace {
+    id: string;
+    organizationId: string;
+    name: string;
+    role?: string;
+    createdAt: string;
+    updatedAt: string;
+    organization?: { id: string; name: string };
+    _count?: {
+        projects: number;
+        members: number;
+    };
+}
 export interface DashboardForm {
-    period: string;
+    periodFrom: string;  // ISO дата "2026-01-01"
+    periodTo: string;    // ISO дата "2026-01-31"
+
     adBudget: number;
     marketingCosts: number;
     revenue: number;
