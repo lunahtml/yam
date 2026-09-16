@@ -245,7 +245,8 @@ export const LoginAttemptScalarFieldEnum = {
 export const MarketingDashboardScalarFieldEnum = {
     id: 'id',
     projectId: 'projectId',
-    period: 'period',
+    periodFrom: 'periodFrom',
+    periodTo: 'periodTo',
     adBudget: 'adBudget',
     marketingCosts: 'marketingCosts',
     revenue: 'revenue',

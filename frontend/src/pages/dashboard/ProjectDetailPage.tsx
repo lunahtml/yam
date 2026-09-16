@@ -1,8 +1,9 @@
-//frontend\src\pages\dashboard\ProjectDetailPage.tsx
+//frontend/src/pages/dashboard/ProjectDetailPage.tsx
 import { useEffect, useState } from 'react';
 import { api } from '../../api/client';
 import {
     DashboardForm,
+    DashboardHistoryItem,
     MarketingMetrics,
     Project,
 } from '../../types/api';
@@ -16,9 +17,11 @@ interface ProjectDetailPageProps {
     onBack: () => void;
 }
 
+const today = new Date().toISOString().slice(0, 10);
+
 const INITIAL: DashboardForm = {
-    periodFrom: new Date().toISOString().slice(0, 10),
-    periodTo: new Date().toISOString().slice(0, 10),
+    periodFrom: today,
+    periodTo: today,
     adBudget: 0,
     marketingCosts: 0,
     revenue: 0,
@@ -58,8 +61,10 @@ export default function ProjectDetailPage({
     const [project, setProject] = useState<Project | null>(null);
     const [form, setForm] = useState<DashboardForm>(INITIAL);
     const [metrics, setMetrics] = useState<MarketingMetrics | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [history, setHistory] = useState<DashboardHistoryItem[]>([]);
+    const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         api
@@ -68,22 +73,80 @@ export default function ProjectDetailPage({
             .catch((err) =>
                 setError(err instanceof Error ? err.message : 'Failed to load project'),
             );
+
+        loadHistory();
     }, [projectId]);
+
+    const loadHistory = async () => {
+        try {
+            const data = await api.getDashboardHistory(projectId);
+            setHistory(data as DashboardHistoryItem[]);
+        } catch {
+            // ignore
+        }
+    };
 
     const update = (key: keyof DashboardForm, value: string) => {
         setForm({
             ...form,
-            [key]: key === 'periodTo' ? value : Number(value),
+            [key]:
+                key === 'periodFrom' || key === 'periodTo' ? value : Number(value),
         });
     };
 
     const calculate = () => {
         setMetrics(computeMetrics(form));
+        setMessage('');
+    };
+
+    const handleSave = async () => {
+        setSaving(true);
+        setError('');
+        setMessage('');
+
+        try {
+            await api.saveDashboard(projectId, form);
+            setMessage('✅ Сохранено');
+            await loadHistory();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Ошибка сохранения');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const formatDate = (iso: string) =>
+        new Date(iso).toLocaleDateString('ru-RU');
+
+    const downloadFile = (blob: Blob, filename: string) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+
+    const handleExportOne = async (id: string) => {
+        try {
+            const blob = await api.exportDashboard(id);
+            downloadFile(blob, `dashboard-${id}.xlsx`);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Export failed');
+        }
+    };
+
+    const handleExportHistory = async () => {
+        try {
+            const blob = await api.exportDashboardHistory(projectId);
+            downloadFile(blob, `history-${projectName}.xlsx`);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Export failed');
+        }
     };
 
     return (
         <div>
-            {/* Breadcrumb / Back */}
             <div style={{ marginBottom: 20 }}>
                 <button
                     onClick={onBack}
@@ -112,6 +175,9 @@ export default function ProjectDetailPage({
             {error && (
                 <div style={{ color: '#e53e3e', marginBottom: 16 }}>{error}</div>
             )}
+            {message && (
+                <div style={{ color: '#38a169', marginBottom: 16 }}>{message}</div>
+            )}
 
             <div
                 style={{
@@ -124,12 +190,22 @@ export default function ProjectDetailPage({
                 <h2 style={{ fontSize: 22, fontWeight: 700 }}>
                     📣 Marketing Dashboard
                 </h2>
-                <Button
-                    onClick={calculate}
-                    style={{ width: 'auto', padding: '10px 24px' }}
-                >
-                    Рассчитать метрики
-                </Button>
+                <div style={{ display: 'flex', gap: 12 }}>
+                    <Button
+                        onClick={calculate}
+                        style={{ width: 'auto', padding: '10px 24px' }}
+                    >
+                        📈 Рассчитать
+                    </Button>
+                    <Button
+                        onClick={handleSave}
+                        loading={saving}
+                        variant="secondary"
+                        style={{ width: 'auto', padding: '10px 24px' }}
+                    >
+                        💾 Сохранить
+                    </Button>
+                </div>
             </div>
 
             <MarketingForm form={form} onChange={update} />
@@ -137,9 +213,82 @@ export default function ProjectDetailPage({
             {metrics && (
                 <div style={{ marginTop: 32 }}>
                     <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16 }}>
-                        📈 Показатели за период {form.periodFrom} — {form.periodTo}
+                        📈 Показатели за {form.periodFrom} — {form.periodTo}
                     </h2>
                     <MetricsTable metrics={metrics} form={form} />
+                </div>
+            )}
+
+            {history.length > 0 && (
+                <div style={{ marginTop: 40 }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: 16,
+                        }}
+                    >
+                        <h3 style={{ fontSize: 18, fontWeight: 700 }}>
+                            📚 История периодов ({history.length})
+                        </h3>
+                        <Button
+                            onClick={handleExportHistory}
+                            variant="secondary"
+                            style={{ width: 'auto', padding: '8px 16px' }}
+                        >
+                            📥 Скачать всю историю
+                        </Button>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        {history.map((h) => (
+                            <div
+                                key={h.id}
+                                style={{
+                                    padding: 12,
+                                    background: '#f7fafc',
+                                    borderRadius: 8,
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <div>
+                                    <div style={{ fontWeight: 600, fontSize: 14 }}>
+                                        {formatDate(h.periodFrom)} — {formatDate(h.periodTo)}
+                                    </div>
+                                    <div
+                                        style={{ fontSize: 12, color: '#718096', marginTop: 2 }}
+                                    >
+                                        Выручка: {h.revenue.toLocaleString('ru-RU')} ₽ · Бюджет:{' '}
+                                        {h.adBudget.toLocaleString('ru-RU')} ₽
+                                    </div>
+                                    <div
+                                        style={{ fontSize: 11, color: '#a0aec0', marginTop: 4 }}
+                                    >
+                                        Сохранено: {formatDate(h.createdAt)}
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={() => handleExportOne(h.id)}
+                                    style={{
+                                        padding: '8px 16px',
+                                        background: '#eef2ff',
+                                        color: '#4f46e5',
+                                        border: 'none',
+                                        borderRadius: 6,
+                                        cursor: 'pointer',
+                                        fontSize: 13,
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    📥 Excel
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
         </div>
@@ -185,7 +334,7 @@ function computeMetrics(d: DashboardForm): MarketingMetrics {
 
     const aov = safe(d.revenue, d.deals);
     const retention = safe(d.repeatClients, d.activeClients) * 100;
-    const churn = 100 - retention;
+    const churn = d.activeClients === 0 ? 0 : 100 - retention;
     const bounceRate = safe(d.bounces, d.totalVisits) * 100;
     const organicShare = safe(d.organicVisits, d.totalVisits) * 100;
     const marketShare = safe(d.som, d.tam) * 100;

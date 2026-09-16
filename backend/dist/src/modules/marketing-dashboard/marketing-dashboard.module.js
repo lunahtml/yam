@@ -8,12 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Module } from '@nestjs/common';
 import { MarketingDashboardController } from './marketing-dashboard.controller.js';
 import { MarketingDashboardService } from './services/marketing-dashboard.service.js';
+import { ExcelExportService } from './services/excel-export.service.js';
 let MarketingDashboardModule = class MarketingDashboardModule {
 };
 MarketingDashboardModule = __decorate([
     Module({
         controllers: [MarketingDashboardController],
-        providers: [MarketingDashboardService],
+        providers: [MarketingDashboardService, ExcelExportService],
         exports: [MarketingDashboardService],
     })
 ], MarketingDashboardModule);

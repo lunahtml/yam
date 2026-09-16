@@ -5,13 +5,19 @@ import { MembershipService } from '../../../common/services/membership.service.j
 import { EDIT_ROLES } from '../../../common/types/roles.type.js';
 import {
     CreateDashboardDto,
-    UpdateDashboardDto,
 } from '../contracts/create-dashboard.dto.js';
-
+import {
+    UpdateDashboardDto,
+} from '../contracts/update-dashboard.dto.js';
+import { Res } from '@nestjs/common';
+import { Response } from 'express';
+// import * as ExcelJS from 'exceljs';
+import { ExcelExportService } from './excel-export.service.js';
 interface DashboardRecord {
     id: string;
     projectId: string;
-    period: string;
+    periodFrom: Date;
+    periodTo: Date;
     adBudget: number;
     marketingCosts: number;
     revenue: number;
@@ -100,39 +106,86 @@ export class MarketingDashboardService {
     constructor(
         private prisma: PrismaService,
         private membership: MembershipService,
+        private excel: ExcelExportService,
     ) { }
 
     async create(userId: string, projectId: string, data: CreateDashboardDto) {
         await this.membership.assertProjectRole(userId, projectId, EDIT_ROLES);
 
         return this.prisma.client.marketingDashboard.create({
-            data: { projectId, ...data },
+            data: {
+                projectId,
+                periodFrom: new Date(data.periodFrom),
+                periodTo: new Date(data.periodTo),
+                adBudget: data.adBudget,
+                marketingCosts: data.marketingCosts,
+                revenue: data.revenue,
+                grossProfit: data.grossProfit,
+                impressions: data.impressions,
+                clicks: data.clicks,
+                leads: data.leads,
+                mql: data.mql,
+                sql: data.sql,
+                meetings: data.meetings,
+                offers: data.offers,
+                deals: data.deals,
+                avgCheck: data.avgCheck,
+                avgGrossMargin: data.avgGrossMargin,
+                avgLifetimeMonths: data.avgLifetimeMonths,
+                avgPurchaseFreq: data.avgPurchaseFreq,
+                avgRevenuePerClient: data.avgRevenuePerClient,
+                activeClients: data.activeClients,
+                repeatClients: data.repeatClients,
+                retention: data.retention,
+                avgProductPrice: data.avgProductPrice,
+                operationalCosts: data.operationalCosts,
+                organicVisits: data.organicVisits,
+                totalVisits: data.totalVisits,
+                bounces: data.bounces,
+                newClients: data.newClients,
+                tam: data.tam,
+                sam: data.sam,
+                som: data.som,
+            },
         });
     }
 
     async update(userId: string, id: string, data: UpdateDashboardDto) {
-        // 1. Достаём projectId без выброса NotFoundException
         const existing = await this.prisma.client.marketingDashboard.findUnique({
             where: { id },
             select: { projectId: true },
         });
 
-        // 2. Не раскрываем существование — отдаём 403
         if (!existing) {
             throw new ForbiddenException('Access denied to dashboard');
         }
 
-        // 3. Проверка прав
         await this.membership.assertProjectRole(
             userId,
             existing.projectId,
             EDIT_ROLES,
         );
 
-        // 4. Обновление
         return this.prisma.client.marketingDashboard.update({
             where: { id },
             data,
+        });
+    }
+
+    async listHistory(userId: string, projectId: string) {
+        await this.membership.assertProjectMember(userId, projectId);
+
+        return this.prisma.client.marketingDashboard.findMany({
+            where: { projectId },
+            orderBy: { periodFrom: 'desc' },
+            select: {
+                id: true,
+                periodFrom: true,
+                periodTo: true,
+                revenue: true,
+                adBudget: true,
+                createdAt: true,
+            },
         });
     }
 
@@ -233,6 +286,46 @@ export class MarketingDashboardService {
                 revenuePerClient,
                 profit,
             },
+        };
+    }
+
+    async exportDashboardExcel(userId: string, id: string, projectName: string) {
+        const dashboard = await this.prisma.client.marketingDashboard.findUnique({
+            where: { id },
+            include: { project: { select: { name: true } } },
+        });
+
+        if (!dashboard) {
+            throw new ForbiddenException('Access denied to dashboard');
+        }
+
+        await this.membership.assertProjectMember(userId, dashboard.projectId);
+
+        return {
+            dashboard: {
+                ...dashboard,
+                metrics: this.calculateMetrics(dashboard),
+            },
+            projectName: dashboard.project.name,
+        };
+    }
+
+    async exportHistoryExcel(userId: string, projectId: string) {
+        await this.membership.assertProjectMember(userId, projectId);
+
+        const project = await this.prisma.client.project.findUnique({
+            where: { id: projectId },
+            select: { name: true },
+        });
+
+        const dashboards = await this.prisma.client.marketingDashboard.findMany({
+            where: { projectId },
+            orderBy: { periodFrom: 'desc' },
+        });
+
+        return {
+            dashboards,
+            projectName: project?.name ?? 'Проект',
         };
     }
 }

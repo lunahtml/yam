@@ -1,1 +1,1 @@
-{"version":3,"file":"update-dashboard.dto.js","sourceRoot":"","sources":["../../../../../src/modules/marketing-dashboard/contracts/update-dashboard.dto.ts"],"names":[],"mappings":""}
+{"version":3,"file":"update-dashboard.dto.js","sourceRoot":"","sources":["../../../../../src/modules/marketing-dashboard/contracts/update-dashboard.dto.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,qBAAqB,EAAE,MAAM,2BAA2B,CAAC;AAElE,MAAM,CAAC,MAAM,qBAAqB,GAAG,qBAAqB,CAAC,OAAO,EAAE,CAAC"}

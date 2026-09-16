@@ -93,7 +93,8 @@ export type MarketingDashboardSumAggregateOutputType = {
 export type MarketingDashboardMinAggregateOutputType = {
   id: string | null
   projectId: string | null
-  period: string | null
+  periodFrom: Date | null
+  periodTo: Date | null
   adBudget: number | null
   marketingCosts: number | null
   revenue: number | null
@@ -130,7 +131,8 @@ export type MarketingDashboardMinAggregateOutputType = {
 export type MarketingDashboardMaxAggregateOutputType = {
   id: string | null
   projectId: string | null
-  period: string | null
+  periodFrom: Date | null
+  periodTo: Date | null
   adBudget: number | null
   marketingCosts: number | null
   revenue: number | null
@@ -167,7 +169,8 @@ export type MarketingDashboardMaxAggregateOutputType = {
 export type MarketingDashboardCountAggregateOutputType = {
   id: number
   projectId: number
-  period: number
+  periodFrom: number
+  periodTo: number
   adBudget: number
   marketingCosts: number
   revenue: number
@@ -270,7 +273,8 @@ export type MarketingDashboardSumAggregateInputType = {
 export type MarketingDashboardMinAggregateInputType = {
   id?: true
   projectId?: true
-  period?: true
+  periodFrom?: true
+  periodTo?: true
   adBudget?: true
   marketingCosts?: true
   revenue?: true
@@ -307,7 +311,8 @@ export type MarketingDashboardMinAggregateInputType = {
 export type MarketingDashboardMaxAggregateInputType = {
   id?: true
   projectId?: true
-  period?: true
+  periodFrom?: true
+  periodTo?: true
   adBudget?: true
   marketingCosts?: true
   revenue?: true
@@ -344,7 +349,8 @@ export type MarketingDashboardMaxAggregateInputType = {
 export type MarketingDashboardCountAggregateInputType = {
   id?: true
   projectId?: true
-  period?: true
+  periodFrom?: true
+  periodTo?: true
   adBudget?: true
   marketingCosts?: true
   revenue?: true
@@ -468,7 +474,8 @@ export type MarketingDashboardGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type MarketingDashboardGroupByOutputType = {
   id: string
   projectId: string
-  period: string
+  periodFrom: Date
+  periodTo: Date
   adBudget: number
   marketingCosts: number
   revenue: number
@@ -528,7 +535,8 @@ export type MarketingDashboardWhereInput = {
   NOT?: Prisma.MarketingDashboardWhereInput | Prisma.MarketingDashboardWhereInput[]
   id?: Prisma.StringFilter<"MarketingDashboard"> | string
   projectId?: Prisma.StringFilter<"MarketingDashboard"> | string
-  period?: Prisma.StringFilter<"MarketingDashboard"> | string
+  periodFrom?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
+  periodTo?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatFilter<"MarketingDashboard"> | number
   marketingCosts?: Prisma.FloatFilter<"MarketingDashboard"> | number
   revenue?: Prisma.FloatFilter<"MarketingDashboard"> | number
@@ -566,7 +574,8 @@ export type MarketingDashboardWhereInput = {
 export type MarketingDashboardOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  period?: Prisma.SortOrder
+  periodFrom?: Prisma.SortOrder
+  periodTo?: Prisma.SortOrder
   adBudget?: Prisma.SortOrder
   marketingCosts?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
@@ -607,7 +616,8 @@ export type MarketingDashboardWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.MarketingDashboardWhereInput[]
   NOT?: Prisma.MarketingDashboardWhereInput | Prisma.MarketingDashboardWhereInput[]
   projectId?: Prisma.StringFilter<"MarketingDashboard"> | string
-  period?: Prisma.StringFilter<"MarketingDashboard"> | string
+  periodFrom?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
+  periodTo?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatFilter<"MarketingDashboard"> | number
   marketingCosts?: Prisma.FloatFilter<"MarketingDashboard"> | number
   revenue?: Prisma.FloatFilter<"MarketingDashboard"> | number
@@ -645,7 +655,8 @@ export type MarketingDashboardWhereUniqueInput = Prisma.AtLeast<{
 export type MarketingDashboardOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  period?: Prisma.SortOrder
+  periodFrom?: Prisma.SortOrder
+  periodTo?: Prisma.SortOrder
   adBudget?: Prisma.SortOrder
   marketingCosts?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
@@ -690,7 +701,8 @@ export type MarketingDashboardScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MarketingDashboardScalarWhereWithAggregatesInput | Prisma.MarketingDashboardScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"MarketingDashboard"> | string
   projectId?: Prisma.StringWithAggregatesFilter<"MarketingDashboard"> | string
-  period?: Prisma.StringWithAggregatesFilter<"MarketingDashboard"> | string
+  periodFrom?: Prisma.DateTimeWithAggregatesFilter<"MarketingDashboard"> | Date | string
+  periodTo?: Prisma.DateTimeWithAggregatesFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatWithAggregatesFilter<"MarketingDashboard"> | number
   marketingCosts?: Prisma.FloatWithAggregatesFilter<"MarketingDashboard"> | number
   revenue?: Prisma.FloatWithAggregatesFilter<"MarketingDashboard"> | number
@@ -726,7 +738,8 @@ export type MarketingDashboardScalarWhereWithAggregatesInput = {
 
 export type MarketingDashboardCreateInput = {
   id?: string
-  period: string
+  periodFrom: Date | string
+  periodTo: Date | string
   adBudget?: number
   marketingCosts?: number
   revenue?: number
@@ -764,7 +777,8 @@ export type MarketingDashboardCreateInput = {
 export type MarketingDashboardUncheckedCreateInput = {
   id?: string
   projectId: string
-  period: string
+  periodFrom: Date | string
+  periodTo: Date | string
   adBudget?: number
   marketingCosts?: number
   revenue?: number
@@ -800,7 +814,8 @@ export type MarketingDashboardUncheckedCreateInput = {
 
 export type MarketingDashboardUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  period?: Prisma.StringFieldUpdateOperationsInput | string
+  periodFrom?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  periodTo?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adBudget?: Prisma.FloatFieldUpdateOperationsInput | number
   marketingCosts?: Prisma.FloatFieldUpdateOperationsInput | number
   revenue?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -838,7 +853,8 @@ export type MarketingDashboardUpdateInput = {
 export type MarketingDashboardUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  period?: Prisma.StringFieldUpdateOperationsInput | string
+  periodFrom?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  periodTo?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adBudget?: Prisma.FloatFieldUpdateOperationsInput | number
   marketingCosts?: Prisma.FloatFieldUpdateOperationsInput | number
   revenue?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -875,7 +891,8 @@ export type MarketingDashboardUncheckedUpdateInput = {
 export type MarketingDashboardCreateManyInput = {
   id?: string
   projectId: string
-  period: string
+  periodFrom: Date | string
+  periodTo: Date | string
   adBudget?: number
   marketingCosts?: number
   revenue?: number
@@ -911,7 +928,8 @@ export type MarketingDashboardCreateManyInput = {
 
 export type MarketingDashboardUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  period?: Prisma.StringFieldUpdateOperationsInput | string
+  periodFrom?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  periodTo?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adBudget?: Prisma.FloatFieldUpdateOperationsInput | number
   marketingCosts?: Prisma.FloatFieldUpdateOperationsInput | number
   revenue?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -948,7 +966,8 @@ export type MarketingDashboardUpdateManyMutationInput = {
 export type MarketingDashboardUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  period?: Prisma.StringFieldUpdateOperationsInput | string
+  periodFrom?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  periodTo?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adBudget?: Prisma.FloatFieldUpdateOperationsInput | number
   marketingCosts?: Prisma.FloatFieldUpdateOperationsInput | number
   revenue?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -995,7 +1014,8 @@ export type MarketingDashboardOrderByRelationAggregateInput = {
 export type MarketingDashboardCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  period?: Prisma.SortOrder
+  periodFrom?: Prisma.SortOrder
+  periodTo?: Prisma.SortOrder
   adBudget?: Prisma.SortOrder
   marketingCosts?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
@@ -1064,7 +1084,8 @@ export type MarketingDashboardAvgOrderByAggregateInput = {
 export type MarketingDashboardMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  period?: Prisma.SortOrder
+  periodFrom?: Prisma.SortOrder
+  periodTo?: Prisma.SortOrder
   adBudget?: Prisma.SortOrder
   marketingCosts?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
@@ -1101,7 +1122,8 @@ export type MarketingDashboardMaxOrderByAggregateInput = {
 export type MarketingDashboardMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  period?: Prisma.SortOrder
+  periodFrom?: Prisma.SortOrder
+  periodTo?: Prisma.SortOrder
   adBudget?: Prisma.SortOrder
   marketingCosts?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
@@ -1219,7 +1241,8 @@ export type FloatFieldUpdateOperationsInput = {
 
 export type MarketingDashboardCreateWithoutProjectInput = {
   id?: string
-  period: string
+  periodFrom: Date | string
+  periodTo: Date | string
   adBudget?: number
   marketingCosts?: number
   revenue?: number
@@ -1255,7 +1278,8 @@ export type MarketingDashboardCreateWithoutProjectInput = {
 
 export type MarketingDashboardUncheckedCreateWithoutProjectInput = {
   id?: string
-  period: string
+  periodFrom: Date | string
+  periodTo: Date | string
   adBudget?: number
   marketingCosts?: number
   revenue?: number
@@ -1321,7 +1345,8 @@ export type MarketingDashboardScalarWhereInput = {
   NOT?: Prisma.MarketingDashboardScalarWhereInput | Prisma.MarketingDashboardScalarWhereInput[]
   id?: Prisma.StringFilter<"MarketingDashboard"> | string
   projectId?: Prisma.StringFilter<"MarketingDashboard"> | string
-  period?: Prisma.StringFilter<"MarketingDashboard"> | string
+  periodFrom?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
+  periodTo?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatFilter<"MarketingDashboard"> | number
   marketingCosts?: Prisma.FloatFilter<"MarketingDashboard"> | number
   revenue?: Prisma.FloatFilter<"MarketingDashboard"> | number
@@ -1357,7 +1382,8 @@ export type MarketingDashboardScalarWhereInput = {
 
 export type MarketingDashboardCreateManyProjectInput = {
   id?: string
-  period: string
+  periodFrom: Date | string
+  periodTo: Date | string
   adBudget?: number
   marketingCosts?: number
   revenue?: number
@@ -1393,7 +1419,8 @@ export type MarketingDashboardCreateManyProjectInput = {
 
 export type MarketingDashboardUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  period?: Prisma.StringFieldUpdateOperationsInput | string
+  periodFrom?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  periodTo?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adBudget?: Prisma.FloatFieldUpdateOperationsInput | number
   marketingCosts?: Prisma.FloatFieldUpdateOperationsInput | number
   revenue?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1429,7 +1456,8 @@ export type MarketingDashboardUpdateWithoutProjectInput = {
 
 export type MarketingDashboardUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  period?: Prisma.StringFieldUpdateOperationsInput | string
+  periodFrom?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  periodTo?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adBudget?: Prisma.FloatFieldUpdateOperationsInput | number
   marketingCosts?: Prisma.FloatFieldUpdateOperationsInput | number
   revenue?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1465,7 +1493,8 @@ export type MarketingDashboardUncheckedUpdateWithoutProjectInput = {
 
 export type MarketingDashboardUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  period?: Prisma.StringFieldUpdateOperationsInput | string
+  periodFrom?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  periodTo?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adBudget?: Prisma.FloatFieldUpdateOperationsInput | number
   marketingCosts?: Prisma.FloatFieldUpdateOperationsInput | number
   revenue?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1504,7 +1533,8 @@ export type MarketingDashboardUncheckedUpdateManyWithoutProjectInput = {
 export type MarketingDashboardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  period?: boolean
+  periodFrom?: boolean
+  periodTo?: boolean
   adBudget?: boolean
   marketingCosts?: boolean
   revenue?: boolean
@@ -1542,7 +1572,8 @@ export type MarketingDashboardSelect<ExtArgs extends runtime.Types.Extensions.In
 export type MarketingDashboardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  period?: boolean
+  periodFrom?: boolean
+  periodTo?: boolean
   adBudget?: boolean
   marketingCosts?: boolean
   revenue?: boolean
@@ -1580,7 +1611,8 @@ export type MarketingDashboardSelectCreateManyAndReturn<ExtArgs extends runtime.
 export type MarketingDashboardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   projectId?: boolean
-  period?: boolean
+  periodFrom?: boolean
+  periodTo?: boolean
   adBudget?: boolean
   marketingCosts?: boolean
   revenue?: boolean
@@ -1618,7 +1650,8 @@ export type MarketingDashboardSelectUpdateManyAndReturn<ExtArgs extends runtime.
 export type MarketingDashboardSelectScalar = {
   id?: boolean
   projectId?: boolean
-  period?: boolean
+  periodFrom?: boolean
+  periodTo?: boolean
   adBudget?: boolean
   marketingCosts?: boolean
   revenue?: boolean
@@ -1652,7 +1685,7 @@ export type MarketingDashboardSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MarketingDashboardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "period" | "adBudget" | "marketingCosts" | "revenue" | "grossProfit" | "impressions" | "clicks" | "leads" | "mql" | "sql" | "meetings" | "offers" | "deals" | "avgCheck" | "avgGrossMargin" | "avgLifetimeMonths" | "avgPurchaseFreq" | "avgRevenuePerClient" | "activeClients" | "repeatClients" | "retention" | "avgProductPrice" | "operationalCosts" | "organicVisits" | "totalVisits" | "bounces" | "newClients" | "tam" | "sam" | "som" | "createdAt" | "updatedAt", ExtArgs["result"]["marketingDashboard"]>
+export type MarketingDashboardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "periodFrom" | "periodTo" | "adBudget" | "marketingCosts" | "revenue" | "grossProfit" | "impressions" | "clicks" | "leads" | "mql" | "sql" | "meetings" | "offers" | "deals" | "avgCheck" | "avgGrossMargin" | "avgLifetimeMonths" | "avgPurchaseFreq" | "avgRevenuePerClient" | "activeClients" | "repeatClients" | "retention" | "avgProductPrice" | "operationalCosts" | "organicVisits" | "totalVisits" | "bounces" | "newClients" | "tam" | "sam" | "som" | "createdAt" | "updatedAt", ExtArgs["result"]["marketingDashboard"]>
 export type MarketingDashboardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }
@@ -1671,7 +1704,8 @@ export type $MarketingDashboardPayload<ExtArgs extends runtime.Types.Extensions.
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     projectId: string
-    period: string
+    periodFrom: Date
+    periodTo: Date
     adBudget: number
     marketingCosts: number
     revenue: number
@@ -2129,7 +2163,8 @@ export interface Prisma__MarketingDashboardClient<T, Null = never, ExtArgs exten
 export interface MarketingDashboardFieldRefs {
   readonly id: Prisma.FieldRef<"MarketingDashboard", 'String'>
   readonly projectId: Prisma.FieldRef<"MarketingDashboard", 'String'>
-  readonly period: Prisma.FieldRef<"MarketingDashboard", 'String'>
+  readonly periodFrom: Prisma.FieldRef<"MarketingDashboard", 'DateTime'>
+  readonly periodTo: Prisma.FieldRef<"MarketingDashboard", 'DateTime'>
   readonly adBudget: Prisma.FieldRef<"MarketingDashboard", 'Float'>
   readonly marketingCosts: Prisma.FieldRef<"MarketingDashboard", 'Float'>
   readonly revenue: Prisma.FieldRef<"MarketingDashboard", 'Float'>

@@ -51,8 +51,8 @@ export interface Workspace {
     };
 }
 export interface DashboardForm {
-    periodFrom: string;  // ISO дата "2026-01-01"
-    periodTo: string;    // ISO дата "2026-01-31"
+    periodFrom: string;
+    periodTo: string;
 
     adBudget: number;
     marketingCosts: number;
@@ -84,7 +84,14 @@ export interface DashboardForm {
     sam: number;
     som: number;
 }
-
+export interface DashboardHistoryItem {
+    id: string;
+    periodFrom: string;
+    periodTo: string;
+    revenue: number;
+    adBudget: number;
+    createdAt: string;
+}
 export interface MarketingMetrics {
     funnel: {
         ctr: number;

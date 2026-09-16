@@ -479,9 +479,10 @@ model LoginAttempt {
 // ═══════════════════════════════════════════════════════════════
 
 model MarketingDashboard {
-    id        String @id @default(cuid())
-    projectId String
-    period    String // "Январь 2026"
+    id         String   @id @default(cuid())
+    projectId  String
+    periodFrom DateTime
+    periodTo   DateTime
 
     // Бюджет
     adBudget       Float @default(0)
@@ -526,5 +527,6 @@ model MarketingDashboard {
     project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
     @@index([projectId])
+    @@index([projectId, periodFrom])
     @@map("marketing_dashboards")
 }

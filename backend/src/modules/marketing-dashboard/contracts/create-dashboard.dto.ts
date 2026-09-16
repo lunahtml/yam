@@ -2,15 +2,14 @@
 import { z } from 'zod';
 
 export const CreateDashboardSchema = z.object({
-    period: z.string().min(1),
+    periodFrom: z.string(),      // ← принимает ЛЮБУЮ строку
+    periodTo: z.string(),
 
-    // Бюджет
     adBudget: z.number().min(0),
     marketingCosts: z.number().min(0),
     revenue: z.number().min(0),
     grossProfit: z.number(),
 
-    // Воронка
     impressions: z.number().min(0),
     clicks: z.number().min(0),
     leads: z.number().min(0),
@@ -20,7 +19,6 @@ export const CreateDashboardSchema = z.object({
     offers: z.number().min(0),
     deals: z.number().min(0),
 
-    // Продажи
     avgCheck: z.number().min(0),
     avgGrossMargin: z.number().min(0).max(1),
     avgLifetimeMonths: z.number().min(0),
@@ -30,7 +28,6 @@ export const CreateDashboardSchema = z.object({
     repeatClients: z.number().min(0),
     retention: z.number().min(0).max(100),
 
-    // Дополнительно
     avgProductPrice: z.number().min(0),
     operationalCosts: z.number().min(0),
     organicVisits: z.number().min(0),
@@ -43,6 +40,3 @@ export const CreateDashboardSchema = z.object({
 });
 
 export type CreateDashboardDto = z.infer<typeof CreateDashboardSchema>;
-
-export const UpdateDashboardSchema = CreateDashboardSchema.partial();
-export type UpdateDashboardDto = z.infer<typeof UpdateDashboardSchema>;
