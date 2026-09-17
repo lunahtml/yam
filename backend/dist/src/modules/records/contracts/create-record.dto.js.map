@@ -1,0 +1,1 @@
+{"version":3,"file":"create-record.dto.js","sourceRoot":"","sources":["../../../../../src/modules/records/contracts/create-record.dto.ts"],"names":[],"mappings":"AAAA,4DAA4D;AAC5D,OAAO,EAAE,CAAC,EAAE,MAAM,KAAK,CAAC;AAExB,MAAM,CAAC,MAAM,kBAAkB,GAAG,CAAC,CAAC,MAAM,CAAC;IACvC,IAAI,EAAE,CAAC,CAAC,MAAM,CAAC,CAAC,CAAC,MAAM,EAAE,EAAE,CAAC,CAAC,OAAO,EAAE,CAAC;CAC1C,CAAC,CAAC"}

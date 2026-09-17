@@ -1,0 +1,289 @@
+//backend/src/modules/records/services/records.service.ts
+import {
+    Injectable,
+    ForbiddenException,
+    NotFoundException,
+    BadRequestException,
+} from '@nestjs/common';
+import { Prisma } from '../../../generated/prisma/client.js';
+import { PrismaService } from '../../../infra/prisma/prisma.service.js';
+import { MembershipService } from '../../../common/services/membership.service.js';
+import {
+    EDIT_ROLES,
+    DESTRUCTIVE_ROLES,
+} from '../../../common/types/roles.type.js';
+import { RecordValidatorService } from './record-validator.service.js';
+import { RecordIndexService } from './record-index.service.js';
+import { CreateRecordDto } from '../contracts/create-record.dto.js';
+import { UpdateRecordDto } from '../contracts/update-record.dto.js';
+import { ListRecordsQueryDto } from '../contracts/list-records.dto.js';
+
+@Injectable()
+export class RecordsService {
+    constructor(
+        private prisma: PrismaService,
+        private membership: MembershipService,
+        private validator: RecordValidatorService,
+        private indexer: RecordIndexService,
+    ) { }
+
+    async create(userId: string, entityId: string, data: CreateRecordDto) {
+        const entity = await this.prisma.client.entity.findUnique({
+            where: { id: entityId },
+            select: {
+                projectId: true,
+                fields: true,
+            },
+        });
+
+        if (!entity) {
+            throw new ForbiddenException('Access denied to entity');
+        }
+
+        await this.membership.assertProjectRole(
+            userId,
+            entity.projectId,
+            EDIT_ROLES,
+        );
+
+        const validated = this.validator.validate(data.data, entity.fields);
+        const indexes = this.indexer.buildIndexes(validated, entity.fields);
+
+        return this.prisma.client.$transaction(async (tx) => {
+            const record = await tx.record.create({
+                data: {
+                    entityId,
+                    projectId: entity.projectId,
+                    data: validated as Prisma.InputJsonValue,
+                    createdById: userId,
+                },
+            });
+
+            await this.indexer.createIndexes(
+                tx,
+                record.id,
+                entityId,
+                entity.projectId,
+                indexes,
+            );
+
+            return record;
+        });
+    }
+
+    async findByEntity(
+        userId: string,
+        entityId: string,
+        query: ListRecordsQueryDto,
+    ) {
+        const entity = await this.prisma.client.entity.findUnique({
+            where: { id: entityId },
+            select: { projectId: true, fields: true },
+        });
+
+        if (!entity) {
+            throw new ForbiddenException('Access denied to entity');
+        }
+
+        await this.membership.assertProjectMember(userId, entity.projectId);
+
+        const skip = (query.page - 1) * query.limit;
+
+        // Фильтрация
+        let filteredRecordIds: string[] | null = null;
+
+        if (query.filterField && query.filterValue !== undefined) {
+            const field = entity.fields.find((f) => f.name === query.filterField);
+            if (!field) {
+                throw new NotFoundException(
+                    `Field "${query.filterField}" not found in entity`,
+                );
+            }
+
+            filteredRecordIds = await this.indexer.findFilteredRecordIds(
+                entityId,
+                query.filterField,
+                field.type,
+                query.filterValue,
+            );
+
+            if (filteredRecordIds.length === 0) {
+                return {
+                    records: [],
+                    total: 0,
+                    page: query.page,
+                    limit: query.limit,
+                    pages: 0,
+                };
+            }
+        }
+
+        // Сортировка
+        let records: unknown[] = [];
+        let total = 0;
+
+        if (query.sortBy) {
+            const field = entity.fields.find((f) => f.name === query.sortBy);
+            if (!field) {
+                throw new NotFoundException(
+                    `Field "${query.sortBy}" not found in entity`,
+                );
+            }
+
+            const { recordIds, total: sortedTotal } =
+                await this.indexer.findSortedRecordIds(
+                    entityId,
+                    query.sortBy,
+                    field.type,
+                    query.sortDir,
+                    skip,
+                    query.limit,
+                );
+
+            // Пересечение с фильтром, если есть
+            const finalIds = filteredRecordIds
+                ? recordIds.filter((id) => filteredRecordIds!.includes(id))
+                : recordIds;
+
+            records = await this.prisma.client.record.findMany({
+                where: { id: { in: finalIds } },
+                include: {
+                    creator: {
+                        select: { id: true, email: true, name: true },
+                    },
+                },
+            });
+
+            // Сортируем в том же порядке, что и recordIds
+            const orderMap = new Map(finalIds.map((id, i) => [id, i]));
+            records.sort(
+                (a, b) =>
+                    (orderMap.get((a as { id: string }).id) ?? 0) -
+                    (orderMap.get((b as { id: string }).id) ?? 0),
+            );
+
+            total = filteredRecordIds
+                ? filteredRecordIds.length
+                : sortedTotal;
+        } else {
+            const where: Prisma.RecordWhereInput = {
+                entityId,
+                projectId: entity.projectId,
+                ...(filteredRecordIds ? { id: { in: filteredRecordIds } } : {}),
+            };
+
+            const [found, count] = await Promise.all([
+                this.prisma.client.record.findMany({
+                    where,
+                    orderBy: { createdAt: query.sortDir },
+                    skip,
+                    take: query.limit,
+                    include: {
+                        creator: {
+                            select: { id: true, email: true, name: true },
+                        },
+                    },
+                }),
+                this.prisma.client.record.count({ where }),
+            ]);
+
+            records = found;
+            total = count;
+        }
+
+        return {
+            records,
+            total,
+            page: query.page,
+            limit: query.limit,
+            pages: Math.ceil(total / query.limit),
+        };
+    }
+
+    async findById(userId: string, id: string) {
+        const record = await this.prisma.client.record.findUnique({
+            where: { id },
+            select: { projectId: true },
+        });
+
+        if (!record) {
+            throw new ForbiddenException('Access denied to record');
+        }
+
+        await this.membership.assertProjectMember(userId, record.projectId);
+
+        return this.prisma.client.record.findUnique({
+            where: { id },
+            include: {
+                entity: {
+                    select: { id: true, name: true, label: true, fields: true },
+                },
+                creator: { select: { id: true, email: true, name: true } },
+            },
+        });
+    }
+
+    async update(userId: string, id: string, data: UpdateRecordDto) {
+        const record = await this.prisma.client.record.findUnique({
+            where: { id },
+            select: {
+                projectId: true,
+                entityId: true,
+                entity: { select: { fields: true } },
+            },
+        });
+
+        if (!record) {
+            throw new ForbiddenException('Access denied to record');
+        }
+
+        await this.membership.assertProjectRole(
+            userId,
+            record.projectId,
+            EDIT_ROLES,
+        );
+
+        const validated = this.validator.validate(data.data, record.entity.fields);
+        const indexes = this.indexer.buildIndexes(validated, record.entity.fields);
+
+        return this.prisma.client.$transaction(async (tx) => {
+            const updated = await tx.record.update({
+                where: { id },
+                data: {
+                    data: validated as Prisma.InputJsonValue,
+                },
+            });
+
+            await this.indexer.replaceIndexes(
+                tx,
+                id,
+                record.entityId,
+                record.projectId,
+                indexes,
+            );
+
+            return updated;
+        });
+    }
+
+    async remove(userId: string, id: string) {
+        const record = await this.prisma.client.record.findUnique({
+            where: { id },
+            select: { projectId: true },
+        });
+
+        if (!record) {
+            throw new ForbiddenException('Access denied to record');
+        }
+
+        await this.membership.assertProjectRole(
+            userId,
+            record.projectId,
+            DESTRUCTIVE_ROLES,
+        );
+
+        return this.prisma.client.record.delete({
+            where: { id },
+        });
+    }
+}

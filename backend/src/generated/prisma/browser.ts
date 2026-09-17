@@ -73,6 +73,11 @@ export type Field = Prisma.FieldModel
  */
 export type Record = Prisma.RecordModel
 /**
+ * Model RecordIndex
+ * 
+ */
+export type RecordIndex = Prisma.RecordIndexModel
+/**
  * Model Workflow
  * 
  */

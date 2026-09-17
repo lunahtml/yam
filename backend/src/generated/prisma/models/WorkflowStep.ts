@@ -40,6 +40,8 @@ export type WorkflowStepMinAggregateOutputType = {
   name: string | null
   order: number | null
   color: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WorkflowStepMaxAggregateOutputType = {
@@ -48,6 +50,8 @@ export type WorkflowStepMaxAggregateOutputType = {
   name: string | null
   order: number | null
   color: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WorkflowStepCountAggregateOutputType = {
@@ -56,6 +60,8 @@ export type WorkflowStepCountAggregateOutputType = {
   name: number
   order: number
   color: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -74,6 +80,8 @@ export type WorkflowStepMinAggregateInputType = {
   name?: true
   order?: true
   color?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WorkflowStepMaxAggregateInputType = {
@@ -82,6 +90,8 @@ export type WorkflowStepMaxAggregateInputType = {
   name?: true
   order?: true
   color?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WorkflowStepCountAggregateInputType = {
@@ -90,6 +100,8 @@ export type WorkflowStepCountAggregateInputType = {
   name?: true
   order?: true
   color?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -185,6 +197,8 @@ export type WorkflowStepGroupByOutputType = {
   name: string
   order: number
   color: string | null
+  createdAt: Date
+  updatedAt: Date
   _count: WorkflowStepCountAggregateOutputType | null
   _avg: WorkflowStepAvgAggregateOutputType | null
   _sum: WorkflowStepSumAggregateOutputType | null
@@ -216,6 +230,8 @@ export type WorkflowStepWhereInput = {
   name?: Prisma.StringFilter<"WorkflowStep"> | string
   order?: Prisma.IntFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableFilter<"WorkflowStep"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"WorkflowStep"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WorkflowStep"> | Date | string
   workflow?: Prisma.XOR<Prisma.WorkflowScalarRelationFilter, Prisma.WorkflowWhereInput>
   outgoingTransitions?: Prisma.WorkflowTransitionListRelationFilter
   incomingTransitions?: Prisma.WorkflowTransitionListRelationFilter
@@ -227,6 +243,8 @@ export type WorkflowStepOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   order?: Prisma.SortOrder
   color?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   workflow?: Prisma.WorkflowOrderByWithRelationInput
   outgoingTransitions?: Prisma.WorkflowTransitionOrderByRelationAggregateInput
   incomingTransitions?: Prisma.WorkflowTransitionOrderByRelationAggregateInput
@@ -242,6 +260,8 @@ export type WorkflowStepWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"WorkflowStep"> | string
   order?: Prisma.IntFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableFilter<"WorkflowStep"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"WorkflowStep"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WorkflowStep"> | Date | string
   workflow?: Prisma.XOR<Prisma.WorkflowScalarRelationFilter, Prisma.WorkflowWhereInput>
   outgoingTransitions?: Prisma.WorkflowTransitionListRelationFilter
   incomingTransitions?: Prisma.WorkflowTransitionListRelationFilter
@@ -253,6 +273,8 @@ export type WorkflowStepOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   order?: Prisma.SortOrder
   color?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.WorkflowStepCountOrderByAggregateInput
   _avg?: Prisma.WorkflowStepAvgOrderByAggregateInput
   _max?: Prisma.WorkflowStepMaxOrderByAggregateInput
@@ -269,6 +291,8 @@ export type WorkflowStepScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"WorkflowStep"> | string
   order?: Prisma.IntWithAggregatesFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableWithAggregatesFilter<"WorkflowStep"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorkflowStep"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WorkflowStep"> | Date | string
 }
 
 export type WorkflowStepCreateInput = {
@@ -276,6 +300,8 @@ export type WorkflowStepCreateInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   workflow: Prisma.WorkflowCreateNestedOneWithoutStepsInput
   outgoingTransitions?: Prisma.WorkflowTransitionCreateNestedManyWithoutFromStepInput
   incomingTransitions?: Prisma.WorkflowTransitionCreateNestedManyWithoutToStepInput
@@ -287,6 +313,8 @@ export type WorkflowStepUncheckedCreateInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionUncheckedCreateNestedManyWithoutFromStepInput
   incomingTransitions?: Prisma.WorkflowTransitionUncheckedCreateNestedManyWithoutToStepInput
 }
@@ -296,6 +324,8 @@ export type WorkflowStepUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workflow?: Prisma.WorkflowUpdateOneRequiredWithoutStepsNestedInput
   outgoingTransitions?: Prisma.WorkflowTransitionUpdateManyWithoutFromStepNestedInput
   incomingTransitions?: Prisma.WorkflowTransitionUpdateManyWithoutToStepNestedInput
@@ -307,6 +337,8 @@ export type WorkflowStepUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionUncheckedUpdateManyWithoutFromStepNestedInput
   incomingTransitions?: Prisma.WorkflowTransitionUncheckedUpdateManyWithoutToStepNestedInput
 }
@@ -317,6 +349,8 @@ export type WorkflowStepCreateManyInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type WorkflowStepUpdateManyMutationInput = {
@@ -324,6 +358,8 @@ export type WorkflowStepUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkflowStepUncheckedUpdateManyInput = {
@@ -332,6 +368,8 @@ export type WorkflowStepUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkflowStepListRelationFilter = {
@@ -355,6 +393,8 @@ export type WorkflowStepCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   order?: Prisma.SortOrder
   color?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WorkflowStepAvgOrderByAggregateInput = {
@@ -367,6 +407,8 @@ export type WorkflowStepMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   order?: Prisma.SortOrder
   color?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WorkflowStepMinOrderByAggregateInput = {
@@ -375,6 +417,8 @@ export type WorkflowStepMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   order?: Prisma.SortOrder
   color?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WorkflowStepSumOrderByAggregateInput = {
@@ -469,6 +513,8 @@ export type WorkflowStepCreateWithoutWorkflowInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionCreateNestedManyWithoutFromStepInput
   incomingTransitions?: Prisma.WorkflowTransitionCreateNestedManyWithoutToStepInput
 }
@@ -478,6 +524,8 @@ export type WorkflowStepUncheckedCreateWithoutWorkflowInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionUncheckedCreateNestedManyWithoutFromStepInput
   incomingTransitions?: Prisma.WorkflowTransitionUncheckedCreateNestedManyWithoutToStepInput
 }
@@ -517,6 +565,8 @@ export type WorkflowStepScalarWhereInput = {
   name?: Prisma.StringFilter<"WorkflowStep"> | string
   order?: Prisma.IntFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableFilter<"WorkflowStep"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"WorkflowStep"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WorkflowStep"> | Date | string
 }
 
 export type WorkflowStepCreateWithoutOutgoingTransitionsInput = {
@@ -524,6 +574,8 @@ export type WorkflowStepCreateWithoutOutgoingTransitionsInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   workflow: Prisma.WorkflowCreateNestedOneWithoutStepsInput
   incomingTransitions?: Prisma.WorkflowTransitionCreateNestedManyWithoutToStepInput
 }
@@ -534,6 +586,8 @@ export type WorkflowStepUncheckedCreateWithoutOutgoingTransitionsInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   incomingTransitions?: Prisma.WorkflowTransitionUncheckedCreateNestedManyWithoutToStepInput
 }
 
@@ -547,6 +601,8 @@ export type WorkflowStepCreateWithoutIncomingTransitionsInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   workflow: Prisma.WorkflowCreateNestedOneWithoutStepsInput
   outgoingTransitions?: Prisma.WorkflowTransitionCreateNestedManyWithoutFromStepInput
 }
@@ -557,6 +613,8 @@ export type WorkflowStepUncheckedCreateWithoutIncomingTransitionsInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionUncheckedCreateNestedManyWithoutFromStepInput
 }
 
@@ -581,6 +639,8 @@ export type WorkflowStepUpdateWithoutOutgoingTransitionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workflow?: Prisma.WorkflowUpdateOneRequiredWithoutStepsNestedInput
   incomingTransitions?: Prisma.WorkflowTransitionUpdateManyWithoutToStepNestedInput
 }
@@ -591,6 +651,8 @@ export type WorkflowStepUncheckedUpdateWithoutOutgoingTransitionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   incomingTransitions?: Prisma.WorkflowTransitionUncheckedUpdateManyWithoutToStepNestedInput
 }
 
@@ -610,6 +672,8 @@ export type WorkflowStepUpdateWithoutIncomingTransitionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workflow?: Prisma.WorkflowUpdateOneRequiredWithoutStepsNestedInput
   outgoingTransitions?: Prisma.WorkflowTransitionUpdateManyWithoutFromStepNestedInput
 }
@@ -620,6 +684,8 @@ export type WorkflowStepUncheckedUpdateWithoutIncomingTransitionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionUncheckedUpdateManyWithoutFromStepNestedInput
 }
 
@@ -628,6 +694,8 @@ export type WorkflowStepCreateManyWorkflowInput = {
   name: string
   order: number
   color?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type WorkflowStepUpdateWithoutWorkflowInput = {
@@ -635,6 +703,8 @@ export type WorkflowStepUpdateWithoutWorkflowInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionUpdateManyWithoutFromStepNestedInput
   incomingTransitions?: Prisma.WorkflowTransitionUpdateManyWithoutToStepNestedInput
 }
@@ -644,6 +714,8 @@ export type WorkflowStepUncheckedUpdateWithoutWorkflowInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   outgoingTransitions?: Prisma.WorkflowTransitionUncheckedUpdateManyWithoutFromStepNestedInput
   incomingTransitions?: Prisma.WorkflowTransitionUncheckedUpdateManyWithoutToStepNestedInput
 }
@@ -653,6 +725,8 @@ export type WorkflowStepUncheckedUpdateManyWithoutWorkflowInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -701,6 +775,8 @@ export type WorkflowStepSelect<ExtArgs extends runtime.Types.Extensions.Internal
   name?: boolean
   order?: boolean
   color?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   workflow?: boolean | Prisma.WorkflowDefaultArgs<ExtArgs>
   outgoingTransitions?: boolean | Prisma.WorkflowStep$outgoingTransitionsArgs<ExtArgs>
   incomingTransitions?: boolean | Prisma.WorkflowStep$incomingTransitionsArgs<ExtArgs>
@@ -713,6 +789,8 @@ export type WorkflowStepSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   name?: boolean
   order?: boolean
   color?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   workflow?: boolean | Prisma.WorkflowDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workflowStep"]>
 
@@ -722,6 +800,8 @@ export type WorkflowStepSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   name?: boolean
   order?: boolean
   color?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   workflow?: boolean | Prisma.WorkflowDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workflowStep"]>
 
@@ -731,9 +811,11 @@ export type WorkflowStepSelectScalar = {
   name?: boolean
   order?: boolean
   color?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type WorkflowStepOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workflowId" | "name" | "order" | "color", ExtArgs["result"]["workflowStep"]>
+export type WorkflowStepOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workflowId" | "name" | "order" | "color" | "createdAt" | "updatedAt", ExtArgs["result"]["workflowStep"]>
 export type WorkflowStepInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workflow?: boolean | Prisma.WorkflowDefaultArgs<ExtArgs>
   outgoingTransitions?: boolean | Prisma.WorkflowStep$outgoingTransitionsArgs<ExtArgs>
@@ -760,6 +842,8 @@ export type $WorkflowStepPayload<ExtArgs extends runtime.Types.Extensions.Intern
     name: string
     order: number
     color: string | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["workflowStep"]>
   composites: {}
 }
@@ -1191,6 +1275,8 @@ export interface WorkflowStepFieldRefs {
   readonly name: Prisma.FieldRef<"WorkflowStep", 'String'>
   readonly order: Prisma.FieldRef<"WorkflowStep", 'Int'>
   readonly color: Prisma.FieldRef<"WorkflowStep", 'String'>
+  readonly createdAt: Prisma.FieldRef<"WorkflowStep", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"WorkflowStep", 'DateTime'>
 }
     
 

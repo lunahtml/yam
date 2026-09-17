@@ -27,6 +27,13 @@ yam/
         │   ├── VerifyPage.tsx ✅
         │   └── DashboardPage.tsx ✅
         │   └── dashboard/ ✅
+        │       └── entities/  ✅
+        │               └── EntitiesPage.tsx  ✅
+        │               └── FieldForm.tsx  ✅
+        │               └── FieldsManager.tsx  ✅
+        │               └── EntityDetailPage.tsx  ✅
+        │               └── RecordForm.tsx  ✅
+        │               └── RecordsTable.tsx  ✅
         │       └── artifacts/  ✅
         │               └── ArtifactForm.tsx  ✅
         │               └── ArtifactsPage.tsx  ✅
@@ -191,9 +198,35 @@ yam/
         │   ├── teams/ ⬜
         │   ├── roles/ ⬜
         │   ├── permissions/ ⬜
-        │   ├── entities/ ⬜
-        │   ├── fields/ ⬜
-        │   ├── records/ ⬜
+        │   ├── entities/ 
+        │       ├── entities.controller.ts   ✅
+        │       ├── entities.module.ts   ✅
+        │       ├── services/ 
+        │           ├── entities.service.ts  ✅
+        │       ├── contracts/ 
+        │           ├── create-entity.dto.ts ✅ 
+        │           ├── update-entity.dto.ts ✅ 
+        │   ├── fields/ 
+        │       ├── fields.controller.ts  ✅
+        │       ├── fields.module.ts  ✅
+        │       ├── services/ 
+        │           ├── fields.service.ts  ✅
+        │       ├── contracts/ 
+        │           ├── create-field.dto.ts  ✅ 
+        │           ├── update-field.dto.ts  ✅ 
+        │   ├── records/ 
+        │       ├── records.controller.ts  ✅
+        │       ├── records.module.ts  ✅
+        │       ├── contracts/ 
+        │           ├── create-record.dto.ts  ✅
+        │           ├── update-record.dto.ts  ✅
+        │           ├── list-records.dto.ts  ✅
+        │       ├── services/ 
+        │           ├── record-validator.service.ts  ✅
+        │           ├── records.service.ts  ✅
+        │           ├── record-index.service.ts  ✅
+        │       ├── field-types/ 
+        │           ├── field-type.registry.ts ✅
         │   ├── workflows/ ⬜
         │   ├── views/ ⬜
         │   ├── automations/ ⬜

@@ -31,6 +31,8 @@ export type FieldMinAggregateOutputType = {
   label: string | null
   type: string | null
   isRequired: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type FieldMaxAggregateOutputType = {
@@ -40,6 +42,8 @@ export type FieldMaxAggregateOutputType = {
   label: string | null
   type: string | null
   isRequired: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type FieldCountAggregateOutputType = {
@@ -51,6 +55,8 @@ export type FieldCountAggregateOutputType = {
   options: number
   isRequired: number
   defaultValue: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -62,6 +68,8 @@ export type FieldMinAggregateInputType = {
   label?: true
   type?: true
   isRequired?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type FieldMaxAggregateInputType = {
@@ -71,6 +79,8 @@ export type FieldMaxAggregateInputType = {
   label?: true
   type?: true
   isRequired?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type FieldCountAggregateInputType = {
@@ -82,6 +92,8 @@ export type FieldCountAggregateInputType = {
   options?: true
   isRequired?: true
   defaultValue?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -166,6 +178,8 @@ export type FieldGroupByOutputType = {
   options: runtime.JsonValue | null
   isRequired: boolean
   defaultValue: runtime.JsonValue | null
+  createdAt: Date
+  updatedAt: Date
   _count: FieldCountAggregateOutputType | null
   _min: FieldMinAggregateOutputType | null
   _max: FieldMaxAggregateOutputType | null
@@ -198,6 +212,8 @@ export type FieldWhereInput = {
   options?: Prisma.JsonNullableFilter<"Field">
   isRequired?: Prisma.BoolFilter<"Field"> | boolean
   defaultValue?: Prisma.JsonNullableFilter<"Field">
+  createdAt?: Prisma.DateTimeFilter<"Field"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Field"> | Date | string
   entity?: Prisma.XOR<Prisma.EntityScalarRelationFilter, Prisma.EntityWhereInput>
 }
 
@@ -210,6 +226,8 @@ export type FieldOrderByWithRelationInput = {
   options?: Prisma.SortOrderInput | Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   entity?: Prisma.EntityOrderByWithRelationInput
 }
 
@@ -226,6 +244,8 @@ export type FieldWhereUniqueInput = Prisma.AtLeast<{
   options?: Prisma.JsonNullableFilter<"Field">
   isRequired?: Prisma.BoolFilter<"Field"> | boolean
   defaultValue?: Prisma.JsonNullableFilter<"Field">
+  createdAt?: Prisma.DateTimeFilter<"Field"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Field"> | Date | string
   entity?: Prisma.XOR<Prisma.EntityScalarRelationFilter, Prisma.EntityWhereInput>
 }, "id" | "entityId_name">
 
@@ -238,6 +258,8 @@ export type FieldOrderByWithAggregationInput = {
   options?: Prisma.SortOrderInput | Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.FieldCountOrderByAggregateInput
   _max?: Prisma.FieldMaxOrderByAggregateInput
   _min?: Prisma.FieldMinOrderByAggregateInput
@@ -255,6 +277,8 @@ export type FieldScalarWhereWithAggregatesInput = {
   options?: Prisma.JsonNullableWithAggregatesFilter<"Field">
   isRequired?: Prisma.BoolWithAggregatesFilter<"Field"> | boolean
   defaultValue?: Prisma.JsonNullableWithAggregatesFilter<"Field">
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Field"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Field"> | Date | string
 }
 
 export type FieldCreateInput = {
@@ -265,6 +289,8 @@ export type FieldCreateInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
   entity: Prisma.EntityCreateNestedOneWithoutFieldsInput
 }
 
@@ -277,6 +303,8 @@ export type FieldUncheckedCreateInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type FieldUpdateInput = {
@@ -287,6 +315,8 @@ export type FieldUpdateInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entity?: Prisma.EntityUpdateOneRequiredWithoutFieldsNestedInput
 }
 
@@ -299,6 +329,8 @@ export type FieldUncheckedUpdateInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FieldCreateManyInput = {
@@ -310,6 +342,8 @@ export type FieldCreateManyInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type FieldUpdateManyMutationInput = {
@@ -320,6 +354,8 @@ export type FieldUpdateManyMutationInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FieldUncheckedUpdateManyInput = {
@@ -331,6 +367,8 @@ export type FieldUncheckedUpdateManyInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FieldListRelationFilter = {
@@ -357,6 +395,8 @@ export type FieldCountOrderByAggregateInput = {
   options?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type FieldMaxOrderByAggregateInput = {
@@ -366,6 +406,8 @@ export type FieldMaxOrderByAggregateInput = {
   label?: Prisma.SortOrder
   type?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type FieldMinOrderByAggregateInput = {
@@ -375,6 +417,8 @@ export type FieldMinOrderByAggregateInput = {
   label?: Prisma.SortOrder
   type?: Prisma.SortOrder
   isRequired?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type FieldCreateNestedManyWithoutEntityInput = {
@@ -427,6 +471,8 @@ export type FieldCreateWithoutEntityInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type FieldUncheckedCreateWithoutEntityInput = {
@@ -437,6 +483,8 @@ export type FieldUncheckedCreateWithoutEntityInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type FieldCreateOrConnectWithoutEntityInput = {
@@ -477,6 +525,8 @@ export type FieldScalarWhereInput = {
   options?: Prisma.JsonNullableFilter<"Field">
   isRequired?: Prisma.BoolFilter<"Field"> | boolean
   defaultValue?: Prisma.JsonNullableFilter<"Field">
+  createdAt?: Prisma.DateTimeFilter<"Field"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Field"> | Date | string
 }
 
 export type FieldCreateManyEntityInput = {
@@ -487,6 +537,8 @@ export type FieldCreateManyEntityInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type FieldUpdateWithoutEntityInput = {
@@ -497,6 +549,8 @@ export type FieldUpdateWithoutEntityInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FieldUncheckedUpdateWithoutEntityInput = {
@@ -507,6 +561,8 @@ export type FieldUncheckedUpdateWithoutEntityInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FieldUncheckedUpdateManyWithoutEntityInput = {
@@ -517,6 +573,8 @@ export type FieldUncheckedUpdateManyWithoutEntityInput = {
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   defaultValue?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -530,6 +588,8 @@ export type FieldSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   options?: boolean
   isRequired?: boolean
   defaultValue?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   entity?: boolean | Prisma.EntityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["field"]>
 
@@ -542,6 +602,8 @@ export type FieldSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   options?: boolean
   isRequired?: boolean
   defaultValue?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   entity?: boolean | Prisma.EntityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["field"]>
 
@@ -554,6 +616,8 @@ export type FieldSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   options?: boolean
   isRequired?: boolean
   defaultValue?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   entity?: boolean | Prisma.EntityDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["field"]>
 
@@ -566,9 +630,11 @@ export type FieldSelectScalar = {
   options?: boolean
   isRequired?: boolean
   defaultValue?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type FieldOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "entityId" | "name" | "label" | "type" | "options" | "isRequired" | "defaultValue", ExtArgs["result"]["field"]>
+export type FieldOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "entityId" | "name" | "label" | "type" | "options" | "isRequired" | "defaultValue" | "createdAt" | "updatedAt", ExtArgs["result"]["field"]>
 export type FieldInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   entity?: boolean | Prisma.EntityDefaultArgs<ExtArgs>
 }
@@ -593,6 +659,8 @@ export type $FieldPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     options: runtime.JsonValue | null
     isRequired: boolean
     defaultValue: runtime.JsonValue | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["field"]>
   composites: {}
 }
@@ -1025,6 +1093,8 @@ export interface FieldFieldRefs {
   readonly options: Prisma.FieldRef<"Field", 'Json'>
   readonly isRequired: Prisma.FieldRef<"Field", 'Boolean'>
   readonly defaultValue: Prisma.FieldRef<"Field", 'Json'>
+  readonly createdAt: Prisma.FieldRef<"Field", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Field", 'DateTime'>
 }
     
 

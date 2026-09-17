@@ -1,4 +1,9 @@
-//frontend\src\types\api.ts
+//frontend/src/types/api.ts
+
+// ═══════════════════════════════════════════════════════════════
+// USERS / AUTH
+// ═══════════════════════════════════════════════════════════════
+
 export interface User {
     id: string;
     email: string;
@@ -14,17 +19,10 @@ export interface AuthResponse {
     success?: boolean;
 }
 
-export interface Project {
-    id: string;
-    workspaceId: string;
-    name: string;
-    description?: string;
-    status: 'ACTIVE' | 'ARCHIVED' | 'COMPLETED';
-    startDate?: string;
-    endDate?: string;
-    createdAt: string;
-    updatedAt: string;
-}
+// ═══════════════════════════════════════════════════════════════
+// TENANT
+// ═══════════════════════════════════════════════════════════════
+
 export interface Organization {
     id: string;
     name: string;
@@ -50,6 +48,23 @@ export interface Workspace {
         members: number;
     };
 }
+
+export interface Project {
+    id: string;
+    workspaceId: string;
+    name: string;
+    description?: string;
+    status: 'ACTIVE' | 'ARCHIVED' | 'COMPLETED';
+    startDate?: string;
+    endDate?: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MARKETING DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+
 export interface DashboardForm {
     periodFrom: string;
     periodTo: string;
@@ -84,6 +99,7 @@ export interface DashboardForm {
     sam: number;
     som: number;
 }
+
 export interface DashboardHistoryItem {
     id: string;
     periodFrom: string;
@@ -92,6 +108,60 @@ export interface DashboardHistoryItem {
     adBudget: number;
     createdAt: string;
 }
+
+export interface MarketingMetrics {
+    funnel: {
+        ctr: number;
+        crClickLead: number;
+        crLeadMql: number;
+        crMqlSql: number;
+        crSqlMeeting: number;
+        crMeetingOffer: number;
+        crOfferDeal: number;
+        crTotal: number;
+    };
+    costs: {
+        cpc: number;
+        cpm: number;
+        cpl: number;
+        cpql: number;
+        cpsql: number;
+        cac: number;
+        cpo: number;
+    };
+    roi: {
+        romi: number;
+        roi: number;
+        roas: number;
+        roasFull: number;
+        marketingShare: number;
+    };
+    ltv: {
+        ltv: number;
+        ltvCac: number;
+        payback: number;
+    };
+    efficiency: {
+        aov: number;
+        retention: number;
+        churn: number;
+        bounceRate: number;
+        organicShare: number;
+        marketShare: number;
+        samShare: number;
+    };
+    unit: {
+        marginPerClient: number;
+        profitPerClient: number;
+        breakEven: number;
+        revenuePerClient: number;
+        profit: number;
+    };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ARTIFACTS
+// ═══════════════════════════════════════════════════════════════
 
 export type ArtifactType =
     | 'WEBSITE'
@@ -115,6 +185,10 @@ export interface Artifact {
     createdAt: string;
     updatedAt: string;
 }
+
+// ═══════════════════════════════════════════════════════════════
+// UTM
+// ═══════════════════════════════════════════════════════════════
 
 export interface UtmSource {
     id: string;
@@ -190,54 +264,100 @@ export interface UtmLink {
     campaignRef?: { id: string; name: string; label: string };
     createdBy?: { id: string; email: string; name: string | null };
 }
-export interface MarketingMetrics {
-    funnel: {
-        ctr: number;
-        crClickLead: number;
-        crLeadMql: number;
-        crMqlSql: number;
-        crSqlMeeting: number;
-        crMeetingOffer: number;
-        crOfferDeal: number;
-        crTotal: number;
-    };
-    costs: {
-        cpc: number;
-        cpm: number;
-        cpl: number;
-        cpql: number;
-        cpsql: number;
-        cac: number;
-        cpo: number;
-    };
-    roi: {
-        romi: number;
-        roi: number;
-        roas: number;
-        roasFull: number;
-        marketingShare: number;
-    };
-    ltv: {
-        ltv: number;
-        ltvCac: number;
-        payback: number;
-    };
-    efficiency: {
-        aov: number;
-        retention: number;
-        churn: number;
-        bounceRate: number;
-        organicShare: number;
-        marketShare: number;
-        samShare: number;
-    };
-    unit: {
-        marginPerClient: number;
-        profitPerClient: number;
-        breakEven: number;
-        revenuePerClient: number;
-        profit: number;
-    };
 
+// ═══════════════════════════════════════════════════════════════
+// ENTITIES
+// ═══════════════════════════════════════════════════════════════
 
+export interface Entity {
+    id: string;
+    projectId: string;
+    moduleId: string | null;
+    name: string;
+    label: string;
+    icon: string | null;
+    color: string | null;
+    isSystem: boolean;
+    createdAt: string;
+    updatedAt: string;
+    _count?: {
+        fields: number;
+        records: number;
+    };
+    fields?: Field[];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FIELDS
+// ═══════════════════════════════════════════════════════════════
+
+export type FieldType =
+    | 'text'
+    | 'number'
+    | 'date'
+    | 'boolean'
+    | 'select'
+    | 'user';
+
+export interface Field {
+    id: string;
+    entityId: string;
+    name: string;
+    label: string;
+    type: FieldType;
+    options: Record<string, unknown> | null;
+    isRequired: boolean;
+    defaultValue: unknown;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface FieldTypeInfo {
+    key: FieldType;
+    label: string;
+    supportsFiltering: boolean;
+    supportsSorting: boolean;
+    supportsAggregation: boolean;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RECORDS
+// ═══════════════════════════════════════════════════════════════
+
+export interface EntityRecord {
+    id: string;
+    entityId: string;
+    projectId: string;
+    data: Record<string, unknown>;
+    createdById: string;
+    createdAt: string;
+    updatedAt: string;
+    creator?: {
+        id: string;
+        email: string;
+        name: string | null;
+    };
+    entity?: {
+        id: string;
+        name: string;
+        label: string;
+        fields: Field[];
+    };
+}
+
+export interface RecordsResponse {
+    records: EntityRecord[];
+    total: number;
+    page: number;
+    limit: number;
+    pages: number;
+}
+
+export interface ListRecordsQuery {
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortDir?: 'asc' | 'desc';
+    filterField?: string;
+    filterValue?: string;
 }

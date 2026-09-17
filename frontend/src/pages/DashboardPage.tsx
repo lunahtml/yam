@@ -13,12 +13,21 @@ import SeoPage from './dashboard/SeoPage';
 import UtmPage from './dashboard/UtmPage';
 import AnalyticsPage from './dashboard/AnalyticsPage';
 import ChartsPage from './dashboard/ChartsPage';
-
+import EntitiesPage from './dashboard/entities/EntitiesPage';
+import EntityDetailPage from './dashboard/entities/EntityDetailPage';
 type Screen =
     | { type: 'list' }
     | { type: 'workspace'; id: string; label: string }
     | { type: 'project'; id: string; label: string }
-    | { type: 'artifacts'; projectId: string; projectName: string };
+    | { type: 'artifacts'; projectId: string; projectName: string }
+    | { type: 'entities'; projectId: string; projectName: string }
+    | {
+        type: 'entity';
+        entityId: string;
+        entityLabel: string;
+        projectId: string;
+        projectName: string;
+    };
 
 export default function DashboardPage() {
     const [page, setPage] = useState('projects');
@@ -52,6 +61,9 @@ export default function DashboardPage() {
                     onOpenArtifacts={(projectId, projectName) =>
                         setScreen({ type: 'artifacts', projectId, projectName })
                     }
+                    onOpenEntities={(projectId, projectName) =>
+                        setScreen({ type: 'entities', projectId, projectName })
+                    }
                 />
             );
         }
@@ -66,6 +78,47 @@ export default function DashboardPage() {
                             type: 'project',
                             id: screen.projectId,
                             label: screen.projectName,
+                        })
+                    }
+                />
+            );
+        }
+
+        if (screen.type === 'entities') {
+            return (
+                <EntitiesPage
+                    projectId={screen.projectId}
+                    projectName={screen.projectName}
+                    onBack={() =>
+                        setScreen({
+                            type: 'project',
+                            id: screen.projectId,
+                            label: screen.projectName,
+                        })
+                    }
+                    onOpenEntity={(entityId, entityLabel) =>
+                        setScreen({
+                            type: 'entity',
+                            entityId,
+                            entityLabel,
+                            projectId: screen.projectId,
+                            projectName: screen.projectName,
+                        })
+                    }
+                />
+            );
+        }
+
+        if (screen.type === 'entity') {
+            return (
+                <EntityDetailPage
+                    entityId={screen.entityId}
+                    entityLabel={screen.entityLabel}
+                    onBack={() =>
+                        setScreen({
+                            type: 'entities',
+                            projectId: screen.projectId,
+                            projectName: screen.projectName,
                         })
                     }
                 />

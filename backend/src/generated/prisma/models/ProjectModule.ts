@@ -30,6 +30,8 @@ export type ProjectModuleMinAggregateOutputType = {
   name: string | null
   label: string | null
   icon: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ProjectModuleMaxAggregateOutputType = {
@@ -38,6 +40,8 @@ export type ProjectModuleMaxAggregateOutputType = {
   name: string | null
   label: string | null
   icon: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ProjectModuleCountAggregateOutputType = {
@@ -47,6 +51,8 @@ export type ProjectModuleCountAggregateOutputType = {
   label: number
   icon: number
   config: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -57,6 +63,8 @@ export type ProjectModuleMinAggregateInputType = {
   name?: true
   label?: true
   icon?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ProjectModuleMaxAggregateInputType = {
@@ -65,6 +73,8 @@ export type ProjectModuleMaxAggregateInputType = {
   name?: true
   label?: true
   icon?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ProjectModuleCountAggregateInputType = {
@@ -74,6 +84,8 @@ export type ProjectModuleCountAggregateInputType = {
   label?: true
   icon?: true
   config?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -156,6 +168,8 @@ export type ProjectModuleGroupByOutputType = {
   label: string
   icon: string | null
   config: runtime.JsonValue
+  createdAt: Date
+  updatedAt: Date
   _count: ProjectModuleCountAggregateOutputType | null
   _min: ProjectModuleMinAggregateOutputType | null
   _max: ProjectModuleMaxAggregateOutputType | null
@@ -186,6 +200,8 @@ export type ProjectModuleWhereInput = {
   label?: Prisma.StringFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableFilter<"ProjectModule"> | string | null
   config?: Prisma.JsonFilter<"ProjectModule">
+  createdAt?: Prisma.DateTimeFilter<"ProjectModule"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ProjectModule"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   entities?: Prisma.EntityListRelationFilter
 }
@@ -197,6 +213,8 @@ export type ProjectModuleOrderByWithRelationInput = {
   label?: Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   config?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   entities?: Prisma.EntityOrderByRelationAggregateInput
 }
@@ -212,6 +230,8 @@ export type ProjectModuleWhereUniqueInput = Prisma.AtLeast<{
   label?: Prisma.StringFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableFilter<"ProjectModule"> | string | null
   config?: Prisma.JsonFilter<"ProjectModule">
+  createdAt?: Prisma.DateTimeFilter<"ProjectModule"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ProjectModule"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   entities?: Prisma.EntityListRelationFilter
 }, "id" | "projectId_name">
@@ -223,6 +243,8 @@ export type ProjectModuleOrderByWithAggregationInput = {
   label?: Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   config?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProjectModuleCountOrderByAggregateInput
   _max?: Prisma.ProjectModuleMaxOrderByAggregateInput
   _min?: Prisma.ProjectModuleMinOrderByAggregateInput
@@ -238,6 +260,8 @@ export type ProjectModuleScalarWhereWithAggregatesInput = {
   label?: Prisma.StringWithAggregatesFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableWithAggregatesFilter<"ProjectModule"> | string | null
   config?: Prisma.JsonWithAggregatesFilter<"ProjectModule">
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectModule"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectModule"> | Date | string
 }
 
 export type ProjectModuleCreateInput = {
@@ -246,6 +270,8 @@ export type ProjectModuleCreateInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutModulesInput
   entities?: Prisma.EntityCreateNestedManyWithoutModuleInput
 }
@@ -257,6 +283,8 @@ export type ProjectModuleUncheckedCreateInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
   entities?: Prisma.EntityUncheckedCreateNestedManyWithoutModuleInput
 }
 
@@ -266,6 +294,8 @@ export type ProjectModuleUpdateInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutModulesNestedInput
   entities?: Prisma.EntityUpdateManyWithoutModuleNestedInput
 }
@@ -277,6 +307,8 @@ export type ProjectModuleUncheckedUpdateInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entities?: Prisma.EntityUncheckedUpdateManyWithoutModuleNestedInput
 }
 
@@ -287,6 +319,8 @@ export type ProjectModuleCreateManyInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProjectModuleUpdateManyMutationInput = {
@@ -295,6 +329,8 @@ export type ProjectModuleUpdateManyMutationInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProjectModuleUncheckedUpdateManyInput = {
@@ -304,6 +340,8 @@ export type ProjectModuleUncheckedUpdateManyInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProjectModuleListRelationFilter = {
@@ -328,6 +366,8 @@ export type ProjectModuleCountOrderByAggregateInput = {
   label?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   config?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ProjectModuleMaxOrderByAggregateInput = {
@@ -336,6 +376,8 @@ export type ProjectModuleMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   label?: Prisma.SortOrder
   icon?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ProjectModuleMinOrderByAggregateInput = {
@@ -344,6 +386,8 @@ export type ProjectModuleMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   label?: Prisma.SortOrder
   icon?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ProjectModuleNullableScalarRelationFilter = {
@@ -415,6 +459,8 @@ export type ProjectModuleCreateWithoutProjectInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
   entities?: Prisma.EntityCreateNestedManyWithoutModuleInput
 }
 
@@ -424,6 +470,8 @@ export type ProjectModuleUncheckedCreateWithoutProjectInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
   entities?: Prisma.EntityUncheckedCreateNestedManyWithoutModuleInput
 }
 
@@ -463,6 +511,8 @@ export type ProjectModuleScalarWhereInput = {
   label?: Prisma.StringFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableFilter<"ProjectModule"> | string | null
   config?: Prisma.JsonFilter<"ProjectModule">
+  createdAt?: Prisma.DateTimeFilter<"ProjectModule"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ProjectModule"> | Date | string
 }
 
 export type ProjectModuleCreateWithoutEntitiesInput = {
@@ -471,6 +521,8 @@ export type ProjectModuleCreateWithoutEntitiesInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutModulesInput
 }
 
@@ -481,6 +533,8 @@ export type ProjectModuleUncheckedCreateWithoutEntitiesInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProjectModuleCreateOrConnectWithoutEntitiesInput = {
@@ -505,6 +559,8 @@ export type ProjectModuleUpdateWithoutEntitiesInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutModulesNestedInput
 }
 
@@ -515,6 +571,8 @@ export type ProjectModuleUncheckedUpdateWithoutEntitiesInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProjectModuleCreateManyProjectInput = {
@@ -523,6 +581,8 @@ export type ProjectModuleCreateManyProjectInput = {
   label: string
   icon?: string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProjectModuleUpdateWithoutProjectInput = {
@@ -531,6 +591,8 @@ export type ProjectModuleUpdateWithoutProjectInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entities?: Prisma.EntityUpdateManyWithoutModuleNestedInput
 }
 
@@ -540,6 +602,8 @@ export type ProjectModuleUncheckedUpdateWithoutProjectInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entities?: Prisma.EntityUncheckedUpdateManyWithoutModuleNestedInput
 }
 
@@ -549,6 +613,8 @@ export type ProjectModuleUncheckedUpdateManyWithoutProjectInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -589,6 +655,8 @@ export type ProjectModuleSelect<ExtArgs extends runtime.Types.Extensions.Interna
   label?: boolean
   icon?: boolean
   config?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   entities?: boolean | Prisma.ProjectModule$entitiesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectModuleCountOutputTypeDefaultArgs<ExtArgs>
@@ -601,6 +669,8 @@ export type ProjectModuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   label?: boolean
   icon?: boolean
   config?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectModule"]>
 
@@ -611,6 +681,8 @@ export type ProjectModuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   label?: boolean
   icon?: boolean
   config?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectModule"]>
 
@@ -621,9 +693,11 @@ export type ProjectModuleSelectScalar = {
   label?: boolean
   icon?: boolean
   config?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type ProjectModuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "name" | "label" | "icon" | "config", ExtArgs["result"]["projectModule"]>
+export type ProjectModuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "name" | "label" | "icon" | "config" | "createdAt" | "updatedAt", ExtArgs["result"]["projectModule"]>
 export type ProjectModuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   entities?: boolean | Prisma.ProjectModule$entitiesArgs<ExtArgs>
@@ -649,6 +723,8 @@ export type $ProjectModulePayload<ExtArgs extends runtime.Types.Extensions.Inter
     label: string
     icon: string | null
     config: runtime.JsonValue
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["projectModule"]>
   composites: {}
 }
@@ -1080,6 +1156,8 @@ export interface ProjectModuleFieldRefs {
   readonly label: Prisma.FieldRef<"ProjectModule", 'String'>
   readonly icon: Prisma.FieldRef<"ProjectModule", 'String'>
   readonly config: Prisma.FieldRef<"ProjectModule", 'Json'>
+  readonly createdAt: Prisma.FieldRef<"ProjectModule", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"ProjectModule", 'DateTime'>
 }
     
 

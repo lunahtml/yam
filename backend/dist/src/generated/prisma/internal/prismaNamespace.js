@@ -78,6 +78,7 @@ export const ModelName = {
     Entity: 'Entity',
     Field: 'Field',
     Record: 'Record',
+    RecordIndex: 'RecordIndex',
     Workflow: 'Workflow',
     WorkflowStep: 'WorkflowStep',
     WorkflowTransition: 'WorkflowTransition',
@@ -164,7 +165,9 @@ export const ProjectModuleScalarFieldEnum = {
     name: 'name',
     label: 'label',
     icon: 'icon',
-    config: 'config'
+    config: 'config',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const EntityScalarFieldEnum = {
     id: 'id',
@@ -174,7 +177,9 @@ export const EntityScalarFieldEnum = {
     label: 'label',
     icon: 'icon',
     color: 'color',
-    isSystem: 'isSystem'
+    isSystem: 'isSystem',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const FieldScalarFieldEnum = {
     id: 'id',
@@ -184,7 +189,9 @@ export const FieldScalarFieldEnum = {
     type: 'type',
     options: 'options',
     isRequired: 'isRequired',
-    defaultValue: 'defaultValue'
+    defaultValue: 'defaultValue',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const RecordScalarFieldEnum = {
     id: 'id',
@@ -195,18 +202,35 @@ export const RecordScalarFieldEnum = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
+export const RecordIndexScalarFieldEnum = {
+    id: 'id',
+    recordId: 'recordId',
+    entityId: 'entityId',
+    projectId: 'projectId',
+    fieldName: 'fieldName',
+    fieldType: 'fieldType',
+    valueText: 'valueText',
+    valueNumber: 'valueNumber',
+    valueDate: 'valueDate',
+    valueBool: 'valueBool',
+    createdAt: 'createdAt'
+};
 export const WorkflowScalarFieldEnum = {
     id: 'id',
     projectId: 'projectId',
     entityId: 'entityId',
-    name: 'name'
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const WorkflowStepScalarFieldEnum = {
     id: 'id',
     workflowId: 'workflowId',
     name: 'name',
     order: 'order',
-    color: 'color'
+    color: 'color',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const WorkflowTransitionScalarFieldEnum = {
     id: 'id',
@@ -215,7 +239,9 @@ export const WorkflowTransitionScalarFieldEnum = {
     toStepId: 'toStepId',
     name: 'name',
     conditions: 'conditions',
-    actions: 'actions'
+    actions: 'actions',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const CommentScalarFieldEnum = {
     id: 'id',

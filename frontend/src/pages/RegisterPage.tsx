@@ -1,7 +1,7 @@
 //frontend\src\pages\RegisterPage.tsx
 //frontend/src/pages/RegisterPage.tsx
 import { useState } from 'react';
-import { User, Mail, Lock, UserPlus, Sparkles } from 'lucide-react';
+import { UserPlus, Sparkles } from 'lucide-react';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';

@@ -1,7 +1,7 @@
 //frontend/src/pages/dashboard/ProjectDetailPage.tsx
 //frontend/src/pages/dashboard/ProjectDetailPage.tsx
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Link2, Calculator, Save, Download } from 'lucide-react';
+import { ArrowLeft, Link2, Calculator, Save, Download, Database } from 'lucide-react';
 import { api } from '../../api/client';
 import {
     DashboardForm,
@@ -18,6 +18,7 @@ interface ProjectDetailPageProps {
     projectName: string;
     onBack: () => void;
     onOpenArtifacts: (projectId: string, projectName: string) => void;
+    onOpenEntities: (projectId: string, projectName: string) => void;
 }
 
 const today = new Date().toISOString().slice(0, 10);
@@ -61,6 +62,7 @@ export default function ProjectDetailPage({
     projectName,
     onBack,
     onOpenArtifacts,
+    onOpenEntities,
 }: ProjectDetailPageProps) {
     const [project, setProject] = useState<Project | null>(null);
     const [form, setForm] = useState<DashboardForm>(INITIAL);
@@ -272,7 +274,14 @@ export default function ProjectDetailPage({
                         <Link2 size={16} />
                         Артефакты
                     </Button>
-
+                    <Button
+                        onClick={() => onOpenEntities(projectId, project?.name ?? projectName)}
+                        variant="secondary"
+                        style={{ width: 'auto', padding: '10px 20px' }}
+                    >
+                        <Database size={16} />
+                        Сущности
+                    </Button>
                     <Button
                         onClick={calculate}
                         style={{ width: 'auto', padding: '10px 20px' }}

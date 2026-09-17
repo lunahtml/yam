@@ -33,6 +33,8 @@ export type EntityMinAggregateOutputType = {
   icon: string | null
   color: string | null
   isSystem: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type EntityMaxAggregateOutputType = {
@@ -44,6 +46,8 @@ export type EntityMaxAggregateOutputType = {
   icon: string | null
   color: string | null
   isSystem: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type EntityCountAggregateOutputType = {
@@ -55,6 +59,8 @@ export type EntityCountAggregateOutputType = {
   icon: number
   color: number
   isSystem: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -68,6 +74,8 @@ export type EntityMinAggregateInputType = {
   icon?: true
   color?: true
   isSystem?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type EntityMaxAggregateInputType = {
@@ -79,6 +87,8 @@ export type EntityMaxAggregateInputType = {
   icon?: true
   color?: true
   isSystem?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type EntityCountAggregateInputType = {
@@ -90,6 +100,8 @@ export type EntityCountAggregateInputType = {
   icon?: true
   color?: true
   isSystem?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -174,6 +186,8 @@ export type EntityGroupByOutputType = {
   icon: string | null
   color: string | null
   isSystem: boolean
+  createdAt: Date
+  updatedAt: Date
   _count: EntityCountAggregateOutputType | null
   _min: EntityMinAggregateOutputType | null
   _max: EntityMaxAggregateOutputType | null
@@ -206,6 +220,8 @@ export type EntityWhereInput = {
   icon?: Prisma.StringNullableFilter<"Entity"> | string | null
   color?: Prisma.StringNullableFilter<"Entity"> | string | null
   isSystem?: Prisma.BoolFilter<"Entity"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Entity"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Entity"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   module?: Prisma.XOR<Prisma.ProjectModuleNullableScalarRelationFilter, Prisma.ProjectModuleWhereInput> | null
   fields?: Prisma.FieldListRelationFilter
@@ -222,6 +238,8 @@ export type EntityOrderByWithRelationInput = {
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   color?: Prisma.SortOrderInput | Prisma.SortOrder
   isSystem?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   module?: Prisma.ProjectModuleOrderByWithRelationInput
   fields?: Prisma.FieldOrderByRelationAggregateInput
@@ -242,6 +260,8 @@ export type EntityWhereUniqueInput = Prisma.AtLeast<{
   icon?: Prisma.StringNullableFilter<"Entity"> | string | null
   color?: Prisma.StringNullableFilter<"Entity"> | string | null
   isSystem?: Prisma.BoolFilter<"Entity"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Entity"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Entity"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   module?: Prisma.XOR<Prisma.ProjectModuleNullableScalarRelationFilter, Prisma.ProjectModuleWhereInput> | null
   fields?: Prisma.FieldListRelationFilter
@@ -258,6 +278,8 @@ export type EntityOrderByWithAggregationInput = {
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   color?: Prisma.SortOrderInput | Prisma.SortOrder
   isSystem?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.EntityCountOrderByAggregateInput
   _max?: Prisma.EntityMaxOrderByAggregateInput
   _min?: Prisma.EntityMinOrderByAggregateInput
@@ -275,6 +297,8 @@ export type EntityScalarWhereWithAggregatesInput = {
   icon?: Prisma.StringNullableWithAggregatesFilter<"Entity"> | string | null
   color?: Prisma.StringNullableWithAggregatesFilter<"Entity"> | string | null
   isSystem?: Prisma.BoolWithAggregatesFilter<"Entity"> | boolean
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Entity"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Entity"> | Date | string
 }
 
 export type EntityCreateInput = {
@@ -284,6 +308,8 @@ export type EntityCreateInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutEntitiesInput
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
@@ -300,6 +326,8 @@ export type EntityUncheckedCreateInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
@@ -312,6 +340,8 @@ export type EntityUpdateInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutEntitiesNestedInput
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
@@ -328,6 +358,8 @@ export type EntityUncheckedUpdateInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
@@ -342,6 +374,8 @@ export type EntityCreateManyInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EntityUpdateManyMutationInput = {
@@ -351,6 +385,8 @@ export type EntityUpdateManyMutationInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EntityUncheckedUpdateManyInput = {
@@ -362,6 +398,8 @@ export type EntityUncheckedUpdateManyInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EntityListRelationFilter = {
@@ -388,6 +426,8 @@ export type EntityCountOrderByAggregateInput = {
   icon?: Prisma.SortOrder
   color?: Prisma.SortOrder
   isSystem?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EntityMaxOrderByAggregateInput = {
@@ -399,6 +439,8 @@ export type EntityMaxOrderByAggregateInput = {
   icon?: Prisma.SortOrder
   color?: Prisma.SortOrder
   isSystem?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EntityMinOrderByAggregateInput = {
@@ -410,6 +452,8 @@ export type EntityMinOrderByAggregateInput = {
   icon?: Prisma.SortOrder
   color?: Prisma.SortOrder
   isSystem?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type EntityScalarRelationFilter = {
@@ -554,6 +598,8 @@ export type EntityCreateWithoutProjectInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
@@ -568,6 +614,8 @@ export type EntityUncheckedCreateWithoutProjectInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
@@ -611,6 +659,8 @@ export type EntityScalarWhereInput = {
   icon?: Prisma.StringNullableFilter<"Entity"> | string | null
   color?: Prisma.StringNullableFilter<"Entity"> | string | null
   isSystem?: Prisma.BoolFilter<"Entity"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Entity"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Entity"> | Date | string
 }
 
 export type EntityCreateWithoutModuleInput = {
@@ -620,6 +670,8 @@ export type EntityCreateWithoutModuleInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutEntitiesInput
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
@@ -634,6 +686,8 @@ export type EntityUncheckedCreateWithoutModuleInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
@@ -672,6 +726,8 @@ export type EntityCreateWithoutFieldsInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutEntitiesInput
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
@@ -687,6 +743,8 @@ export type EntityUncheckedCreateWithoutFieldsInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
 }
@@ -714,6 +772,8 @@ export type EntityUpdateWithoutFieldsInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutEntitiesNestedInput
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
@@ -729,6 +789,8 @@ export type EntityUncheckedUpdateWithoutFieldsInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
 }
@@ -740,6 +802,8 @@ export type EntityCreateWithoutRecordsInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutEntitiesInput
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
@@ -755,6 +819,8 @@ export type EntityUncheckedCreateWithoutRecordsInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
 }
@@ -782,6 +848,8 @@ export type EntityUpdateWithoutRecordsInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutEntitiesNestedInput
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
@@ -797,6 +865,8 @@ export type EntityUncheckedUpdateWithoutRecordsInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
 }
@@ -808,6 +878,8 @@ export type EntityCreateWithoutWorkflowsInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutEntitiesInput
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
@@ -823,6 +895,8 @@ export type EntityUncheckedCreateWithoutWorkflowsInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
 }
@@ -850,6 +924,8 @@ export type EntityUpdateWithoutWorkflowsInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutEntitiesNestedInput
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
@@ -865,6 +941,8 @@ export type EntityUncheckedUpdateWithoutWorkflowsInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
 }
@@ -877,6 +955,8 @@ export type EntityCreateManyProjectInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EntityUpdateWithoutProjectInput = {
@@ -886,6 +966,8 @@ export type EntityUpdateWithoutProjectInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
@@ -900,6 +982,8 @@ export type EntityUncheckedUpdateWithoutProjectInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
@@ -913,6 +997,8 @@ export type EntityUncheckedUpdateManyWithoutProjectInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EntityCreateManyModuleInput = {
@@ -923,6 +1009,8 @@ export type EntityCreateManyModuleInput = {
   icon?: string | null
   color?: string | null
   isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type EntityUpdateWithoutModuleInput = {
@@ -932,6 +1020,8 @@ export type EntityUpdateWithoutModuleInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutEntitiesNestedInput
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
@@ -946,6 +1036,8 @@ export type EntityUncheckedUpdateWithoutModuleInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
@@ -959,6 +1051,8 @@ export type EntityUncheckedUpdateManyWithoutModuleInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1019,6 +1113,8 @@ export type EntitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   icon?: boolean
   color?: boolean
   isSystem?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   module?: boolean | Prisma.Entity$moduleArgs<ExtArgs>
   fields?: boolean | Prisma.Entity$fieldsArgs<ExtArgs>
@@ -1036,6 +1132,8 @@ export type EntitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   icon?: boolean
   color?: boolean
   isSystem?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   module?: boolean | Prisma.Entity$moduleArgs<ExtArgs>
 }, ExtArgs["result"]["entity"]>
@@ -1049,6 +1147,8 @@ export type EntitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   icon?: boolean
   color?: boolean
   isSystem?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   module?: boolean | Prisma.Entity$moduleArgs<ExtArgs>
 }, ExtArgs["result"]["entity"]>
@@ -1062,9 +1162,11 @@ export type EntitySelectScalar = {
   icon?: boolean
   color?: boolean
   isSystem?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type EntityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "moduleId" | "name" | "label" | "icon" | "color" | "isSystem", ExtArgs["result"]["entity"]>
+export type EntityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "moduleId" | "name" | "label" | "icon" | "color" | "isSystem" | "createdAt" | "updatedAt", ExtArgs["result"]["entity"]>
 export type EntityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   module?: boolean | Prisma.Entity$moduleArgs<ExtArgs>
@@ -1100,6 +1202,8 @@ export type $EntityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     icon: string | null
     color: string | null
     isSystem: boolean
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["entity"]>
   composites: {}
 }
@@ -1536,6 +1640,8 @@ export interface EntityFieldRefs {
   readonly icon: Prisma.FieldRef<"Entity", 'String'>
   readonly color: Prisma.FieldRef<"Entity", 'String'>
   readonly isSystem: Prisma.FieldRef<"Entity", 'Boolean'>
+  readonly createdAt: Prisma.FieldRef<"Entity", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Entity", 'DateTime'>
 }
     
 

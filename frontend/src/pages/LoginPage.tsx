@@ -1,7 +1,7 @@
 //frontend\src\pages\LoginPage.tsx
 //frontend/src/pages/LoginPage.tsx
 import { useState } from 'react';
-import { Mail, Lock, LogIn, Sparkles } from 'lucide-react';
+import { LogIn, Sparkles } from 'lucide-react';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';

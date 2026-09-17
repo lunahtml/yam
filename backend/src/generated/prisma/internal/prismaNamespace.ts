@@ -408,6 +408,7 @@ export const ModelName = {
   Entity: 'Entity',
   Field: 'Field',
   Record: 'Record',
+  RecordIndex: 'RecordIndex',
   Workflow: 'Workflow',
   WorkflowStep: 'WorkflowStep',
   WorkflowTransition: 'WorkflowTransition',
@@ -439,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink"
+    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1254,6 +1255,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RecordCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RecordCountAggregateOutputType> | number
+        }
+      }
+    }
+    RecordIndex: {
+      payload: Prisma.$RecordIndexPayload<ExtArgs>
+      fields: Prisma.RecordIndexFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecordIndexFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecordIndexFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>
+        }
+        findFirst: {
+          args: Prisma.RecordIndexFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecordIndexFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>
+        }
+        findMany: {
+          args: Prisma.RecordIndexFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>[]
+        }
+        create: {
+          args: Prisma.RecordIndexCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>
+        }
+        createMany: {
+          args: Prisma.RecordIndexCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecordIndexCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>[]
+        }
+        delete: {
+          args: Prisma.RecordIndexDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>
+        }
+        update: {
+          args: Prisma.RecordIndexUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>
+        }
+        deleteMany: {
+          args: Prisma.RecordIndexDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecordIndexUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecordIndexUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>[]
+        }
+        upsert: {
+          args: Prisma.RecordIndexUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordIndexPayload>
+        }
+        aggregate: {
+          args: Prisma.RecordIndexAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecordIndex>
+        }
+        groupBy: {
+          args: Prisma.RecordIndexGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecordIndexGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecordIndexCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecordIndexCountAggregateOutputType> | number
         }
       }
     }
@@ -2568,7 +2643,9 @@ export const ProjectModuleScalarFieldEnum = {
   name: 'name',
   label: 'label',
   icon: 'icon',
-  config: 'config'
+  config: 'config',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ProjectModuleScalarFieldEnum = (typeof ProjectModuleScalarFieldEnum)[keyof typeof ProjectModuleScalarFieldEnum]
@@ -2582,7 +2659,9 @@ export const EntityScalarFieldEnum = {
   label: 'label',
   icon: 'icon',
   color: 'color',
-  isSystem: 'isSystem'
+  isSystem: 'isSystem',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type EntityScalarFieldEnum = (typeof EntityScalarFieldEnum)[keyof typeof EntityScalarFieldEnum]
@@ -2596,7 +2675,9 @@ export const FieldScalarFieldEnum = {
   type: 'type',
   options: 'options',
   isRequired: 'isRequired',
-  defaultValue: 'defaultValue'
+  defaultValue: 'defaultValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type FieldScalarFieldEnum = (typeof FieldScalarFieldEnum)[keyof typeof FieldScalarFieldEnum]
@@ -2615,11 +2696,30 @@ export const RecordScalarFieldEnum = {
 export type RecordScalarFieldEnum = (typeof RecordScalarFieldEnum)[keyof typeof RecordScalarFieldEnum]
 
 
+export const RecordIndexScalarFieldEnum = {
+  id: 'id',
+  recordId: 'recordId',
+  entityId: 'entityId',
+  projectId: 'projectId',
+  fieldName: 'fieldName',
+  fieldType: 'fieldType',
+  valueText: 'valueText',
+  valueNumber: 'valueNumber',
+  valueDate: 'valueDate',
+  valueBool: 'valueBool',
+  createdAt: 'createdAt'
+} as const
+
+export type RecordIndexScalarFieldEnum = (typeof RecordIndexScalarFieldEnum)[keyof typeof RecordIndexScalarFieldEnum]
+
+
 export const WorkflowScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   entityId: 'entityId',
-  name: 'name'
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WorkflowScalarFieldEnum = (typeof WorkflowScalarFieldEnum)[keyof typeof WorkflowScalarFieldEnum]
@@ -2630,7 +2730,9 @@ export const WorkflowStepScalarFieldEnum = {
   workflowId: 'workflowId',
   name: 'name',
   order: 'order',
-  color: 'color'
+  color: 'color',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WorkflowStepScalarFieldEnum = (typeof WorkflowStepScalarFieldEnum)[keyof typeof WorkflowStepScalarFieldEnum]
@@ -2643,7 +2745,9 @@ export const WorkflowTransitionScalarFieldEnum = {
   toStepId: 'toStepId',
   name: 'name',
   conditions: 'conditions',
-  actions: 'actions'
+  actions: 'actions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WorkflowTransitionScalarFieldEnum = (typeof WorkflowTransitionScalarFieldEnum)[keyof typeof WorkflowTransitionScalarFieldEnum]
@@ -3044,20 +3148,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -3068,6 +3158,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -3246,6 +3350,7 @@ export type GlobalOmitConfig = {
   entity?: Prisma.EntityOmit
   field?: Prisma.FieldOmit
   record?: Prisma.RecordOmit
+  recordIndex?: Prisma.RecordIndexOmit
   workflow?: Prisma.WorkflowOmit
   workflowStep?: Prisma.WorkflowStepOmit
   workflowTransition?: Prisma.WorkflowTransitionOmit

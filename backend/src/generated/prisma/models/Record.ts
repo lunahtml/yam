@@ -198,6 +198,7 @@ export type RecordWhereInput = {
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comments?: Prisma.CommentListRelationFilter
+  recordIndexes?: Prisma.RecordIndexListRelationFilter
 }
 
 export type RecordOrderByWithRelationInput = {
@@ -212,6 +213,7 @@ export type RecordOrderByWithRelationInput = {
   project?: Prisma.ProjectOrderByWithRelationInput
   creator?: Prisma.UserOrderByWithRelationInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
+  recordIndexes?: Prisma.RecordIndexOrderByRelationAggregateInput
 }
 
 export type RecordWhereUniqueInput = Prisma.AtLeast<{
@@ -229,6 +231,7 @@ export type RecordWhereUniqueInput = Prisma.AtLeast<{
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comments?: Prisma.CommentListRelationFilter
+  recordIndexes?: Prisma.RecordIndexListRelationFilter
 }, "id">
 
 export type RecordOrderByWithAggregationInput = {
@@ -266,6 +269,7 @@ export type RecordCreateInput = {
   project: Prisma.ProjectCreateNestedOneWithoutRecordsInput
   creator: Prisma.UserCreateNestedOneWithoutCreatedRecordsInput
   comments?: Prisma.CommentCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexCreateNestedManyWithoutRecordInput
 }
 
 export type RecordUncheckedCreateInput = {
@@ -277,6 +281,7 @@ export type RecordUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexUncheckedCreateNestedManyWithoutRecordInput
 }
 
 export type RecordUpdateInput = {
@@ -288,6 +293,7 @@ export type RecordUpdateInput = {
   project?: Prisma.ProjectUpdateOneRequiredWithoutRecordsNestedInput
   creator?: Prisma.UserUpdateOneRequiredWithoutCreatedRecordsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateInput = {
@@ -299,6 +305,7 @@ export type RecordUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUncheckedUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordCreateManyInput = {
@@ -497,6 +504,20 @@ export type RecordUncheckedUpdateManyWithoutEntityNestedInput = {
   deleteMany?: Prisma.RecordScalarWhereInput | Prisma.RecordScalarWhereInput[]
 }
 
+export type RecordCreateNestedOneWithoutRecordIndexesInput = {
+  create?: Prisma.XOR<Prisma.RecordCreateWithoutRecordIndexesInput, Prisma.RecordUncheckedCreateWithoutRecordIndexesInput>
+  connectOrCreate?: Prisma.RecordCreateOrConnectWithoutRecordIndexesInput
+  connect?: Prisma.RecordWhereUniqueInput
+}
+
+export type RecordUpdateOneRequiredWithoutRecordIndexesNestedInput = {
+  create?: Prisma.XOR<Prisma.RecordCreateWithoutRecordIndexesInput, Prisma.RecordUncheckedCreateWithoutRecordIndexesInput>
+  connectOrCreate?: Prisma.RecordCreateOrConnectWithoutRecordIndexesInput
+  upsert?: Prisma.RecordUpsertWithoutRecordIndexesInput
+  connect?: Prisma.RecordWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RecordUpdateToOneWithWhereWithoutRecordIndexesInput, Prisma.RecordUpdateWithoutRecordIndexesInput>, Prisma.RecordUncheckedUpdateWithoutRecordIndexesInput>
+}
+
 export type RecordCreateNestedOneWithoutCommentsInput = {
   create?: Prisma.XOR<Prisma.RecordCreateWithoutCommentsInput, Prisma.RecordUncheckedCreateWithoutCommentsInput>
   connectOrCreate?: Prisma.RecordCreateOrConnectWithoutCommentsInput
@@ -519,6 +540,7 @@ export type RecordCreateWithoutCreatorInput = {
   entity: Prisma.EntityCreateNestedOneWithoutRecordsInput
   project: Prisma.ProjectCreateNestedOneWithoutRecordsInput
   comments?: Prisma.CommentCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexCreateNestedManyWithoutRecordInput
 }
 
 export type RecordUncheckedCreateWithoutCreatorInput = {
@@ -529,6 +551,7 @@ export type RecordUncheckedCreateWithoutCreatorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexUncheckedCreateNestedManyWithoutRecordInput
 }
 
 export type RecordCreateOrConnectWithoutCreatorInput = {
@@ -578,6 +601,7 @@ export type RecordCreateWithoutProjectInput = {
   entity: Prisma.EntityCreateNestedOneWithoutRecordsInput
   creator: Prisma.UserCreateNestedOneWithoutCreatedRecordsInput
   comments?: Prisma.CommentCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexCreateNestedManyWithoutRecordInput
 }
 
 export type RecordUncheckedCreateWithoutProjectInput = {
@@ -588,6 +612,7 @@ export type RecordUncheckedCreateWithoutProjectInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexUncheckedCreateNestedManyWithoutRecordInput
 }
 
 export type RecordCreateOrConnectWithoutProjectInput = {
@@ -624,6 +649,7 @@ export type RecordCreateWithoutEntityInput = {
   project: Prisma.ProjectCreateNestedOneWithoutRecordsInput
   creator: Prisma.UserCreateNestedOneWithoutCreatedRecordsInput
   comments?: Prisma.CommentCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexCreateNestedManyWithoutRecordInput
 }
 
 export type RecordUncheckedCreateWithoutEntityInput = {
@@ -634,6 +660,7 @@ export type RecordUncheckedCreateWithoutEntityInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutRecordInput
+  recordIndexes?: Prisma.RecordIndexUncheckedCreateNestedManyWithoutRecordInput
 }
 
 export type RecordCreateOrConnectWithoutEntityInput = {
@@ -662,6 +689,66 @@ export type RecordUpdateManyWithWhereWithoutEntityInput = {
   data: Prisma.XOR<Prisma.RecordUpdateManyMutationInput, Prisma.RecordUncheckedUpdateManyWithoutEntityInput>
 }
 
+export type RecordCreateWithoutRecordIndexesInput = {
+  id?: string
+  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  entity: Prisma.EntityCreateNestedOneWithoutRecordsInput
+  project: Prisma.ProjectCreateNestedOneWithoutRecordsInput
+  creator: Prisma.UserCreateNestedOneWithoutCreatedRecordsInput
+  comments?: Prisma.CommentCreateNestedManyWithoutRecordInput
+}
+
+export type RecordUncheckedCreateWithoutRecordIndexesInput = {
+  id?: string
+  entityId: string
+  projectId: string
+  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdById: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutRecordInput
+}
+
+export type RecordCreateOrConnectWithoutRecordIndexesInput = {
+  where: Prisma.RecordWhereUniqueInput
+  create: Prisma.XOR<Prisma.RecordCreateWithoutRecordIndexesInput, Prisma.RecordUncheckedCreateWithoutRecordIndexesInput>
+}
+
+export type RecordUpsertWithoutRecordIndexesInput = {
+  update: Prisma.XOR<Prisma.RecordUpdateWithoutRecordIndexesInput, Prisma.RecordUncheckedUpdateWithoutRecordIndexesInput>
+  create: Prisma.XOR<Prisma.RecordCreateWithoutRecordIndexesInput, Prisma.RecordUncheckedCreateWithoutRecordIndexesInput>
+  where?: Prisma.RecordWhereInput
+}
+
+export type RecordUpdateToOneWithWhereWithoutRecordIndexesInput = {
+  where?: Prisma.RecordWhereInput
+  data: Prisma.XOR<Prisma.RecordUpdateWithoutRecordIndexesInput, Prisma.RecordUncheckedUpdateWithoutRecordIndexesInput>
+}
+
+export type RecordUpdateWithoutRecordIndexesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  entity?: Prisma.EntityUpdateOneRequiredWithoutRecordsNestedInput
+  project?: Prisma.ProjectUpdateOneRequiredWithoutRecordsNestedInput
+  creator?: Prisma.UserUpdateOneRequiredWithoutCreatedRecordsNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutRecordNestedInput
+}
+
+export type RecordUncheckedUpdateWithoutRecordIndexesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  entityId?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutRecordNestedInput
+}
+
 export type RecordCreateWithoutCommentsInput = {
   id?: string
   data: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -670,6 +757,7 @@ export type RecordCreateWithoutCommentsInput = {
   entity: Prisma.EntityCreateNestedOneWithoutRecordsInput
   project: Prisma.ProjectCreateNestedOneWithoutRecordsInput
   creator: Prisma.UserCreateNestedOneWithoutCreatedRecordsInput
+  recordIndexes?: Prisma.RecordIndexCreateNestedManyWithoutRecordInput
 }
 
 export type RecordUncheckedCreateWithoutCommentsInput = {
@@ -680,6 +768,7 @@ export type RecordUncheckedCreateWithoutCommentsInput = {
   createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  recordIndexes?: Prisma.RecordIndexUncheckedCreateNestedManyWithoutRecordInput
 }
 
 export type RecordCreateOrConnectWithoutCommentsInput = {
@@ -706,6 +795,7 @@ export type RecordUpdateWithoutCommentsInput = {
   entity?: Prisma.EntityUpdateOneRequiredWithoutRecordsNestedInput
   project?: Prisma.ProjectUpdateOneRequiredWithoutRecordsNestedInput
   creator?: Prisma.UserUpdateOneRequiredWithoutCreatedRecordsNestedInput
+  recordIndexes?: Prisma.RecordIndexUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateWithoutCommentsInput = {
@@ -716,6 +806,7 @@ export type RecordUncheckedUpdateWithoutCommentsInput = {
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recordIndexes?: Prisma.RecordIndexUncheckedUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordCreateManyCreatorInput = {
@@ -735,6 +826,7 @@ export type RecordUpdateWithoutCreatorInput = {
   entity?: Prisma.EntityUpdateOneRequiredWithoutRecordsNestedInput
   project?: Prisma.ProjectUpdateOneRequiredWithoutRecordsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateWithoutCreatorInput = {
@@ -745,6 +837,7 @@ export type RecordUncheckedUpdateWithoutCreatorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUncheckedUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateManyWithoutCreatorInput = {
@@ -773,6 +866,7 @@ export type RecordUpdateWithoutProjectInput = {
   entity?: Prisma.EntityUpdateOneRequiredWithoutRecordsNestedInput
   creator?: Prisma.UserUpdateOneRequiredWithoutCreatedRecordsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateWithoutProjectInput = {
@@ -783,6 +877,7 @@ export type RecordUncheckedUpdateWithoutProjectInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUncheckedUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateManyWithoutProjectInput = {
@@ -811,6 +906,7 @@ export type RecordUpdateWithoutEntityInput = {
   project?: Prisma.ProjectUpdateOneRequiredWithoutRecordsNestedInput
   creator?: Prisma.UserUpdateOneRequiredWithoutCreatedRecordsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateWithoutEntityInput = {
@@ -821,6 +917,7 @@ export type RecordUncheckedUpdateWithoutEntityInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutRecordNestedInput
+  recordIndexes?: Prisma.RecordIndexUncheckedUpdateManyWithoutRecordNestedInput
 }
 
 export type RecordUncheckedUpdateManyWithoutEntityInput = {
@@ -839,10 +936,12 @@ export type RecordUncheckedUpdateManyWithoutEntityInput = {
 
 export type RecordCountOutputType = {
   comments: number
+  recordIndexes: number
 }
 
 export type RecordCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   comments?: boolean | RecordCountOutputTypeCountCommentsArgs
+  recordIndexes?: boolean | RecordCountOutputTypeCountRecordIndexesArgs
 }
 
 /**
@@ -862,6 +961,13 @@ export type RecordCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types
   where?: Prisma.CommentWhereInput
 }
 
+/**
+ * RecordCountOutputType without action
+ */
+export type RecordCountOutputTypeCountRecordIndexesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecordIndexWhereInput
+}
+
 
 export type RecordSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -875,6 +981,7 @@ export type RecordSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Record$commentsArgs<ExtArgs>
+  recordIndexes?: boolean | Prisma.Record$recordIndexesArgs<ExtArgs>
   _count?: boolean | Prisma.RecordCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["record"]>
 
@@ -920,6 +1027,7 @@ export type RecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Record$commentsArgs<ExtArgs>
+  recordIndexes?: boolean | Prisma.Record$recordIndexesArgs<ExtArgs>
   _count?: boolean | Prisma.RecordCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RecordIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -940,6 +1048,7 @@ export type $RecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     project: Prisma.$ProjectPayload<ExtArgs>
     creator: Prisma.$UserPayload<ExtArgs>
     comments: Prisma.$CommentPayload<ExtArgs>[]
+    recordIndexes: Prisma.$RecordIndexPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1347,6 +1456,7 @@ export interface Prisma__RecordClient<T, Null = never, ExtArgs extends runtime.T
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   creator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   comments<T extends Prisma.Record$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Record$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recordIndexes<T extends Prisma.Record$recordIndexesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Record$recordIndexesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecordIndexPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1805,6 +1915,30 @@ export type Record$commentsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
+}
+
+/**
+ * Record.recordIndexes
+ */
+export type Record$recordIndexesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecordIndex
+   */
+  select?: Prisma.RecordIndexSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecordIndex
+   */
+  omit?: Prisma.RecordIndexOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecordIndexInclude<ExtArgs> | null
+  where?: Prisma.RecordIndexWhereInput
+  orderBy?: Prisma.RecordIndexOrderByWithRelationInput | Prisma.RecordIndexOrderByWithRelationInput[]
+  cursor?: Prisma.RecordIndexWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecordIndexScalarFieldEnum | Prisma.RecordIndexScalarFieldEnum[]
 }
 
 /**

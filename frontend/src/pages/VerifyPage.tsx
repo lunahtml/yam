@@ -1,7 +1,7 @@
 //frontend\src\pages\VerifyPage.tsx
 //frontend/src/pages/VerifyPage.tsx
 import { useState } from 'react';
-import { Shield, Check, Sparkles } from 'lucide-react';
+import { Shield, Check } from 'lucide-react';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';

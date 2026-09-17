@@ -20,6 +20,9 @@ import { ProjectsModule } from './modules/projects/projects.module.js';
 import { WorkspacesModule } from './modules/workspaces/workspaces.module.js';
 import { MarketingDashboardModule } from './modules/marketing-dashboard/marketing-dashboard.module.js';
 import { OrganizationsModule } from './modules/organizations/organizations.module.js';
+import { EntitiesModule } from './modules/entities/entities.module.js';
+import { FieldsModule } from './modules/fields/fields.module.js';
+import { RecordsModule } from './modules/records/records.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -40,6 +43,9 @@ AppModule = __decorate([
             OrganizationsModule,
             ArtifactsModule,
             UtmModule,
+            EntitiesModule,
+            FieldsModule,
+            RecordsModule,
         ],
         providers: [
             { provide: APP_GUARD, useClass: ThrottlerGuard },

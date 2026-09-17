@@ -62,6 +62,7 @@ export const ModelName = {
   Entity: 'Entity',
   Field: 'Field',
   Record: 'Record',
+  RecordIndex: 'RecordIndex',
   Workflow: 'Workflow',
   WorkflowStep: 'WorkflowStep',
   WorkflowTransition: 'WorkflowTransition',
@@ -184,7 +185,9 @@ export const ProjectModuleScalarFieldEnum = {
   name: 'name',
   label: 'label',
   icon: 'icon',
-  config: 'config'
+  config: 'config',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ProjectModuleScalarFieldEnum = (typeof ProjectModuleScalarFieldEnum)[keyof typeof ProjectModuleScalarFieldEnum]
@@ -198,7 +201,9 @@ export const EntityScalarFieldEnum = {
   label: 'label',
   icon: 'icon',
   color: 'color',
-  isSystem: 'isSystem'
+  isSystem: 'isSystem',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type EntityScalarFieldEnum = (typeof EntityScalarFieldEnum)[keyof typeof EntityScalarFieldEnum]
@@ -212,7 +217,9 @@ export const FieldScalarFieldEnum = {
   type: 'type',
   options: 'options',
   isRequired: 'isRequired',
-  defaultValue: 'defaultValue'
+  defaultValue: 'defaultValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type FieldScalarFieldEnum = (typeof FieldScalarFieldEnum)[keyof typeof FieldScalarFieldEnum]
@@ -231,11 +238,30 @@ export const RecordScalarFieldEnum = {
 export type RecordScalarFieldEnum = (typeof RecordScalarFieldEnum)[keyof typeof RecordScalarFieldEnum]
 
 
+export const RecordIndexScalarFieldEnum = {
+  id: 'id',
+  recordId: 'recordId',
+  entityId: 'entityId',
+  projectId: 'projectId',
+  fieldName: 'fieldName',
+  fieldType: 'fieldType',
+  valueText: 'valueText',
+  valueNumber: 'valueNumber',
+  valueDate: 'valueDate',
+  valueBool: 'valueBool',
+  createdAt: 'createdAt'
+} as const
+
+export type RecordIndexScalarFieldEnum = (typeof RecordIndexScalarFieldEnum)[keyof typeof RecordIndexScalarFieldEnum]
+
+
 export const WorkflowScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   entityId: 'entityId',
-  name: 'name'
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WorkflowScalarFieldEnum = (typeof WorkflowScalarFieldEnum)[keyof typeof WorkflowScalarFieldEnum]
@@ -246,7 +272,9 @@ export const WorkflowStepScalarFieldEnum = {
   workflowId: 'workflowId',
   name: 'name',
   order: 'order',
-  color: 'color'
+  color: 'color',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WorkflowStepScalarFieldEnum = (typeof WorkflowStepScalarFieldEnum)[keyof typeof WorkflowStepScalarFieldEnum]
@@ -259,7 +287,9 @@ export const WorkflowTransitionScalarFieldEnum = {
   toStepId: 'toStepId',
   name: 'name',
   conditions: 'conditions',
-  actions: 'actions'
+  actions: 'actions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WorkflowTransitionScalarFieldEnum = (typeof WorkflowTransitionScalarFieldEnum)[keyof typeof WorkflowTransitionScalarFieldEnum]

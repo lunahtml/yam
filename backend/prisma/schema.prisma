@@ -197,8 +197,10 @@ model ProjectModule {
     icon      String?
     config    Json    @default("{}")
 
-    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
+    project  Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
     entities Entity[]
 
     @@unique([projectId, name])
@@ -215,11 +217,13 @@ model Entity {
     projectId String
     moduleId  String?
 
-    name     String
-    label    String
-    icon     String?
-    color    String?
-    isSystem Boolean @default(false)
+    name      String
+    label     String
+    icon      String?
+    color     String?
+    isSystem  Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     project Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
     module  ProjectModule? @relation(fields: [moduleId], references: [id], onDelete: SetNull)
@@ -239,19 +243,21 @@ model Entity {
 // ═══════════════════════════════════════════════════════════════
 
 model Field {
+    // Оставляем String намеренно.
+    // Типы будут расширяться через FieldTypeRegistry.
     id       String @id @default(cuid())
     entityId String
 
     name  String
     label String
-
-    // Оставляем String намеренно.
-    // Типы будут расширяться через FieldTypeRegistry.
-    type String
+    type  String
 
     options      Json?
     isRequired   Boolean @default(false)
     defaultValue Json?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     entity Entity @relation(fields: [entityId], references: [id], onDelete: Cascade)
 
@@ -279,13 +285,40 @@ model Record {
     project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
     creator User    @relation(fields: [createdById], references: [id], onDelete: Restrict)
 
-    comments Comment[]
+    comments      Comment[]
+    recordIndexes RecordIndex[]
 
     @@index([projectId])
     @@index([entityId])
     @@index([projectId, entityId])
     @@index([createdById])
     @@map("records")
+}
+
+model RecordIndex {
+    id        String @id @default(cuid())
+    recordId  String
+    entityId  String
+    projectId String
+    fieldName String
+    fieldType String // text, number, date, boolean, select, user
+
+    // Типизированные значения для быстрой сортировки/фильтрации
+    valueText   String?
+    valueNumber Float?
+    valueDate   DateTime?
+    valueBool   Boolean?
+
+    createdAt DateTime @default(now())
+
+    record Record @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+    @@index([entityId, fieldName, valueText])
+    @@index([entityId, fieldName, valueNumber])
+    @@index([entityId, fieldName, valueDate])
+    @@index([entityId, fieldName, valueBool])
+    @@index([recordId])
+    @@map("record_indexes")
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -297,6 +330,9 @@ model Workflow {
     projectId String
     entityId  String
     name      String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
     entity  Entity  @relation(fields: [entityId], references: [id], onDelete: Cascade)
@@ -322,6 +358,9 @@ model WorkflowStep {
     order Int
     color String?
 
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 
     outgoingTransitions WorkflowTransition[] @relation("fromStep")
@@ -346,6 +385,9 @@ model WorkflowTransition {
     name       String?
     conditions Json?
     actions    Json?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     workflow Workflow     @relation(fields: [workflowId], references: [id], onDelete: Cascade)
     fromStep WorkflowStep @relation("fromStep", fields: [fromStepId], references: [id], onDelete: Cascade)

@@ -14,7 +14,14 @@ import {
     UtmLink,
     DashboardForm,
     DashboardHistoryItem,
-} from '../types/api';
+    Entity,
+    Field,
+    FieldType,
+    FieldTypeInfo,
+    EntityRecord,
+    RecordsResponse,
+    ListRecordsQuery,
+} from '../types/api';;
 async function request<T>(
     path: string,
     options: RequestInit = {},
@@ -309,5 +316,109 @@ export const api = {
     deleteLink: (id: string) =>
         request<void>(`/utm/links/${id}`, { method: 'DELETE' }),
 
+
+    // ═══════════════════════════════════════════════════════════════
+    // ENTITIES
+    // ═══════════════════════════════════════════════════════════════
+
+    createEntity: (
+        projectId: string,
+        data: {
+            moduleId?: string;
+            name: string;
+            label: string;
+            icon?: string;
+            color?: string;
+        },
+    ) =>
+        request<Entity>(`/entities/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getEntities: (projectId: string) =>
+        request<Entity[]>(`/entities/project/${projectId}`),
+
+    getEntity: (id: string) => request<Entity>(`/entities/${id}`),
+
+    updateEntity: (id: string, data: { label?: string; icon?: string; color?: string }) =>
+        request<Entity>(`/entities/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteEntity: (id: string) =>
+        request<void>(`/entities/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // FIELDS
+    // ═══════════════════════════════════════════════════════════════
+
+    createField: (
+        entityId: string,
+        data: {
+            name: string;
+            label: string;
+            type: FieldType;
+            options?: Record<string, unknown>;
+            isRequired?: boolean;
+            defaultValue?: unknown;
+        },
+    ) =>
+        request<Field>(`/fields/entity/${entityId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getFields: (entityId: string) =>
+        request<Field[]>(`/fields/entity/${entityId}`),
+
+    getFieldTypes: (entityId: string) =>
+        request<FieldTypeInfo[]>(`/fields/entity/${entityId}/types`),
+
+    updateField: (id: string, data: Partial<Field>) =>
+        request<Field>(`/fields/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteField: (id: string) =>
+        request<void>(`/fields/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // RECORDS
+    // ═══════════════════════════════════════════════════════════════
+
+    createRecord: (entityId: string, data: Record<string, unknown>) =>
+        request<EntityRecord>(`/records/entity/${entityId}`, {
+            method: 'POST',
+            body: JSON.stringify({ data }),
+        }),
+
+    getRecords: (entityId: string, query?: ListRecordsQuery) => {
+        const params = new URLSearchParams();
+        if (query?.page) params.set('page', String(query.page));
+        if (query?.limit) params.set('limit', String(query.limit));
+        if (query?.sortBy) params.set('sortBy', query.sortBy);
+        if (query?.sortDir) params.set('sortDir', query.sortDir);
+        if (query?.filterField) params.set('filterField', query.filterField);
+        if (query?.filterValue !== undefined)
+            params.set('filterValue', query.filterValue);
+        const qs = params.toString();
+        return request<RecordsResponse>(
+            `/records/entity/${entityId}${qs ? `?${qs}` : ''}`,
+        );
+    },
+
+    getRecord: (id: string) => request<EntityRecord>(`/records/${id}`),
+
+    updateRecord: (id: string, data: Record<string, unknown>) =>
+        request<EntityRecord>(`/records/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({ data }),
+        }),
+
+    deleteRecord: (id: string) =>
+        request<void>(`/records/${id}`, { method: 'DELETE' }),
 
 };
