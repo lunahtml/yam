@@ -146,3 +146,33 @@ export type LoginAttempt = Prisma.LoginAttemptModel
  * 
  */
 export type MarketingDashboard = Prisma.MarketingDashboardModel
+/**
+ * Model Artifact
+ * 
+ */
+export type Artifact = Prisma.ArtifactModel
+/**
+ * Model UtmSource
+ * 
+ */
+export type UtmSource = Prisma.UtmSourceModel
+/**
+ * Model UtmMedium
+ * 
+ */
+export type UtmMedium = Prisma.UtmMediumModel
+/**
+ * Model UtmCampaign
+ * 
+ */
+export type UtmCampaign = Prisma.UtmCampaignModel
+/**
+ * Model UtmRule
+ * 
+ */
+export type UtmRule = Prisma.UtmRuleModel
+/**
+ * Model UtmLink
+ * 
+ */
+export type UtmLink = Prisma.UtmLinkModel

@@ -34,4 +34,14 @@ export const ProjectStatus = {
     ARCHIVED: 'ARCHIVED',
     COMPLETED: 'COMPLETED'
 };
+export const ArtifactType = {
+    WEBSITE: 'WEBSITE',
+    SOCIAL: 'SOCIAL',
+    DOCUMENT: 'DOCUMENT',
+    DASHBOARD: 'DASHBOARD',
+    VIDEO: 'VIDEO',
+    FILE: 'FILE',
+    OFFLINE: 'OFFLINE',
+    CUSTOM: 'CUSTOM'
+};
 //# sourceMappingURL=enums.js.map

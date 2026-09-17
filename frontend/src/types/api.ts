@@ -92,6 +92,104 @@ export interface DashboardHistoryItem {
     adBudget: number;
     createdAt: string;
 }
+
+export type ArtifactType =
+    | 'WEBSITE'
+    | 'SOCIAL'
+    | 'DOCUMENT'
+    | 'DASHBOARD'
+    | 'VIDEO'
+    | 'FILE'
+    | 'OFFLINE'
+    | 'CUSTOM';
+
+export interface Artifact {
+    id: string;
+    projectId: string;
+    type: ArtifactType;
+    name: string;
+    url: string | null;
+    description: string | null;
+    metadata: Record<string, unknown> | null;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface UtmSource {
+    id: string;
+    projectId: string;
+    name: string;
+    label: string;
+    icon: string | null;
+    isSystem: boolean;
+    createdAt: string;
+}
+
+export interface UtmMedium {
+    id: string;
+    projectId: string;
+    name: string;
+    label: string;
+    isSystem: boolean;
+    createdAt: string;
+}
+
+export interface UtmCampaign {
+    id: string;
+    projectId: string;
+    name: string;
+    label: string;
+    startDate: string | null;
+    endDate: string | null;
+    createdAt: string;
+    updatedAt: string;
+    _count?: { utmLinks: number };
+}
+
+export interface UtmRuleCondition {
+    field: string;
+    operator: 'eq' | 'ne' | 'contains' | 'startsWith' | 'endsWith' | 'in';
+    value: string | string[];
+}
+
+export interface UtmRule {
+    id: string;
+    projectId: string;
+    name: string;
+    description: string | null;
+    priority: number;
+    isActive: boolean;
+    conditions: UtmRuleCondition[];
+    sourceTemplate: string;
+    mediumTemplate: string;
+    campaignTemplate: string | null;
+    contentTemplate: string | null;
+    termTemplate: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface UtmLink {
+    id: string;
+    projectId: string;
+    artifactId: string | null;
+    campaignId: string | null;
+    source: string;
+    medium: string;
+    campaign: string | null;
+    content: string | null;
+    term: string | null;
+    baseUrl: string;
+    fullUrl: string;
+    label: string | null;
+    notes: string | null;
+    createdAt: string;
+    updatedAt: string;
+    artifact?: { id: string; name: string; type: ArtifactType };
+    campaignRef?: { id: string; name: string; label: string };
+    createdBy?: { id: string; email: string; name: string | null };
+}
 export interface MarketingMetrics {
     funnel: {
         ctr: number;
@@ -140,4 +238,6 @@ export interface MarketingMetrics {
         revenuePerClient: number;
         profit: number;
     };
+
+
 }

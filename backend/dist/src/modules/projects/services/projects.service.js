@@ -12,16 +12,19 @@ import { Injectable, } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
 import { DESTRUCTIVE_ROLES, EDIT_ROLES } from '../../../common/types/roles.type.js';
+import { UtmDefaultsService } from '../../utm/services/defaults.service.js';
 let ProjectsService = class ProjectsService {
     prisma;
     membership;
-    constructor(prisma, membership) {
+    utmDefaults;
+    constructor(prisma, membership, utmDefaults) {
         this.prisma = prisma;
         this.membership = membership;
+        this.utmDefaults = utmDefaults;
     }
     async create(userId, data) {
         await this.membership.assertWorkspaceMember(userId, data.workspaceId);
-        return this.prisma.client.project.create({
+        const project = await this.prisma.client.project.create({
             data: {
                 workspaceId: data.workspaceId,
                 name: data.name,
@@ -30,6 +33,9 @@ let ProjectsService = class ProjectsService {
                 endDate: data.endDate ? new Date(data.endDate) : undefined,
             },
         });
+        // Автосоздание дефолтных UTM-справочников
+        await this.utmDefaults.createDefaults(project.id);
+        return project;
     }
     async update(userId, id, data) {
         await this.membership.assertProjectRole(userId, id, EDIT_ROLES);
@@ -71,7 +77,8 @@ let ProjectsService = class ProjectsService {
 ProjectsService = __decorate([
     Injectable(),
     __metadata("design:paramtypes", [PrismaService,
-        MembershipService])
+        MembershipService,
+        UtmDefaultsService])
 ], ProjectsService);
 export { ProjectsService };
 //# sourceMappingURL=projects.service.js.map

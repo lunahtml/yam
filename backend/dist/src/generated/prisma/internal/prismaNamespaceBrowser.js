@@ -59,7 +59,13 @@ export const ModelName = {
     RefreshToken: 'RefreshToken',
     EmailVerification: 'EmailVerification',
     LoginAttempt: 'LoginAttempt',
-    MarketingDashboard: 'MarketingDashboard'
+    MarketingDashboard: 'MarketingDashboard',
+    Artifact: 'Artifact',
+    UtmSource: 'UtmSource',
+    UtmMedium: 'UtmMedium',
+    UtmCampaign: 'UtmCampaign',
+    UtmRule: 'UtmRule',
+    UtmLink: 'UtmLink'
 };
 /*
  * Enums
@@ -278,6 +284,79 @@ export const MarketingDashboardScalarFieldEnum = {
     som: 'som',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
+};
+export const ArtifactScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    type: 'type',
+    name: 'name',
+    url: 'url',
+    description: 'description',
+    metadata: 'metadata',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const UtmSourceScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    label: 'label',
+    icon: 'icon',
+    isSystem: 'isSystem',
+    createdAt: 'createdAt'
+};
+export const UtmMediumScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    label: 'label',
+    isSystem: 'isSystem',
+    createdAt: 'createdAt'
+};
+export const UtmCampaignScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    label: 'label',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const UtmRuleScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    description: 'description',
+    priority: 'priority',
+    isActive: 'isActive',
+    conditions: 'conditions',
+    sourceTemplate: 'sourceTemplate',
+    mediumTemplate: 'mediumTemplate',
+    campaignTemplate: 'campaignTemplate',
+    contentTemplate: 'contentTemplate',
+    termTemplate: 'termTemplate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const UtmLinkScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    artifactId: 'artifactId',
+    campaignId: 'campaignId',
+    source: 'source',
+    medium: 'medium',
+    campaign: 'campaign',
+    content: 'content',
+    term: 'term',
+    baseUrl: 'baseUrl',
+    fullUrl: 'fullUrl',
+    label: 'label',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
 };
 export const SortOrder = {
     asc: 'asc',

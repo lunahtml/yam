@@ -27,6 +27,9 @@ yam/
         │   ├── VerifyPage.tsx ✅
         │   └── DashboardPage.tsx ✅
         │   └── dashboard/ ✅
+        │       └── artifacts/  ✅
+        │               └── ArtifactForm.tsx  ✅
+        │               └── ArtifactsPage.tsx  ✅
         │       └── marketing/  ✅
         │           └── MarketingForm.tsx  ✅
         │           └── MetricsTable.tsx  ✅
@@ -125,6 +128,35 @@ yam/
         │   │   ├── sessions.module.ts ✅
         │   │   └── sessions.service.ts ✅
         │   │
+        │   ├── utm/
+        │       ├── utm.module.ts ✅
+        │       ├── sources.controller.ts ✅
+        │       ├── mediums.controller.ts ✅
+        │       ├── campaigns.controller.ts ✅
+        │       ├── rules.controller.ts ✅
+        │       ├── links.controller.ts ✅
+        │       ├── contracts/
+        │               ├── source.dto.ts ✅
+        │               ├── medium.dto.ts ✅
+        │               ├── campaign.dto.ts ✅
+        │               ├── rule.dto.ts ✅
+        │               ├── link.dto.ts ✅
+        │       ├── services/
+        │               ├── url-builder.service.ts ✅
+        │               ├── sources.service.ts ✅
+        │               ├── mediums.service.ts ✅
+        │               ├── campaigns.service.ts ✅
+        │               ├── rules.service.ts ✅
+        │               ├── links.service.ts ✅
+        │               ├── defaults.service.ts ✅
+        │   ├── artifacts/
+        │       ├── artifacts.controller.ts  ✅
+        │       ├── artifacts.module.ts  ✅
+        │       ├── contracts/
+        │               ├── create-artifact.dto.ts ✅
+        │               ├── update-artifact.dto.ts ✅
+        │       ├── services
+        │               ├── artifacts.service.ts ✅
         │   ├── users/
         │   │   ├── users.module.ts ⬜
         │   │   ├── users.service.ts ⬜

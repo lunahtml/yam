@@ -8,17 +8,21 @@ interface LayoutProps {
     children: ReactNode;
 }
 
-export default function Layout({ activePage, onNavigate, children }: LayoutProps) {
+export default function Layout({
+    activePage,
+    onNavigate,
+    children,
+}: LayoutProps) {
     return (
-        <div style={{ display: 'flex', minHeight: '100vh' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-base)' }}>
             <Sidebar active={activePage} onNavigate={onNavigate} />
 
             <main
                 style={{
                     flex: 1,
                     padding: 40,
-                    background: '#f5f7fa',
                     overflowY: 'auto',
+                    maxHeight: '100vh',
                 }}
             >
                 {children}

@@ -1,0 +1,246 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+//backend/src/modules/utm/services/links.service.ts
+import { Injectable, ForbiddenException, BadRequestException, } from '@nestjs/common';
+import { PrismaService } from '../../../infra/prisma/prisma.service.js';
+import { MembershipService } from '../../../common/services/membership.service.js';
+import { EDIT_ROLES, DESTRUCTIVE_ROLES } from '../../../common/types/roles.type.js';
+import { UrlBuilderService } from './url-builder.service.js';
+let LinksService = class LinksService {
+    prisma;
+    membership;
+    urlBuilder;
+    constructor(prisma, membership, urlBuilder) {
+        this.prisma = prisma;
+        this.membership = membership;
+        this.urlBuilder = urlBuilder;
+    }
+    /**
+     * Создать одну UTM-ссылку вручную.
+     */
+    async create(userId, projectId, data) {
+        await this.membership.assertProjectRole(userId, projectId, EDIT_ROLES);
+        const params = {
+            source: data.source,
+            medium: data.medium,
+            campaign: data.campaign,
+            content: data.content,
+            term: data.term,
+        };
+        const fullUrl = this.urlBuilder.build(data.baseUrl, params);
+        return this.prisma.client.utmLink.create({
+            data: {
+                projectId,
+                artifactId: data.artifactId,
+                campaignId: data.campaignId,
+                source: data.source,
+                medium: data.medium,
+                campaign: data.campaign,
+                content: data.content,
+                term: data.term,
+                baseUrl: data.baseUrl,
+                fullUrl,
+                label: data.label,
+                notes: data.notes,
+                createdById: userId,
+            },
+        });
+    }
+    /**
+     * Массовая генерация ссылок по правилам.
+     * Возвращает массив сгенерированных ссылок.
+     */
+    async generate(userId, projectId, data) {
+        await this.membership.assertProjectRole(userId, projectId, EDIT_ROLES);
+        const artifact = await this.prisma.client.artifact.findUnique({
+            where: { id: data.artifactId },
+            select: { id: true, name: true, type: true, url: true },
+        });
+        if (!artifact) {
+            throw new BadRequestException('Artifact not found');
+        }
+        const campaign = data.campaignId
+            ? await this.prisma.client.utmCampaign.findUnique({
+                where: { id: data.campaignId },
+                select: { id: true, name: true },
+            })
+            : null;
+        // Найти подходящее правило
+        const rules = await this.prisma.client.utmRule.findMany({
+            where: { projectId, isActive: true },
+            orderBy: { priority: 'desc' },
+        });
+        const matchedRule = rules.find((rule) => this.matchesConditions(rule.conditions, {
+            'artifact.type': artifact.type,
+            'artifact.name': artifact.name,
+            'artifact.url': artifact.url ?? '',
+        }));
+        // Если правило не найдено — используем дефолтное
+        const rule = matchedRule ?? {
+            sourceTemplate: '{{source}}',
+            mediumTemplate: '{{medium}}',
+            campaignTemplate: '{{campaign}}',
+            contentTemplate: null,
+            termTemplate: null,
+        };
+        const links = [];
+        for (let i = 0; i < data.count; i++) {
+            const index = i + 1;
+            const source = this.urlBuilder.renderTemplate(rule.sourceTemplate, this.buildVars(artifact, campaign, index, data.contentPrefix));
+            const medium = this.urlBuilder.renderTemplate(rule.mediumTemplate, this.buildVars(artifact, campaign, index, data.contentPrefix));
+            const campaignName = rule.campaignTemplate
+                ? this.urlBuilder.renderTemplate(rule.campaignTemplate, this.buildVars(artifact, campaign, index, data.contentPrefix))
+                : campaign?.name;
+            const content = rule.contentTemplate
+                ? this.urlBuilder.renderTemplate(rule.contentTemplate, this.buildVars(artifact, campaign, index, data.contentPrefix))
+                : data.contentPrefix
+                    ? `${data.contentPrefix}_${index}`
+                    : undefined;
+            const term = rule.termTemplate
+                ? this.urlBuilder.renderTemplate(rule.termTemplate, this.buildVars(artifact, campaign, index, data.contentPrefix))
+                : undefined;
+            const baseUrl = data.baseUrl || artifact.url;
+            if (!baseUrl) {
+                throw new BadRequestException('Base URL is required');
+            }
+            const fullUrl = this.urlBuilder.build(baseUrl, {
+                source,
+                medium,
+                campaign: campaignName,
+                content,
+                term,
+            });
+            links.push({
+                projectId,
+                artifactId: artifact.id,
+                campaignId: campaign?.id,
+                source,
+                medium,
+                campaign: campaignName,
+                content,
+                term,
+                baseUrl,
+                fullUrl,
+                label: `${artifact.name} #${index}`,
+                createdById: userId,
+            });
+        }
+        // Массовое создание
+        await this.prisma.client.utmLink.createMany({ data: links });
+        // Вернуть созданные
+        return this.prisma.client.utmLink.findMany({
+            where: {
+                projectId,
+                artifactId: artifact.id,
+                createdAt: {
+                    gte: new Date(Date.now() - 5000),
+                },
+            },
+            orderBy: { createdAt: 'desc' },
+        });
+    }
+    async findByProject(userId, projectId, filters) {
+        await this.membership.assertProjectMember(userId, projectId);
+        return this.prisma.client.utmLink.findMany({
+            where: {
+                projectId,
+                ...(filters?.campaignId ? { campaignId: filters.campaignId } : {}),
+                ...(filters?.artifactId ? { artifactId: filters.artifactId } : {}),
+            },
+            orderBy: { createdAt: 'desc' },
+            include: {
+                artifact: { select: { id: true, name: true, type: true } },
+                campaignRef: { select: { id: true, name: true, label: true } },
+                createdBy: { select: { id: true, email: true, name: true } },
+            },
+        });
+    }
+    async update(userId, id, data) {
+        const link = await this.prisma.client.utmLink.findUnique({
+            where: { id },
+            select: { projectId: true },
+        });
+        if (!link) {
+            throw new ForbiddenException('Access denied to link');
+        }
+        await this.membership.assertProjectRole(userId, link.projectId, EDIT_ROLES);
+        return this.prisma.client.utmLink.update({
+            where: { id },
+            data: {
+                label: data.label,
+                notes: data.notes,
+            },
+        });
+    }
+    async remove(userId, id) {
+        const link = await this.prisma.client.utmLink.findUnique({
+            where: { id },
+            select: { projectId: true },
+        });
+        if (!link) {
+            throw new ForbiddenException('Access denied to link');
+        }
+        await this.membership.assertProjectRole(userId, link.projectId, DESTRUCTIVE_ROLES);
+        return this.prisma.client.utmLink.delete({
+            where: { id },
+        });
+    }
+    /**
+     * Проверка условий правила.
+     */
+    matchesConditions(conditions, values) {
+        if (!conditions || conditions.length === 0)
+            return true;
+        return conditions.every((cond) => {
+            const actualValue = values[cond.field];
+            if (actualValue === undefined)
+                return false;
+            switch (cond.operator) {
+                case 'eq':
+                    return actualValue === cond.value;
+                case 'ne':
+                    return actualValue !== cond.value;
+                case 'contains':
+                    return actualValue.includes(String(cond.value));
+                case 'startsWith':
+                    return actualValue.startsWith(String(cond.value));
+                case 'endsWith':
+                    return actualValue.endsWith(String(cond.value));
+                case 'in':
+                    return Array.isArray(cond.value)
+                        ? cond.value.includes(actualValue)
+                        : false;
+                default:
+                    return false;
+            }
+        });
+    }
+    buildVars(artifact, campaign, index, contentPrefix) {
+        return {
+            source: undefined,
+            medium: undefined,
+            campaign: campaign?.name,
+            index,
+            date: new Date().toISOString().slice(0, 10),
+            'artifact.name': artifact.name,
+            'artifact.type': artifact.type,
+            'artifact.url': artifact.url ?? '',
+            contentPrefix,
+        };
+    }
+};
+LinksService = __decorate([
+    Injectable(),
+    __metadata("design:paramtypes", [PrismaService,
+        MembershipService,
+        UrlBuilderService])
+], LinksService);
+export { LinksService };
+//# sourceMappingURL=links.service.js.map

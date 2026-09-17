@@ -71,7 +71,13 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   EmailVerification: 'EmailVerification',
   LoginAttempt: 'LoginAttempt',
-  MarketingDashboard: 'MarketingDashboard'
+  MarketingDashboard: 'MarketingDashboard',
+  Artifact: 'Artifact',
+  UtmSource: 'UtmSource',
+  UtmMedium: 'UtmMedium',
+  UtmCampaign: 'UtmCampaign',
+  UtmRule: 'UtmRule',
+  UtmLink: 'UtmLink'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -381,6 +387,103 @@ export const MarketingDashboardScalarFieldEnum = {
 } as const
 
 export type MarketingDashboardScalarFieldEnum = (typeof MarketingDashboardScalarFieldEnum)[keyof typeof MarketingDashboardScalarFieldEnum]
+
+
+export const ArtifactScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  type: 'type',
+  name: 'name',
+  url: 'url',
+  description: 'description',
+  metadata: 'metadata',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArtifactScalarFieldEnum = (typeof ArtifactScalarFieldEnum)[keyof typeof ArtifactScalarFieldEnum]
+
+
+export const UtmSourceScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  label: 'label',
+  icon: 'icon',
+  isSystem: 'isSystem',
+  createdAt: 'createdAt'
+} as const
+
+export type UtmSourceScalarFieldEnum = (typeof UtmSourceScalarFieldEnum)[keyof typeof UtmSourceScalarFieldEnum]
+
+
+export const UtmMediumScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  label: 'label',
+  isSystem: 'isSystem',
+  createdAt: 'createdAt'
+} as const
+
+export type UtmMediumScalarFieldEnum = (typeof UtmMediumScalarFieldEnum)[keyof typeof UtmMediumScalarFieldEnum]
+
+
+export const UtmCampaignScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  label: 'label',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UtmCampaignScalarFieldEnum = (typeof UtmCampaignScalarFieldEnum)[keyof typeof UtmCampaignScalarFieldEnum]
+
+
+export const UtmRuleScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  description: 'description',
+  priority: 'priority',
+  isActive: 'isActive',
+  conditions: 'conditions',
+  sourceTemplate: 'sourceTemplate',
+  mediumTemplate: 'mediumTemplate',
+  campaignTemplate: 'campaignTemplate',
+  contentTemplate: 'contentTemplate',
+  termTemplate: 'termTemplate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UtmRuleScalarFieldEnum = (typeof UtmRuleScalarFieldEnum)[keyof typeof UtmRuleScalarFieldEnum]
+
+
+export const UtmLinkScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  artifactId: 'artifactId',
+  campaignId: 'campaignId',
+  source: 'source',
+  medium: 'medium',
+  campaign: 'campaign',
+  content: 'content',
+  term: 'term',
+  baseUrl: 'baseUrl',
+  fullUrl: 'fullUrl',
+  label: 'label',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+} as const
+
+export type UtmLinkScalarFieldEnum = (typeof UtmLinkScalarFieldEnum)[keyof typeof UtmLinkScalarFieldEnum]
 
 
 export const SortOrder = {

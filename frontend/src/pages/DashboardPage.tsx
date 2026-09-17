@@ -1,9 +1,11 @@
 //frontend/src/pages/DashboardPage.tsx
+//frontend/src/pages/DashboardPage.tsx
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import ProjectsPage from './dashboard/ProjectsPage';
 import WorkspaceDetailPage from './dashboard/WorkspaceDetailPage';
 import ProjectDetailPage from './dashboard/ProjectDetailPage';
+import ArtifactsPage from './dashboard/artifacts/ArtifactsPage';
 import ClientsPage from './dashboard/ClientsPage';
 import TeamPage from './dashboard/TeamPage';
 import MarketingPage from './dashboard/MarketingPage';
@@ -15,7 +17,8 @@ import ChartsPage from './dashboard/ChartsPage';
 type Screen =
     | { type: 'list' }
     | { type: 'workspace'; id: string; label: string }
-    | { type: 'project'; id: string; label: string };
+    | { type: 'project'; id: string; label: string }
+    | { type: 'artifacts'; projectId: string; projectName: string };
 
 export default function DashboardPage() {
     const [page, setPage] = useState('projects');
@@ -46,6 +49,25 @@ export default function DashboardPage() {
                     projectId={screen.id}
                     projectName={screen.label}
                     onBack={() => setScreen({ type: 'list' })}
+                    onOpenArtifacts={(projectId, projectName) =>
+                        setScreen({ type: 'artifacts', projectId, projectName })
+                    }
+                />
+            );
+        }
+
+        if (screen.type === 'artifacts') {
+            return (
+                <ArtifactsPage
+                    projectId={screen.projectId}
+                    projectName={screen.projectName}
+                    onBack={() =>
+                        setScreen({
+                            type: 'project',
+                            id: screen.projectId,
+                            label: screen.projectName,
+                        })
+                    }
                 />
             );
         }
@@ -63,6 +85,18 @@ export default function DashboardPage() {
         switch (page) {
             case 'projects':
                 return renderProjectsArea();
+            case 'artifacts':
+                return (
+                    <div
+                        style={{
+                            padding: 40,
+                            color: 'var(--text-secondary)',
+                            textAlign: 'center',
+                        }}
+                    >
+                        Выбери проект → открой артефакты
+                    </div>
+                );
             case 'clients':
                 return <ClientsPage />;
             case 'team':

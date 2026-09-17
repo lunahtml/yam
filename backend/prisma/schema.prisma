@@ -116,6 +116,7 @@ model User {
     refreshTokens      RefreshToken[]
     emailVerifications EmailVerification[]
     status             UserStatus          @default(ACTIVE)
+    createdUtmLinks    UtmLink[]
 
     @@map("users")
 }
@@ -151,6 +152,13 @@ model Project {
     files               File[]
     activityLogs        ActivityLog[]
     marketingDashboards MarketingDashboard[]
+
+    artifacts    Artifact[]
+    utmSources   UtmSource[]
+    utmMediums   UtmMedium[]
+    utmCampaigns UtmCampaign[]
+    utmRules     UtmRule[]
+    utmLinks     UtmLink[]
 
     @@index([workspaceId])
     @@map("projects")
@@ -529,4 +537,165 @@ model MarketingDashboard {
     @@index([projectId])
     @@index([projectId, periodFrom])
     @@map("marketing_dashboards")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ARTIFACTS — ресурсы проекта
+// ═══════════════════════════════════════════════════════════════
+
+model Artifact {
+    id          String       @id @default(cuid())
+    projectId   String
+    type        ArtifactType
+    name        String
+    url         String?
+    description String?
+    metadata    Json?
+    isActive    Boolean      @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    utmLinks UtmLink[]
+
+    @@index([projectId])
+    @@index([projectId, type])
+    @@map("artifacts")
+}
+
+enum ArtifactType {
+    WEBSITE
+    SOCIAL
+    DOCUMENT
+    DASHBOARD
+    VIDEO
+    FILE
+    OFFLINE
+    CUSTOM
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTM — справочники
+// ═══════════════════════════════════════════════════════════════
+
+model UtmSource {
+    id        String  @id @default(cuid())
+    projectId String
+    name      String
+    label     String
+    icon      String?
+    isSystem  Boolean @default(false)
+
+    createdAt DateTime @default(now())
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@unique([projectId, name])
+    @@index([projectId])
+    @@map("utm_sources")
+}
+
+model UtmMedium {
+    id        String  @id @default(cuid())
+    projectId String
+    name      String
+    label     String
+    isSystem  Boolean @default(false)
+
+    createdAt DateTime @default(now())
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@unique([projectId, name])
+    @@index([projectId])
+    @@map("utm_mediums")
+}
+
+model UtmCampaign {
+    id        String    @id @default(cuid())
+    projectId String
+    name      String
+    label     String
+    startDate DateTime?
+    endDate   DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    utmLinks UtmLink[]
+
+    @@unique([projectId, name])
+    @@index([projectId])
+    @@map("utm_campaigns")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTM — правила автогенерации
+// ═══════════════════════════════════════════════════════════════
+
+model UtmRule {
+    id          String  @id @default(cuid())
+    projectId   String
+    name        String
+    description String?
+    priority    Int     @default(0)
+    isActive    Boolean @default(true)
+
+    // Условия (JSON-массив)
+    // Пример: [{ "field": "artifact.type", "operator": "eq", "value": "SOCIAL" }]
+    conditions Json @default("[]")
+
+    // Шаблоны UTM
+    sourceTemplate   String
+    mediumTemplate   String
+    campaignTemplate String?
+    contentTemplate  String?
+    termTemplate     String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+    @@map("utm_rules")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTM — сгенерированные ссылки
+// ═══════════════════════════════════════════════════════════════
+
+model UtmLink {
+    id         String  @id @default(cuid())
+    projectId  String
+    artifactId String?
+    campaignId String?
+
+    source   String
+    medium   String
+    campaign String?
+    content  String?
+    term     String?
+
+    baseUrl String
+    fullUrl String
+
+    label String?
+    notes String?
+
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    createdById String
+
+    project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    artifact    Artifact?    @relation(fields: [artifactId], references: [id], onDelete: SetNull)
+    campaignRef UtmCampaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+    createdBy   User         @relation(fields: [createdById], references: [id], onDelete: Restrict)
+
+    @@index([projectId])
+    @@index([projectId, campaignId])
+    @@index([artifactId])
+    @@map("utm_links")
 }

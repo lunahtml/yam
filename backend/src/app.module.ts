@@ -7,8 +7,8 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { PrismaModule } from './infra/prisma/prisma.module.js';
 import { MembershipModule } from './common/services/membership.module.js';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard.js';
-
-
+import { ArtifactsModule } from './modules/artifacts/artifacts.module.js';
+import { UtmModule } from './modules/utm/utm.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { SessionsModule } from './modules/sessions/sessions.module.js';
 import { ProjectsModule } from './modules/projects/projects.module.js';
@@ -30,6 +30,8 @@ import { OrganizationsModule } from './modules/organizations/organizations.modul
         WorkspacesModule,
         MarketingDashboardModule,
         OrganizationsModule,
+        ArtifactsModule,
+        UtmModule,
     ],
     providers: [
         { provide: APP_GUARD, useClass: ThrottlerGuard },

@@ -10,18 +10,19 @@ import {
     CreateProjectDto,
     UpdateProjectDto,
 } from '../contracts/create-project.dto.js';
-
+import { UtmDefaultsService } from '../../utm/services/defaults.service.js';
 @Injectable()
 export class ProjectsService {
     constructor(
         private prisma: PrismaService,
         private membership: MembershipService,
+        private utmDefaults: UtmDefaultsService,
     ) { }
 
     async create(userId: string, data: CreateProjectDto) {
         await this.membership.assertWorkspaceMember(userId, data.workspaceId);
 
-        return this.prisma.client.project.create({
+        const project = await this.prisma.client.project.create({
             data: {
                 workspaceId: data.workspaceId,
                 name: data.name,
@@ -30,6 +31,11 @@ export class ProjectsService {
                 endDate: data.endDate ? new Date(data.endDate) : undefined,
             },
         });
+
+        // Автосоздание дефолтных UTM-справочников
+        await this.utmDefaults.createDefaults(project.id);
+
+        return project;
     }
 
     async update(userId: string, id: string, data: UpdateProjectDto) {

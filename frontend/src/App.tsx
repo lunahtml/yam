@@ -1,4 +1,5 @@
 //frontend\src\App.tsx
+//frontend/src/App.tsx
 import { useState } from 'react';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -15,7 +16,7 @@ export default function App() {
     const [screen, setScreen] = useState<Screen>({ name: 'login' });
 
     return (
-        <>
+        <div style={{ minHeight: '100vh', background: 'var(--bg-base)' }}>
             {screen.name === 'login' && (
                 <LoginPage
                     onVerify={(token) => setScreen({ name: 'verify', token, mode: 'login' })}
@@ -40,6 +41,6 @@ export default function App() {
             )}
 
             {screen.name === 'dashboard' && <DashboardPage />}
-        </>
+        </div>
     );
 }

@@ -1,7 +1,20 @@
 //frontend\src\api\client.ts
-import { DashboardForm, DashboardHistoryItem } from '../types/api';
 const API_BASE = '/api';
-import { Organization, Workspace, Project } from '../types/api';
+import {
+    Organization,
+    Workspace,
+    Project,
+    Artifact,
+    ArtifactType,
+    UtmSource,
+    UtmMedium,
+    UtmCampaign,
+    UtmRule,
+    UtmRuleCondition,
+    UtmLink,
+    DashboardForm,
+    DashboardHistoryItem,
+} from '../types/api';
 async function request<T>(
     path: string,
     options: RequestInit = {},
@@ -163,4 +176,138 @@ export const api = {
 
         return res.blob();
     },
+
+    // Artifacts
+    createArtifact: (projectId: string, data: {
+        type: ArtifactType;
+        name: string;
+        url?: string;
+        description?: string;
+        metadata?: Record<string, unknown>;
+    }) =>
+        request<Artifact>(`/artifacts/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getArtifacts: (projectId: string, type?: ArtifactType) =>
+        request<Artifact[]>(
+            `/artifacts/project/${projectId}${type ? `?type=${type}` : ''}`,
+        ),
+
+    getArtifact: (id: string) => request<Artifact>(`/artifacts/${id}`),
+
+    updateArtifact: (id: string, data: Partial<Artifact>) =>
+        request<Artifact>(`/artifacts/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteArtifact: (id: string) =>
+        request<void>(`/artifacts/${id}`, { method: 'DELETE' }),
+
+    // UTM Sources
+    createSource: (projectId: string, data: { name: string; label: string; icon?: string }) =>
+        request<UtmSource>(`/utm/sources/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getSources: (projectId: string) =>
+        request<UtmSource[]>(`/utm/sources/project/${projectId}`),
+
+    deleteSource: (id: string) =>
+        request<void>(`/utm/sources/${id}`, { method: 'DELETE' }),
+
+    // UTM Mediums
+    createMedium: (projectId: string, data: { name: string; label: string }) =>
+        request<UtmMedium>(`/utm/mediums/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getMediums: (projectId: string) =>
+        request<UtmMedium[]>(`/utm/mediums/project/${projectId}`),
+
+    deleteMedium: (id: string) =>
+        request<void>(`/utm/mediums/${id}`, { method: 'DELETE' }),
+
+    // UTM Campaigns
+    createCampaign: (projectId: string, data: { name: string; label: string; startDate?: string; endDate?: string }) =>
+        request<UtmCampaign>(`/utm/campaigns/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getCampaigns: (projectId: string) =>
+        request<UtmCampaign[]>(`/utm/campaigns/project/${projectId}`),
+
+    deleteCampaign: (id: string) =>
+        request<void>(`/utm/campaigns/${id}`, { method: 'DELETE' }),
+
+    // UTM Rules
+    createRule: (projectId: string, data: {
+        name: string;
+        description?: string;
+        priority?: number;
+        conditions?: UtmRuleCondition[];
+        sourceTemplate: string;
+        mediumTemplate: string;
+        campaignTemplate?: string;
+        contentTemplate?: string;
+        termTemplate?: string;
+    }) =>
+        request<UtmRule>(`/utm/rules/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getRules: (projectId: string) =>
+        request<UtmRule[]>(`/utm/rules/project/${projectId}`),
+
+    deleteRule: (id: string) =>
+        request<void>(`/utm/rules/${id}`, { method: 'DELETE' }),
+
+    // UTM Links
+    createLink: (projectId: string, data: {
+        artifactId?: string;
+        campaignId?: string;
+        source: string;
+        medium: string;
+        campaign?: string;
+        content?: string;
+        term?: string;
+        baseUrl: string;
+        label?: string;
+        notes?: string;
+    }) =>
+        request<UtmLink>(`/utm/links/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    generateLinks: (projectId: string, data: {
+        artifactId: string;
+        campaignId?: string;
+        baseUrl: string;
+        count: number;
+        contentPrefix?: string;
+    }) =>
+        request<UtmLink[]>(`/utm/links/project/${projectId}/generate`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getLinks: (projectId: string, filters?: { campaignId?: string; artifactId?: string }) => {
+        const params = new URLSearchParams();
+        if (filters?.campaignId) params.set('campaignId', filters.campaignId);
+        if (filters?.artifactId) params.set('artifactId', filters.artifactId);
+        const qs = params.toString();
+        return request<UtmLink[]>(`/utm/links/project/${projectId}${qs ? `?${qs}` : ''}`);
+    },
+
+    deleteLink: (id: string) =>
+        request<void>(`/utm/links/${id}`, { method: 'DELETE' }),
+
+
 };

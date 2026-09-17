@@ -389,6 +389,23 @@ export type FloatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
 }
 
+export type EnumArtifactTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ArtifactType | Prisma.EnumArtifactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumArtifactTypeFilter<$PrismaModel> | $Enums.ArtifactType
+}
+
+export type EnumArtifactTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ArtifactType | Prisma.EnumArtifactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumArtifactTypeWithAggregatesFilter<$PrismaModel> | $Enums.ArtifactType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumArtifactTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumArtifactTypeFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -710,6 +727,23 @@ export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatFilter<$PrismaModel>
   _min?: Prisma.NestedFloatFilter<$PrismaModel>
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
+}
+
+export type NestedEnumArtifactTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ArtifactType | Prisma.EnumArtifactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumArtifactTypeFilter<$PrismaModel> | $Enums.ArtifactType
+}
+
+export type NestedEnumArtifactTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ArtifactType | Prisma.EnumArtifactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ArtifactType[] | Prisma.ListEnumArtifactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumArtifactTypeWithAggregatesFilter<$PrismaModel> | $Enums.ArtifactType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumArtifactTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumArtifactTypeFilter<$PrismaModel>
 }
 
 

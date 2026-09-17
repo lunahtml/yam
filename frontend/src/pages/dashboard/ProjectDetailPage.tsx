@@ -1,5 +1,7 @@
 //frontend/src/pages/dashboard/ProjectDetailPage.tsx
+//frontend/src/pages/dashboard/ProjectDetailPage.tsx
 import { useEffect, useState } from 'react';
+import { ArrowLeft, Link2, Calculator, Save, Download } from 'lucide-react';
 import { api } from '../../api/client';
 import {
     DashboardForm,
@@ -15,6 +17,7 @@ interface ProjectDetailPageProps {
     projectId: string;
     projectName: string;
     onBack: () => void;
+    onOpenArtifacts: (projectId: string, projectName: string) => void;
 }
 
 const today = new Date().toISOString().slice(0, 10);
@@ -57,6 +60,7 @@ export default function ProjectDetailPage({
     projectId,
     projectName,
     onBack,
+    onOpenArtifacts,
 }: ProjectDetailPageProps) {
     const [project, setProject] = useState<Project | null>(null);
     const [form, setForm] = useState<DashboardForm>(INITIAL);
@@ -147,36 +151,96 @@ export default function ProjectDetailPage({
 
     return (
         <div>
-            <div style={{ marginBottom: 20 }}>
+            <div style={{ marginBottom: 24 }}>
                 <button
                     onClick={onBack}
                     style={{
                         background: 'transparent',
                         border: 'none',
-                        color: '#6366f1',
+                        color: 'var(--cyan)',
                         cursor: 'pointer',
                         fontSize: 14,
                         padding: 0,
-                        marginBottom: 8,
+                        marginBottom: 12,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
                     }}
                 >
-                    ← Назад к проектам
+                    <ArrowLeft size={16} />
+                    Назад к проектам
                 </button>
-                <h1 style={{ fontSize: 28, fontWeight: 700 }}>
-                    📊 {project?.name ?? projectName}
+
+                <h1
+                    style={{
+                        fontSize: 28,
+                        fontWeight: 700,
+                        color: 'var(--text-primary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 14,
+                    }}
+                >
+                    <span
+                        style={{
+                            width: 44,
+                            height: 44,
+                            background: 'linear-gradient(135deg, var(--accent), var(--cyan))',
+                            borderRadius: 12,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 0 24px var(--accent-glow)',
+                        }}
+                    >
+                        <span style={{ fontSize: 22 }}>📊</span>
+                    </span>
+                    {project?.name ?? projectName}
                 </h1>
+
                 {project?.description && (
-                    <p style={{ color: '#718096', fontSize: 14, marginTop: 4 }}>
+                    <p
+                        style={{
+                            color: 'var(--text-muted)',
+                            fontSize: 14,
+                            marginTop: 8,
+                        }}
+                    >
                         {project.description}
                     </p>
                 )}
             </div>
 
             {error && (
-                <div style={{ color: '#e53e3e', marginBottom: 16 }}>{error}</div>
+                <div
+                    style={{
+                        color: 'var(--error)',
+                        marginBottom: 16,
+                        fontSize: 13,
+                        padding: 12,
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: 8,
+                    }}
+                >
+                    {error}
+                </div>
             )}
+
             {message && (
-                <div style={{ color: '#38a169', marginBottom: 16 }}>{message}</div>
+                <div
+                    style={{
+                        color: 'var(--success)',
+                        marginBottom: 16,
+                        fontSize: 13,
+                        padding: 12,
+                        background: 'rgba(34, 197, 94, 0.1)',
+                        border: '1px solid rgba(34, 197, 94, 0.3)',
+                        borderRadius: 8,
+                    }}
+                >
+                    {message}
+                </div>
             )}
 
             <div
@@ -184,26 +248,47 @@ export default function ProjectDetailPage({
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginBottom: 20,
+                    marginBottom: 24,
+                    flexWrap: 'wrap',
+                    gap: 12,
                 }}
             >
-                <h2 style={{ fontSize: 22, fontWeight: 700 }}>
-                    📣 Marketing Dashboard
+                <h2
+                    style={{
+                        fontSize: 22,
+                        fontWeight: 700,
+                        color: 'var(--text-primary)',
+                    }}
+                >
+                    Marketing Dashboard
                 </h2>
-                <div style={{ display: 'flex', gap: 12 }}>
+
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                    <Button
+                        onClick={() => onOpenArtifacts(projectId, project?.name ?? projectName)}
+                        variant="secondary"
+                        style={{ width: 'auto', padding: '10px 20px' }}
+                    >
+                        <Link2 size={16} />
+                        Артефакты
+                    </Button>
+
                     <Button
                         onClick={calculate}
-                        style={{ width: 'auto', padding: '10px 24px' }}
+                        style={{ width: 'auto', padding: '10px 20px' }}
                     >
-                        📈 Рассчитать
+                        <Calculator size={16} />
+                        Рассчитать
                     </Button>
+
                     <Button
                         onClick={handleSave}
                         loading={saving}
                         variant="secondary"
-                        style={{ width: 'auto', padding: '10px 24px' }}
+                        style={{ width: 'auto', padding: '10px 20px' }}
                     >
-                        💾 Сохранить
+                        <Save size={16} />
+                        Сохранить
                     </Button>
                 </div>
             </div>
@@ -212,7 +297,14 @@ export default function ProjectDetailPage({
 
             {metrics && (
                 <div style={{ marginTop: 32 }}>
-                    <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16 }}>
+                    <h2
+                        style={{
+                            fontSize: 22,
+                            fontWeight: 700,
+                            marginBottom: 16,
+                            color: 'var(--text-primary)',
+                        }}
+                    >
                         📈 Показатели за {form.periodFrom} — {form.periodTo}
                     </h2>
                     <MetricsTable metrics={metrics} form={form} />
@@ -229,7 +321,13 @@ export default function ProjectDetailPage({
                             marginBottom: 16,
                         }}
                     >
-                        <h3 style={{ fontSize: 18, fontWeight: 700 }}>
+                        <h3
+                            style={{
+                                fontSize: 18,
+                                fontWeight: 700,
+                                color: 'var(--text-primary)',
+                            }}
+                        >
                             📚 История периодов ({history.length})
                         </h3>
                         <Button
@@ -237,7 +335,8 @@ export default function ProjectDetailPage({
                             variant="secondary"
                             style={{ width: 'auto', padding: '8px 16px' }}
                         >
-                            📥 Скачать всю историю
+                            <Download size={16} />
+                            Скачать всю историю
                         </Button>
                     </div>
 
@@ -246,26 +345,55 @@ export default function ProjectDetailPage({
                             <div
                                 key={h.id}
                                 style={{
-                                    padding: 12,
-                                    background: '#f7fafc',
-                                    borderRadius: 8,
+                                    padding: 16,
+                                    background: 'var(--bg-surface)',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: 12,
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
+                                    gap: 16,
+                                    transition: 'all 0.15s',
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderColor = 'var(--border-bright)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderColor = 'var(--border)';
                                 }}
                             >
-                                <div>
-                                    <div style={{ fontWeight: 600, fontSize: 14 }}>
+                                <div style={{ flex: 1 }}>
+                                    <div
+                                        style={{
+                                            fontWeight: 600,
+                                            fontSize: 14,
+                                            color: 'var(--text-primary)',
+                                        }}
+                                    >
                                         {formatDate(h.periodFrom)} — {formatDate(h.periodTo)}
                                     </div>
                                     <div
-                                        style={{ fontSize: 12, color: '#718096', marginTop: 2 }}
+                                        style={{
+                                            fontSize: 12,
+                                            color: 'var(--text-muted)',
+                                            marginTop: 4,
+                                        }}
                                     >
-                                        Выручка: {h.revenue.toLocaleString('ru-RU')} ₽ · Бюджет:{' '}
-                                        {h.adBudget.toLocaleString('ru-RU')} ₽
+                                        Выручка:{' '}
+                                        <span style={{ color: 'var(--cyan)' }}>
+                                            {h.revenue.toLocaleString('ru-RU')} ₽
+                                        </span>{' '}
+                                        · Бюджет:{' '}
+                                        <span style={{ color: 'var(--text-secondary)' }}>
+                                            {h.adBudget.toLocaleString('ru-RU')} ₽
+                                        </span>
                                     </div>
                                     <div
-                                        style={{ fontSize: 11, color: '#a0aec0', marginTop: 4 }}
+                                        style={{
+                                            fontSize: 11,
+                                            color: 'var(--text-dim)',
+                                            marginTop: 4,
+                                        }}
                                     >
                                         Сохранено: {formatDate(h.createdAt)}
                                     </div>
@@ -275,16 +403,29 @@ export default function ProjectDetailPage({
                                     onClick={() => handleExportOne(h.id)}
                                     style={{
                                         padding: '8px 16px',
-                                        background: '#eef2ff',
-                                        color: '#4f46e5',
-                                        border: 'none',
-                                        borderRadius: 6,
+                                        background: 'var(--bg-elevated)',
+                                        color: 'var(--cyan)',
+                                        border: '1px solid var(--border-bright)',
+                                        borderRadius: 8,
                                         cursor: 'pointer',
                                         fontSize: 13,
-                                        fontWeight: 500,
+                                        fontWeight: 600,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 6,
+                                        transition: 'all 0.15s',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.borderColor = 'var(--cyan)';
+                                        e.currentTarget.style.background = 'rgba(34, 211, 238, 0.1)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.borderColor = 'var(--border-bright)';
+                                        e.currentTarget.style.background = 'var(--bg-elevated)';
                                     }}
                                 >
-                                    📥 Excel
+                                    <Download size={14} />
+                                    Excel
                                 </button>
                             </div>
                         ))}

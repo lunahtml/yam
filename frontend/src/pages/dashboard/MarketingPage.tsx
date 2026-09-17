@@ -4,9 +4,10 @@ import MarketingForm from './marketing/MarketingForm';
 import MetricsTable from './marketing/MetricsTable';
 import { DashboardForm, MarketingMetrics } from '../../types/api';
 import Button from '../../components/Button';
-
+const today = new Date().toISOString().slice(0, 10);
 const INITIAL: DashboardForm = {
-    period: 'Январь 2026',
+    periodFrom: today,
+    periodTo: today,
     adBudget: 0,
     marketingCosts: 0,
     revenue: 0,
@@ -41,12 +42,12 @@ const INITIAL: DashboardForm = {
 export default function MarketingPage() {
     const [form, setForm] = useState<DashboardForm>(INITIAL);
     const [metrics, setMetrics] = useState<MarketingMetrics | null>(null);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
     const update = (key: keyof DashboardForm, value: string) => {
         setForm({
             ...form,
-            [key]: key === 'period' ? value : Number(value),
+            [key]: key === 'periodTo' ? value : Number(value),
         });
     };
 
@@ -69,7 +70,7 @@ export default function MarketingPage() {
             {metrics && (
                 <div style={{ marginTop: 32 }}>
                     <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16 }}>
-                        📊 Показатели за {form.period}
+                        📊 Показатели за {form.periodTo}
                     </h2>
                     <MetricsTable metrics={metrics} form={form} />
                 </div>

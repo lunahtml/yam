@@ -54,3 +54,17 @@ export const ProjectStatus = {
 } as const
 
 export type ProjectStatus = (typeof ProjectStatus)[keyof typeof ProjectStatus]
+
+
+export const ArtifactType = {
+  WEBSITE: 'WEBSITE',
+  SOCIAL: 'SOCIAL',
+  DOCUMENT: 'DOCUMENT',
+  DASHBOARD: 'DASHBOARD',
+  VIDEO: 'VIDEO',
+  FILE: 'FILE',
+  OFFLINE: 'OFFLINE',
+  CUSTOM: 'CUSTOM'
+} as const
+
+export type ArtifactType = (typeof ArtifactType)[keyof typeof ArtifactType]
