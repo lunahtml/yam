@@ -17,6 +17,7 @@ import { CurrentUserId } from '../../common/decorators/current-user-id.decorator
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
 import { CreateEntitySchema, } from './contracts/create-entity.dto.js';
 import { UpdateEntitySchema, } from './contracts/update-entity.dto.js';
+import { ENTITY_TEMPLATES } from './templates/entity-templates.js';
 let EntitiesController = class EntitiesController {
     entitiesService;
     constructor(entitiesService) {
@@ -24,6 +25,12 @@ let EntitiesController = class EntitiesController {
     }
     async create(userId, projectId, data) {
         return this.entitiesService.create(userId, projectId, data);
+    }
+    async getTemplates() {
+        return ENTITY_TEMPLATES;
+    }
+    async createFromTemplate(userId, projectId, data) {
+        return this.entitiesService.createFromTemplate(userId, projectId, data.templateKey);
     }
     async findByProject(userId, projectId) {
         return this.entitiesService.findByProject(userId, projectId);
@@ -47,6 +54,21 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], EntitiesController.prototype, "create", null);
+__decorate([
+    Get('templates'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], EntitiesController.prototype, "getTemplates", null);
+__decorate([
+    Post('project/:projectId/from-template'),
+    __param(0, CurrentUserId()),
+    __param(1, Param('projectId')),
+    __param(2, Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:returntype", Promise)
+], EntitiesController.prototype, "createFromTemplate", null);
 __decorate([
     Get('project/:projectId'),
     __param(0, CurrentUserId()),

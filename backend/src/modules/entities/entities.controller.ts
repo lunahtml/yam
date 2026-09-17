@@ -19,6 +19,8 @@ import {
     UpdateEntitySchema,
     UpdateEntityDto,
 } from './contracts/update-entity.dto.js';
+import { ENTITY_TEMPLATES } from './templates/entity-templates.js';
+import { Public } from '../../common/decorators/public.decorator.js';
 
 @Controller('entities')
 export class EntitiesController {
@@ -31,6 +33,24 @@ export class EntitiesController {
         @Body(new ZodValidationPipe(CreateEntitySchema)) data: CreateEntityDto,
     ) {
         return this.entitiesService.create(userId, projectId, data);
+    }
+
+    @Get('templates')
+    async getTemplates() {
+        return ENTITY_TEMPLATES;
+    }
+
+    @Post('project/:projectId/from-template')
+    async createFromTemplate(
+        @CurrentUserId() userId: string,
+        @Param('projectId') projectId: string,
+        @Body() data: { templateKey: string },
+    ) {
+        return this.entitiesService.createFromTemplate(
+            userId,
+            projectId,
+            data.templateKey,
+        );
     }
 
     @Get('project/:projectId')

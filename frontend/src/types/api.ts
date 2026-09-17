@@ -404,3 +404,25 @@ export interface WorkflowStep {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface EntityTemplateField {
+    name: string;
+    label: string;
+    type: string;
+    isRequired?: boolean;
+    options?: Record<string, unknown>;
+}
+
+export interface EntityTemplate {
+    key: string;
+    label: string;
+    description: string;
+    icon: string;
+    entity: { name: string; label: string; icon: string };
+    fields: EntityTemplateField[];
+    defaultView: {
+        name: string;
+        type: 'KANBAN' | 'TABLE' | 'LIST' | 'CALENDAR';
+        config: Record<string, unknown>;
+    };
+}

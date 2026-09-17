@@ -1,0 +1,266 @@
+/* frontend/src/pages/dashboard/entities/EntitiesPage.css */
+
+.entities-page {
+  padding: 0;
+}
+
+.entities-back {
+  background: transparent;
+  border: none;
+  color: var(--cyan);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.entities-back:hover {
+  color: var(--cyan-bright);
+}
+
+.entities-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.entities-title-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px var(--accent-glow);
+  flex-shrink: 0;
+}
+
+.entities-error {
+  color: var(--error);
+  margin-bottom: 16px;
+  font-size: 13px;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+}
+
+/* Действия */
+.entities-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Шаблоны */
+.entities-templates {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.entities-templates-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.entities-templates-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.entities-templates-close {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.entities-templates-close:hover {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.entities-templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.entities-template-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  color: var(--text-primary);
+}
+
+.entities-template-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.entities-template-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.entities-template-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.entities-template-label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.entities-template-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.entities-template-fields {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: monospace;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* Своя сущность */
+.entities-custom {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  max-width: 500px;
+}
+
+.entities-custom-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+}
+
+.entities-custom-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Список */
+.entities-list-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.entities-list-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+}
+
+.entities-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.entities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entities-item {
+  padding: 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.entities-item:hover {
+  border-color: var(--border-bright);
+}
+
+.entities-item-content {
+  flex: 1;
+}
+
+.entities-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.entities-item-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.entities-item-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-hover);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: monospace;
+}
+
+.entities-item-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.entities-item-delete {
+  background: transparent;
+  border: none;
+  color: var(--error);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.entities-item-delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+}

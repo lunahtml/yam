@@ -23,6 +23,7 @@ import {
     ListRecordsQuery,
     View,
     ViewType,
+    EntityTemplate,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -463,4 +464,15 @@ export const api = {
 
     deleteView: (id: string) =>
         request<void>(`/views/${id}`, { method: 'DELETE' }),
+
+
+
+    getEntityTemplates: () =>
+        request<EntityTemplate[]>('/entities/templates'),
+
+    createEntityFromTemplate: (projectId: string, templateKey: string) =>
+        request<Entity>(`/entities/project/${projectId}/from-template`, {
+            method: 'POST',
+            body: JSON.stringify({ templateKey }),
+        }),
 };

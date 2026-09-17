@@ -9,11 +9,13 @@ import {
     useSensor,
     useSensors,
     useDroppable,
+    useDraggable,
 } from '@dnd-kit/core';
-import { useDraggable } from '@dnd-kit/core';
-import { Trash2 } from 'lucide-react';
+import { Plus, Trash2, Clock, AlertCircle } from 'lucide-react';
 import { api } from '../../../api/client';
 import { EntityRecord, Field } from '../../../types/api';
+import TaskDetailPopup from './TaskDetailPopup';
+import TaskQuickForm from './TaskQuickForm';
 import './KanbanView.css';
 
 interface KanbanViewProps {
@@ -27,6 +29,26 @@ interface KanbanColumn {
     label: string;
 }
 
+const COLUMN_LABELS: Record<string, string> = {
+    backlog: 'Backlog',
+    todo: 'To Do',
+    in_progress: 'В работе',
+    review: 'Review',
+    done: 'Готово',
+    new: 'Новое',
+    mql: 'MQL',
+    sql: 'SQL',
+    meeting: 'Встреча',
+    deal: 'Сделка',
+    lost: 'Потеряно',
+    idea: 'Идея',
+    draft: 'Черновик',
+    published: 'Опубликовано',
+    active: 'Активен',
+    inactive: 'Неактивен',
+    churned: 'Ушёл',
+};
+
 export default function KanbanView({
     entityId,
     fields,
@@ -36,6 +58,10 @@ export default function KanbanView({
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [activeId, setActiveId] = useState<string | null>(null);
+    const [openedRecord, setOpenedRecord] = useState<EntityRecord | null>(null);
+    const [quickCreateColumn, setQuickCreateColumn] = useState<string | null>(
+        null,
+    );
 
     const groupField = config.groupBy as string | undefined;
     const groupFieldDef = groupField
@@ -43,9 +69,7 @@ export default function KanbanView({
         : undefined;
 
     const sensors = useSensors(
-        useSensor(PointerSensor, {
-            activationConstraint: { distance: 5 },
-        }),
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     );
 
     const loadRecords = async () => {
@@ -73,8 +97,12 @@ export default function KanbanView({
             typeof groupFieldDef.options === 'object' &&
             'choices' in groupFieldDef.options
         ) {
-            const choices = (groupFieldDef.options as { choices: string[] }).choices;
-            return choices.map((c) => ({ key: c, label: c }));
+            const choices = (groupFieldDef.options as { choices: string[] })
+                .choices;
+            return choices.map((c) => ({
+                key: c,
+                label: COLUMN_LABELS[c] ?? c,
+            }));
         }
 
         if (groupFieldDef.type === 'boolean') {
@@ -113,7 +141,6 @@ export default function KanbanView({
         const oldColumn = getRecordColumn(record);
         if (oldColumn === newColumn) return;
 
-        // Обновляем локально
         setRecords((prev) =>
             prev.map((r) =>
                 r.id === recordId
@@ -122,7 +149,6 @@ export default function KanbanView({
             ),
         );
 
-        // Отправляем на сервер
         try {
             await api.updateRecord(recordId, {
                 ...record.data,
@@ -130,13 +156,12 @@ export default function KanbanView({
             });
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to update');
-            // Откатываем
             await loadRecords();
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Удалить запись?')) return;
+        if (!confirm('Удалить карточку?')) return;
         try {
             await api.deleteRecord(id);
             await loadRecords();
@@ -145,23 +170,25 @@ export default function KanbanView({
         }
     };
 
-    const formatCardValue = (record: EntityRecord, field: Field): string => {
-        const value = record.data[field.name];
-        if (value === null || value === undefined) return '—';
-        if (field.type === 'boolean') return value ? 'Да' : 'Нет';
-        if (field.type === 'date') {
-            try {
-                return new Date(String(value)).toLocaleDateString('ru-RU');
-            } catch {
-                return String(value);
-            }
+    const handleQuickCreate = async (data: Record<string, unknown>) => {
+        try {
+            await api.createRecord(entityId, data);
+            setQuickCreateColumn(null);
+            await loadRecords();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to create');
         }
-        return String(value).slice(0, 100);
     };
 
-    const cardFields = fields
-        .filter((f) => f.name !== groupField)
-        .slice(0, 3);
+    const handleUpdateRecord = async (id: string, data: Record<string, unknown>) => {
+        try {
+            await api.updateRecord(id, data);
+            setOpenedRecord(null);
+            await loadRecords();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to update');
+        }
+    };
 
     if (loading) {
         return <div className="kanban-loading">Загрузка...</div>;
@@ -175,7 +202,7 @@ export default function KanbanView({
         return (
             <div className="kanban-empty">
                 <p>Для канбана нужно указать поле для группировки.</p>
-                <p>Создай поле типа «Список» (например, «Статус») и настрой view.</p>
+                <p>Создай поле типа «Список» (например, «Статус»).</p>
             </div>
         );
     }
@@ -184,40 +211,97 @@ export default function KanbanView({
         ? records.find((r) => r.id === activeId)
         : null;
 
+    // Счётчики
+    const total = records.length;
+    const inProgress = records.filter((r) => {
+        const c = getRecordColumn(r);
+        return c === 'in_progress' || c === 'todo';
+    }).length;
+    const done = records.filter((r) => getRecordColumn(r) === 'done').length;
+
     return (
-        <DndContext
-            sensors={sensors}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-        >
-            <div className="kanban-board">
-                {columns.map((col) => (
-                    <KanbanColumn
-                        key={col.key}
-                        column={col}
-                        records={records.filter((r) => getRecordColumn(r) === col.key)}
-                        fields={fields}
-                        cardFields={cardFields}
-                        formatCardValue={formatCardValue}
-                        onDelete={handleDelete}
-                        activeId={activeId}
-                    />
-                ))}
+        <>
+            <DndContext
+                sensors={sensors}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+            >
+                <div className="kanban-board">
+                    {columns.map((col) => {
+                        const colRecords = records.filter(
+                            (r) => getRecordColumn(r) === col.key,
+                        );
+
+                        return (
+                            <KanbanColumn
+                                key={col.key}
+                                column={col}
+                                records={colRecords}
+                                fields={fields}
+                                onDelete={handleDelete}
+                                onOpen={(r) => setOpenedRecord(r)}
+                                onQuickCreate={() => setQuickCreateColumn(col.key)}
+                                activeId={activeId}
+                            />
+                        );
+                    })}
+                </div>
+
+                <DragOverlay>
+                    {activeRecord && (
+                        <div className="kanban-card kanban-card-dragging">
+                            <div className="kanban-card-title">
+                                {String(
+                                    activeRecord.data[fields[0]?.name ?? 'title'] ?? 'Карточка',
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </DragOverlay>
+            </DndContext>
+
+            {/* Счётчики */}
+            <div className="kanban-stats">
+                <div className="kanban-stat">
+                    <span className="kanban-stat-label">Всего:</span>
+                    <span className="kanban-stat-value">{total}</span>
+                </div>
+                <div className="kanban-stat">
+                    <Clock size={14} />
+                    <span className="kanban-stat-label">В работе:</span>
+                    <span className="kanban-stat-value">{inProgress}</span>
+                </div>
+                <div className="kanban-stat">
+                    <span className="kanban-stat-label">Готово:</span>
+                    <span className="kanban-stat-value kanban-stat-value-success">
+                        {done}
+                    </span>
+                </div>
             </div>
 
-            <DragOverlay>
-                {activeRecord && (
-                    <div className="kanban-card kanban-card-dragging">
-                        <div className="kanban-card-title">
-                            {formatCardValue(
-                                activeRecord,
-                                fields[0] || ({ name: 'id', label: 'ID', type: 'text' } as Field),
-                            )}
-                        </div>
-                    </div>
-                )}
-            </DragOverlay>
-        </DndContext>
+            {/* Быстрая форма создания */}
+            {quickCreateColumn && (
+                <TaskQuickForm
+                    fields={fields}
+                    initialStatus={{
+                        field: groupFieldDef.name,
+                        value: quickCreateColumn,
+                    }}
+                    onSubmit={handleQuickCreate}
+                    onCancel={() => setQuickCreateColumn(null)}
+                />
+            )}
+
+            {/* Попап карточки */}
+            {openedRecord && (
+                <TaskDetailPopup
+                    record={openedRecord}
+                    fields={fields}
+                    onSave={handleUpdateRecord}
+                    onClose={() => setOpenedRecord(null)}
+                />
+            )}
+        </>
     );
 }
 
@@ -225,17 +309,17 @@ function KanbanColumn({
     column,
     records,
     fields,
-    cardFields,
-    formatCardValue,
     onDelete,
+    onOpen,
+    onQuickCreate,
     activeId,
 }: {
     column: KanbanColumn;
     records: EntityRecord[];
     fields: Field[];
-    cardFields: Field[];
-    formatCardValue: (r: EntityRecord, f: Field) => string;
     onDelete: (id: string) => void;
+    onOpen: (r: EntityRecord) => void;
+    onQuickCreate: () => void;
     activeId: string | null;
 }) {
     const { setNodeRef, isOver } = useDroppable({ id: column.key });
@@ -250,6 +334,10 @@ function KanbanColumn({
                 <span className="kanban-column-count">{records.length}</span>
             </div>
 
+            <button className="kanban-column-add" onClick={onQuickCreate}>
+                <Plus size={14} /> Добавить
+            </button>
+
             <div className="kanban-column-body">
                 {records.length === 0 ? (
                     <div className="kanban-column-empty">Пусто</div>
@@ -259,9 +347,8 @@ function KanbanColumn({
                             key={record.id}
                             record={record}
                             fields={fields}
-                            cardFields={cardFields}
-                            formatCardValue={formatCardValue}
                             onDelete={onDelete}
+                            onOpen={onOpen}
                             isDragging={activeId === record.id}
                         />
                     ))
@@ -274,16 +361,14 @@ function KanbanColumn({
 function KanbanCard({
     record,
     fields,
-    cardFields,
-    formatCardValue,
     onDelete,
+    onOpen,
     isDragging,
 }: {
     record: EntityRecord;
     fields: Field[];
-    cardFields: Field[];
-    formatCardValue: (r: EntityRecord, f: Field) => string;
     onDelete: (id: string) => void;
+    onOpen: (r: EntityRecord) => void;
     isDragging: boolean;
 }) {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -291,10 +376,41 @@ function KanbanCard({
     });
 
     const style = transform
-        ? {
-            transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        }
+        ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
         : undefined;
+
+    const titleField = fields.find((f) => f.name === 'title') ?? fields[0];
+    const priorityField = fields.find((f) => f.name === 'priority');
+    const assigneeField = fields.find((f) => f.name === 'assignee');
+    const dueDateField = fields.find((f) => f.name === 'dueDate');
+
+    const title = titleField
+        ? String(record.data[titleField.name] ?? 'Без названия')
+        : 'Без названия';
+
+    const priority = priorityField
+        ? String(record.data[priorityField.name] ?? '')
+        : '';
+
+    const assignee = assigneeField
+        ? String(record.data[assigneeField.name] ?? '')
+        : '';
+
+    const dueDate = dueDateField
+        ? String(record.data[dueDateField.name] ?? '')
+        : '';
+
+    const isOverdue =
+        dueDate && new Date(dueDate) < new Date() && !isDragging;
+
+    const priorityClass =
+        priority === 'urgent'
+            ? 'kanban-priority-urgent'
+            : priority === 'high'
+                ? 'kanban-priority-high'
+                : priority === 'medium'
+                    ? 'kanban-priority-medium'
+                    : '';
 
     return (
         <div
@@ -305,11 +421,14 @@ function KanbanCard({
             {...attributes}
         >
             <div className="kanban-card-header">
-                <div className="kanban-card-title">
-                    {formatCardValue(
-                        record,
-                        fields[0] || ({ name: 'id', label: 'ID', type: 'text' } as Field),
-                    )}
+                <div
+                    className="kanban-card-title"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onOpen(record);
+                    }}
+                >
+                    {title}
                 </div>
                 <button
                     className="kanban-card-delete"
@@ -322,12 +441,26 @@ function KanbanCard({
                 </button>
             </div>
 
-            {cardFields.slice(1).map((f) => (
-                <div key={f.id} className="kanban-card-field">
-                    <span className="kanban-card-field-label">{f.label}:</span>{' '}
-                    {formatCardValue(record, f)}
+            <div className="kanban-card-meta">
+                {priority && (
+                    <span className={`kanban-card-priority ${priorityClass}`}>
+                        {priority}
+                    </span>
+                )}
+                {assignee && (
+                    <span className="kanban-card-assignee">👤 {assignee}</span>
+                )}
+            </div>
+
+            {dueDate && (
+                <div
+                    className={`kanban-card-due ${isOverdue ? 'kanban-card-due-overdue' : ''}`}
+                >
+                    {isOverdue && <AlertCircle size={10} />}
+                    <Clock size={10} />
+                    {new Date(dueDate).toLocaleDateString('ru-RU')}
                 </div>
-            ))}
+            )}
         </div>
     );
 }

@@ -3,7 +3,9 @@ import {
     Injectable,
     ForbiddenException,
     ConflictException,
+    BadRequestException,
 } from '@nestjs/common';
+import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
 import {
@@ -12,7 +14,7 @@ import {
 } from '../../../common/types/roles.type.js';
 import { CreateEntityDto } from '../contracts/create-entity.dto.js';
 import { UpdateEntityDto } from '../contracts/update-entity.dto.js';
-
+import { ENTITY_TEMPLATES } from '../templates/entity-templates.js';
 @Injectable()
 export class EntitiesService {
     constructor(
@@ -56,6 +58,58 @@ export class EntitiesService {
                 isSystem: false,
             },
         });
+    }
+
+    async createFromTemplate(
+        userId: string,
+        projectId: string,
+        templateKey: string,
+    ) {
+        await this.membership.assertProjectRole(userId, projectId, EDIT_ROLES);
+
+        const template = ENTITY_TEMPLATES.find((t) => t.key === templateKey);
+        if (!template) {
+            throw new BadRequestException(`Unknown template: ${templateKey}`);
+        }
+
+        // Создаём entity
+        const entity = await this.prisma.client.entity.create({
+            data: {
+                projectId,
+                name: template.entity.name,
+                label: template.entity.label,
+                icon: template.entity.icon,
+                isSystem: false,
+            },
+        });
+
+        // Создаём поля
+        for (const f of template.fields) {
+            await this.prisma.client.field.create({
+                data: {
+                    entityId: entity.id,
+                    name: f.name,
+                    label: f.label,
+                    type: f.type,
+                    isRequired: f.isRequired ?? false,
+                    options: f.options as Prisma.InputJsonValue | undefined,
+                },
+            });
+        }
+
+        // Создаём default view
+        await this.prisma.client.view.create({
+            data: {
+                entityId: entity.id,
+                projectId,
+                name: template.defaultView.name,
+                type: template.defaultView.type,
+                config: template.defaultView.config as Prisma.InputJsonValue,
+                isDefault: true,
+            },
+        });
+
+        return entity;
     }
 
     async findByProject(userId: string, projectId: string) {

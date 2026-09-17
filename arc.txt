@@ -37,6 +37,7 @@ yam/
         │               └── LinksTab.tsx  ✅
         │               └── RulesTab.tsx  ✅
         │       └── entities/  ✅
+        │               └── TaskQuickForm.tsx  ✅
         │               └── ViewForm.tsx  ✅
         │               └── ViewManager.tsx  ✅
         │               └── KanbanView.tsx  ✅
@@ -213,6 +214,8 @@ yam/
         │   ├── entities/ 
         │       ├── entities.controller.ts   ✅
         │       ├── entities.module.ts   ✅
+        │       ├── templates/ 
+        │           ├── entity-templates.ts  ✅
         │       ├── services/ 
         │           ├── entities.service.ts  ✅
         │       ├── contracts/ 

@@ -8,10 +8,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 //backend/src/modules/entities/services/entities.service.ts
-import { Injectable, ForbiddenException, ConflictException, } from '@nestjs/common';
+import { Injectable, ForbiddenException, ConflictException, BadRequestException, } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES, } from '../../../common/types/roles.type.js';
+import { ENTITY_TEMPLATES } from '../templates/entity-templates.js';
 let EntitiesService = class EntitiesService {
     prisma;
     membership;
@@ -48,6 +49,48 @@ let EntitiesService = class EntitiesService {
                 isSystem: false,
             },
         });
+    }
+    async createFromTemplate(userId, projectId, templateKey) {
+        await this.membership.assertProjectRole(userId, projectId, EDIT_ROLES);
+        const template = ENTITY_TEMPLATES.find((t) => t.key === templateKey);
+        if (!template) {
+            throw new BadRequestException(`Unknown template: ${templateKey}`);
+        }
+        // Создаём entity
+        const entity = await this.prisma.client.entity.create({
+            data: {
+                projectId,
+                name: template.entity.name,
+                label: template.entity.label,
+                icon: template.entity.icon,
+                isSystem: false,
+            },
+        });
+        // Создаём поля
+        for (const f of template.fields) {
+            await this.prisma.client.field.create({
+                data: {
+                    entityId: entity.id,
+                    name: f.name,
+                    label: f.label,
+                    type: f.type,
+                    isRequired: f.isRequired ?? false,
+                    options: f.options,
+                },
+            });
+        }
+        // Создаём default view
+        await this.prisma.client.view.create({
+            data: {
+                entityId: entity.id,
+                projectId,
+                name: template.defaultView.name,
+                type: template.defaultView.type,
+                config: template.defaultView.config,
+                isDefault: true,
+            },
+        });
+        return entity;
     }
     async findByProject(userId, projectId) {
         await this.membership.assertProjectMember(userId, projectId);
