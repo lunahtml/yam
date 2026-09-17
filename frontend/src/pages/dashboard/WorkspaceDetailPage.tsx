@@ -155,7 +155,7 @@ export default function WorkspaceDetailPage({
                     }}
                 >
                     <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>
-                        📁 Проекты ({projects.length})
+                        📁 Проекты ... ({projects.length})
                     </h2>
 
                     {projects.length === 0 ? (
@@ -180,7 +180,7 @@ export default function WorkspaceDetailPage({
                                             transition: 'all 0.15s',
                                         }}
                                         onMouseEnter={(e) => {
-                                            e.currentTarget.style.background = '#eef2ff';
+                                            e.currentTarget.style.background = '#5f6680';
                                             e.currentTarget.style.borderColor = '#6366f1';
                                         }}
                                         onMouseLeave={(e) => {
@@ -196,7 +196,7 @@ export default function WorkspaceDetailPage({
                                                 marginBottom: 4,
                                             }}
                                         >
-                                            <div style={{ fontWeight: 600, fontSize: 15 }}>
+                                            <div style={{ fontWeight: 600, fontSize: 15, color: '#4a5568' }}>
                                                 {project.name}
                                             </div>
                                             <span
@@ -206,6 +206,7 @@ export default function WorkspaceDetailPage({
                                                     borderRadius: 12,
                                                     background: statusStyle.bg,
                                                     color: statusStyle.color,
+
                                                     fontWeight: 500,
                                                 }}
                                             >

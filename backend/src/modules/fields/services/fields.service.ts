@@ -20,6 +20,54 @@ export class FieldsService {
         private membership: MembershipService,
     ) { }
 
+    // async create(userId: string, entityId: string, data: CreateFieldDto) {
+    //     const entity = await this.prisma.client.entity.findUnique({
+    //         where: { id: entityId },
+    //         select: { projectId: true },
+    //     });
+
+    //     if (!entity) {
+    //         throw new ForbiddenException('Access denied to entity');
+    //     }
+
+    //     await this.membership.assertProjectRole(
+    //         userId,
+    //         entity.projectId,
+    //         EDIT_ROLES,
+    //     );
+
+    //     // Проверка типа поля
+    //     if (!FieldTypeRegistry.has(data.type)) {
+    //         throw new BadRequestException(
+    //             `Unknown field type: ${data.type}. Allowed: ${FieldTypeRegistry.keys().join(', ')}`,
+    //         );
+    //     }
+
+    //     // Проверка уникальности имени
+    //     const exists = await this.prisma.client.field.findUnique({
+    //         where: { entityId_name: { entityId, name: data.name } },
+    //     });
+
+    //     if (exists) {
+    //         throw new ConflictException(
+    //             'Field with this name already exists in the entity',
+    //         );
+    //     }
+
+    //     return this.prisma.client.field.create({
+    //         data: {
+    //             entityId,
+    //             name: data.name,
+    //             label: data.label,
+    //             type: data.type,
+    //             options: data.options as Prisma.InputJsonValue | undefined,
+    //             isRequired: data.isRequired,
+    //             defaultValue: data.defaultValue as
+    //                 | Prisma.InputJsonValue
+    //                 | undefined,
+    //         },
+    //     });
+    // }
     async create(userId: string, entityId: string, data: CreateFieldDto) {
         const entity = await this.prisma.client.entity.findUnique({
             where: { id: entityId },
@@ -54,6 +102,19 @@ export class FieldsService {
             );
         }
 
+        // ↓↓↓ НОВОЕ: валидация defaultValue против типа поля
+        if (data.defaultValue !== undefined && data.defaultValue !== null) {
+            const fieldType = FieldTypeRegistry.get(data.type)!;
+            try {
+                fieldType.validate(data.defaultValue, data.options);
+            } catch {
+                throw new BadRequestException(
+                    `Invalid defaultValue for field type "${data.type}"`,
+                );
+            }
+        }
+        // ↑↑↑ КОНЕЦ НОВОГО
+
         return this.prisma.client.field.create({
             data: {
                 entityId,
@@ -68,7 +129,6 @@ export class FieldsService {
             },
         });
     }
-
     async findByEntity(userId: string, entityId: string) {
         const entity = await this.prisma.client.entity.findUnique({
             where: { id: entityId },
@@ -87,10 +147,45 @@ export class FieldsService {
         });
     }
 
+    // async update(userId: string, id: string, data: UpdateFieldDto) {
+    //     const field = await this.prisma.client.field.findUnique({
+    //         where: { id },
+    //         select: { entityId: true, entity: { select: { projectId: true } } },
+    //     });
+
+    //     if (!field) {
+    //         throw new ForbiddenException('Access denied to field');
+    //     }
+
+    //     await this.membership.assertProjectRole(
+    //         userId,
+    //         field.entity.projectId,
+    //         EDIT_ROLES,
+    //     );
+
+    //     return this.prisma.client.field.update({
+    //         where: { id },
+    //         data: {
+    //             label: data.label,
+    //             options: data.options
+    //                 ? (data.options as Prisma.InputJsonValue)
+    //                 : undefined,
+    //             isRequired: data.isRequired,
+    //             defaultValue:
+    //                 data.defaultValue !== undefined
+    //                     ? (data.defaultValue as Prisma.InputJsonValue)
+    //                     : undefined,
+    //         },
+    //     });
+    // }
     async update(userId: string, id: string, data: UpdateFieldDto) {
         const field = await this.prisma.client.field.findUnique({
             where: { id },
-            select: { entityId: true, entity: { select: { projectId: true } } },
+            select: {
+                entityId: true,
+                type: true,                              // ← ДОБАВЛЕНО
+                entity: { select: { projectId: true } },
+            },
         });
 
         if (!field) {
@@ -102,6 +197,19 @@ export class FieldsService {
             field.entity.projectId,
             EDIT_ROLES,
         );
+
+        // ↓↓↓ НОВОЕ: валидация defaultValue против типа поля
+        if (data.defaultValue !== undefined && data.defaultValue !== null) {
+            const fieldType = FieldTypeRegistry.get(field.type)!;
+            try {
+                fieldType.validate(data.defaultValue, data.options);
+            } catch {
+                throw new BadRequestException(
+                    `Invalid defaultValue for field type "${field.type}"`,
+                );
+            }
+        }
+        // ↑↑↑ КОНЕЦ НОВОГО
 
         return this.prisma.client.field.update({
             where: { id },
@@ -118,7 +226,6 @@ export class FieldsService {
             },
         });
     }
-
     async remove(userId: string, id: string) {
         const field = await this.prisma.client.field.findUnique({
             where: { id },

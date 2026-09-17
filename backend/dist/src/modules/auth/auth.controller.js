@@ -11,8 +11,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 //backend/src/modules/auth/auth.controller.ts
-//backend/src/modules/auth/auth.controller.ts
-import { Controller, Post, Body, HttpCode, HttpStatus, Req, Res, } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, Req, Res, UnauthorizedException, // ДОБАВЛЕНО: нужен для случая, когда refresh-cookie отсутствует
+ } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './services/auth.service.js';
 import { SessionsService } from '../sessions/sessions.service.js';
@@ -22,10 +22,14 @@ import { RegisterSchema } from './contracts/register.dto.js';
 import { LoginSchema } from './contracts/login.dto.js';
 import { VerifyEmailSchema, } from './contracts/verify-email.dto.js';
 import { VerifyLoginSchema, } from './contracts/verify-login.dto.js';
-import { RefreshSchema, LogoutSchema, } from './contracts/refresh.dto.js';
 import { randomBytes } from 'crypto';
 const DEVICE_COOKIE = 'yam_device_id';
 const DEVICE_COOKIE_MAX_AGE = 365 * 24 * 60 * 60 * 1000;
+// ДОБАВЛЕНО: константы для новых cookie с токенами
+const ACCESS_COOKIE = 'yam_access_token';
+const REFRESH_COOKIE = 'yam_refresh_token';
+const ACCESS_COOKIE_MAX_AGE = 15 * 60 * 1000; // синхронизировать с JWT_EXPIRES_IN
+const REFRESH_COOKIE_MAX_AGE = 30 * 24 * 60 * 60 * 1000; // синхронизировать с TTL в sessions.service.ts
 let AuthController = class AuthController {
     authService;
     sessionsService;
@@ -51,6 +55,25 @@ let AuthController = class AuthController {
             deviceId,
         };
     }
+    // ДОБАВЛЕНО: общий helper для установки обеих auth-cookie одновременно.
+    // ПОЧЕМУ: раньше accessToken/refreshToken возвращались в теле JSON-ответа,
+    // и фронтенд сам клал их в localStorage — открытая дверь для XSS-кражи токенов.
+    // Теперь бэкенд сам кладёт их в httpOnly cookie, фронтенд их вообще не видит.
+    setAuthCookies(res, accessToken, refreshToken) {
+        const cookieOpts = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/',
+        };
+        res.cookie(ACCESS_COOKIE, accessToken, { ...cookieOpts, maxAge: ACCESS_COOKIE_MAX_AGE });
+        res.cookie(REFRESH_COOKIE, refreshToken, { ...cookieOpts, maxAge: REFRESH_COOKIE_MAX_AGE });
+    }
+    // ДОБАВЛЕНО: helper для logout — снимает обе cookie.
+    clearAuthCookies(res) {
+        res.clearCookie(ACCESS_COOKIE, { path: '/' });
+        res.clearCookie(REFRESH_COOKIE, { path: '/' });
+    }
     async register(dto) {
         return this.authService.register(dto);
     }
@@ -58,16 +81,49 @@ let AuthController = class AuthController {
         return this.authService.verifyEmail(dto);
     }
     async login(dto, req, res) {
-        return this.authService.login(dto, this.getDeviceInfo(req, res));
+        // БЫЛО: return this.authService.login(dto, this.getDeviceInfo(req, res));
+        // ПОЧЕМУ ИЗМЕНЕНО: authService.login() возвращает либо {accessToken, refreshToken},
+        // либо {requiresTwoFactor: true, verificationToken} (если устройство новое).
+        // Раньше оба варианта уходили в теле ответа как есть. Теперь, если пришли токены —
+        // кладём их в cookie и НЕ отдаём в теле ответа (фронтенд их не должен видеть).
+        // Если пришёл запрос на 2FA — тело ответа не меняется, verificationToken по-прежнему
+        // нужен фронтенду, чтобы отправить его вместе с кодом на /verify-login.
+        const result = await this.authService.login(dto, this.getDeviceInfo(req, res));
+        if ('accessToken' in result) {
+            this.setAuthCookies(res, result.accessToken, result.refreshToken);
+            return { requiresTwoFactor: false };
+        }
+        return result; // { requiresTwoFactor: true, verificationToken }
     }
     async verifyLogin(dto, req, res) {
-        return this.authService.verifyLoginCode(dto, this.getDeviceInfo(req, res));
+        // БЫЛО: return this.authService.verifyLoginCode(dto, this.getDeviceInfo(req, res));
+        // ПОЧЕМУ ИЗМЕНЕНО: та же логика, что и в login() — токены теперь идут в cookie,
+        // а не в тело ответа.
+        const tokens = await this.authService.verifyLoginCode(dto, this.getDeviceInfo(req, res));
+        this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+        return { success: true };
     }
-    async refresh(dto) {
-        return this.sessionsService.refresh(dto.refreshToken);
+    async refresh(req, res) {
+        // ДОБАВЛЕНО: чтение refreshToken из cookie вместо dto.refreshToken
+        const refreshToken = req.cookies?.[REFRESH_COOKIE];
+        if (!refreshToken) {
+            throw new UnauthorizedException('No refresh token');
+        }
+        const tokens = await this.sessionsService.refresh(refreshToken);
+        // ДОБАВЛЕНО: новая пара токенов (rotation) снова кладётся в cookie,
+        // а не возвращается в теле ответа
+        this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+        return { success: true };
     }
-    async logout(dto) {
-        return this.sessionsService.revokeByToken(dto.refreshToken);
+    async logout(req, res) {
+        const refreshToken = req.cookies?.[REFRESH_COOKIE];
+        // ДОБАВЛЕНО: если cookie почему-то уже нет — не падаем с ошибкой,
+        // просто всё равно чистим cookie на стороне браузера (idempotent logout)
+        if (refreshToken) {
+            await this.sessionsService.revokeByToken(refreshToken);
+        }
+        this.clearAuthCookies(res); // ДОБАВЛЕНО: снимаем обе cookie при выходе
+        return { success: true };
     }
 };
 __decorate([
@@ -118,9 +174,10 @@ __decorate([
     Throttle({ auth: { limit: 10, ttl: 60000 } }),
     Post('refresh'),
     HttpCode(HttpStatus.OK),
-    __param(0, Body(new ZodValidationPipe(RefreshSchema))),
+    __param(0, Req()),
+    __param(1, Res({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refresh", null);
 __decorate([
@@ -128,9 +185,10 @@ __decorate([
     Throttle({ auth: { limit: 10, ttl: 60000 } }),
     Post('logout'),
     HttpCode(HttpStatus.OK),
-    __param(0, Body(new ZodValidationPipe(LogoutSchema))),
+    __param(0, Req()),
+    __param(1, Res({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 AuthController = __decorate([

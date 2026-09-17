@@ -21,26 +21,53 @@ import {
     EntityRecord,
     RecordsResponse,
     ListRecordsQuery,
-} from '../types/api';;
+} from '../types/api';
+
 async function request<T>(
     path: string,
     options: RequestInit = {},
 ): Promise<T> {
-    const token = localStorage.getItem('accessToken');
-
     const headers: HeadersInit = {
         'Content-Type': 'application/json',
+        'X-Requested-With': 'fetch',
         ...(options.headers || {}),
     };
-
-    if (token) {
-        (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
-    }
 
     const res = await fetch(`${API_BASE}${path}`, {
         ...options,
         headers,
+        credentials: 'include',
     });
+
+    // ДОБАВЛЕНО: если access-токен протух (401) — пробуем один раз тихо
+    // обновить его через refresh-cookie и повторить исходный запрос.
+    // Не трогаем сами /auth/* эндпоинты, чтобы не зациклиться на refresh/login.
+    if (res.status === 401 && !path.startsWith('/auth/')) {
+        const refreshRes = await fetch(`${API_BASE}/auth/refresh`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'X-Requested-With': 'fetch' },
+        });
+
+        if (refreshRes.ok) {
+            const retryRes = await fetch(`${API_BASE}${path}`, {
+                ...options,
+                headers,
+                credentials: 'include',
+            });
+            const retryText = await retryRes.text();
+            const retryData = retryText ? JSON.parse(retryText) : null;
+
+            if (!retryRes.ok) {
+                throw new Error(retryData?.message || 'Request failed');
+            }
+            return retryData;
+        }
+
+        // refresh тоже не прошёл — сессия реально кончилась (например, logout
+        // на другом устройстве или refresh-токен истёк через 30 дней)
+        throw new Error('Session expired');
+    }
 
     const text = await res.text();
     const data = text ? JSON.parse(text) : null;
@@ -58,7 +85,7 @@ export const api = {
             method: 'POST',
             body: JSON.stringify({ email, password, name }),
         }),
-
+    getMySessions: () => request('/sessions'),
     verifyEmail: (verificationToken: string, code: string) =>
         request('/auth/verify-email', {
             method: 'POST',
@@ -77,17 +104,15 @@ export const api = {
             body: JSON.stringify({ verificationToken, code }),
         }),
 
-    refresh: (refreshToken: string) =>
-        request('/auth/refresh', {
-            method: 'POST',
-            body: JSON.stringify({ refreshToken }),
-        }),
+    // БЫЛО: refresh: (refreshToken: string) => request('/auth/refresh', { method: 'POST', body: JSON.stringify({ refreshToken }) }),
+    // ПОЧЕМУ ИЗМЕНЕНО: refreshToken больше не передаётся явно — он уже в cookie,
+    // бэкенд читает его сам. Функция больше не принимает параметров.
+    refresh: () =>
+        request('/auth/refresh', { method: 'POST' }),
 
-    logout: (refreshToken: string) =>
-        request('/auth/logout', {
-            method: 'POST',
-            body: JSON.stringify({ refreshToken }),
-        }),
+    // БЫЛО: logout: (refreshToken: string) => request('/auth/logout', { method: 'POST', body: JSON.stringify({ refreshToken }) }),
+    logout: () =>
+        request('/auth/logout', { method: 'POST' }),
 
     createProject: (data: {
         workspaceId: string;
@@ -104,8 +129,6 @@ export const api = {
 
     getProject: (id: string) => request(`/projects/${id}`),
 
-
-    // Organizations
     createOrganization: (name: string) =>
         request<Organization>('/organizations', {
             method: 'POST',
@@ -128,6 +151,7 @@ export const api = {
         request<void>(`/organizations/${id}`, {
             method: 'DELETE',
         }),
+
     saveDashboard: (projectId: string, data: DashboardForm) =>
         request(`/marketing-dashboard/${projectId}`, {
             method: 'POST',
@@ -139,7 +163,7 @@ export const api = {
 
     getDashboardHistory: (projectId: string) =>
         request<DashboardHistoryItem[]>(`/marketing-dashboard/${projectId}/history`),
-    // Workspaces
+
     createWorkspace: (organizationId: string, name: string) =>
         request<Workspace>('/workspaces', {
             method: 'POST',
@@ -152,12 +176,18 @@ export const api = {
     getWorkspacesByOrganization: (organizationId: string) =>
         request<Workspace[]>(`/workspaces/organization/${organizationId}`),
 
-
+    // БЫЛО:
+    // exportDashboard: async (id: string): Promise<Blob> => {
+    //     const res = await fetch(`${API_BASE}/marketing-dashboard/${id}/export`, {
+    //         headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+    //     });
+    //     ...
+    // }
+    // ПОЧЕМУ ИЗМЕНЕНО: этот метод шёл в обход общей функции request() и вручную
+    // читал токен из localStorage — теперь тоже переведён на cookie.
     exportDashboard: async (id: string): Promise<Blob> => {
         const res = await fetch(`${API_BASE}/marketing-dashboard/${id}/export`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
+            credentials: 'include', // ДОБАВЛЕНО
         });
 
         if (!res.ok) {
@@ -171,9 +201,7 @@ export const api = {
         const res = await fetch(
             `${API_BASE}/marketing-dashboard/${projectId}/export-history`,
             {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
+                credentials: 'include', // ДОБАВЛЕНО (было: Authorization заголовок из localStorage)
             },
         );
 
@@ -184,7 +212,6 @@ export const api = {
         return res.blob();
     },
 
-    // Artifacts
     createArtifact: (projectId: string, data: {
         type: ArtifactType;
         name: string;
@@ -213,7 +240,6 @@ export const api = {
     deleteArtifact: (id: string) =>
         request<void>(`/artifacts/${id}`, { method: 'DELETE' }),
 
-    // UTM Sources
     createSource: (projectId: string, data: { name: string; label: string; icon?: string }) =>
         request<UtmSource>(`/utm/sources/project/${projectId}`, {
             method: 'POST',
@@ -226,7 +252,6 @@ export const api = {
     deleteSource: (id: string) =>
         request<void>(`/utm/sources/${id}`, { method: 'DELETE' }),
 
-    // UTM Mediums
     createMedium: (projectId: string, data: { name: string; label: string }) =>
         request<UtmMedium>(`/utm/mediums/project/${projectId}`, {
             method: 'POST',
@@ -239,7 +264,6 @@ export const api = {
     deleteMedium: (id: string) =>
         request<void>(`/utm/mediums/${id}`, { method: 'DELETE' }),
 
-    // UTM Campaigns
     createCampaign: (projectId: string, data: { name: string; label: string; startDate?: string; endDate?: string }) =>
         request<UtmCampaign>(`/utm/campaigns/project/${projectId}`, {
             method: 'POST',
@@ -252,7 +276,6 @@ export const api = {
     deleteCampaign: (id: string) =>
         request<void>(`/utm/campaigns/${id}`, { method: 'DELETE' }),
 
-    // UTM Rules
     createRule: (projectId: string, data: {
         name: string;
         description?: string;
@@ -275,7 +298,6 @@ export const api = {
     deleteRule: (id: string) =>
         request<void>(`/utm/rules/${id}`, { method: 'DELETE' }),
 
-    // UTM Links
     createLink: (projectId: string, data: {
         artifactId?: string;
         campaignId?: string;
@@ -316,11 +338,6 @@ export const api = {
     deleteLink: (id: string) =>
         request<void>(`/utm/links/${id}`, { method: 'DELETE' }),
 
-
-    // ═══════════════════════════════════════════════════════════════
-    // ENTITIES
-    // ═══════════════════════════════════════════════════════════════
-
     createEntity: (
         projectId: string,
         data: {
@@ -349,10 +366,6 @@ export const api = {
 
     deleteEntity: (id: string) =>
         request<void>(`/entities/${id}`, { method: 'DELETE' }),
-
-    // ═══════════════════════════════════════════════════════════════
-    // FIELDS
-    // ═══════════════════════════════════════════════════════════════
 
     createField: (
         entityId: string,
@@ -385,10 +398,6 @@ export const api = {
     deleteField: (id: string) =>
         request<void>(`/fields/${id}`, { method: 'DELETE' }),
 
-    // ═══════════════════════════════════════════════════════════════
-    // RECORDS
-    // ═══════════════════════════════════════════════════════════════
-
     createRecord: (entityId: string, data: Record<string, unknown>) =>
         request<EntityRecord>(`/records/entity/${entityId}`, {
             method: 'POST',
@@ -420,5 +429,4 @@ export const api = {
 
     deleteRecord: (id: string) =>
         request<void>(`/records/${id}`, { method: 'DELETE' }),
-
 };

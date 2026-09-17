@@ -1,4 +1,3 @@
-//frontend\src\pages\VerifyPage.tsx
 //frontend/src/pages/VerifyPage.tsx
 import { useState } from 'react';
 import { Shield, Check } from 'lucide-react';
@@ -33,18 +32,23 @@ export default function VerifyPage({
                 return;
             }
 
-            const res = (await api.verifyLogin(verificationToken, code)) as {
-                accessToken?: string;
-                refreshToken?: string;
-            };
-
-            if (res.accessToken) {
-                localStorage.setItem('accessToken', res.accessToken);
-                if (res.refreshToken) {
-                    localStorage.setItem('refreshToken', res.refreshToken);
-                }
-                onSuccess();
-            }
+            // ИЗМЕНЕНО: api.verifyLogin теперь возвращает { success: true },
+            // а не { accessToken, refreshToken } — токены уже лежат в cookie
+            // на момент, когда этот await разрешился.
+            // Раньше:
+            // const res = (await api.verifyLogin(verificationToken, code)) as {
+            //     accessToken?: string;
+            //     refreshToken?: string;
+            // };
+            // if (res.accessToken) {
+            //     localStorage.setItem('accessToken', res.accessToken);
+            //     if (res.refreshToken) {
+            //         localStorage.setItem('refreshToken', res.refreshToken);
+            //     }
+            //     onSuccess();
+            // }
+            await api.verifyLogin(verificationToken, code);
+            onSuccess();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Verification failed');
         } finally {

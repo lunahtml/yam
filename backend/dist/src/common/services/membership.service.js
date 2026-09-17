@@ -10,6 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 //backend/src/common/services/membership.service.ts
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../infra/prisma/prisma.service.js';
+// import { ProjectRole } from '../types/roles.type.js';
+import { PRIVILEGED_ROLES } from '../types/roles.type.js';
 let MembershipService = class MembershipService {
     prisma;
     constructor(prisma) {
@@ -47,8 +49,11 @@ let MembershipService = class MembershipService {
                 },
             },
         });
-        const PRIVILEGED = ['owner', 'admin'];
-        if (wsMembership && PRIVILEGED.includes(wsMembership.role)) {
+        // const PRIVILEGED: readonly string[] = ['owner', 'admin'];
+        // if (wsMembership && PRIVILEGED.includes(wsMembership.role)) {
+        //     return { project, membership: wsMembership };
+        // }
+        if (wsMembership && PRIVILEGED_ROLES.includes(wsMembership.role)) {
             return { project, membership: wsMembership };
         }
         const projMembership = await this.prisma.client.projectMember.findUnique({

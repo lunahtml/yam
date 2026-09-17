@@ -1,7 +1,8 @@
 //backend/src/common/services/membership.service.ts
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../infra/prisma/prisma.service.js';
-import { ProjectRole } from '../types/roles.type.js';
+// import { ProjectRole } from '../types/roles.type.js';
+import { ProjectRole, PRIVILEGED_ROLES } from '../types/roles.type.js';
 import { OrgRole } from '../../generated/prisma/enums.js';
 
 @Injectable()
@@ -53,11 +54,13 @@ export class MembershipService {
             },
         });
 
-        const PRIVILEGED: readonly string[] = ['owner', 'admin'];
-        if (wsMembership && PRIVILEGED.includes(wsMembership.role)) {
+        // const PRIVILEGED: readonly string[] = ['owner', 'admin'];
+        // if (wsMembership && PRIVILEGED.includes(wsMembership.role)) {
+        //     return { project, membership: wsMembership };
+        // }
+        if (wsMembership && PRIVILEGED_ROLES.includes(wsMembership.role as ProjectRole)) {
             return { project, membership: wsMembership };
         }
-
         const projMembership = await this.prisma.client.projectMember.findUnique({
             where: { projectId_userId: { projectId, userId } },
         });

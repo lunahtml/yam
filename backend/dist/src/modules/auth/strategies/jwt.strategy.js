@@ -16,7 +16,17 @@ let JwtStrategy = class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     prisma;
     constructor(prisma) {
         super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            // БЫЛО: jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            // ПОЧЕМУ ИЗМЕНЕНО: access-токен раньше передавался фронтендом через заголовок
+            // Authorization, а фронтенд хранил его в localStorage — это уязвимо к краже
+            // через XSS. Теперь токен лежит в httpOnly cookie (недоступна для JS),
+            // поэтому его нужно читать оттуда. Bearer-заголовок оставлен как fallback —
+            // не мешает и пригодится, если в будущем появится мобильный клиент или
+            // прямой доступ к API не из браузера.
+            jwtFromRequest: ExtractJwt.fromExtractors([
+                (req) => req?.cookies?.['yam_access_token'] ?? null, // ДОБАВЛЕНО
+                ExtractJwt.fromAuthHeaderAsBearerToken(), // ОСТАВЛЕНО как fallback
+            ]),
             ignoreExpiration: false,
             secretOrKey: process.env.JWT_SECRET,
             issuer: 'yam-api',

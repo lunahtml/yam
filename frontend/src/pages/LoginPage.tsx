@@ -29,8 +29,6 @@ export default function LoginPage({
 
         try {
             const res = (await api.login(email, password)) as {
-                accessToken?: string;
-                refreshToken?: string;
                 requiresTwoFactor?: boolean;
                 verificationToken?: string;
             };
@@ -41,11 +39,7 @@ export default function LoginPage({
                 return;
             }
 
-            if (res.accessToken) {
-                localStorage.setItem('accessToken', res.accessToken);
-                if (res.refreshToken) {
-                    localStorage.setItem('refreshToken', res.refreshToken);
-                }
+            if (!res.requiresTwoFactor) {
                 onSuccess();
             }
         } catch (err) {

@@ -16,9 +16,13 @@ const TextField: FieldTypeDefinition = {
     supportsFiltering: true,
     supportsSorting: true,
     supportsAggregation: false,
+    // validate: (value) => {
+    //     if (value === null || value === undefined) return value;
+    //     return z.string().parse(value);
+    // },
     validate: (value) => {
         if (value === null || value === undefined) return value;
-        return z.string().parse(value);
+        return z.string().max(10000).parse(value);
     },
 };
 
@@ -65,9 +69,10 @@ const SelectField: FieldTypeDefinition = {
     supportsSorting: true,
     supportsAggregation: false,
     validate: (value, options) => {
+        // if (value === null || value === undefined) return value;
+        // const str = z.string().parse(value);
         if (value === null || value === undefined) return value;
-        const str = z.string().parse(value);
-
+        const str = z.string().max(500).parse(value);
         if (options && typeof options === 'object' && 'choices' in options) {
             const choices = (options as { choices?: string[] }).choices;
             if (Array.isArray(choices) && !choices.includes(str)) {
