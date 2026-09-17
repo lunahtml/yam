@@ -177,8 +177,8 @@ export type WorkspaceWhereInput = {
   AND?: Prisma.WorkspaceWhereInput | Prisma.WorkspaceWhereInput[]
   OR?: Prisma.WorkspaceWhereInput[]
   NOT?: Prisma.WorkspaceWhereInput | Prisma.WorkspaceWhereInput[]
-  id?: Prisma.StringFilter<"Workspace"> | string
-  organizationId?: Prisma.StringFilter<"Workspace"> | string
+  id?: Prisma.UuidFilter<"Workspace"> | string
+  organizationId?: Prisma.UuidFilter<"Workspace"> | string
   name?: Prisma.StringFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
@@ -203,7 +203,7 @@ export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.WorkspaceWhereInput | Prisma.WorkspaceWhereInput[]
   OR?: Prisma.WorkspaceWhereInput[]
   NOT?: Prisma.WorkspaceWhereInput | Prisma.WorkspaceWhereInput[]
-  organizationId?: Prisma.StringFilter<"Workspace"> | string
+  organizationId?: Prisma.UuidFilter<"Workspace"> | string
   name?: Prisma.StringFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
@@ -227,8 +227,8 @@ export type WorkspaceScalarWhereWithAggregatesInput = {
   AND?: Prisma.WorkspaceScalarWhereWithAggregatesInput | Prisma.WorkspaceScalarWhereWithAggregatesInput[]
   OR?: Prisma.WorkspaceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.WorkspaceScalarWhereWithAggregatesInput | Prisma.WorkspaceScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
-  organizationId?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Workspace"> | string
+  organizationId?: Prisma.UuidWithAggregatesFilter<"Workspace"> | string
   name?: Prisma.StringWithAggregatesFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workspace"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Workspace"> | Date | string
@@ -454,8 +454,8 @@ export type WorkspaceScalarWhereInput = {
   AND?: Prisma.WorkspaceScalarWhereInput | Prisma.WorkspaceScalarWhereInput[]
   OR?: Prisma.WorkspaceScalarWhereInput[]
   NOT?: Prisma.WorkspaceScalarWhereInput | Prisma.WorkspaceScalarWhereInput[]
-  id?: Prisma.StringFilter<"Workspace"> | string
-  organizationId?: Prisma.StringFilter<"Workspace"> | string
+  id?: Prisma.UuidFilter<"Workspace"> | string
+  organizationId?: Prisma.UuidFilter<"Workspace"> | string
   name?: Prisma.StringFilter<"Workspace"> | string
   createdAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workspace"> | Date | string

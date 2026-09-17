@@ -1,7 +1,7 @@
 //backend\src\modules\entities\contracts\create-entity.dto.ts
 import { z } from 'zod';
 export const CreateEntitySchema = z.object({
-    moduleId: z.string().cuid().optional(),
+    moduleId: z.string().uuid().optional(),
     name: z.string().min(1).max(50).regex(/^[a-z][a-z0-9_]*$/, {
         message: 'Name must be lowercase latin, starts with letter, can contain digits and underscores',
     }),

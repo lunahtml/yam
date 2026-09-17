@@ -225,8 +225,8 @@ export type WorkflowStepWhereInput = {
   AND?: Prisma.WorkflowStepWhereInput | Prisma.WorkflowStepWhereInput[]
   OR?: Prisma.WorkflowStepWhereInput[]
   NOT?: Prisma.WorkflowStepWhereInput | Prisma.WorkflowStepWhereInput[]
-  id?: Prisma.StringFilter<"WorkflowStep"> | string
-  workflowId?: Prisma.StringFilter<"WorkflowStep"> | string
+  id?: Prisma.UuidFilter<"WorkflowStep"> | string
+  workflowId?: Prisma.UuidFilter<"WorkflowStep"> | string
   name?: Prisma.StringFilter<"WorkflowStep"> | string
   order?: Prisma.IntFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableFilter<"WorkflowStep"> | string | null
@@ -256,7 +256,7 @@ export type WorkflowStepWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.WorkflowStepWhereInput | Prisma.WorkflowStepWhereInput[]
   OR?: Prisma.WorkflowStepWhereInput[]
   NOT?: Prisma.WorkflowStepWhereInput | Prisma.WorkflowStepWhereInput[]
-  workflowId?: Prisma.StringFilter<"WorkflowStep"> | string
+  workflowId?: Prisma.UuidFilter<"WorkflowStep"> | string
   name?: Prisma.StringFilter<"WorkflowStep"> | string
   order?: Prisma.IntFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableFilter<"WorkflowStep"> | string | null
@@ -286,8 +286,8 @@ export type WorkflowStepScalarWhereWithAggregatesInput = {
   AND?: Prisma.WorkflowStepScalarWhereWithAggregatesInput | Prisma.WorkflowStepScalarWhereWithAggregatesInput[]
   OR?: Prisma.WorkflowStepScalarWhereWithAggregatesInput[]
   NOT?: Prisma.WorkflowStepScalarWhereWithAggregatesInput | Prisma.WorkflowStepScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"WorkflowStep"> | string
-  workflowId?: Prisma.StringWithAggregatesFilter<"WorkflowStep"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"WorkflowStep"> | string
+  workflowId?: Prisma.UuidWithAggregatesFilter<"WorkflowStep"> | string
   name?: Prisma.StringWithAggregatesFilter<"WorkflowStep"> | string
   order?: Prisma.IntWithAggregatesFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableWithAggregatesFilter<"WorkflowStep"> | string | null
@@ -560,8 +560,8 @@ export type WorkflowStepScalarWhereInput = {
   AND?: Prisma.WorkflowStepScalarWhereInput | Prisma.WorkflowStepScalarWhereInput[]
   OR?: Prisma.WorkflowStepScalarWhereInput[]
   NOT?: Prisma.WorkflowStepScalarWhereInput | Prisma.WorkflowStepScalarWhereInput[]
-  id?: Prisma.StringFilter<"WorkflowStep"> | string
-  workflowId?: Prisma.StringFilter<"WorkflowStep"> | string
+  id?: Prisma.UuidFilter<"WorkflowStep"> | string
+  workflowId?: Prisma.UuidFilter<"WorkflowStep"> | string
   name?: Prisma.StringFilter<"WorkflowStep"> | string
   order?: Prisma.IntFilter<"WorkflowStep"> | number
   color?: Prisma.StringNullableFilter<"WorkflowStep"> | string | null

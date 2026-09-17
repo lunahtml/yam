@@ -212,9 +212,9 @@ export type EntityWhereInput = {
   AND?: Prisma.EntityWhereInput | Prisma.EntityWhereInput[]
   OR?: Prisma.EntityWhereInput[]
   NOT?: Prisma.EntityWhereInput | Prisma.EntityWhereInput[]
-  id?: Prisma.StringFilter<"Entity"> | string
-  projectId?: Prisma.StringFilter<"Entity"> | string
-  moduleId?: Prisma.StringNullableFilter<"Entity"> | string | null
+  id?: Prisma.UuidFilter<"Entity"> | string
+  projectId?: Prisma.UuidFilter<"Entity"> | string
+  moduleId?: Prisma.UuidNullableFilter<"Entity"> | string | null
   name?: Prisma.StringFilter<"Entity"> | string
   label?: Prisma.StringFilter<"Entity"> | string
   icon?: Prisma.StringNullableFilter<"Entity"> | string | null
@@ -227,6 +227,7 @@ export type EntityWhereInput = {
   fields?: Prisma.FieldListRelationFilter
   records?: Prisma.RecordListRelationFilter
   workflows?: Prisma.WorkflowListRelationFilter
+  views?: Prisma.ViewListRelationFilter
 }
 
 export type EntityOrderByWithRelationInput = {
@@ -245,6 +246,7 @@ export type EntityOrderByWithRelationInput = {
   fields?: Prisma.FieldOrderByRelationAggregateInput
   records?: Prisma.RecordOrderByRelationAggregateInput
   workflows?: Prisma.WorkflowOrderByRelationAggregateInput
+  views?: Prisma.ViewOrderByRelationAggregateInput
 }
 
 export type EntityWhereUniqueInput = Prisma.AtLeast<{
@@ -253,8 +255,8 @@ export type EntityWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.EntityWhereInput | Prisma.EntityWhereInput[]
   OR?: Prisma.EntityWhereInput[]
   NOT?: Prisma.EntityWhereInput | Prisma.EntityWhereInput[]
-  projectId?: Prisma.StringFilter<"Entity"> | string
-  moduleId?: Prisma.StringNullableFilter<"Entity"> | string | null
+  projectId?: Prisma.UuidFilter<"Entity"> | string
+  moduleId?: Prisma.UuidNullableFilter<"Entity"> | string | null
   name?: Prisma.StringFilter<"Entity"> | string
   label?: Prisma.StringFilter<"Entity"> | string
   icon?: Prisma.StringNullableFilter<"Entity"> | string | null
@@ -267,6 +269,7 @@ export type EntityWhereUniqueInput = Prisma.AtLeast<{
   fields?: Prisma.FieldListRelationFilter
   records?: Prisma.RecordListRelationFilter
   workflows?: Prisma.WorkflowListRelationFilter
+  views?: Prisma.ViewListRelationFilter
 }, "id" | "projectId_name">
 
 export type EntityOrderByWithAggregationInput = {
@@ -289,9 +292,9 @@ export type EntityScalarWhereWithAggregatesInput = {
   AND?: Prisma.EntityScalarWhereWithAggregatesInput | Prisma.EntityScalarWhereWithAggregatesInput[]
   OR?: Prisma.EntityScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EntityScalarWhereWithAggregatesInput | Prisma.EntityScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Entity"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"Entity"> | string
-  moduleId?: Prisma.StringNullableWithAggregatesFilter<"Entity"> | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"Entity"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"Entity"> | string
+  moduleId?: Prisma.UuidNullableWithAggregatesFilter<"Entity"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"Entity"> | string
   label?: Prisma.StringWithAggregatesFilter<"Entity"> | string
   icon?: Prisma.StringNullableWithAggregatesFilter<"Entity"> | string | null
@@ -315,6 +318,7 @@ export type EntityCreateInput = {
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewCreateNestedManyWithoutEntityInput
 }
 
 export type EntityUncheckedCreateInput = {
@@ -331,6 +335,7 @@ export type EntityUncheckedCreateInput = {
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutEntityInput
 }
 
 export type EntityUpdateInput = {
@@ -347,6 +352,7 @@ export type EntityUpdateInput = {
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateInput = {
@@ -363,6 +369,7 @@ export type EntityUncheckedUpdateInput = {
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityCreateManyInput = {
@@ -591,6 +598,20 @@ export type EntityUpdateOneRequiredWithoutWorkflowsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EntityUpdateToOneWithWhereWithoutWorkflowsInput, Prisma.EntityUpdateWithoutWorkflowsInput>, Prisma.EntityUncheckedUpdateWithoutWorkflowsInput>
 }
 
+export type EntityCreateNestedOneWithoutViewsInput = {
+  create?: Prisma.XOR<Prisma.EntityCreateWithoutViewsInput, Prisma.EntityUncheckedCreateWithoutViewsInput>
+  connectOrCreate?: Prisma.EntityCreateOrConnectWithoutViewsInput
+  connect?: Prisma.EntityWhereUniqueInput
+}
+
+export type EntityUpdateOneRequiredWithoutViewsNestedInput = {
+  create?: Prisma.XOR<Prisma.EntityCreateWithoutViewsInput, Prisma.EntityUncheckedCreateWithoutViewsInput>
+  connectOrCreate?: Prisma.EntityCreateOrConnectWithoutViewsInput
+  upsert?: Prisma.EntityUpsertWithoutViewsInput
+  connect?: Prisma.EntityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EntityUpdateToOneWithWhereWithoutViewsInput, Prisma.EntityUpdateWithoutViewsInput>, Prisma.EntityUncheckedUpdateWithoutViewsInput>
+}
+
 export type EntityCreateWithoutProjectInput = {
   id?: string
   name: string
@@ -604,6 +625,7 @@ export type EntityCreateWithoutProjectInput = {
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewCreateNestedManyWithoutEntityInput
 }
 
 export type EntityUncheckedCreateWithoutProjectInput = {
@@ -619,6 +641,7 @@ export type EntityUncheckedCreateWithoutProjectInput = {
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutEntityInput
 }
 
 export type EntityCreateOrConnectWithoutProjectInput = {
@@ -651,9 +674,9 @@ export type EntityScalarWhereInput = {
   AND?: Prisma.EntityScalarWhereInput | Prisma.EntityScalarWhereInput[]
   OR?: Prisma.EntityScalarWhereInput[]
   NOT?: Prisma.EntityScalarWhereInput | Prisma.EntityScalarWhereInput[]
-  id?: Prisma.StringFilter<"Entity"> | string
-  projectId?: Prisma.StringFilter<"Entity"> | string
-  moduleId?: Prisma.StringNullableFilter<"Entity"> | string | null
+  id?: Prisma.UuidFilter<"Entity"> | string
+  projectId?: Prisma.UuidFilter<"Entity"> | string
+  moduleId?: Prisma.UuidNullableFilter<"Entity"> | string | null
   name?: Prisma.StringFilter<"Entity"> | string
   label?: Prisma.StringFilter<"Entity"> | string
   icon?: Prisma.StringNullableFilter<"Entity"> | string | null
@@ -676,6 +699,7 @@ export type EntityCreateWithoutModuleInput = {
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewCreateNestedManyWithoutEntityInput
 }
 
 export type EntityUncheckedCreateWithoutModuleInput = {
@@ -691,6 +715,7 @@ export type EntityUncheckedCreateWithoutModuleInput = {
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutEntityInput
 }
 
 export type EntityCreateOrConnectWithoutModuleInput = {
@@ -732,6 +757,7 @@ export type EntityCreateWithoutFieldsInput = {
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewCreateNestedManyWithoutEntityInput
 }
 
 export type EntityUncheckedCreateWithoutFieldsInput = {
@@ -747,6 +773,7 @@ export type EntityUncheckedCreateWithoutFieldsInput = {
   updatedAt?: Date | string
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutEntityInput
 }
 
 export type EntityCreateOrConnectWithoutFieldsInput = {
@@ -778,6 +805,7 @@ export type EntityUpdateWithoutFieldsInput = {
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateWithoutFieldsInput = {
@@ -793,6 +821,7 @@ export type EntityUncheckedUpdateWithoutFieldsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityCreateWithoutRecordsInput = {
@@ -808,6 +837,7 @@ export type EntityCreateWithoutRecordsInput = {
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewCreateNestedManyWithoutEntityInput
 }
 
 export type EntityUncheckedCreateWithoutRecordsInput = {
@@ -823,6 +853,7 @@ export type EntityUncheckedCreateWithoutRecordsInput = {
   updatedAt?: Date | string
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutEntityInput
 }
 
 export type EntityCreateOrConnectWithoutRecordsInput = {
@@ -854,6 +885,7 @@ export type EntityUpdateWithoutRecordsInput = {
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateWithoutRecordsInput = {
@@ -869,6 +901,7 @@ export type EntityUncheckedUpdateWithoutRecordsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityCreateWithoutWorkflowsInput = {
@@ -884,6 +917,7 @@ export type EntityCreateWithoutWorkflowsInput = {
   module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
   fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewCreateNestedManyWithoutEntityInput
 }
 
 export type EntityUncheckedCreateWithoutWorkflowsInput = {
@@ -899,6 +933,7 @@ export type EntityUncheckedCreateWithoutWorkflowsInput = {
   updatedAt?: Date | string
   fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutEntityInput
 }
 
 export type EntityCreateOrConnectWithoutWorkflowsInput = {
@@ -930,6 +965,7 @@ export type EntityUpdateWithoutWorkflowsInput = {
   module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateWithoutWorkflowsInput = {
@@ -945,6 +981,87 @@ export type EntityUncheckedUpdateWithoutWorkflowsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutEntityNestedInput
+}
+
+export type EntityCreateWithoutViewsInput = {
+  id?: string
+  name: string
+  label: string
+  icon?: string | null
+  color?: string | null
+  isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutEntitiesInput
+  module?: Prisma.ProjectModuleCreateNestedOneWithoutEntitiesInput
+  fields?: Prisma.FieldCreateNestedManyWithoutEntityInput
+  records?: Prisma.RecordCreateNestedManyWithoutEntityInput
+  workflows?: Prisma.WorkflowCreateNestedManyWithoutEntityInput
+}
+
+export type EntityUncheckedCreateWithoutViewsInput = {
+  id?: string
+  projectId: string
+  moduleId?: string | null
+  name: string
+  label: string
+  icon?: string | null
+  color?: string | null
+  isSystem?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fields?: Prisma.FieldUncheckedCreateNestedManyWithoutEntityInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutEntityInput
+  workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutEntityInput
+}
+
+export type EntityCreateOrConnectWithoutViewsInput = {
+  where: Prisma.EntityWhereUniqueInput
+  create: Prisma.XOR<Prisma.EntityCreateWithoutViewsInput, Prisma.EntityUncheckedCreateWithoutViewsInput>
+}
+
+export type EntityUpsertWithoutViewsInput = {
+  update: Prisma.XOR<Prisma.EntityUpdateWithoutViewsInput, Prisma.EntityUncheckedUpdateWithoutViewsInput>
+  create: Prisma.XOR<Prisma.EntityCreateWithoutViewsInput, Prisma.EntityUncheckedCreateWithoutViewsInput>
+  where?: Prisma.EntityWhereInput
+}
+
+export type EntityUpdateToOneWithWhereWithoutViewsInput = {
+  where?: Prisma.EntityWhereInput
+  data: Prisma.XOR<Prisma.EntityUpdateWithoutViewsInput, Prisma.EntityUncheckedUpdateWithoutViewsInput>
+}
+
+export type EntityUpdateWithoutViewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutEntitiesNestedInput
+  module?: Prisma.ProjectModuleUpdateOneWithoutEntitiesNestedInput
+  fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
+  records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
+  workflows?: Prisma.WorkflowUpdateManyWithoutEntityNestedInput
+}
+
+export type EntityUncheckedUpdateWithoutViewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  moduleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
+  workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityCreateManyProjectInput = {
@@ -972,6 +1089,7 @@ export type EntityUpdateWithoutProjectInput = {
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateWithoutProjectInput = {
@@ -987,6 +1105,7 @@ export type EntityUncheckedUpdateWithoutProjectInput = {
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateManyWithoutProjectInput = {
@@ -1026,6 +1145,7 @@ export type EntityUpdateWithoutModuleInput = {
   fields?: Prisma.FieldUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateWithoutModuleInput = {
@@ -1041,6 +1161,7 @@ export type EntityUncheckedUpdateWithoutModuleInput = {
   fields?: Prisma.FieldUncheckedUpdateManyWithoutEntityNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutEntityNestedInput
   workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutEntityNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutEntityNestedInput
 }
 
 export type EntityUncheckedUpdateManyWithoutModuleInput = {
@@ -1064,12 +1185,14 @@ export type EntityCountOutputType = {
   fields: number
   records: number
   workflows: number
+  views: number
 }
 
 export type EntityCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fields?: boolean | EntityCountOutputTypeCountFieldsArgs
   records?: boolean | EntityCountOutputTypeCountRecordsArgs
   workflows?: boolean | EntityCountOutputTypeCountWorkflowsArgs
+  views?: boolean | EntityCountOutputTypeCountViewsArgs
 }
 
 /**
@@ -1103,6 +1226,13 @@ export type EntityCountOutputTypeCountWorkflowsArgs<ExtArgs extends runtime.Type
   where?: Prisma.WorkflowWhereInput
 }
 
+/**
+ * EntityCountOutputType without action
+ */
+export type EntityCountOutputTypeCountViewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ViewWhereInput
+}
+
 
 export type EntitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1120,6 +1250,7 @@ export type EntitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   fields?: boolean | Prisma.Entity$fieldsArgs<ExtArgs>
   records?: boolean | Prisma.Entity$recordsArgs<ExtArgs>
   workflows?: boolean | Prisma.Entity$workflowsArgs<ExtArgs>
+  views?: boolean | Prisma.Entity$viewsArgs<ExtArgs>
   _count?: boolean | Prisma.EntityCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["entity"]>
 
@@ -1173,6 +1304,7 @@ export type EntityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   fields?: boolean | Prisma.Entity$fieldsArgs<ExtArgs>
   records?: boolean | Prisma.Entity$recordsArgs<ExtArgs>
   workflows?: boolean | Prisma.Entity$workflowsArgs<ExtArgs>
+  views?: boolean | Prisma.Entity$viewsArgs<ExtArgs>
   _count?: boolean | Prisma.EntityCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EntityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1192,6 +1324,7 @@ export type $EntityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     fields: Prisma.$FieldPayload<ExtArgs>[]
     records: Prisma.$RecordPayload<ExtArgs>[]
     workflows: Prisma.$WorkflowPayload<ExtArgs>[]
+    views: Prisma.$ViewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1603,6 +1736,7 @@ export interface Prisma__EntityClient<T, Null = never, ExtArgs extends runtime.T
   fields<T extends Prisma.Entity$fieldsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Entity$fieldsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   records<T extends Prisma.Entity$recordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Entity$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   workflows<T extends Prisma.Entity$workflowsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Entity$workflowsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  views<T extends Prisma.Entity$viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Entity$viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2131,6 +2265,30 @@ export type Entity$workflowsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.WorkflowScalarFieldEnum | Prisma.WorkflowScalarFieldEnum[]
+}
+
+/**
+ * Entity.views
+ */
+export type Entity$viewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the View
+   */
+  select?: Prisma.ViewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the View
+   */
+  omit?: Prisma.ViewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ViewInclude<ExtArgs> | null
+  where?: Prisma.ViewWhereInput
+  orderBy?: Prisma.ViewOrderByWithRelationInput | Prisma.ViewOrderByWithRelationInput[]
+  cursor?: Prisma.ViewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ViewScalarFieldEnum | Prisma.ViewScalarFieldEnum[]
 }
 
 /**

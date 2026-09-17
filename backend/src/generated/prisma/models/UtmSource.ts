@@ -191,8 +191,8 @@ export type UtmSourceWhereInput = {
   AND?: Prisma.UtmSourceWhereInput | Prisma.UtmSourceWhereInput[]
   OR?: Prisma.UtmSourceWhereInput[]
   NOT?: Prisma.UtmSourceWhereInput | Prisma.UtmSourceWhereInput[]
-  id?: Prisma.StringFilter<"UtmSource"> | string
-  projectId?: Prisma.StringFilter<"UtmSource"> | string
+  id?: Prisma.UuidFilter<"UtmSource"> | string
+  projectId?: Prisma.UuidFilter<"UtmSource"> | string
   name?: Prisma.StringFilter<"UtmSource"> | string
   label?: Prisma.StringFilter<"UtmSource"> | string
   icon?: Prisma.StringNullableFilter<"UtmSource"> | string | null
@@ -218,7 +218,7 @@ export type UtmSourceWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UtmSourceWhereInput | Prisma.UtmSourceWhereInput[]
   OR?: Prisma.UtmSourceWhereInput[]
   NOT?: Prisma.UtmSourceWhereInput | Prisma.UtmSourceWhereInput[]
-  projectId?: Prisma.StringFilter<"UtmSource"> | string
+  projectId?: Prisma.UuidFilter<"UtmSource"> | string
   name?: Prisma.StringFilter<"UtmSource"> | string
   label?: Prisma.StringFilter<"UtmSource"> | string
   icon?: Prisma.StringNullableFilter<"UtmSource"> | string | null
@@ -244,8 +244,8 @@ export type UtmSourceScalarWhereWithAggregatesInput = {
   AND?: Prisma.UtmSourceScalarWhereWithAggregatesInput | Prisma.UtmSourceScalarWhereWithAggregatesInput[]
   OR?: Prisma.UtmSourceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UtmSourceScalarWhereWithAggregatesInput | Prisma.UtmSourceScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"UtmSource"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"UtmSource"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"UtmSource"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"UtmSource"> | string
   name?: Prisma.StringWithAggregatesFilter<"UtmSource"> | string
   label?: Prisma.StringWithAggregatesFilter<"UtmSource"> | string
   icon?: Prisma.StringNullableWithAggregatesFilter<"UtmSource"> | string | null
@@ -457,8 +457,8 @@ export type UtmSourceScalarWhereInput = {
   AND?: Prisma.UtmSourceScalarWhereInput | Prisma.UtmSourceScalarWhereInput[]
   OR?: Prisma.UtmSourceScalarWhereInput[]
   NOT?: Prisma.UtmSourceScalarWhereInput | Prisma.UtmSourceScalarWhereInput[]
-  id?: Prisma.StringFilter<"UtmSource"> | string
-  projectId?: Prisma.StringFilter<"UtmSource"> | string
+  id?: Prisma.UuidFilter<"UtmSource"> | string
+  projectId?: Prisma.UuidFilter<"UtmSource"> | string
   name?: Prisma.StringFilter<"UtmSource"> | string
   label?: Prisma.StringFilter<"UtmSource"> | string
   icon?: Prisma.StringNullableFilter<"UtmSource"> | string | null

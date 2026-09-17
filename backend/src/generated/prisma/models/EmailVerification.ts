@@ -225,8 +225,8 @@ export type EmailVerificationWhereInput = {
   AND?: Prisma.EmailVerificationWhereInput | Prisma.EmailVerificationWhereInput[]
   OR?: Prisma.EmailVerificationWhereInput[]
   NOT?: Prisma.EmailVerificationWhereInput | Prisma.EmailVerificationWhereInput[]
-  id?: Prisma.StringFilter<"EmailVerification"> | string
-  userId?: Prisma.StringFilter<"EmailVerification"> | string
+  id?: Prisma.UuidFilter<"EmailVerification"> | string
+  userId?: Prisma.UuidFilter<"EmailVerification"> | string
   codeHash?: Prisma.StringFilter<"EmailVerification"> | string
   expiresAt?: Prisma.DateTimeFilter<"EmailVerification"> | Date | string
   verifiedAt?: Prisma.DateTimeNullableFilter<"EmailVerification"> | Date | string | null
@@ -251,7 +251,7 @@ export type EmailVerificationWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.EmailVerificationWhereInput | Prisma.EmailVerificationWhereInput[]
   OR?: Prisma.EmailVerificationWhereInput[]
   NOT?: Prisma.EmailVerificationWhereInput | Prisma.EmailVerificationWhereInput[]
-  userId?: Prisma.StringFilter<"EmailVerification"> | string
+  userId?: Prisma.UuidFilter<"EmailVerification"> | string
   codeHash?: Prisma.StringFilter<"EmailVerification"> | string
   expiresAt?: Prisma.DateTimeFilter<"EmailVerification"> | Date | string
   verifiedAt?: Prisma.DateTimeNullableFilter<"EmailVerification"> | Date | string | null
@@ -279,8 +279,8 @@ export type EmailVerificationScalarWhereWithAggregatesInput = {
   AND?: Prisma.EmailVerificationScalarWhereWithAggregatesInput | Prisma.EmailVerificationScalarWhereWithAggregatesInput[]
   OR?: Prisma.EmailVerificationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EmailVerificationScalarWhereWithAggregatesInput | Prisma.EmailVerificationScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"EmailVerification"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"EmailVerification"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"EmailVerification"> | string
+  userId?: Prisma.UuidWithAggregatesFilter<"EmailVerification"> | string
   codeHash?: Prisma.StringWithAggregatesFilter<"EmailVerification"> | string
   expiresAt?: Prisma.DateTimeWithAggregatesFilter<"EmailVerification"> | Date | string
   verifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmailVerification"> | Date | string | null
@@ -495,8 +495,8 @@ export type EmailVerificationScalarWhereInput = {
   AND?: Prisma.EmailVerificationScalarWhereInput | Prisma.EmailVerificationScalarWhereInput[]
   OR?: Prisma.EmailVerificationScalarWhereInput[]
   NOT?: Prisma.EmailVerificationScalarWhereInput | Prisma.EmailVerificationScalarWhereInput[]
-  id?: Prisma.StringFilter<"EmailVerification"> | string
-  userId?: Prisma.StringFilter<"EmailVerification"> | string
+  id?: Prisma.UuidFilter<"EmailVerification"> | string
+  userId?: Prisma.UuidFilter<"EmailVerification"> | string
   codeHash?: Prisma.StringFilter<"EmailVerification"> | string
   expiresAt?: Prisma.DateTimeFilter<"EmailVerification"> | Date | string
   verifiedAt?: Prisma.DateTimeNullableFilter<"EmailVerification"> | Date | string | null

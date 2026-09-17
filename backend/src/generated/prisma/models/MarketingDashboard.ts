@@ -533,8 +533,8 @@ export type MarketingDashboardWhereInput = {
   AND?: Prisma.MarketingDashboardWhereInput | Prisma.MarketingDashboardWhereInput[]
   OR?: Prisma.MarketingDashboardWhereInput[]
   NOT?: Prisma.MarketingDashboardWhereInput | Prisma.MarketingDashboardWhereInput[]
-  id?: Prisma.StringFilter<"MarketingDashboard"> | string
-  projectId?: Prisma.StringFilter<"MarketingDashboard"> | string
+  id?: Prisma.UuidFilter<"MarketingDashboard"> | string
+  projectId?: Prisma.UuidFilter<"MarketingDashboard"> | string
   periodFrom?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   periodTo?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatFilter<"MarketingDashboard"> | number
@@ -615,7 +615,7 @@ export type MarketingDashboardWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.MarketingDashboardWhereInput | Prisma.MarketingDashboardWhereInput[]
   OR?: Prisma.MarketingDashboardWhereInput[]
   NOT?: Prisma.MarketingDashboardWhereInput | Prisma.MarketingDashboardWhereInput[]
-  projectId?: Prisma.StringFilter<"MarketingDashboard"> | string
+  projectId?: Prisma.UuidFilter<"MarketingDashboard"> | string
   periodFrom?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   periodTo?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatFilter<"MarketingDashboard"> | number
@@ -699,8 +699,8 @@ export type MarketingDashboardScalarWhereWithAggregatesInput = {
   AND?: Prisma.MarketingDashboardScalarWhereWithAggregatesInput | Prisma.MarketingDashboardScalarWhereWithAggregatesInput[]
   OR?: Prisma.MarketingDashboardScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MarketingDashboardScalarWhereWithAggregatesInput | Prisma.MarketingDashboardScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"MarketingDashboard"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"MarketingDashboard"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"MarketingDashboard"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"MarketingDashboard"> | string
   periodFrom?: Prisma.DateTimeWithAggregatesFilter<"MarketingDashboard"> | Date | string
   periodTo?: Prisma.DateTimeWithAggregatesFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatWithAggregatesFilter<"MarketingDashboard"> | number
@@ -1343,8 +1343,8 @@ export type MarketingDashboardScalarWhereInput = {
   AND?: Prisma.MarketingDashboardScalarWhereInput | Prisma.MarketingDashboardScalarWhereInput[]
   OR?: Prisma.MarketingDashboardScalarWhereInput[]
   NOT?: Prisma.MarketingDashboardScalarWhereInput | Prisma.MarketingDashboardScalarWhereInput[]
-  id?: Prisma.StringFilter<"MarketingDashboard"> | string
-  projectId?: Prisma.StringFilter<"MarketingDashboard"> | string
+  id?: Prisma.UuidFilter<"MarketingDashboard"> | string
+  projectId?: Prisma.UuidFilter<"MarketingDashboard"> | string
   periodFrom?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   periodTo?: Prisma.DateTimeFilter<"MarketingDashboard"> | Date | string
   adBudget?: Prisma.FloatFilter<"MarketingDashboard"> | number

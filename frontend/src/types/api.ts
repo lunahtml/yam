@@ -361,3 +361,46 @@ export interface ListRecordsQuery {
     filterField?: string;
     filterValue?: string;
 }
+
+
+// ═══════════════════════════════════════════════════════════════
+// VIEWS
+// ═══════════════════════════════════════════════════════════════
+
+export type ViewType = 'TABLE' | 'KANBAN' | 'CALENDAR' | 'LIST';
+
+export interface View {
+    id: string;
+    entityId: string;
+    projectId: string;
+    name: string;
+    type: ViewType;
+    config: Record<string, unknown>;
+    isDefault: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WORKFLOWS
+// ═══════════════════════════════════════════════════════════════
+
+export interface Workflow {
+    id: string;
+    projectId: string;
+    entityId: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    steps?: WorkflowStep[];
+}
+
+export interface WorkflowStep {
+    id: string;
+    workflowId: string;
+    name: string;
+    order: number;
+    color: string | null;
+    createdAt: string;
+    updatedAt: string;
+}

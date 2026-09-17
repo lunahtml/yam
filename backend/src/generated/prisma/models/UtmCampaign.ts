@@ -198,8 +198,8 @@ export type UtmCampaignWhereInput = {
   AND?: Prisma.UtmCampaignWhereInput | Prisma.UtmCampaignWhereInput[]
   OR?: Prisma.UtmCampaignWhereInput[]
   NOT?: Prisma.UtmCampaignWhereInput | Prisma.UtmCampaignWhereInput[]
-  id?: Prisma.StringFilter<"UtmCampaign"> | string
-  projectId?: Prisma.StringFilter<"UtmCampaign"> | string
+  id?: Prisma.UuidFilter<"UtmCampaign"> | string
+  projectId?: Prisma.UuidFilter<"UtmCampaign"> | string
   name?: Prisma.StringFilter<"UtmCampaign"> | string
   label?: Prisma.StringFilter<"UtmCampaign"> | string
   startDate?: Prisma.DateTimeNullableFilter<"UtmCampaign"> | Date | string | null
@@ -229,7 +229,7 @@ export type UtmCampaignWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UtmCampaignWhereInput | Prisma.UtmCampaignWhereInput[]
   OR?: Prisma.UtmCampaignWhereInput[]
   NOT?: Prisma.UtmCampaignWhereInput | Prisma.UtmCampaignWhereInput[]
-  projectId?: Prisma.StringFilter<"UtmCampaign"> | string
+  projectId?: Prisma.UuidFilter<"UtmCampaign"> | string
   name?: Prisma.StringFilter<"UtmCampaign"> | string
   label?: Prisma.StringFilter<"UtmCampaign"> | string
   startDate?: Prisma.DateTimeNullableFilter<"UtmCampaign"> | Date | string | null
@@ -258,8 +258,8 @@ export type UtmCampaignScalarWhereWithAggregatesInput = {
   AND?: Prisma.UtmCampaignScalarWhereWithAggregatesInput | Prisma.UtmCampaignScalarWhereWithAggregatesInput[]
   OR?: Prisma.UtmCampaignScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UtmCampaignScalarWhereWithAggregatesInput | Prisma.UtmCampaignScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"UtmCampaign"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"UtmCampaign"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"UtmCampaign"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"UtmCampaign"> | string
   name?: Prisma.StringWithAggregatesFilter<"UtmCampaign"> | string
   label?: Prisma.StringWithAggregatesFilter<"UtmCampaign"> | string
   startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"UtmCampaign"> | Date | string | null
@@ -511,8 +511,8 @@ export type UtmCampaignScalarWhereInput = {
   AND?: Prisma.UtmCampaignScalarWhereInput | Prisma.UtmCampaignScalarWhereInput[]
   OR?: Prisma.UtmCampaignScalarWhereInput[]
   NOT?: Prisma.UtmCampaignScalarWhereInput | Prisma.UtmCampaignScalarWhereInput[]
-  id?: Prisma.StringFilter<"UtmCampaign"> | string
-  projectId?: Prisma.StringFilter<"UtmCampaign"> | string
+  id?: Prisma.UuidFilter<"UtmCampaign"> | string
+  projectId?: Prisma.UuidFilter<"UtmCampaign"> | string
   name?: Prisma.StringFilter<"UtmCampaign"> | string
   label?: Prisma.StringFilter<"UtmCampaign"> | string
   startDate?: Prisma.DateTimeNullableFilter<"UtmCampaign"> | Date | string | null

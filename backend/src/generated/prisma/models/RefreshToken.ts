@@ -212,8 +212,8 @@ export type RefreshTokenWhereInput = {
   AND?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
   OR?: Prisma.RefreshTokenWhereInput[]
   NOT?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
-  id?: Prisma.StringFilter<"RefreshToken"> | string
-  userId?: Prisma.StringFilter<"RefreshToken"> | string
+  id?: Prisma.UuidFilter<"RefreshToken"> | string
+  userId?: Prisma.UuidFilter<"RefreshToken"> | string
   selector?: Prisma.StringFilter<"RefreshToken"> | string
   tokenHash?: Prisma.StringFilter<"RefreshToken"> | string
   device?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
@@ -246,7 +246,7 @@ export type RefreshTokenWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
   OR?: Prisma.RefreshTokenWhereInput[]
   NOT?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
-  userId?: Prisma.StringFilter<"RefreshToken"> | string
+  userId?: Prisma.UuidFilter<"RefreshToken"> | string
   device?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
   ip?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
   userAgent?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
@@ -276,8 +276,8 @@ export type RefreshTokenScalarWhereWithAggregatesInput = {
   AND?: Prisma.RefreshTokenScalarWhereWithAggregatesInput | Prisma.RefreshTokenScalarWhereWithAggregatesInput[]
   OR?: Prisma.RefreshTokenScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RefreshTokenScalarWhereWithAggregatesInput | Prisma.RefreshTokenScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"RefreshToken"> | string
+  userId?: Prisma.UuidWithAggregatesFilter<"RefreshToken"> | string
   selector?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
   tokenHash?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
   device?: Prisma.StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
@@ -523,8 +523,8 @@ export type RefreshTokenScalarWhereInput = {
   AND?: Prisma.RefreshTokenScalarWhereInput | Prisma.RefreshTokenScalarWhereInput[]
   OR?: Prisma.RefreshTokenScalarWhereInput[]
   NOT?: Prisma.RefreshTokenScalarWhereInput | Prisma.RefreshTokenScalarWhereInput[]
-  id?: Prisma.StringFilter<"RefreshToken"> | string
-  userId?: Prisma.StringFilter<"RefreshToken"> | string
+  id?: Prisma.UuidFilter<"RefreshToken"> | string
+  userId?: Prisma.UuidFilter<"RefreshToken"> | string
   selector?: Prisma.StringFilter<"RefreshToken"> | string
   tokenHash?: Prisma.StringFilter<"RefreshToken"> | string
   device?: Prisma.StringNullableFilter<"RefreshToken"> | string | null

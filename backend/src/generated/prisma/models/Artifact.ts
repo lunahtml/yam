@@ -208,8 +208,8 @@ export type ArtifactWhereInput = {
   AND?: Prisma.ArtifactWhereInput | Prisma.ArtifactWhereInput[]
   OR?: Prisma.ArtifactWhereInput[]
   NOT?: Prisma.ArtifactWhereInput | Prisma.ArtifactWhereInput[]
-  id?: Prisma.StringFilter<"Artifact"> | string
-  projectId?: Prisma.StringFilter<"Artifact"> | string
+  id?: Prisma.UuidFilter<"Artifact"> | string
+  projectId?: Prisma.UuidFilter<"Artifact"> | string
   type?: Prisma.EnumArtifactTypeFilter<"Artifact"> | $Enums.ArtifactType
   name?: Prisma.StringFilter<"Artifact"> | string
   url?: Prisma.StringNullableFilter<"Artifact"> | string | null
@@ -242,7 +242,7 @@ export type ArtifactWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ArtifactWhereInput | Prisma.ArtifactWhereInput[]
   OR?: Prisma.ArtifactWhereInput[]
   NOT?: Prisma.ArtifactWhereInput | Prisma.ArtifactWhereInput[]
-  projectId?: Prisma.StringFilter<"Artifact"> | string
+  projectId?: Prisma.UuidFilter<"Artifact"> | string
   type?: Prisma.EnumArtifactTypeFilter<"Artifact"> | $Enums.ArtifactType
   name?: Prisma.StringFilter<"Artifact"> | string
   url?: Prisma.StringNullableFilter<"Artifact"> | string | null
@@ -275,8 +275,8 @@ export type ArtifactScalarWhereWithAggregatesInput = {
   AND?: Prisma.ArtifactScalarWhereWithAggregatesInput | Prisma.ArtifactScalarWhereWithAggregatesInput[]
   OR?: Prisma.ArtifactScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ArtifactScalarWhereWithAggregatesInput | Prisma.ArtifactScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Artifact"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"Artifact"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Artifact"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"Artifact"> | string
   type?: Prisma.EnumArtifactTypeWithAggregatesFilter<"Artifact"> | $Enums.ArtifactType
   name?: Prisma.StringWithAggregatesFilter<"Artifact"> | string
   url?: Prisma.StringNullableWithAggregatesFilter<"Artifact"> | string | null
@@ -551,8 +551,8 @@ export type ArtifactScalarWhereInput = {
   AND?: Prisma.ArtifactScalarWhereInput | Prisma.ArtifactScalarWhereInput[]
   OR?: Prisma.ArtifactScalarWhereInput[]
   NOT?: Prisma.ArtifactScalarWhereInput | Prisma.ArtifactScalarWhereInput[]
-  id?: Prisma.StringFilter<"Artifact"> | string
-  projectId?: Prisma.StringFilter<"Artifact"> | string
+  id?: Prisma.UuidFilter<"Artifact"> | string
+  projectId?: Prisma.UuidFilter<"Artifact"> | string
   type?: Prisma.EnumArtifactTypeFilter<"Artifact"> | $Enums.ArtifactType
   name?: Prisma.StringFilter<"Artifact"> | string
   url?: Prisma.StringNullableFilter<"Artifact"> | string | null

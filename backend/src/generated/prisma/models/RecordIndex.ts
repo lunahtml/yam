@@ -253,10 +253,10 @@ export type RecordIndexWhereInput = {
   AND?: Prisma.RecordIndexWhereInput | Prisma.RecordIndexWhereInput[]
   OR?: Prisma.RecordIndexWhereInput[]
   NOT?: Prisma.RecordIndexWhereInput | Prisma.RecordIndexWhereInput[]
-  id?: Prisma.StringFilter<"RecordIndex"> | string
-  recordId?: Prisma.StringFilter<"RecordIndex"> | string
-  entityId?: Prisma.StringFilter<"RecordIndex"> | string
-  projectId?: Prisma.StringFilter<"RecordIndex"> | string
+  id?: Prisma.UuidFilter<"RecordIndex"> | string
+  recordId?: Prisma.UuidFilter<"RecordIndex"> | string
+  entityId?: Prisma.UuidFilter<"RecordIndex"> | string
+  projectId?: Prisma.UuidFilter<"RecordIndex"> | string
   fieldName?: Prisma.StringFilter<"RecordIndex"> | string
   fieldType?: Prisma.StringFilter<"RecordIndex"> | string
   valueText?: Prisma.StringNullableFilter<"RecordIndex"> | string | null
@@ -287,9 +287,9 @@ export type RecordIndexWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RecordIndexWhereInput | Prisma.RecordIndexWhereInput[]
   OR?: Prisma.RecordIndexWhereInput[]
   NOT?: Prisma.RecordIndexWhereInput | Prisma.RecordIndexWhereInput[]
-  recordId?: Prisma.StringFilter<"RecordIndex"> | string
-  entityId?: Prisma.StringFilter<"RecordIndex"> | string
-  projectId?: Prisma.StringFilter<"RecordIndex"> | string
+  recordId?: Prisma.UuidFilter<"RecordIndex"> | string
+  entityId?: Prisma.UuidFilter<"RecordIndex"> | string
+  projectId?: Prisma.UuidFilter<"RecordIndex"> | string
   fieldName?: Prisma.StringFilter<"RecordIndex"> | string
   fieldType?: Prisma.StringFilter<"RecordIndex"> | string
   valueText?: Prisma.StringNullableFilter<"RecordIndex"> | string | null
@@ -323,10 +323,10 @@ export type RecordIndexScalarWhereWithAggregatesInput = {
   AND?: Prisma.RecordIndexScalarWhereWithAggregatesInput | Prisma.RecordIndexScalarWhereWithAggregatesInput[]
   OR?: Prisma.RecordIndexScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RecordIndexScalarWhereWithAggregatesInput | Prisma.RecordIndexScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"RecordIndex"> | string
-  recordId?: Prisma.StringWithAggregatesFilter<"RecordIndex"> | string
-  entityId?: Prisma.StringWithAggregatesFilter<"RecordIndex"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"RecordIndex"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"RecordIndex"> | string
+  recordId?: Prisma.UuidWithAggregatesFilter<"RecordIndex"> | string
+  entityId?: Prisma.UuidWithAggregatesFilter<"RecordIndex"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"RecordIndex"> | string
   fieldName?: Prisma.StringWithAggregatesFilter<"RecordIndex"> | string
   fieldType?: Prisma.StringWithAggregatesFilter<"RecordIndex"> | string
   valueText?: Prisma.StringNullableWithAggregatesFilter<"RecordIndex"> | string | null
@@ -603,10 +603,10 @@ export type RecordIndexScalarWhereInput = {
   AND?: Prisma.RecordIndexScalarWhereInput | Prisma.RecordIndexScalarWhereInput[]
   OR?: Prisma.RecordIndexScalarWhereInput[]
   NOT?: Prisma.RecordIndexScalarWhereInput | Prisma.RecordIndexScalarWhereInput[]
-  id?: Prisma.StringFilter<"RecordIndex"> | string
-  recordId?: Prisma.StringFilter<"RecordIndex"> | string
-  entityId?: Prisma.StringFilter<"RecordIndex"> | string
-  projectId?: Prisma.StringFilter<"RecordIndex"> | string
+  id?: Prisma.UuidFilter<"RecordIndex"> | string
+  recordId?: Prisma.UuidFilter<"RecordIndex"> | string
+  entityId?: Prisma.UuidFilter<"RecordIndex"> | string
+  projectId?: Prisma.UuidFilter<"RecordIndex"> | string
   fieldName?: Prisma.StringFilter<"RecordIndex"> | string
   fieldType?: Prisma.StringFilter<"RecordIndex"> | string
   valueText?: Prisma.StringNullableFilter<"RecordIndex"> | string | null

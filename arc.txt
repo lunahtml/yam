@@ -28,6 +28,9 @@ yam/
         │   └── DashboardPage.tsx ✅
         │   └── dashboard/ ✅
         │       └── entities/  ✅
+        │               └── ViewForm.tsx  ✅
+        │               └── ViewManager.tsx  ✅
+        │               └── KanbanView.tsx  ✅
         │               └── EntitiesPage.tsx  ✅
         │               └── FieldForm.tsx  ✅
         │               └── FieldsManager.tsx  ✅
@@ -228,7 +231,14 @@ yam/
         │       ├── field-types/ 
         │           ├── field-type.registry.ts ✅
         │   ├── workflows/ ⬜
-        │   ├── views/ ⬜
+        │   ├── views/ 
+        │       ├── views.controller.ts ✅
+        │       ├── views.module.ts ✅
+        │       ├── services/ ✅
+        │           ├── views.service.ts ✅
+        │       ├── contracts/ ✅
+        │           ├── create-view.dto.ts ✅
+        │           ├── update-view.dto.ts ✅
         │   ├── automations/ ⬜
         │   ├── comments/ ⬜
         │   ├── activity/ ⬜

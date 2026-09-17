@@ -194,12 +194,12 @@ export type ActivityLogWhereInput = {
   AND?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
   OR?: Prisma.ActivityLogWhereInput[]
   NOT?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
-  id?: Prisma.StringFilter<"ActivityLog"> | string
-  projectId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
-  userId?: Prisma.StringFilter<"ActivityLog"> | string
+  id?: Prisma.UuidFilter<"ActivityLog"> | string
+  projectId?: Prisma.UuidNullableFilter<"ActivityLog"> | string | null
+  userId?: Prisma.UuidFilter<"ActivityLog"> | string
   action?: Prisma.StringFilter<"ActivityLog"> | string
   entityType?: Prisma.StringFilter<"ActivityLog"> | string
-  entityId?: Prisma.StringFilter<"ActivityLog"> | string
+  entityId?: Prisma.UuidFilter<"ActivityLog"> | string
   metadata?: Prisma.JsonNullableFilter<"ActivityLog">
   createdAt?: Prisma.DateTimeFilter<"ActivityLog"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
@@ -224,11 +224,11 @@ export type ActivityLogWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
   OR?: Prisma.ActivityLogWhereInput[]
   NOT?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
-  projectId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
-  userId?: Prisma.StringFilter<"ActivityLog"> | string
+  projectId?: Prisma.UuidNullableFilter<"ActivityLog"> | string | null
+  userId?: Prisma.UuidFilter<"ActivityLog"> | string
   action?: Prisma.StringFilter<"ActivityLog"> | string
   entityType?: Prisma.StringFilter<"ActivityLog"> | string
-  entityId?: Prisma.StringFilter<"ActivityLog"> | string
+  entityId?: Prisma.UuidFilter<"ActivityLog"> | string
   metadata?: Prisma.JsonNullableFilter<"ActivityLog">
   createdAt?: Prisma.DateTimeFilter<"ActivityLog"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
@@ -253,12 +253,12 @@ export type ActivityLogScalarWhereWithAggregatesInput = {
   AND?: Prisma.ActivityLogScalarWhereWithAggregatesInput | Prisma.ActivityLogScalarWhereWithAggregatesInput[]
   OR?: Prisma.ActivityLogScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ActivityLogScalarWhereWithAggregatesInput | Prisma.ActivityLogScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"ActivityLog"> | string
-  projectId?: Prisma.StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
-  userId?: Prisma.StringWithAggregatesFilter<"ActivityLog"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"ActivityLog"> | string
+  projectId?: Prisma.UuidNullableWithAggregatesFilter<"ActivityLog"> | string | null
+  userId?: Prisma.UuidWithAggregatesFilter<"ActivityLog"> | string
   action?: Prisma.StringWithAggregatesFilter<"ActivityLog"> | string
   entityType?: Prisma.StringWithAggregatesFilter<"ActivityLog"> | string
-  entityId?: Prisma.StringWithAggregatesFilter<"ActivityLog"> | string
+  entityId?: Prisma.UuidWithAggregatesFilter<"ActivityLog"> | string
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"ActivityLog">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ActivityLog"> | Date | string
 }
@@ -513,12 +513,12 @@ export type ActivityLogScalarWhereInput = {
   AND?: Prisma.ActivityLogScalarWhereInput | Prisma.ActivityLogScalarWhereInput[]
   OR?: Prisma.ActivityLogScalarWhereInput[]
   NOT?: Prisma.ActivityLogScalarWhereInput | Prisma.ActivityLogScalarWhereInput[]
-  id?: Prisma.StringFilter<"ActivityLog"> | string
-  projectId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
-  userId?: Prisma.StringFilter<"ActivityLog"> | string
+  id?: Prisma.UuidFilter<"ActivityLog"> | string
+  projectId?: Prisma.UuidNullableFilter<"ActivityLog"> | string | null
+  userId?: Prisma.UuidFilter<"ActivityLog"> | string
   action?: Prisma.StringFilter<"ActivityLog"> | string
   entityType?: Prisma.StringFilter<"ActivityLog"> | string
-  entityId?: Prisma.StringFilter<"ActivityLog"> | string
+  entityId?: Prisma.UuidFilter<"ActivityLog"> | string
   metadata?: Prisma.JsonNullableFilter<"ActivityLog">
   createdAt?: Prisma.DateTimeFilter<"ActivityLog"> | Date | string
 }

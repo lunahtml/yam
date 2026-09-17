@@ -18,6 +18,7 @@ import { OrganizationsModule } from './modules/organizations/organizations.modul
 import { EntitiesModule } from './modules/entities/entities.module.js';
 import { FieldsModule } from './modules/fields/fields.module.js';
 import { RecordsModule } from './modules/records/records.module.js';
+import { ViewsModule } from './modules/views/views.module.js';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
@@ -38,6 +39,7 @@ import { RecordsModule } from './modules/records/records.module.js';
         EntitiesModule,
         FieldsModule,
         RecordsModule,
+        ViewsModule,
     ],
     providers: [
         { provide: APP_GUARD, useClass: ThrottlerGuard },

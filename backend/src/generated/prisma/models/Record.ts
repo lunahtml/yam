@@ -187,11 +187,11 @@ export type RecordWhereInput = {
   AND?: Prisma.RecordWhereInput | Prisma.RecordWhereInput[]
   OR?: Prisma.RecordWhereInput[]
   NOT?: Prisma.RecordWhereInput | Prisma.RecordWhereInput[]
-  id?: Prisma.StringFilter<"Record"> | string
-  entityId?: Prisma.StringFilter<"Record"> | string
-  projectId?: Prisma.StringFilter<"Record"> | string
+  id?: Prisma.UuidFilter<"Record"> | string
+  entityId?: Prisma.UuidFilter<"Record"> | string
+  projectId?: Prisma.UuidFilter<"Record"> | string
   data?: Prisma.JsonFilter<"Record">
-  createdById?: Prisma.StringFilter<"Record"> | string
+  createdById?: Prisma.UuidFilter<"Record"> | string
   createdAt?: Prisma.DateTimeFilter<"Record"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Record"> | Date | string
   entity?: Prisma.XOR<Prisma.EntityScalarRelationFilter, Prisma.EntityWhereInput>
@@ -221,10 +221,10 @@ export type RecordWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RecordWhereInput | Prisma.RecordWhereInput[]
   OR?: Prisma.RecordWhereInput[]
   NOT?: Prisma.RecordWhereInput | Prisma.RecordWhereInput[]
-  entityId?: Prisma.StringFilter<"Record"> | string
-  projectId?: Prisma.StringFilter<"Record"> | string
+  entityId?: Prisma.UuidFilter<"Record"> | string
+  projectId?: Prisma.UuidFilter<"Record"> | string
   data?: Prisma.JsonFilter<"Record">
-  createdById?: Prisma.StringFilter<"Record"> | string
+  createdById?: Prisma.UuidFilter<"Record"> | string
   createdAt?: Prisma.DateTimeFilter<"Record"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Record"> | Date | string
   entity?: Prisma.XOR<Prisma.EntityScalarRelationFilter, Prisma.EntityWhereInput>
@@ -251,11 +251,11 @@ export type RecordScalarWhereWithAggregatesInput = {
   AND?: Prisma.RecordScalarWhereWithAggregatesInput | Prisma.RecordScalarWhereWithAggregatesInput[]
   OR?: Prisma.RecordScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RecordScalarWhereWithAggregatesInput | Prisma.RecordScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Record"> | string
-  entityId?: Prisma.StringWithAggregatesFilter<"Record"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"Record"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Record"> | string
+  entityId?: Prisma.UuidWithAggregatesFilter<"Record"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"Record"> | string
   data?: Prisma.JsonWithAggregatesFilter<"Record">
-  createdById?: Prisma.StringWithAggregatesFilter<"Record"> | string
+  createdById?: Prisma.UuidWithAggregatesFilter<"Record"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Record"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Record"> | Date | string
 }
@@ -584,11 +584,11 @@ export type RecordScalarWhereInput = {
   AND?: Prisma.RecordScalarWhereInput | Prisma.RecordScalarWhereInput[]
   OR?: Prisma.RecordScalarWhereInput[]
   NOT?: Prisma.RecordScalarWhereInput | Prisma.RecordScalarWhereInput[]
-  id?: Prisma.StringFilter<"Record"> | string
-  entityId?: Prisma.StringFilter<"Record"> | string
-  projectId?: Prisma.StringFilter<"Record"> | string
+  id?: Prisma.UuidFilter<"Record"> | string
+  entityId?: Prisma.UuidFilter<"Record"> | string
+  projectId?: Prisma.UuidFilter<"Record"> | string
   data?: Prisma.JsonFilter<"Record">
-  createdById?: Prisma.StringFilter<"Record"> | string
+  createdById?: Prisma.UuidFilter<"Record"> | string
   createdAt?: Prisma.DateTimeFilter<"Record"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Record"> | Date | string
 }

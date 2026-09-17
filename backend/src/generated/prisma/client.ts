@@ -181,3 +181,8 @@ export type UtmRule = Prisma.UtmRuleModel
  * 
  */
 export type UtmLink = Prisma.UtmLinkModel
+/**
+ * Model View
+ * 
+ */
+export type View = Prisma.ViewModel

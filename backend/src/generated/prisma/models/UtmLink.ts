@@ -254,10 +254,10 @@ export type UtmLinkWhereInput = {
   AND?: Prisma.UtmLinkWhereInput | Prisma.UtmLinkWhereInput[]
   OR?: Prisma.UtmLinkWhereInput[]
   NOT?: Prisma.UtmLinkWhereInput | Prisma.UtmLinkWhereInput[]
-  id?: Prisma.StringFilter<"UtmLink"> | string
-  projectId?: Prisma.StringFilter<"UtmLink"> | string
-  artifactId?: Prisma.StringNullableFilter<"UtmLink"> | string | null
-  campaignId?: Prisma.StringNullableFilter<"UtmLink"> | string | null
+  id?: Prisma.UuidFilter<"UtmLink"> | string
+  projectId?: Prisma.UuidFilter<"UtmLink"> | string
+  artifactId?: Prisma.UuidNullableFilter<"UtmLink"> | string | null
+  campaignId?: Prisma.UuidNullableFilter<"UtmLink"> | string | null
   source?: Prisma.StringFilter<"UtmLink"> | string
   medium?: Prisma.StringFilter<"UtmLink"> | string
   campaign?: Prisma.StringNullableFilter<"UtmLink"> | string | null
@@ -269,7 +269,7 @@ export type UtmLinkWhereInput = {
   notes?: Prisma.StringNullableFilter<"UtmLink"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UtmLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UtmLink"> | Date | string
-  createdById?: Prisma.StringFilter<"UtmLink"> | string
+  createdById?: Prisma.UuidFilter<"UtmLink"> | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   artifact?: Prisma.XOR<Prisma.ArtifactNullableScalarRelationFilter, Prisma.ArtifactWhereInput> | null
   campaignRef?: Prisma.XOR<Prisma.UtmCampaignNullableScalarRelationFilter, Prisma.UtmCampaignWhereInput> | null
@@ -304,9 +304,9 @@ export type UtmLinkWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UtmLinkWhereInput | Prisma.UtmLinkWhereInput[]
   OR?: Prisma.UtmLinkWhereInput[]
   NOT?: Prisma.UtmLinkWhereInput | Prisma.UtmLinkWhereInput[]
-  projectId?: Prisma.StringFilter<"UtmLink"> | string
-  artifactId?: Prisma.StringNullableFilter<"UtmLink"> | string | null
-  campaignId?: Prisma.StringNullableFilter<"UtmLink"> | string | null
+  projectId?: Prisma.UuidFilter<"UtmLink"> | string
+  artifactId?: Prisma.UuidNullableFilter<"UtmLink"> | string | null
+  campaignId?: Prisma.UuidNullableFilter<"UtmLink"> | string | null
   source?: Prisma.StringFilter<"UtmLink"> | string
   medium?: Prisma.StringFilter<"UtmLink"> | string
   campaign?: Prisma.StringNullableFilter<"UtmLink"> | string | null
@@ -318,7 +318,7 @@ export type UtmLinkWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"UtmLink"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UtmLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UtmLink"> | Date | string
-  createdById?: Prisma.StringFilter<"UtmLink"> | string
+  createdById?: Prisma.UuidFilter<"UtmLink"> | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   artifact?: Prisma.XOR<Prisma.ArtifactNullableScalarRelationFilter, Prisma.ArtifactWhereInput> | null
   campaignRef?: Prisma.XOR<Prisma.UtmCampaignNullableScalarRelationFilter, Prisma.UtmCampaignWhereInput> | null
@@ -351,10 +351,10 @@ export type UtmLinkScalarWhereWithAggregatesInput = {
   AND?: Prisma.UtmLinkScalarWhereWithAggregatesInput | Prisma.UtmLinkScalarWhereWithAggregatesInput[]
   OR?: Prisma.UtmLinkScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UtmLinkScalarWhereWithAggregatesInput | Prisma.UtmLinkScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"UtmLink"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"UtmLink"> | string
-  artifactId?: Prisma.StringNullableWithAggregatesFilter<"UtmLink"> | string | null
-  campaignId?: Prisma.StringNullableWithAggregatesFilter<"UtmLink"> | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"UtmLink"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"UtmLink"> | string
+  artifactId?: Prisma.UuidNullableWithAggregatesFilter<"UtmLink"> | string | null
+  campaignId?: Prisma.UuidNullableWithAggregatesFilter<"UtmLink"> | string | null
   source?: Prisma.StringWithAggregatesFilter<"UtmLink"> | string
   medium?: Prisma.StringWithAggregatesFilter<"UtmLink"> | string
   campaign?: Prisma.StringNullableWithAggregatesFilter<"UtmLink"> | string | null
@@ -366,7 +366,7 @@ export type UtmLinkScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"UtmLink"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UtmLink"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UtmLink"> | Date | string
-  createdById?: Prisma.StringWithAggregatesFilter<"UtmLink"> | string
+  createdById?: Prisma.UuidWithAggregatesFilter<"UtmLink"> | string
 }
 
 export type UtmLinkCreateInput = {
@@ -799,10 +799,10 @@ export type UtmLinkScalarWhereInput = {
   AND?: Prisma.UtmLinkScalarWhereInput | Prisma.UtmLinkScalarWhereInput[]
   OR?: Prisma.UtmLinkScalarWhereInput[]
   NOT?: Prisma.UtmLinkScalarWhereInput | Prisma.UtmLinkScalarWhereInput[]
-  id?: Prisma.StringFilter<"UtmLink"> | string
-  projectId?: Prisma.StringFilter<"UtmLink"> | string
-  artifactId?: Prisma.StringNullableFilter<"UtmLink"> | string | null
-  campaignId?: Prisma.StringNullableFilter<"UtmLink"> | string | null
+  id?: Prisma.UuidFilter<"UtmLink"> | string
+  projectId?: Prisma.UuidFilter<"UtmLink"> | string
+  artifactId?: Prisma.UuidNullableFilter<"UtmLink"> | string | null
+  campaignId?: Prisma.UuidNullableFilter<"UtmLink"> | string | null
   source?: Prisma.StringFilter<"UtmLink"> | string
   medium?: Prisma.StringFilter<"UtmLink"> | string
   campaign?: Prisma.StringNullableFilter<"UtmLink"> | string | null
@@ -814,7 +814,7 @@ export type UtmLinkScalarWhereInput = {
   notes?: Prisma.StringNullableFilter<"UtmLink"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UtmLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UtmLink"> | Date | string
-  createdById?: Prisma.StringFilter<"UtmLink"> | string
+  createdById?: Prisma.UuidFilter<"UtmLink"> | string
 }
 
 export type UtmLinkCreateWithoutProjectInput = {

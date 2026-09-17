@@ -1,7 +1,7 @@
 //backend\src\modules\projects\contracts\create-project.dto.ts
 import { z } from 'zod';
 export const CreateProjectSchema = z.object({
-    workspaceId: z.string().cuid(),
+    workspaceId: z.string().uuid(),
     name: z.string().min(2).max(200),
     description: z.string().max(2000).optional(),
     startDate: z.string().datetime().optional(),

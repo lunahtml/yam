@@ -184,9 +184,9 @@ export type CommentWhereInput = {
   AND?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
   OR?: Prisma.CommentWhereInput[]
   NOT?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
-  id?: Prisma.StringFilter<"Comment"> | string
-  recordId?: Prisma.StringFilter<"Comment"> | string
-  userId?: Prisma.StringFilter<"Comment"> | string
+  id?: Prisma.UuidFilter<"Comment"> | string
+  recordId?: Prisma.UuidFilter<"Comment"> | string
+  userId?: Prisma.UuidFilter<"Comment"> | string
   body?: Prisma.StringFilter<"Comment"> | string
   createdAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
@@ -210,8 +210,8 @@ export type CommentWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
   OR?: Prisma.CommentWhereInput[]
   NOT?: Prisma.CommentWhereInput | Prisma.CommentWhereInput[]
-  recordId?: Prisma.StringFilter<"Comment"> | string
-  userId?: Prisma.StringFilter<"Comment"> | string
+  recordId?: Prisma.UuidFilter<"Comment"> | string
+  userId?: Prisma.UuidFilter<"Comment"> | string
   body?: Prisma.StringFilter<"Comment"> | string
   createdAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
@@ -235,9 +235,9 @@ export type CommentScalarWhereWithAggregatesInput = {
   AND?: Prisma.CommentScalarWhereWithAggregatesInput | Prisma.CommentScalarWhereWithAggregatesInput[]
   OR?: Prisma.CommentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CommentScalarWhereWithAggregatesInput | Prisma.CommentScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Comment"> | string
-  recordId?: Prisma.StringWithAggregatesFilter<"Comment"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"Comment"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Comment"> | string
+  recordId?: Prisma.UuidWithAggregatesFilter<"Comment"> | string
+  userId?: Prisma.UuidWithAggregatesFilter<"Comment"> | string
   body?: Prisma.StringWithAggregatesFilter<"Comment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Comment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Comment"> | Date | string
@@ -471,9 +471,9 @@ export type CommentScalarWhereInput = {
   AND?: Prisma.CommentScalarWhereInput | Prisma.CommentScalarWhereInput[]
   OR?: Prisma.CommentScalarWhereInput[]
   NOT?: Prisma.CommentScalarWhereInput | Prisma.CommentScalarWhereInput[]
-  id?: Prisma.StringFilter<"Comment"> | string
-  recordId?: Prisma.StringFilter<"Comment"> | string
-  userId?: Prisma.StringFilter<"Comment"> | string
+  id?: Prisma.UuidFilter<"Comment"> | string
+  recordId?: Prisma.UuidFilter<"Comment"> | string
+  userId?: Prisma.UuidFilter<"Comment"> | string
   body?: Prisma.StringFilter<"Comment"> | string
   createdAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Comment"> | Date | string

@@ -177,9 +177,9 @@ export type WorkspaceMemberWhereInput = {
   AND?: Prisma.WorkspaceMemberWhereInput | Prisma.WorkspaceMemberWhereInput[]
   OR?: Prisma.WorkspaceMemberWhereInput[]
   NOT?: Prisma.WorkspaceMemberWhereInput | Prisma.WorkspaceMemberWhereInput[]
-  id?: Prisma.StringFilter<"WorkspaceMember"> | string
-  workspaceId?: Prisma.StringFilter<"WorkspaceMember"> | string
-  userId?: Prisma.StringFilter<"WorkspaceMember"> | string
+  id?: Prisma.UuidFilter<"WorkspaceMember"> | string
+  workspaceId?: Prisma.UuidFilter<"WorkspaceMember"> | string
+  userId?: Prisma.UuidFilter<"WorkspaceMember"> | string
   role?: Prisma.EnumWorkspaceRoleFilter<"WorkspaceMember"> | $Enums.WorkspaceRole
   createdAt?: Prisma.DateTimeFilter<"WorkspaceMember"> | Date | string
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
@@ -202,8 +202,8 @@ export type WorkspaceMemberWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.WorkspaceMemberWhereInput | Prisma.WorkspaceMemberWhereInput[]
   OR?: Prisma.WorkspaceMemberWhereInput[]
   NOT?: Prisma.WorkspaceMemberWhereInput | Prisma.WorkspaceMemberWhereInput[]
-  workspaceId?: Prisma.StringFilter<"WorkspaceMember"> | string
-  userId?: Prisma.StringFilter<"WorkspaceMember"> | string
+  workspaceId?: Prisma.UuidFilter<"WorkspaceMember"> | string
+  userId?: Prisma.UuidFilter<"WorkspaceMember"> | string
   role?: Prisma.EnumWorkspaceRoleFilter<"WorkspaceMember"> | $Enums.WorkspaceRole
   createdAt?: Prisma.DateTimeFilter<"WorkspaceMember"> | Date | string
   workspace?: Prisma.XOR<Prisma.WorkspaceScalarRelationFilter, Prisma.WorkspaceWhereInput>
@@ -225,9 +225,9 @@ export type WorkspaceMemberScalarWhereWithAggregatesInput = {
   AND?: Prisma.WorkspaceMemberScalarWhereWithAggregatesInput | Prisma.WorkspaceMemberScalarWhereWithAggregatesInput[]
   OR?: Prisma.WorkspaceMemberScalarWhereWithAggregatesInput[]
   NOT?: Prisma.WorkspaceMemberScalarWhereWithAggregatesInput | Prisma.WorkspaceMemberScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"WorkspaceMember"> | string
-  workspaceId?: Prisma.StringWithAggregatesFilter<"WorkspaceMember"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"WorkspaceMember"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"WorkspaceMember"> | string
+  workspaceId?: Prisma.UuidWithAggregatesFilter<"WorkspaceMember"> | string
+  userId?: Prisma.UuidWithAggregatesFilter<"WorkspaceMember"> | string
   role?: Prisma.EnumWorkspaceRoleWithAggregatesFilter<"WorkspaceMember"> | $Enums.WorkspaceRole
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorkspaceMember"> | Date | string
 }
@@ -457,9 +457,9 @@ export type WorkspaceMemberScalarWhereInput = {
   AND?: Prisma.WorkspaceMemberScalarWhereInput | Prisma.WorkspaceMemberScalarWhereInput[]
   OR?: Prisma.WorkspaceMemberScalarWhereInput[]
   NOT?: Prisma.WorkspaceMemberScalarWhereInput | Prisma.WorkspaceMemberScalarWhereInput[]
-  id?: Prisma.StringFilter<"WorkspaceMember"> | string
-  workspaceId?: Prisma.StringFilter<"WorkspaceMember"> | string
-  userId?: Prisma.StringFilter<"WorkspaceMember"> | string
+  id?: Prisma.UuidFilter<"WorkspaceMember"> | string
+  workspaceId?: Prisma.UuidFilter<"WorkspaceMember"> | string
+  userId?: Prisma.UuidFilter<"WorkspaceMember"> | string
   role?: Prisma.EnumWorkspaceRoleFilter<"WorkspaceMember"> | $Enums.WorkspaceRole
   createdAt?: Prisma.DateTimeFilter<"WorkspaceMember"> | Date | string
 }

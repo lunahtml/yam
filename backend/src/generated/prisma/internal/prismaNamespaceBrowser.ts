@@ -78,7 +78,8 @@ export const ModelName = {
   UtmMedium: 'UtmMedium',
   UtmCampaign: 'UtmCampaign',
   UtmRule: 'UtmRule',
-  UtmLink: 'UtmLink'
+  UtmLink: 'UtmLink',
+  View: 'View'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -514,6 +515,21 @@ export const UtmLinkScalarFieldEnum = {
 } as const
 
 export type UtmLinkScalarFieldEnum = (typeof UtmLinkScalarFieldEnum)[keyof typeof UtmLinkScalarFieldEnum]
+
+
+export const ViewScalarFieldEnum = {
+  id: 'id',
+  entityId: 'entityId',
+  projectId: 'projectId',
+  name: 'name',
+  type: 'type',
+  config: 'config',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ViewScalarFieldEnum = (typeof ViewScalarFieldEnum)[keyof typeof ViewScalarFieldEnum]
 
 
 export const SortOrder = {

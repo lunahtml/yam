@@ -1,7 +1,7 @@
 //backend\src\modules\workspaces\contracts\create-workspace.dto.ts
 import { z } from 'zod';
 export const CreateWorkspaceSchema = z.object({
-    organizationId: z.string().cuid(),
+    organizationId: z.string().uuid(),
     name: z.string().min(2).max(200),
 });
 export const UpdateWorkspaceSchema = z.object({

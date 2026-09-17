@@ -94,7 +94,8 @@ export const ModelName = {
     UtmMedium: 'UtmMedium',
     UtmCampaign: 'UtmCampaign',
     UtmRule: 'UtmRule',
-    UtmLink: 'UtmLink'
+    UtmLink: 'UtmLink',
+    View: 'View'
 };
 /**
  * Enums
@@ -411,6 +412,17 @@ export const UtmLinkScalarFieldEnum = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     createdById: 'createdById'
+};
+export const ViewScalarFieldEnum = {
+    id: 'id',
+    entityId: 'entityId',
+    projectId: 'projectId',
+    name: 'name',
+    type: 'type',
+    config: 'config',
+    isDefault: 'isDefault',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const SortOrder = {
     asc: 'asc',

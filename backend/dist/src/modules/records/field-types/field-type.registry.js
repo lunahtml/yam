@@ -82,7 +82,7 @@ const UserField = {
     validate: (value) => {
         if (value === null || value === undefined)
             return value;
-        return z.string().cuid().parse(value);
+        return z.string().uuid().parse(value);
     },
 };
 const Registry = {

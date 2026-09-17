@@ -197,10 +197,10 @@ export type WorkflowTransitionWhereInput = {
   AND?: Prisma.WorkflowTransitionWhereInput | Prisma.WorkflowTransitionWhereInput[]
   OR?: Prisma.WorkflowTransitionWhereInput[]
   NOT?: Prisma.WorkflowTransitionWhereInput | Prisma.WorkflowTransitionWhereInput[]
-  id?: Prisma.StringFilter<"WorkflowTransition"> | string
-  workflowId?: Prisma.StringFilter<"WorkflowTransition"> | string
-  fromStepId?: Prisma.StringFilter<"WorkflowTransition"> | string
-  toStepId?: Prisma.StringFilter<"WorkflowTransition"> | string
+  id?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  workflowId?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  fromStepId?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  toStepId?: Prisma.UuidFilter<"WorkflowTransition"> | string
   name?: Prisma.StringNullableFilter<"WorkflowTransition"> | string | null
   conditions?: Prisma.JsonNullableFilter<"WorkflowTransition">
   actions?: Prisma.JsonNullableFilter<"WorkflowTransition">
@@ -231,9 +231,9 @@ export type WorkflowTransitionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.WorkflowTransitionWhereInput | Prisma.WorkflowTransitionWhereInput[]
   OR?: Prisma.WorkflowTransitionWhereInput[]
   NOT?: Prisma.WorkflowTransitionWhereInput | Prisma.WorkflowTransitionWhereInput[]
-  workflowId?: Prisma.StringFilter<"WorkflowTransition"> | string
-  fromStepId?: Prisma.StringFilter<"WorkflowTransition"> | string
-  toStepId?: Prisma.StringFilter<"WorkflowTransition"> | string
+  workflowId?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  fromStepId?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  toStepId?: Prisma.UuidFilter<"WorkflowTransition"> | string
   name?: Prisma.StringNullableFilter<"WorkflowTransition"> | string | null
   conditions?: Prisma.JsonNullableFilter<"WorkflowTransition">
   actions?: Prisma.JsonNullableFilter<"WorkflowTransition">
@@ -263,10 +263,10 @@ export type WorkflowTransitionScalarWhereWithAggregatesInput = {
   AND?: Prisma.WorkflowTransitionScalarWhereWithAggregatesInput | Prisma.WorkflowTransitionScalarWhereWithAggregatesInput[]
   OR?: Prisma.WorkflowTransitionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.WorkflowTransitionScalarWhereWithAggregatesInput | Prisma.WorkflowTransitionScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"WorkflowTransition"> | string
-  workflowId?: Prisma.StringWithAggregatesFilter<"WorkflowTransition"> | string
-  fromStepId?: Prisma.StringWithAggregatesFilter<"WorkflowTransition"> | string
-  toStepId?: Prisma.StringWithAggregatesFilter<"WorkflowTransition"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"WorkflowTransition"> | string
+  workflowId?: Prisma.UuidWithAggregatesFilter<"WorkflowTransition"> | string
+  fromStepId?: Prisma.UuidWithAggregatesFilter<"WorkflowTransition"> | string
+  toStepId?: Prisma.UuidWithAggregatesFilter<"WorkflowTransition"> | string
   name?: Prisma.StringNullableWithAggregatesFilter<"WorkflowTransition"> | string | null
   conditions?: Prisma.JsonNullableWithAggregatesFilter<"WorkflowTransition">
   actions?: Prisma.JsonNullableWithAggregatesFilter<"WorkflowTransition">
@@ -575,10 +575,10 @@ export type WorkflowTransitionScalarWhereInput = {
   AND?: Prisma.WorkflowTransitionScalarWhereInput | Prisma.WorkflowTransitionScalarWhereInput[]
   OR?: Prisma.WorkflowTransitionScalarWhereInput[]
   NOT?: Prisma.WorkflowTransitionScalarWhereInput | Prisma.WorkflowTransitionScalarWhereInput[]
-  id?: Prisma.StringFilter<"WorkflowTransition"> | string
-  workflowId?: Prisma.StringFilter<"WorkflowTransition"> | string
-  fromStepId?: Prisma.StringFilter<"WorkflowTransition"> | string
-  toStepId?: Prisma.StringFilter<"WorkflowTransition"> | string
+  id?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  workflowId?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  fromStepId?: Prisma.UuidFilter<"WorkflowTransition"> | string
+  toStepId?: Prisma.UuidFilter<"WorkflowTransition"> | string
   name?: Prisma.StringNullableFilter<"WorkflowTransition"> | string | null
   conditions?: Prisma.JsonNullableFilter<"WorkflowTransition">
   actions?: Prisma.JsonNullableFilter<"WorkflowTransition">

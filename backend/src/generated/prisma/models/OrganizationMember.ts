@@ -170,9 +170,9 @@ export type OrganizationMemberWhereInput = {
   AND?: Prisma.OrganizationMemberWhereInput | Prisma.OrganizationMemberWhereInput[]
   OR?: Prisma.OrganizationMemberWhereInput[]
   NOT?: Prisma.OrganizationMemberWhereInput | Prisma.OrganizationMemberWhereInput[]
-  id?: Prisma.StringFilter<"OrganizationMember"> | string
-  organizationId?: Prisma.StringFilter<"OrganizationMember"> | string
-  userId?: Prisma.StringFilter<"OrganizationMember"> | string
+  id?: Prisma.UuidFilter<"OrganizationMember"> | string
+  organizationId?: Prisma.UuidFilter<"OrganizationMember"> | string
+  userId?: Prisma.UuidFilter<"OrganizationMember"> | string
   role?: Prisma.EnumOrgRoleFilter<"OrganizationMember"> | $Enums.OrgRole
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -193,8 +193,8 @@ export type OrganizationMemberWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.OrganizationMemberWhereInput | Prisma.OrganizationMemberWhereInput[]
   OR?: Prisma.OrganizationMemberWhereInput[]
   NOT?: Prisma.OrganizationMemberWhereInput | Prisma.OrganizationMemberWhereInput[]
-  organizationId?: Prisma.StringFilter<"OrganizationMember"> | string
-  userId?: Prisma.StringFilter<"OrganizationMember"> | string
+  organizationId?: Prisma.UuidFilter<"OrganizationMember"> | string
+  userId?: Prisma.UuidFilter<"OrganizationMember"> | string
   role?: Prisma.EnumOrgRoleFilter<"OrganizationMember"> | $Enums.OrgRole
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -214,9 +214,9 @@ export type OrganizationMemberScalarWhereWithAggregatesInput = {
   AND?: Prisma.OrganizationMemberScalarWhereWithAggregatesInput | Prisma.OrganizationMemberScalarWhereWithAggregatesInput[]
   OR?: Prisma.OrganizationMemberScalarWhereWithAggregatesInput[]
   NOT?: Prisma.OrganizationMemberScalarWhereWithAggregatesInput | Prisma.OrganizationMemberScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"OrganizationMember"> | string
-  organizationId?: Prisma.StringWithAggregatesFilter<"OrganizationMember"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"OrganizationMember"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"OrganizationMember"> | string
+  organizationId?: Prisma.UuidWithAggregatesFilter<"OrganizationMember"> | string
+  userId?: Prisma.UuidWithAggregatesFilter<"OrganizationMember"> | string
   role?: Prisma.EnumOrgRoleWithAggregatesFilter<"OrganizationMember"> | $Enums.OrgRole
 }
 
@@ -433,9 +433,9 @@ export type OrganizationMemberScalarWhereInput = {
   AND?: Prisma.OrganizationMemberScalarWhereInput | Prisma.OrganizationMemberScalarWhereInput[]
   OR?: Prisma.OrganizationMemberScalarWhereInput[]
   NOT?: Prisma.OrganizationMemberScalarWhereInput | Prisma.OrganizationMemberScalarWhereInput[]
-  id?: Prisma.StringFilter<"OrganizationMember"> | string
-  organizationId?: Prisma.StringFilter<"OrganizationMember"> | string
-  userId?: Prisma.StringFilter<"OrganizationMember"> | string
+  id?: Prisma.UuidFilter<"OrganizationMember"> | string
+  organizationId?: Prisma.UuidFilter<"OrganizationMember"> | string
+  userId?: Prisma.UuidFilter<"OrganizationMember"> | string
   role?: Prisma.EnumOrgRoleFilter<"OrganizationMember"> | $Enums.OrgRole
 }
 

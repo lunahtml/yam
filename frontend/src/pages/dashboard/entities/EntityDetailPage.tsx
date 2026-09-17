@@ -5,14 +5,16 @@ import { api } from '../../../api/client';
 import { Entity, Field } from '../../../types/api';
 import FieldsManager from './FieldsManager';
 import RecordsTable from './RecordsTable';
+import { Columns } from 'lucide-react';
+import ViewsManager from './ViewsManager';
 interface EntityDetailPageProps {
     entityId: string;
     entityLabel: string;
     onBack: () => void;
 }
 
-type Tab = 'fields' | 'records';
 
+type Tab = 'fields' | 'records' | 'views';
 export default function EntityDetailPage({
     entityId,
     entityLabel,
@@ -137,6 +139,13 @@ export default function EntityDetailPage({
                 >
                     Записи
                 </TabButton>
+                <TabButton
+                    active={tab === 'views'}
+                    onClick={() => setTab('views')}
+                    icon={<Columns size={16} />}
+                >
+                    Представления
+                </TabButton>
             </div>
 
             {/* Контент */}
@@ -158,6 +167,7 @@ export default function EntityDetailPage({
                     <RecordsTable entityId={entityId} fields={fields} />
                 </div>
             )}
+            {tab === 'views' && <ViewsManager entityId={entityId} fields={fields} />}
         </div>
     );
 }

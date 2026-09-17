@@ -68,3 +68,13 @@ export const ArtifactType = {
 } as const
 
 export type ArtifactType = (typeof ArtifactType)[keyof typeof ArtifactType]
+
+
+export const ViewType = {
+  TABLE: 'TABLE',
+  KANBAN: 'KANBAN',
+  CALENDAR: 'CALENDAR',
+  LIST: 'LIST'
+} as const
+
+export type ViewType = (typeof ViewType)[keyof typeof ViewType]

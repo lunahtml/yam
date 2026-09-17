@@ -184,8 +184,8 @@ export type UtmMediumWhereInput = {
   AND?: Prisma.UtmMediumWhereInput | Prisma.UtmMediumWhereInput[]
   OR?: Prisma.UtmMediumWhereInput[]
   NOT?: Prisma.UtmMediumWhereInput | Prisma.UtmMediumWhereInput[]
-  id?: Prisma.StringFilter<"UtmMedium"> | string
-  projectId?: Prisma.StringFilter<"UtmMedium"> | string
+  id?: Prisma.UuidFilter<"UtmMedium"> | string
+  projectId?: Prisma.UuidFilter<"UtmMedium"> | string
   name?: Prisma.StringFilter<"UtmMedium"> | string
   label?: Prisma.StringFilter<"UtmMedium"> | string
   isSystem?: Prisma.BoolFilter<"UtmMedium"> | boolean
@@ -209,7 +209,7 @@ export type UtmMediumWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UtmMediumWhereInput | Prisma.UtmMediumWhereInput[]
   OR?: Prisma.UtmMediumWhereInput[]
   NOT?: Prisma.UtmMediumWhereInput | Prisma.UtmMediumWhereInput[]
-  projectId?: Prisma.StringFilter<"UtmMedium"> | string
+  projectId?: Prisma.UuidFilter<"UtmMedium"> | string
   name?: Prisma.StringFilter<"UtmMedium"> | string
   label?: Prisma.StringFilter<"UtmMedium"> | string
   isSystem?: Prisma.BoolFilter<"UtmMedium"> | boolean
@@ -233,8 +233,8 @@ export type UtmMediumScalarWhereWithAggregatesInput = {
   AND?: Prisma.UtmMediumScalarWhereWithAggregatesInput | Prisma.UtmMediumScalarWhereWithAggregatesInput[]
   OR?: Prisma.UtmMediumScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UtmMediumScalarWhereWithAggregatesInput | Prisma.UtmMediumScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"UtmMedium"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"UtmMedium"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"UtmMedium"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"UtmMedium"> | string
   name?: Prisma.StringWithAggregatesFilter<"UtmMedium"> | string
   label?: Prisma.StringWithAggregatesFilter<"UtmMedium"> | string
   isSystem?: Prisma.BoolWithAggregatesFilter<"UtmMedium"> | boolean
@@ -433,8 +433,8 @@ export type UtmMediumScalarWhereInput = {
   AND?: Prisma.UtmMediumScalarWhereInput | Prisma.UtmMediumScalarWhereInput[]
   OR?: Prisma.UtmMediumScalarWhereInput[]
   NOT?: Prisma.UtmMediumScalarWhereInput | Prisma.UtmMediumScalarWhereInput[]
-  id?: Prisma.StringFilter<"UtmMedium"> | string
-  projectId?: Prisma.StringFilter<"UtmMedium"> | string
+  id?: Prisma.UuidFilter<"UtmMedium"> | string
+  projectId?: Prisma.UuidFilter<"UtmMedium"> | string
   name?: Prisma.StringFilter<"UtmMedium"> | string
   label?: Prisma.StringFilter<"UtmMedium"> | string
   isSystem?: Prisma.BoolFilter<"UtmMedium"> | boolean

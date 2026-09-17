@@ -191,8 +191,8 @@ export type LoginAttemptWhereInput = {
   AND?: Prisma.LoginAttemptWhereInput | Prisma.LoginAttemptWhereInput[]
   OR?: Prisma.LoginAttemptWhereInput[]
   NOT?: Prisma.LoginAttemptWhereInput | Prisma.LoginAttemptWhereInput[]
-  id?: Prisma.StringFilter<"LoginAttempt"> | string
-  userId?: Prisma.StringNullableFilter<"LoginAttempt"> | string | null
+  id?: Prisma.UuidFilter<"LoginAttempt"> | string
+  userId?: Prisma.UuidNullableFilter<"LoginAttempt"> | string | null
   email?: Prisma.StringFilter<"LoginAttempt"> | string
   ip?: Prisma.StringFilter<"LoginAttempt"> | string
   userAgent?: Prisma.StringNullableFilter<"LoginAttempt"> | string | null
@@ -215,7 +215,7 @@ export type LoginAttemptWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.LoginAttemptWhereInput | Prisma.LoginAttemptWhereInput[]
   OR?: Prisma.LoginAttemptWhereInput[]
   NOT?: Prisma.LoginAttemptWhereInput | Prisma.LoginAttemptWhereInput[]
-  userId?: Prisma.StringNullableFilter<"LoginAttempt"> | string | null
+  userId?: Prisma.UuidNullableFilter<"LoginAttempt"> | string | null
   email?: Prisma.StringFilter<"LoginAttempt"> | string
   ip?: Prisma.StringFilter<"LoginAttempt"> | string
   userAgent?: Prisma.StringNullableFilter<"LoginAttempt"> | string | null
@@ -240,8 +240,8 @@ export type LoginAttemptScalarWhereWithAggregatesInput = {
   AND?: Prisma.LoginAttemptScalarWhereWithAggregatesInput | Prisma.LoginAttemptScalarWhereWithAggregatesInput[]
   OR?: Prisma.LoginAttemptScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LoginAttemptScalarWhereWithAggregatesInput | Prisma.LoginAttemptScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"LoginAttempt"> | string
-  userId?: Prisma.StringNullableWithAggregatesFilter<"LoginAttempt"> | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"LoginAttempt"> | string
+  userId?: Prisma.UuidNullableWithAggregatesFilter<"LoginAttempt"> | string | null
   email?: Prisma.StringWithAggregatesFilter<"LoginAttempt"> | string
   ip?: Prisma.StringWithAggregatesFilter<"LoginAttempt"> | string
   userAgent?: Prisma.StringNullableWithAggregatesFilter<"LoginAttempt"> | string | null

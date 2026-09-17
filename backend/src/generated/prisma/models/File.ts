@@ -235,9 +235,9 @@ export type FileWhereInput = {
   AND?: Prisma.FileWhereInput | Prisma.FileWhereInput[]
   OR?: Prisma.FileWhereInput[]
   NOT?: Prisma.FileWhereInput | Prisma.FileWhereInput[]
-  id?: Prisma.StringFilter<"File"> | string
-  projectId?: Prisma.StringFilter<"File"> | string
-  userId?: Prisma.StringFilter<"File"> | string
+  id?: Prisma.UuidFilter<"File"> | string
+  projectId?: Prisma.UuidFilter<"File"> | string
+  userId?: Prisma.UuidFilter<"File"> | string
   storageKey?: Prisma.StringFilter<"File"> | string
   originalName?: Prisma.StringFilter<"File"> | string
   mimeType?: Prisma.StringFilter<"File"> | string
@@ -267,8 +267,8 @@ export type FileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.FileWhereInput | Prisma.FileWhereInput[]
   OR?: Prisma.FileWhereInput[]
   NOT?: Prisma.FileWhereInput | Prisma.FileWhereInput[]
-  projectId?: Prisma.StringFilter<"File"> | string
-  userId?: Prisma.StringFilter<"File"> | string
+  projectId?: Prisma.UuidFilter<"File"> | string
+  userId?: Prisma.UuidFilter<"File"> | string
   storageKey?: Prisma.StringFilter<"File"> | string
   originalName?: Prisma.StringFilter<"File"> | string
   mimeType?: Prisma.StringFilter<"File"> | string
@@ -300,9 +300,9 @@ export type FileScalarWhereWithAggregatesInput = {
   AND?: Prisma.FileScalarWhereWithAggregatesInput | Prisma.FileScalarWhereWithAggregatesInput[]
   OR?: Prisma.FileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FileScalarWhereWithAggregatesInput | Prisma.FileScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"File"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"File"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"File"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"File"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"File"> | string
+  userId?: Prisma.UuidWithAggregatesFilter<"File"> | string
   storageKey?: Prisma.StringWithAggregatesFilter<"File"> | string
   originalName?: Prisma.StringWithAggregatesFilter<"File"> | string
   mimeType?: Prisma.StringWithAggregatesFilter<"File"> | string
@@ -581,9 +581,9 @@ export type FileScalarWhereInput = {
   AND?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
   OR?: Prisma.FileScalarWhereInput[]
   NOT?: Prisma.FileScalarWhereInput | Prisma.FileScalarWhereInput[]
-  id?: Prisma.StringFilter<"File"> | string
-  projectId?: Prisma.StringFilter<"File"> | string
-  userId?: Prisma.StringFilter<"File"> | string
+  id?: Prisma.UuidFilter<"File"> | string
+  projectId?: Prisma.UuidFilter<"File"> | string
+  userId?: Prisma.UuidFilter<"File"> | string
   storageKey?: Prisma.StringFilter<"File"> | string
   originalName?: Prisma.StringFilter<"File"> | string
   mimeType?: Prisma.StringFilter<"File"> | string

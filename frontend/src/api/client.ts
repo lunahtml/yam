@@ -21,6 +21,10 @@ import {
     EntityRecord,
     RecordsResponse,
     ListRecordsQuery,
+    View,
+    ViewType,
+    Workflow,
+    WorkflowStep,
 } from '../types/api';
 
 async function request<T>(
@@ -429,4 +433,34 @@ export const api = {
 
     deleteRecord: (id: string) =>
         request<void>(`/records/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // VIEWS
+    // ═══════════════════════════════════════════════════════════════
+
+    createView: (data: {
+        entityId: string;
+        name: string;
+        type: ViewType;
+        config?: Record<string, unknown>;
+        isDefault?: boolean;
+    }) =>
+        request<View>('/views', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getViewsByEntity: (entityId: string) =>
+        request<View[]>(`/views/entity/${entityId}`),
+
+    getView: (id: string) => request<View>(`/views/${id}`),
+
+    updateView: (id: string, data: Partial<View>) =>
+        request<View>(`/views/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteView: (id: string) =>
+        request<void>(`/views/${id}`, { method: 'DELETE' }),
 };

@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 export const CreateWorkspaceSchema = z.object({
-    organizationId: z.string().cuid(),
+    organizationId: z.string().uuid(),
     name: z.string().min(2).max(200),
 });
 

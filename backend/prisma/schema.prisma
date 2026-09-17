@@ -26,7 +26,7 @@ enum ProjectRoleEnum {
 // ═══════════════════════════════════════════════════════════════
 
 model Organization {
-    id        String   @id @default(cuid())
+    id        String   @id @default(uuid(7)) @db.Uuid
     name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -38,9 +38,9 @@ model Organization {
 }
 
 model OrganizationMember {
-    id             String  @id @default(cuid())
-    organizationId String
-    userId         String
+    id             String  @id @default(uuid(7)) @db.Uuid
+    organizationId String  @db.Uuid
+    userId         String  @db.Uuid
     role           OrgRole @default(MEMBER)
 
     organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
@@ -62,8 +62,8 @@ enum OrgRole {
 // ═══════════════════════════════════════════════════════════════
 
 model Workspace {
-    id             String   @id @default(cuid())
-    organizationId String
+    id             String   @id @default(uuid(7)) @db.Uuid
+    organizationId String   @db.Uuid
     name           String
     createdAt      DateTime @default(now())
     updatedAt      DateTime @updatedAt
@@ -78,9 +78,9 @@ model Workspace {
 }
 
 model WorkspaceMember {
-    id          String        @id @default(cuid())
-    workspaceId String
-    userId      String
+    id          String        @id @default(uuid(7)) @db.Uuid
+    workspaceId String        @db.Uuid
+    userId      String        @db.Uuid
     role        WorkspaceRole @default(member)
     createdAt   DateTime      @default(now()) // ← добавить
 
@@ -97,7 +97,7 @@ model WorkspaceMember {
 // ═══════════════════════════════════════════════════════════════
 
 model User {
-    id           String   @id @default(cuid())
+    id           String   @id @default(uuid(7)) @db.Uuid
     email        String   @unique
     passwordHash String
     name         String?
@@ -132,8 +132,8 @@ enum UserStatus {
 // ═══════════════════════════════════════════════════════════════
 
 model Project {
-    id          String        @id @default(cuid())
-    workspaceId String
+    id          String        @id @default(uuid(7)) @db.Uuid
+    workspaceId String        @db.Uuid
     name        String
     description String?
     status      ProjectStatus @default(ACTIVE)
@@ -159,6 +159,7 @@ model Project {
     utmCampaigns UtmCampaign[]
     utmRules     UtmRule[]
     utmLinks     UtmLink[]
+    views        View[]
 
     @@index([workspaceId])
     @@map("projects")
@@ -171,9 +172,9 @@ enum ProjectStatus {
 }
 
 model ProjectMember {
-    id        String          @id @default(cuid())
-    projectId String
-    userId    String
+    id        String          @id @default(uuid(7)) @db.Uuid
+    projectId String          @db.Uuid
+    userId    String          @db.Uuid
     role      ProjectRoleEnum @default(member)
     createdAt DateTime        @default(now())
 
@@ -190,8 +191,8 @@ model ProjectMember {
 // ═══════════════════════════════════════════════════════════════
 
 model ProjectModule {
-    id        String  @id @default(cuid())
-    projectId String
+    id        String  @id @default(uuid(7)) @db.Uuid
+    projectId String  @db.Uuid
     name      String
     label     String
     icon      String?
@@ -213,9 +214,9 @@ model ProjectModule {
 // ═══════════════════════════════════════════════════════════════
 
 model Entity {
-    id        String  @id @default(cuid())
-    projectId String
-    moduleId  String?
+    id        String  @id @default(uuid(7)) @db.Uuid
+    projectId String  @db.Uuid
+    moduleId  String? @db.Uuid
 
     name      String
     label     String
@@ -231,6 +232,7 @@ model Entity {
     fields    Field[]
     records   Record[]
     workflows Workflow[]
+    views     View[]
 
     @@unique([projectId, name])
     @@index([projectId])
@@ -245,8 +247,8 @@ model Entity {
 model Field {
     // Оставляем String намеренно.
     // Типы будут расширяться через FieldTypeRegistry.
-    id       String @id @default(cuid())
-    entityId String
+    id       String @id @default(uuid(7)) @db.Uuid
+    entityId String @db.Uuid
 
     name  String
     label String
@@ -271,13 +273,13 @@ model Field {
 // ═══════════════════════════════════════════════════════════════
 
 model Record {
-    id        String @id @default(cuid())
-    entityId  String
-    projectId String
+    id        String @id @default(uuid(7)) @db.Uuid
+    entityId  String @db.Uuid
+    projectId String @db.Uuid
 
     data Json
 
-    createdById String
+    createdById String   @db.Uuid
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
@@ -296,10 +298,10 @@ model Record {
 }
 
 model RecordIndex {
-    id        String @id @default(cuid())
-    recordId  String
-    entityId  String
-    projectId String
+    id        String @id @default(uuid(7)) @db.Uuid
+    recordId  String @db.Uuid
+    entityId  String @db.Uuid
+    projectId String @db.Uuid
     fieldName String
     fieldType String // text, number, date, boolean, select, user
 
@@ -326,9 +328,9 @@ model RecordIndex {
 // ═══════════════════════════════════════════════════════════════
 
 model Workflow {
-    id        String @id @default(cuid())
-    projectId String
-    entityId  String
+    id        String @id @default(uuid(7)) @db.Uuid
+    projectId String @db.Uuid
+    entityId  String @db.Uuid
     name      String
 
     createdAt DateTime @default(now())
@@ -351,8 +353,8 @@ model Workflow {
 // ═══════════════════════════════════════════════════════════════
 
 model WorkflowStep {
-    id         String @id @default(cuid())
-    workflowId String
+    id         String @id @default(uuid(7)) @db.Uuid
+    workflowId String @db.Uuid
 
     name  String
     order Int
@@ -376,11 +378,11 @@ model WorkflowStep {
 // ═══════════════════════════════════════════════════════════════
 
 model WorkflowTransition {
-    id         String @id @default(cuid())
-    workflowId String
+    id         String @id @default(uuid(7)) @db.Uuid
+    workflowId String @db.Uuid
 
-    fromStepId String
-    toStepId   String
+    fromStepId String @db.Uuid
+    toStepId   String @db.Uuid
 
     name       String?
     conditions Json?
@@ -404,9 +406,9 @@ model WorkflowTransition {
 // ═══════════════════════════════════════════════════════════════
 
 model Comment {
-    id       String @id @default(cuid())
-    recordId String
-    userId   String
+    id       String @id @default(uuid(7)) @db.Uuid
+    recordId String @db.Uuid
+    userId   String @db.Uuid
     body     String
 
     createdAt DateTime @default(now())
@@ -425,9 +427,9 @@ model Comment {
 // ═══════════════════════════════════════════════════════════════
 
 model File {
-    id        String @id @default(cuid())
-    projectId String
-    userId    String
+    id        String @id @default(uuid(7)) @db.Uuid
+    projectId String @db.Uuid
+    userId    String @db.Uuid
 
     storageKey   String
     originalName String
@@ -450,15 +452,15 @@ model File {
 // ═══════════════════════════════════════════════════════════════
 
 model ActivityLog {
-    id String @id @default(cuid())
+    id String @id @default(uuid(7)) @db.Uuid
 
-    projectId String?
-    userId    String
+    projectId String? @db.Uuid
+    userId    String  @db.Uuid
 
     action String
 
     entityType String
-    entityId   String
+    entityId   String @db.Uuid
 
     metadata Json?
 
@@ -478,8 +480,8 @@ model ActivityLog {
 // ═══════════════════════════════════════════════════════════════
 
 model RefreshToken {
-    id        String    @id @default(cuid())
-    userId    String
+    id        String    @id @default(uuid(7)) @db.Uuid
+    userId    String    @db.Uuid
     selector  String    @unique
     tokenHash String    @unique
     device    String?
@@ -496,8 +498,8 @@ model RefreshToken {
 }
 
 model EmailVerification {
-    id         String    @id @default(cuid())
-    userId     String
+    id         String    @id @default(uuid(7)) @db.Uuid
+    userId     String    @db.Uuid
     codeHash   String
     expiresAt  DateTime
     verifiedAt DateTime?
@@ -511,8 +513,8 @@ model EmailVerification {
 }
 
 model LoginAttempt {
-    id        String   @id @default(cuid())
-    userId    String?
+    id        String   @id @default(uuid(7)) @db.Uuid
+    userId    String?  @db.Uuid
     email     String
     ip        String
     userAgent String?
@@ -529,8 +531,8 @@ model LoginAttempt {
 // ═══════════════════════════════════════════════════════════════
 
 model MarketingDashboard {
-    id         String   @id @default(cuid())
-    projectId  String
+    id         String   @id @default(uuid(7)) @db.Uuid
+    projectId  String   @db.Uuid
     periodFrom DateTime
     periodTo   DateTime
 
@@ -586,8 +588,8 @@ model MarketingDashboard {
 // ═══════════════════════════════════════════════════════════════
 
 model Artifact {
-    id          String       @id @default(cuid())
-    projectId   String
+    id          String       @id @default(uuid(7)) @db.Uuid
+    projectId   String       @db.Uuid
     type        ArtifactType
     name        String
     url         String?
@@ -622,8 +624,8 @@ enum ArtifactType {
 // ═══════════════════════════════════════════════════════════════
 
 model UtmSource {
-    id        String  @id @default(cuid())
-    projectId String
+    id        String  @id @default(uuid(7)) @db.Uuid
+    projectId String  @db.Uuid
     name      String
     label     String
     icon      String?
@@ -639,8 +641,8 @@ model UtmSource {
 }
 
 model UtmMedium {
-    id        String  @id @default(cuid())
-    projectId String
+    id        String  @id @default(uuid(7)) @db.Uuid
+    projectId String  @db.Uuid
     name      String
     label     String
     isSystem  Boolean @default(false)
@@ -655,8 +657,8 @@ model UtmMedium {
 }
 
 model UtmCampaign {
-    id        String    @id @default(cuid())
-    projectId String
+    id        String    @id @default(uuid(7)) @db.Uuid
+    projectId String    @db.Uuid
     name      String
     label     String
     startDate DateTime?
@@ -678,8 +680,8 @@ model UtmCampaign {
 // ═══════════════════════════════════════════════════════════════
 
 model UtmRule {
-    id          String  @id @default(cuid())
-    projectId   String
+    id          String  @id @default(uuid(7)) @db.Uuid
+    projectId   String  @db.Uuid
     name        String
     description String?
     priority    Int     @default(0)
@@ -710,10 +712,10 @@ model UtmRule {
 // ═══════════════════════════════════════════════════════════════
 
 model UtmLink {
-    id         String  @id @default(cuid())
-    projectId  String
-    artifactId String?
-    campaignId String?
+    id         String  @id @default(uuid(7)) @db.Uuid
+    projectId  String  @db.Uuid
+    artifactId String? @db.Uuid
+    campaignId String? @db.Uuid
 
     source   String
     medium   String
@@ -729,7 +731,7 @@ model UtmLink {
 
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    createdById String
+    createdById String   @db.Uuid
 
     project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
     artifact    Artifact?    @relation(fields: [artifactId], references: [id], onDelete: SetNull)
@@ -740,4 +742,31 @@ model UtmLink {
     @@index([projectId, campaignId])
     @@index([artifactId])
     @@map("utm_links")
+}
+
+model View {
+    id        String   @id @default(uuid(7)) @db.Uuid
+    entityId  String   @db.Uuid
+    projectId String   @db.Uuid
+    name      String
+    type      ViewType @default(KANBAN)
+    config    Json     @default("{}")
+    isDefault Boolean  @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    entity  Entity  @relation(fields: [entityId], references: [id], onDelete: Cascade)
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([entityId])
+    @@index([projectId])
+    @@map("views")
+}
+
+enum ViewType {
+    TABLE
+    KANBAN
+    CALENDAR
+    LIST
 }

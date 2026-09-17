@@ -44,4 +44,10 @@ export const ArtifactType = {
     OFFLINE: 'OFFLINE',
     CUSTOM: 'CUSTOM'
 };
+export const ViewType = {
+    TABLE: 'TABLE',
+    KANBAN: 'KANBAN',
+    CALENDAR: 'CALENDAR',
+    LIST: 'LIST'
+};
 //# sourceMappingURL=enums.js.map

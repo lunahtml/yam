@@ -204,8 +204,8 @@ export type FieldWhereInput = {
   AND?: Prisma.FieldWhereInput | Prisma.FieldWhereInput[]
   OR?: Prisma.FieldWhereInput[]
   NOT?: Prisma.FieldWhereInput | Prisma.FieldWhereInput[]
-  id?: Prisma.StringFilter<"Field"> | string
-  entityId?: Prisma.StringFilter<"Field"> | string
+  id?: Prisma.UuidFilter<"Field"> | string
+  entityId?: Prisma.UuidFilter<"Field"> | string
   name?: Prisma.StringFilter<"Field"> | string
   label?: Prisma.StringFilter<"Field"> | string
   type?: Prisma.StringFilter<"Field"> | string
@@ -237,7 +237,7 @@ export type FieldWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.FieldWhereInput | Prisma.FieldWhereInput[]
   OR?: Prisma.FieldWhereInput[]
   NOT?: Prisma.FieldWhereInput | Prisma.FieldWhereInput[]
-  entityId?: Prisma.StringFilter<"Field"> | string
+  entityId?: Prisma.UuidFilter<"Field"> | string
   name?: Prisma.StringFilter<"Field"> | string
   label?: Prisma.StringFilter<"Field"> | string
   type?: Prisma.StringFilter<"Field"> | string
@@ -269,8 +269,8 @@ export type FieldScalarWhereWithAggregatesInput = {
   AND?: Prisma.FieldScalarWhereWithAggregatesInput | Prisma.FieldScalarWhereWithAggregatesInput[]
   OR?: Prisma.FieldScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FieldScalarWhereWithAggregatesInput | Prisma.FieldScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Field"> | string
-  entityId?: Prisma.StringWithAggregatesFilter<"Field"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Field"> | string
+  entityId?: Prisma.UuidWithAggregatesFilter<"Field"> | string
   name?: Prisma.StringWithAggregatesFilter<"Field"> | string
   label?: Prisma.StringWithAggregatesFilter<"Field"> | string
   type?: Prisma.StringWithAggregatesFilter<"Field"> | string
@@ -517,8 +517,8 @@ export type FieldScalarWhereInput = {
   AND?: Prisma.FieldScalarWhereInput | Prisma.FieldScalarWhereInput[]
   OR?: Prisma.FieldScalarWhereInput[]
   NOT?: Prisma.FieldScalarWhereInput | Prisma.FieldScalarWhereInput[]
-  id?: Prisma.StringFilter<"Field"> | string
-  entityId?: Prisma.StringFilter<"Field"> | string
+  id?: Prisma.UuidFilter<"Field"> | string
+  entityId?: Prisma.UuidFilter<"Field"> | string
   name?: Prisma.StringFilter<"Field"> | string
   label?: Prisma.StringFilter<"Field"> | string
   type?: Prisma.StringFilter<"Field"> | string

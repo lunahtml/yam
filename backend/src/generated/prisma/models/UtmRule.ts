@@ -270,8 +270,8 @@ export type UtmRuleWhereInput = {
   AND?: Prisma.UtmRuleWhereInput | Prisma.UtmRuleWhereInput[]
   OR?: Prisma.UtmRuleWhereInput[]
   NOT?: Prisma.UtmRuleWhereInput | Prisma.UtmRuleWhereInput[]
-  id?: Prisma.StringFilter<"UtmRule"> | string
-  projectId?: Prisma.StringFilter<"UtmRule"> | string
+  id?: Prisma.UuidFilter<"UtmRule"> | string
+  projectId?: Prisma.UuidFilter<"UtmRule"> | string
   name?: Prisma.StringFilter<"UtmRule"> | string
   description?: Prisma.StringNullableFilter<"UtmRule"> | string | null
   priority?: Prisma.IntFilter<"UtmRule"> | number
@@ -310,7 +310,7 @@ export type UtmRuleWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UtmRuleWhereInput | Prisma.UtmRuleWhereInput[]
   OR?: Prisma.UtmRuleWhereInput[]
   NOT?: Prisma.UtmRuleWhereInput | Prisma.UtmRuleWhereInput[]
-  projectId?: Prisma.StringFilter<"UtmRule"> | string
+  projectId?: Prisma.UuidFilter<"UtmRule"> | string
   name?: Prisma.StringFilter<"UtmRule"> | string
   description?: Prisma.StringNullableFilter<"UtmRule"> | string | null
   priority?: Prisma.IntFilter<"UtmRule"> | number
@@ -352,8 +352,8 @@ export type UtmRuleScalarWhereWithAggregatesInput = {
   AND?: Prisma.UtmRuleScalarWhereWithAggregatesInput | Prisma.UtmRuleScalarWhereWithAggregatesInput[]
   OR?: Prisma.UtmRuleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UtmRuleScalarWhereWithAggregatesInput | Prisma.UtmRuleScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"UtmRule"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"UtmRule"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"UtmRule"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"UtmRule"> | string
   name?: Prisma.StringWithAggregatesFilter<"UtmRule"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"UtmRule"> | string | null
   priority?: Prisma.IntWithAggregatesFilter<"UtmRule"> | number
@@ -657,8 +657,8 @@ export type UtmRuleScalarWhereInput = {
   AND?: Prisma.UtmRuleScalarWhereInput | Prisma.UtmRuleScalarWhereInput[]
   OR?: Prisma.UtmRuleScalarWhereInput[]
   NOT?: Prisma.UtmRuleScalarWhereInput | Prisma.UtmRuleScalarWhereInput[]
-  id?: Prisma.StringFilter<"UtmRule"> | string
-  projectId?: Prisma.StringFilter<"UtmRule"> | string
+  id?: Prisma.UuidFilter<"UtmRule"> | string
+  projectId?: Prisma.UuidFilter<"UtmRule"> | string
   name?: Prisma.StringFilter<"UtmRule"> | string
   description?: Prisma.StringNullableFilter<"UtmRule"> | string | null
   priority?: Prisma.IntFilter<"UtmRule"> | number

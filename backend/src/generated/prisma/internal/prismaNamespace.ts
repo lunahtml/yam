@@ -424,7 +424,8 @@ export const ModelName = {
   UtmMedium: 'UtmMedium',
   UtmCampaign: 'UtmCampaign',
   UtmRule: 'UtmRule',
-  UtmLink: 'UtmLink'
+  UtmLink: 'UtmLink',
+  View: 'View'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -440,7 +441,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink"
+    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink" | "view"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2516,6 +2517,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    View: {
+      payload: Prisma.$ViewPayload<ExtArgs>
+      fields: Prisma.ViewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ViewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ViewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>
+        }
+        findFirst: {
+          args: Prisma.ViewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ViewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>
+        }
+        findMany: {
+          args: Prisma.ViewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>[]
+        }
+        create: {
+          args: Prisma.ViewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>
+        }
+        createMany: {
+          args: Prisma.ViewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ViewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>[]
+        }
+        delete: {
+          args: Prisma.ViewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>
+        }
+        update: {
+          args: Prisma.ViewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>
+        }
+        deleteMany: {
+          args: Prisma.ViewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ViewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ViewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>[]
+        }
+        upsert: {
+          args: Prisma.ViewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ViewPayload>
+        }
+        aggregate: {
+          args: Prisma.ViewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateView>
+        }
+        groupBy: {
+          args: Prisma.ViewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ViewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ViewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ViewCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2974,6 +3049,21 @@ export const UtmLinkScalarFieldEnum = {
 export type UtmLinkScalarFieldEnum = (typeof UtmLinkScalarFieldEnum)[keyof typeof UtmLinkScalarFieldEnum]
 
 
+export const ViewScalarFieldEnum = {
+  id: 'id',
+  entityId: 'entityId',
+  projectId: 'projectId',
+  name: 'name',
+  type: 'type',
+  config: 'config',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ViewScalarFieldEnum = (typeof ViewScalarFieldEnum)[keyof typeof ViewScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3188,6 +3278,20 @@ export type EnumArtifactTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 export type ListEnumArtifactTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ArtifactType[]'>
     
 
+
+/**
+ * Reference to a field of type 'ViewType'
+ */
+export type EnumViewTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ViewType'>
+    
+
+
+/**
+ * Reference to a field of type 'ViewType[]'
+ */
+export type ListEnumViewTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ViewType[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -3367,6 +3471,7 @@ export type GlobalOmitConfig = {
   utmCampaign?: Prisma.UtmCampaignOmit
   utmRule?: Prisma.UtmRuleOmit
   utmLink?: Prisma.UtmLinkOmit
+  view?: Prisma.ViewOmit
 }
 
 /* Types for Logging */

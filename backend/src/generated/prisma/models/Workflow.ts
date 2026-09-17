@@ -184,9 +184,9 @@ export type WorkflowWhereInput = {
   AND?: Prisma.WorkflowWhereInput | Prisma.WorkflowWhereInput[]
   OR?: Prisma.WorkflowWhereInput[]
   NOT?: Prisma.WorkflowWhereInput | Prisma.WorkflowWhereInput[]
-  id?: Prisma.StringFilter<"Workflow"> | string
-  projectId?: Prisma.StringFilter<"Workflow"> | string
-  entityId?: Prisma.StringFilter<"Workflow"> | string
+  id?: Prisma.UuidFilter<"Workflow"> | string
+  projectId?: Prisma.UuidFilter<"Workflow"> | string
+  entityId?: Prisma.UuidFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
@@ -215,8 +215,8 @@ export type WorkflowWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.WorkflowWhereInput | Prisma.WorkflowWhereInput[]
   OR?: Prisma.WorkflowWhereInput[]
   NOT?: Prisma.WorkflowWhereInput | Prisma.WorkflowWhereInput[]
-  projectId?: Prisma.StringFilter<"Workflow"> | string
-  entityId?: Prisma.StringFilter<"Workflow"> | string
+  projectId?: Prisma.UuidFilter<"Workflow"> | string
+  entityId?: Prisma.UuidFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
@@ -242,9 +242,9 @@ export type WorkflowScalarWhereWithAggregatesInput = {
   AND?: Prisma.WorkflowScalarWhereWithAggregatesInput | Prisma.WorkflowScalarWhereWithAggregatesInput[]
   OR?: Prisma.WorkflowScalarWhereWithAggregatesInput[]
   NOT?: Prisma.WorkflowScalarWhereWithAggregatesInput | Prisma.WorkflowScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
-  entityId?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Workflow"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"Workflow"> | string
+  entityId?: Prisma.UuidWithAggregatesFilter<"Workflow"> | string
   name?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Workflow"> | Date | string
@@ -529,9 +529,9 @@ export type WorkflowScalarWhereInput = {
   AND?: Prisma.WorkflowScalarWhereInput | Prisma.WorkflowScalarWhereInput[]
   OR?: Prisma.WorkflowScalarWhereInput[]
   NOT?: Prisma.WorkflowScalarWhereInput | Prisma.WorkflowScalarWhereInput[]
-  id?: Prisma.StringFilter<"Workflow"> | string
-  projectId?: Prisma.StringFilter<"Workflow"> | string
-  entityId?: Prisma.StringFilter<"Workflow"> | string
+  id?: Prisma.UuidFilter<"Workflow"> | string
+  projectId?: Prisma.UuidFilter<"Workflow"> | string
+  entityId?: Prisma.UuidFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string

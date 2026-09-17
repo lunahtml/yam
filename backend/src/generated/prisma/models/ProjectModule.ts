@@ -194,8 +194,8 @@ export type ProjectModuleWhereInput = {
   AND?: Prisma.ProjectModuleWhereInput | Prisma.ProjectModuleWhereInput[]
   OR?: Prisma.ProjectModuleWhereInput[]
   NOT?: Prisma.ProjectModuleWhereInput | Prisma.ProjectModuleWhereInput[]
-  id?: Prisma.StringFilter<"ProjectModule"> | string
-  projectId?: Prisma.StringFilter<"ProjectModule"> | string
+  id?: Prisma.UuidFilter<"ProjectModule"> | string
+  projectId?: Prisma.UuidFilter<"ProjectModule"> | string
   name?: Prisma.StringFilter<"ProjectModule"> | string
   label?: Prisma.StringFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableFilter<"ProjectModule"> | string | null
@@ -225,7 +225,7 @@ export type ProjectModuleWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ProjectModuleWhereInput | Prisma.ProjectModuleWhereInput[]
   OR?: Prisma.ProjectModuleWhereInput[]
   NOT?: Prisma.ProjectModuleWhereInput | Prisma.ProjectModuleWhereInput[]
-  projectId?: Prisma.StringFilter<"ProjectModule"> | string
+  projectId?: Prisma.UuidFilter<"ProjectModule"> | string
   name?: Prisma.StringFilter<"ProjectModule"> | string
   label?: Prisma.StringFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableFilter<"ProjectModule"> | string | null
@@ -254,8 +254,8 @@ export type ProjectModuleScalarWhereWithAggregatesInput = {
   AND?: Prisma.ProjectModuleScalarWhereWithAggregatesInput | Prisma.ProjectModuleScalarWhereWithAggregatesInput[]
   OR?: Prisma.ProjectModuleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProjectModuleScalarWhereWithAggregatesInput | Prisma.ProjectModuleScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"ProjectModule"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"ProjectModule"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"ProjectModule"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"ProjectModule"> | string
   name?: Prisma.StringWithAggregatesFilter<"ProjectModule"> | string
   label?: Prisma.StringWithAggregatesFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableWithAggregatesFilter<"ProjectModule"> | string | null
@@ -505,8 +505,8 @@ export type ProjectModuleScalarWhereInput = {
   AND?: Prisma.ProjectModuleScalarWhereInput | Prisma.ProjectModuleScalarWhereInput[]
   OR?: Prisma.ProjectModuleScalarWhereInput[]
   NOT?: Prisma.ProjectModuleScalarWhereInput | Prisma.ProjectModuleScalarWhereInput[]
-  id?: Prisma.StringFilter<"ProjectModule"> | string
-  projectId?: Prisma.StringFilter<"ProjectModule"> | string
+  id?: Prisma.UuidFilter<"ProjectModule"> | string
+  projectId?: Prisma.UuidFilter<"ProjectModule"> | string
   name?: Prisma.StringFilter<"ProjectModule"> | string
   label?: Prisma.StringFilter<"ProjectModule"> | string
   icon?: Prisma.StringNullableFilter<"ProjectModule"> | string | null

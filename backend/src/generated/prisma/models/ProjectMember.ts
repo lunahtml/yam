@@ -177,9 +177,9 @@ export type ProjectMemberWhereInput = {
   AND?: Prisma.ProjectMemberWhereInput | Prisma.ProjectMemberWhereInput[]
   OR?: Prisma.ProjectMemberWhereInput[]
   NOT?: Prisma.ProjectMemberWhereInput | Prisma.ProjectMemberWhereInput[]
-  id?: Prisma.StringFilter<"ProjectMember"> | string
-  projectId?: Prisma.StringFilter<"ProjectMember"> | string
-  userId?: Prisma.StringFilter<"ProjectMember"> | string
+  id?: Prisma.UuidFilter<"ProjectMember"> | string
+  projectId?: Prisma.UuidFilter<"ProjectMember"> | string
+  userId?: Prisma.UuidFilter<"ProjectMember"> | string
   role?: Prisma.EnumProjectRoleEnumFilter<"ProjectMember"> | $Enums.ProjectRoleEnum
   createdAt?: Prisma.DateTimeFilter<"ProjectMember"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -202,8 +202,8 @@ export type ProjectMemberWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ProjectMemberWhereInput | Prisma.ProjectMemberWhereInput[]
   OR?: Prisma.ProjectMemberWhereInput[]
   NOT?: Prisma.ProjectMemberWhereInput | Prisma.ProjectMemberWhereInput[]
-  projectId?: Prisma.StringFilter<"ProjectMember"> | string
-  userId?: Prisma.StringFilter<"ProjectMember"> | string
+  projectId?: Prisma.UuidFilter<"ProjectMember"> | string
+  userId?: Prisma.UuidFilter<"ProjectMember"> | string
   role?: Prisma.EnumProjectRoleEnumFilter<"ProjectMember"> | $Enums.ProjectRoleEnum
   createdAt?: Prisma.DateTimeFilter<"ProjectMember"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -225,9 +225,9 @@ export type ProjectMemberScalarWhereWithAggregatesInput = {
   AND?: Prisma.ProjectMemberScalarWhereWithAggregatesInput | Prisma.ProjectMemberScalarWhereWithAggregatesInput[]
   OR?: Prisma.ProjectMemberScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProjectMemberScalarWhereWithAggregatesInput | Prisma.ProjectMemberScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"ProjectMember"> | string
-  projectId?: Prisma.StringWithAggregatesFilter<"ProjectMember"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"ProjectMember"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"ProjectMember"> | string
+  projectId?: Prisma.UuidWithAggregatesFilter<"ProjectMember"> | string
+  userId?: Prisma.UuidWithAggregatesFilter<"ProjectMember"> | string
   role?: Prisma.EnumProjectRoleEnumWithAggregatesFilter<"ProjectMember"> | $Enums.ProjectRoleEnum
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectMember"> | Date | string
 }
@@ -457,9 +457,9 @@ export type ProjectMemberScalarWhereInput = {
   AND?: Prisma.ProjectMemberScalarWhereInput | Prisma.ProjectMemberScalarWhereInput[]
   OR?: Prisma.ProjectMemberScalarWhereInput[]
   NOT?: Prisma.ProjectMemberScalarWhereInput | Prisma.ProjectMemberScalarWhereInput[]
-  id?: Prisma.StringFilter<"ProjectMember"> | string
-  projectId?: Prisma.StringFilter<"ProjectMember"> | string
-  userId?: Prisma.StringFilter<"ProjectMember"> | string
+  id?: Prisma.UuidFilter<"ProjectMember"> | string
+  projectId?: Prisma.UuidFilter<"ProjectMember"> | string
+  userId?: Prisma.UuidFilter<"ProjectMember"> | string
   role?: Prisma.EnumProjectRoleEnumFilter<"ProjectMember"> | $Enums.ProjectRoleEnum
   createdAt?: Prisma.DateTimeFilter<"ProjectMember"> | Date | string
 }
