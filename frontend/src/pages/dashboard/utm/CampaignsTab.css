@@ -1,0 +1,126 @@
+/* frontend/src/pages/dashboard/utm/CampaignsTab.css */
+
+.campaigns-tab {
+  padding: 0;
+}
+
+.campaigns-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.campaigns-form-card {
+  background: var(--bg-surface);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  height: fit-content;
+}
+
+.campaigns-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.campaigns-form-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.campaigns-list-card {
+  background: var(--bg-surface);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.campaigns-list-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+}
+
+.campaigns-error {
+  color: var(--error);
+  margin-bottom: 12px;
+  font-size: 13px;
+  padding: 10px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+}
+
+.campaigns-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.campaigns-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campaigns-item {
+  padding: 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.campaigns-item-content {
+  flex: 1;
+}
+
+.campaigns-item-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.campaigns-item-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: monospace;
+  margin-top: 2px;
+}
+
+.campaigns-item-dates {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.campaigns-item-links {
+  font-size: 11px;
+  color: var(--cyan);
+  margin-top: 4px;
+}
+
+.campaigns-item-delete {
+  background: transparent;
+  border: none;
+  color: var(--error);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.campaigns-item-delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+}

@@ -1,8 +1,20 @@
 //frontend/src/pages/dashboard/entities/KanbanView.tsx
 import { useEffect, useState } from 'react';
-import { Plus, Trash2 } from 'lucide-react';
+import {
+    DndContext,
+    DragEndEvent,
+    DragOverlay,
+    DragStartEvent,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    useDroppable,
+} from '@dnd-kit/core';
+import { useDraggable } from '@dnd-kit/core';
+import { Trash2 } from 'lucide-react';
 import { api } from '../../../api/client';
 import { EntityRecord, Field } from '../../../types/api';
+import './KanbanView.css';
 
 interface KanbanViewProps {
     entityId: string;
@@ -23,9 +35,18 @@ export default function KanbanView({
     const [records, setRecords] = useState<EntityRecord[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [activeId, setActiveId] = useState<string | null>(null);
 
-    // Поле для группировки (статус)
     const groupField = config.groupBy as string | undefined;
+    const groupFieldDef = groupField
+        ? fields.find((f) => f.name === groupField)
+        : undefined;
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: { distance: 5 },
+        }),
+    );
 
     const loadRecords = async () => {
         setLoading(true);
@@ -43,15 +64,8 @@ export default function KanbanView({
         loadRecords();
     }, [entityId]);
 
-    // Определяем колонки
-    const groupFieldDef = groupField
-        ? fields.find((f) => f.name === groupField)
-        : undefined;
-
     const columns: KanbanColumn[] = (() => {
-        if (!groupFieldDef) {
-            return [{ key: 'all', label: 'Все записи' }];
-        }
+        if (!groupFieldDef) return [{ key: 'all', label: 'Все записи' }];
 
         if (
             groupFieldDef.type === 'select' &&
@@ -80,6 +94,47 @@ export default function KanbanView({
         return String(value);
     };
 
+    const handleDragStart = (event: DragStartEvent) => {
+        setActiveId(String(event.active.id));
+    };
+
+    const handleDragEnd = async (event: DragEndEvent) => {
+        const { active, over } = event;
+        setActiveId(null);
+
+        if (!over || !groupFieldDef) return;
+
+        const recordId = String(active.id);
+        const newColumn = String(over.id);
+
+        const record = records.find((r) => r.id === recordId);
+        if (!record) return;
+
+        const oldColumn = getRecordColumn(record);
+        if (oldColumn === newColumn) return;
+
+        // Обновляем локально
+        setRecords((prev) =>
+            prev.map((r) =>
+                r.id === recordId
+                    ? { ...r, data: { ...r.data, [groupFieldDef.name]: newColumn } }
+                    : r,
+            ),
+        );
+
+        // Отправляем на сервер
+        try {
+            await api.updateRecord(recordId, {
+                ...record.data,
+                [groupFieldDef.name]: newColumn,
+            });
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to update');
+            // Откатываем
+            await loadRecords();
+        }
+    };
+
     const handleDelete = async (id: string) => {
         if (!confirm('Удалить запись?')) return;
         try {
@@ -104,233 +159,175 @@ export default function KanbanView({
         return String(value).slice(0, 100);
     };
 
-    // Первые 3 поля (кроме группировочного) — для отображения на карточке
     const cardFields = fields
         .filter((f) => f.name !== groupField)
         .slice(0, 3);
 
     if (loading) {
-        return (
-            <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
-                Загрузка...
-            </div>
-        );
+        return <div className="kanban-loading">Загрузка...</div>;
     }
 
     if (error) {
-        return (
-            <div
-                style={{
-                    padding: 20,
-                    color: 'var(--error)',
-                    background: 'rgba(239, 68, 68, 0.1)',
-                    border: '1px solid rgba(239, 68, 68, 0.3)',
-                    borderRadius: 8,
-                }}
-            >
-                {error}
-            </div>
-        );
+        return <div className="kanban-error">{error}</div>;
     }
 
     if (!groupFieldDef) {
         return (
-            <div
-                style={{
-                    padding: 40,
-                    textAlign: 'center',
-                    background: 'var(--bg-surface)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 12,
-                    color: 'var(--text-muted)',
-                }}
-            >
-                <p style={{ marginBottom: 8 }}>
-                    Для канбана нужно указать поле для группировки.
-                </p>
-                <p style={{ fontSize: 12 }}>
-                    Создай поле типа «Список» (например, «Статус») и настрой view.
-                </p>
+            <div className="kanban-empty">
+                <p>Для канбана нужно указать поле для группировки.</p>
+                <p>Создай поле типа «Список» (например, «Статус») и настрой view.</p>
             </div>
         );
     }
 
+    const activeRecord = activeId
+        ? records.find((r) => r.id === activeId)
+        : null;
+
     return (
-        <div
-            style={{
-                display: 'flex',
-                gap: 16,
-                overflowX: 'auto',
-                paddingBottom: 16,
-                minHeight: 400,
-            }}
+        <DndContext
+            sensors={sensors}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
         >
-            {columns.map((col) => {
-                const columnRecords = records.filter(
-                    (r) => getRecordColumn(r) === col.key,
-                );
-
-                return (
-                    <div
+            <div className="kanban-board">
+                {columns.map((col) => (
+                    <KanbanColumn
                         key={col.key}
-                        style={{
-                            minWidth: 280,
-                            maxWidth: 280,
-                            background: 'var(--bg-surface)',
-                            border: '1px solid var(--border)',
-                            borderRadius: 12,
-                            padding: 12,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 8,
-                        }}
-                    >
-                        {/* Заголовок колонки */}
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: '8px 4px',
-                                marginBottom: 4,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    fontWeight: 600,
-                                    fontSize: 14,
-                                    color: 'var(--text-primary)',
-                                }}
-                            >
-                                {col.label}
-                            </div>
-                            <span
-                                style={{
-                                    fontSize: 11,
-                                    color: 'var(--text-muted)',
-                                    background: 'var(--bg-elevated)',
-                                    padding: '2px 8px',
-                                    borderRadius: 10,
-                                }}
-                            >
-                                {columnRecords.length}
-                            </span>
-                        </div>
+                        column={col}
+                        records={records.filter((r) => getRecordColumn(r) === col.key)}
+                        fields={fields}
+                        cardFields={cardFields}
+                        formatCardValue={formatCardValue}
+                        onDelete={handleDelete}
+                        activeId={activeId}
+                    />
+                ))}
+            </div>
 
-                        {/* Карточки */}
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: 8,
-                                flex: 1,
-                            }}
-                        >
-                            {columnRecords.length === 0 ? (
-                                <div
-                                    style={{
-                                        padding: 20,
-                                        textAlign: 'center',
-                                        color: 'var(--text-dim)',
-                                        fontSize: 12,
-                                        border: '1px dashed var(--border)',
-                                        borderRadius: 8,
-                                    }}
-                                >
-                                    Пусто
-                                </div>
-                            ) : (
-                                columnRecords.map((record) => (
-                                    <div
-                                        key={record.id}
-                                        style={{
-                                            background: 'var(--bg-elevated)',
-                                            border: '1px solid var(--border)',
-                                            borderRadius: 10,
-                                            padding: 12,
-                                            cursor: 'grab',
-                                            transition: 'all 0.15s',
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.borderColor = 'var(--accent)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.borderColor = 'var(--border)';
-                                        }}
-                                    >
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'flex-start',
-                                                marginBottom: 8,
-                                                gap: 8,
-                                            }}
-                                        >
-                                            <div
-                                                style={{
-                                                    fontSize: 13,
-                                                    fontWeight: 600,
-                                                    color: 'var(--text-primary)',
-                                                    flex: 1,
-                                                    wordBreak: 'break-word',
-                                                }}
-                                            >
-                                                {formatCardValue(
-                                                    record,
-                                                    fields[0] || {
-                                                        name: 'id',
-                                                        label: 'ID',
-                                                        type: 'text',
-                                                    } as Field,
-                                                )}
-                                            </div>
-
-                                            <button
-                                                onClick={() => handleDelete(record.id)}
-                                                style={{
-                                                    background: 'transparent',
-                                                    border: 'none',
-                                                    color: 'var(--text-dim)',
-                                                    cursor: 'pointer',
-                                                    padding: 2,
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    borderRadius: 4,
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    e.currentTarget.style.color = 'var(--error)';
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    e.currentTarget.style.color = 'var(--text-dim)';
-                                                }}
-                                            >
-                                                <Trash2 size={12} />
-                                            </button>
-                                        </div>
-
-                                        {cardFields.slice(1).map((f) => (
-                                            <div
-                                                key={f.id}
-                                                style={{
-                                                    fontSize: 11,
-                                                    color: 'var(--text-muted)',
-                                                    marginTop: 4,
-                                                }}
-                                            >
-                                                <span style={{ color: 'var(--text-dim)' }}>
-                                                    {f.label}:
-                                                </span>{' '}
-                                                {formatCardValue(record, f)}
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))
+            <DragOverlay>
+                {activeRecord && (
+                    <div className="kanban-card kanban-card-dragging">
+                        <div className="kanban-card-title">
+                            {formatCardValue(
+                                activeRecord,
+                                fields[0] || ({ name: 'id', label: 'ID', type: 'text' } as Field),
                             )}
                         </div>
                     </div>
-                );
-            })}
+                )}
+            </DragOverlay>
+        </DndContext>
+    );
+}
+
+function KanbanColumn({
+    column,
+    records,
+    fields,
+    cardFields,
+    formatCardValue,
+    onDelete,
+    activeId,
+}: {
+    column: KanbanColumn;
+    records: EntityRecord[];
+    fields: Field[];
+    cardFields: Field[];
+    formatCardValue: (r: EntityRecord, f: Field) => string;
+    onDelete: (id: string) => void;
+    activeId: string | null;
+}) {
+    const { setNodeRef, isOver } = useDroppable({ id: column.key });
+
+    return (
+        <div
+            ref={setNodeRef}
+            className={`kanban-column ${isOver ? 'kanban-column-over' : ''}`}
+        >
+            <div className="kanban-column-header">
+                <div className="kanban-column-title">{column.label}</div>
+                <span className="kanban-column-count">{records.length}</span>
+            </div>
+
+            <div className="kanban-column-body">
+                {records.length === 0 ? (
+                    <div className="kanban-column-empty">Пусто</div>
+                ) : (
+                    records.map((record) => (
+                        <KanbanCard
+                            key={record.id}
+                            record={record}
+                            fields={fields}
+                            cardFields={cardFields}
+                            formatCardValue={formatCardValue}
+                            onDelete={onDelete}
+                            isDragging={activeId === record.id}
+                        />
+                    ))
+                )}
+            </div>
+        </div>
+    );
+}
+
+function KanbanCard({
+    record,
+    fields,
+    cardFields,
+    formatCardValue,
+    onDelete,
+    isDragging,
+}: {
+    record: EntityRecord;
+    fields: Field[];
+    cardFields: Field[];
+    formatCardValue: (r: EntityRecord, f: Field) => string;
+    onDelete: (id: string) => void;
+    isDragging: boolean;
+}) {
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: record.id,
+    });
+
+    const style = transform
+        ? {
+            transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        }
+        : undefined;
+
+    return (
+        <div
+            ref={setNodeRef}
+            className={`kanban-card ${isDragging ? 'kanban-card-ghost' : ''}`}
+            style={style}
+            {...listeners}
+            {...attributes}
+        >
+            <div className="kanban-card-header">
+                <div className="kanban-card-title">
+                    {formatCardValue(
+                        record,
+                        fields[0] || ({ name: 'id', label: 'ID', type: 'text' } as Field),
+                    )}
+                </div>
+                <button
+                    className="kanban-card-delete"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(record.id);
+                    }}
+                >
+                    <Trash2 size={12} />
+                </button>
+            </div>
+
+            {cardFields.slice(1).map((f) => (
+                <div key={f.id} className="kanban-card-field">
+                    <span className="kanban-card-field-label">{f.label}:</span>{' '}
+                    {formatCardValue(record, f)}
+                </div>
+            ))}
         </div>
     );
 }

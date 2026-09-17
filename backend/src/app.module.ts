@@ -23,8 +23,8 @@ import { ViewsModule } from './modules/views/views.module.js';
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
         ThrottlerModule.forRoot([
-            { name: 'default', ttl: 60000, limit: 60 },
-            { name: 'auth', ttl: 60000, limit: 5 },
+            { name: 'default', ttl: 60000, limit: 600 },   // 600/мин для API
+            { name: 'auth', ttl: 60000, limit: 10 },        // 10/мин для auth
         ]),
         PrismaModule,
         MembershipModule,

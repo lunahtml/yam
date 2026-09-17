@@ -13,13 +13,16 @@ import MarketingForm from './marketing/MarketingForm';
 import MetricsTable from './marketing/MetricsTable';
 import Button from '../../components/Button';
 
+
 interface ProjectDetailPageProps {
     projectId: string;
     projectName: string;
     onBack: () => void;
     onOpenArtifacts: (projectId: string, projectName: string) => void;
     onOpenEntities: (projectId: string, projectName: string) => void;
+    onOpenUtm: (projectId: string, projectName: string) => void;
 }
+
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -63,6 +66,7 @@ export default function ProjectDetailPage({
     onBack,
     onOpenArtifacts,
     onOpenEntities,
+    onOpenUtm,
 }: ProjectDetailPageProps) {
     const [project, setProject] = useState<Project | null>(null);
     const [form, setForm] = useState<DashboardForm>(INITIAL);
@@ -281,6 +285,14 @@ export default function ProjectDetailPage({
                     >
                         <Database size={16} />
                         Сущности
+                    </Button>
+                    <Button
+                        onClick={() => onOpenUtm(projectId, project?.name ?? projectName)}
+                        variant="secondary"
+                        style={{ width: 'auto', padding: '10px 20px' }}
+                    >
+                        <Link2 size={16} />
+                        UTM-метки
                     </Button>
                     <Button
                         onClick={calculate}

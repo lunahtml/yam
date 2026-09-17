@@ -10,13 +10,15 @@ import ClientsPage from './dashboard/ClientsPage';
 import TeamPage from './dashboard/TeamPage';
 import MarketingPage from './dashboard/MarketingPage';
 import SeoPage from './dashboard/SeoPage';
-import UtmPage from './dashboard/UtmPage';
+import UtmPage from './dashboard/utm/UtmPage';
 import AnalyticsPage from './dashboard/AnalyticsPage';
 import ChartsPage from './dashboard/ChartsPage';
+
 import EntitiesPage from './dashboard/entities/EntitiesPage';
 import EntityDetailPage from './dashboard/entities/EntityDetailPage';
 type Screen =
     | { type: 'list' }
+    | { type: 'utm'; projectId: string; projectName: string }
     | { type: 'workspace'; id: string; label: string }
     | { type: 'project'; id: string; label: string }
     | { type: 'artifacts'; projectId: string; projectName: string }
@@ -51,7 +53,21 @@ export default function DashboardPage() {
                 />
             );
         }
-
+        if (screen.type === 'utm') {
+            return (
+                <UtmPage
+                    projectId={screen.projectId}
+                    projectName={screen.projectName}
+                    onBack={() =>
+                        setScreen({
+                            type: 'project',
+                            id: screen.projectId,
+                            label: screen.projectName,
+                        })
+                    }
+                />
+            );
+        }
         if (screen.type === 'project') {
             return (
                 <ProjectDetailPage
@@ -63,6 +79,9 @@ export default function DashboardPage() {
                     }
                     onOpenEntities={(projectId, projectName) =>
                         setScreen({ type: 'entities', projectId, projectName })
+                    }
+                    onOpenUtm={(projectId, projectName) =>
+                        setScreen({ type: 'utm', projectId, projectName })
                     }
                 />
             );
@@ -159,7 +178,17 @@ export default function DashboardPage() {
             case 'seo':
                 return <SeoPage />;
             case 'utm':
-                return <UtmPage />;
+                return (
+                    <div
+                        style={{
+                            padding: 40,
+                            color: 'var(--text-secondary)',
+                            textAlign: 'center',
+                        }}
+                    >
+                        Выбери проект → открой UTM-метки
+                    </div>
+                );
             case 'analytics':
                 return <AnalyticsPage />;
             case 'charts':

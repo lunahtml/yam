@@ -17,6 +17,7 @@ yam/
         │   └── client.ts ✅
         ├── components/
         │   ├── Button.tsx ✅
+        │   ├── InfoPopup.tsx ✅
         │   ├── Input.tsx ✅
         │   └── Card.tsx ✅
         │   └── Sidebar.tsx ✅
@@ -27,6 +28,14 @@ yam/
         │   ├── VerifyPage.tsx ✅
         │   └── DashboardPage.tsx ✅
         │   └── dashboard/ ✅
+        │       └── utm/  ✅
+        │               └── UtmPage.tsx  ✅
+        │               └── SourcesTab.tsx  ✅
+        │               └── MediumsTab.tsx  ✅
+        │               └── CampaignsTab.tsx  ✅
+        │               └── GeneratorTab.tsx  ✅
+        │               └── LinksTab.tsx  ✅
+        │               └── RulesTab.tsx  ✅
         │       └── entities/  ✅
         │               └── ViewForm.tsx  ✅
         │               └── ViewManager.tsx  ✅
