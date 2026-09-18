@@ -28,7 +28,12 @@ export const ENTITY_TEMPLATES = [
                 options: { choices: ['low', 'medium', 'high', 'urgent'] },
             },
             { name: 'assignee', label: 'Исполнитель', type: 'user' },
-            { name: 'dueDate', label: 'Срок', type: 'date' },
+            { name: 'coAssignees', label: 'Соисполнители', type: 'user-list' },
+            { name: 'watchers', label: 'Наблюдатели', type: 'user-list' },
+            { name: 'startDate', label: 'Дата начала', type: 'date' },
+            { name: 'dueDate', label: 'Дедлайн', type: 'date' },
+            { name: 'tags', label: 'Теги', type: 'tags' },
+            { name: 'checklist', label: 'Чек-лист', type: 'checklist' },
             { name: 'estimate', label: 'Оценка (часы)', type: 'number' },
         ],
         defaultView: {

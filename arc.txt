@@ -23,6 +23,7 @@ yam/
         │   └── Sidebar.tsx ✅
         │   └── Layout.tsx ✅
         ├── pages/
+        │   ├── MainPage.tsx ✅
         │   ├── LoginPage.tsx ✅
         │   ├── RegisterPage.tsx ✅
         │   ├── VerifyPage.tsx ✅

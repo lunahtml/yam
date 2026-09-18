@@ -297,7 +297,10 @@ export type FieldType =
     | 'date'
     | 'boolean'
     | 'select'
-    | 'user';
+    | 'user'
+    | 'tags'
+    | 'checklist'
+    | 'user-list';
 
 export interface Field {
     id: string;

@@ -1,0 +1,111 @@
+/* frontend/src/pages/dashboard/entities/FieldsManager.css */
+
+.fields-manager {
+  padding: 0;
+}
+
+.fields-manager-error {
+  color: var(--error);
+  margin-bottom: 16px;
+  font-size: 13px;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+}
+
+.fields-manager-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+}
+
+.fields-manager-list-card {
+  background: var(--bg-surface);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.fields-manager-list-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+}
+
+.fields-manager-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.fields-manager-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fields-manager-item {
+  padding: 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.fields-manager-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.fields-manager-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.fields-manager-item-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.fields-manager-item-required {
+  color: var(--error);
+}
+
+.fields-manager-item-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-hover);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: monospace;
+}
+
+.fields-manager-item-type {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.fields-manager-item-delete {
+  background: transparent;
+  border: none;
+  color: var(--error);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.fields-manager-item-delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+}

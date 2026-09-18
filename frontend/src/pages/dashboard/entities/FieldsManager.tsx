@@ -1,10 +1,23 @@
 //frontend/src/pages/dashboard/entities/FieldsManager.tsx
 import { useEffect, useState } from 'react';
-import { Hash, Type as TypeIcon, Calendar, ToggleLeft, List, User as UserIcon, Trash2, Asterisk } from 'lucide-react';
+import {
+    Hash,
+    Type as TypeIcon,
+    Calendar,
+    ToggleLeft,
+    List,
+    User as UserIcon,
+    Tag,
+    ListChecks,
+    Users,
+    Trash2,
+    Asterisk,
+} from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { api } from '../../../api/client';
 import { Field, FieldType } from '../../../types/api';
 import FieldForm from './FieldForm';
+import './FieldsManager.css';
 
 interface FieldsManagerProps {
     entityId: string;
@@ -18,6 +31,9 @@ const TYPE_ICONS: Record<FieldType, LucideIcon> = {
     boolean: ToggleLeft,
     select: List,
     user: UserIcon,
+    tags: Tag,
+    checklist: ListChecks,
+    'user-list': Users,
 };
 
 const TYPE_LABELS: Record<FieldType, string> = {
@@ -27,6 +43,9 @@ const TYPE_LABELS: Record<FieldType, string> = {
     boolean: 'Да/Нет',
     select: 'Список',
     user: 'Пользователь',
+    tags: 'Теги',
+    checklist: 'Чек-лист',
+    'user-list': 'Список пользователей',
 };
 
 export default function FieldsManager({
@@ -72,7 +91,12 @@ export default function FieldsManager({
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Удалить поле? Данные в записях по этому полю останутся, но перестанут отображаться.')) return;
+        if (
+            !confirm(
+                'Удалить поле? Данные в записях по этому полю останутся, но перестанут отображаться.',
+            )
+        )
+            return;
 
         try {
             await api.deleteField(id);
@@ -83,136 +107,52 @@ export default function FieldsManager({
     };
 
     return (
-        <div>
-            {error && (
-                <div
-                    style={{
-                        color: 'var(--error)',
-                        marginBottom: 16,
-                        fontSize: 13,
-                        padding: 12,
-                        background: 'rgba(239, 68, 68, 0.1)',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
-                        borderRadius: 8,
-                    }}
-                >
-                    {error}
-                </div>
-            )}
+        <div className="fields-manager">
+            {error && <div className="fields-manager-error">{error}</div>}
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 24 }}>
+            <div className="fields-manager-grid">
                 <FieldForm onSubmit={handleCreate} loading={loading} />
 
-                <div
-                    style={{
-                        background: 'var(--bg-surface)',
-                        padding: 24,
-                        borderRadius: 12,
-                        border: '1px solid var(--border)',
-                        boxShadow: 'var(--shadow-md)',
-                    }}
-                >
-                    <h3
-                        style={{
-                            fontSize: 16,
-                            fontWeight: 600,
-                            marginBottom: 16,
-                            color: 'var(--text-primary)',
-                        }}
-                    >
+                <div className="fields-manager-list-card">
+                    <h3 className="fields-manager-list-title">
                         Поля ({fields.length})
                     </h3>
 
                     {fields.length === 0 ? (
-                        <p style={{ color: 'var(--text-muted)' }}>
+                        <p className="fields-manager-empty">
                             Пока нет полей. Создай первое слева.
                         </p>
                     ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        <div className="fields-manager-list">
                             {fields.map((f) => {
-                                const Icon = TYPE_ICONS[f.type];
+                                const Icon = TYPE_ICONS[f.type] ?? TypeIcon;
 
                                 return (
-                                    <div
-                                        key={f.id}
-                                        style={{
-                                            padding: 14,
-                                            background: 'var(--bg-elevated)',
-                                            border: '1px solid var(--border)',
-                                            borderRadius: 10,
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            gap: 12,
-                                        }}
-                                    >
-                                        <div style={{ flex: 1 }}>
-                                            <div
-                                                style={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: 8,
-                                                    marginBottom: 4,
-                                                }}
-                                            >
+                                    <div key={f.id} className="fields-manager-item">
+                                        <div className="fields-manager-item-content">
+                                            <div className="fields-manager-item-header">
                                                 <Icon size={16} />
-                                                <span
-                                                    style={{
-                                                        fontWeight: 600,
-                                                        color: 'var(--text-primary)',
-                                                    }}
-                                                >
+                                                <span className="fields-manager-item-label">
                                                     {f.label}
                                                 </span>
                                                 {f.isRequired && (
                                                     <Asterisk
                                                         size={12}
-                                                        style={{ color: 'var(--error)' }}
+                                                        className="fields-manager-item-required"
                                                     />
                                                 )}
-                                                <span
-                                                    style={{
-                                                        fontSize: 11,
-                                                        color: 'var(--text-muted)',
-                                                        background: 'var(--bg-hover)',
-                                                        padding: '2px 8px',
-                                                        borderRadius: 10,
-                                                        fontFamily: 'monospace',
-                                                    }}
-                                                >
+                                                <span className="fields-manager-item-name">
                                                     {f.name}
                                                 </span>
                                             </div>
-                                            <div
-                                                style={{
-                                                    fontSize: 11,
-                                                    color: 'var(--text-muted)',
-                                                }}
-                                            >
-                                                Тип: {TYPE_LABELS[f.type]}
+                                            <div className="fields-manager-item-type">
+                                                Тип: {TYPE_LABELS[f.type] ?? f.type}
                                             </div>
                                         </div>
 
                                         <button
+                                            className="fields-manager-item-delete"
                                             onClick={() => handleDelete(f.id)}
-                                            style={{
-                                                background: 'transparent',
-                                                border: 'none',
-                                                color: 'var(--error)',
-                                                cursor: 'pointer',
-                                                padding: 6,
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                borderRadius: 6,
-                                                transition: 'all 0.15s',
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.background =
-                                                    'rgba(239, 68, 68, 0.1)';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.background = 'transparent';
-                                            }}
                                         >
                                             <Trash2 size={16} />
                                         </button>

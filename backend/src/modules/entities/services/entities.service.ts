@@ -73,11 +73,37 @@ export class EntitiesService {
         }
 
         // Создаём entity
+        // Проверка уникальности + автосуффикс
+        let entityName = template.entity.name;
+        let entityLabel = template.entity.label;
+
+        const exists = await this.prisma.client.entity.findUnique({
+            where: { projectId_name: { projectId, name: entityName } },
+        });
+
+        if (exists) {
+            // Ищем свободный суффикс
+            let counter = 2;
+            while (true) {
+                const candidate = `${template.entity.name}_${counter}`;
+                const taken = await this.prisma.client.entity.findUnique({
+                    where: { projectId_name: { projectId, name: candidate } },
+                });
+                if (!taken) {
+                    entityName = candidate;
+                    entityLabel = `${template.entity.label} ${counter}`;
+                    break;
+                }
+                counter++;
+            }
+        }
+
+        // Создаём entity
         const entity = await this.prisma.client.entity.create({
             data: {
                 projectId,
-                name: template.entity.name,
-                label: template.entity.label,
+                name: entityName,
+                label: entityLabel,
                 icon: template.entity.icon,
                 isSystem: false,
             },

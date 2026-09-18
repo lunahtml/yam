@@ -214,3 +214,231 @@
   background: var(--bg-elevated);
   border-radius: 0 0 16px 16px;
 }
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* EDITORS                                                         */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.task-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-editor-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.task-editor-input-row .task-detail-input {
+  flex: 1;
+}
+
+.task-editor-add {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  color: var(--cyan);
+  border-radius: 8px;
+  padding: 0 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s;
+}
+
+.task-editor-add:hover {
+  border-color: var(--cyan);
+  background: rgba(34, 211, 238, 0.1);
+}
+
+.task-editor-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.task-editor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+.task-editor-chip-tag {
+  color: var(--cyan);
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.task-editor-chip-remove {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.task-editor-chip-remove:hover {
+  color: var(--error);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* CHECKLIST                                                       */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checklist-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checklist-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.checklist-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--cyan));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.checklist-progress-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: monospace;
+  min-width: 40px;
+  text-align: right;
+}
+
+.checklist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+
+.checklist-item-done {
+  opacity: 0.6;
+}
+
+.checklist-item-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border-bright);
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.checklist-item-check:hover {
+  border-color: var(--accent);
+}
+
+.checklist-item-done .checklist-item-check {
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  color: #fff;
+  border-color: transparent;
+}
+
+.checklist-item-check-empty {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--border-bright);
+}
+
+.checklist-item-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.checklist-item-done .checklist-item-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.checklist-item-remove {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+
+.checklist-item-remove:hover {
+  color: var(--error);
+}
+
+.checklist-bulk-toggle {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: 8px;
+  padding: 0 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.15s;
+}
+
+.checklist-bulk-toggle:hover {
+  border-color: var(--accent);
+  background: rgba(168, 85, 247, 0.1);
+}
+
+.checklist-bulk {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checklist-bulk-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.checklist-bulk-actions .task-detail-btn {
+  flex: 1;
+  justify-content: center;
+  padding: 8px;
+  font-size: 13px;
+}

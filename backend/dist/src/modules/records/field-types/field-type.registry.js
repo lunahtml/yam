@@ -1,5 +1,48 @@
 //backend/src/modules/records/field-types/field-type.registry.ts
 import { z } from 'zod';
+const TagsField = {
+    key: 'tags',
+    label: 'Теги',
+    supportsFiltering: true,
+    supportsSorting: false,
+    supportsAggregation: false,
+    validate: (value) => {
+        if (value === null || value === undefined)
+            return [];
+        return z.array(z.string().max(50)).max(50).parse(value);
+    },
+};
+const ChecklistField = {
+    key: 'checklist',
+    label: 'Чек-лист',
+    supportsFiltering: false,
+    supportsSorting: false,
+    supportsAggregation: false,
+    validate: (value) => {
+        if (value === null || value === undefined)
+            return [];
+        return z
+            .array(z.object({
+            id: z.string(),
+            text: z.string().max(500),
+            done: z.boolean(),
+        }))
+            .max(200)
+            .parse(value);
+    },
+};
+const UserListField = {
+    key: 'user-list',
+    label: 'Список пользователей',
+    supportsFiltering: true,
+    supportsSorting: false,
+    supportsAggregation: false,
+    validate: (value) => {
+        if (value === null || value === undefined)
+            return [];
+        return z.array(z.string().uuid()).max(50).parse(value);
+    },
+};
 const TextField = {
     key: 'text',
     label: 'Текст',
@@ -92,6 +135,9 @@ const Registry = {
     boolean: BooleanField,
     select: SelectField,
     user: UserField,
+    tags: TagsField,
+    checklist: ChecklistField,
+    'user-list': UserListField,
 };
 export class FieldTypeRegistry {
     static get(key) {

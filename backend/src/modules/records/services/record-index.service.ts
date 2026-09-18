@@ -67,7 +67,43 @@ export class RecordIndexService {
                     }
                     break;
                 }
-
+                case 'tags': {
+                    if (Array.isArray(value)) {
+                        // Один тег = одна запись индекса
+                        for (const tag of value) {
+                            if (typeof tag === 'string') {
+                                entries.push({
+                                    fieldName: field.name,
+                                    fieldType: 'tag',
+                                    valueText: tag,
+                                    valueNumber: null,
+                                    valueDate: null,
+                                    valueBool: null,
+                                });
+                            }
+                        }
+                        continue; // пропускаем default push
+                    }
+                    break;
+                }
+                case 'user-list': {
+                    if (Array.isArray(value)) {
+                        for (const userId of value) {
+                            if (typeof userId === 'string') {
+                                entries.push({
+                                    fieldName: field.name,
+                                    fieldType: 'user',
+                                    valueText: userId,
+                                    valueNumber: null,
+                                    valueDate: null,
+                                    valueBool: null,
+                                });
+                            }
+                        }
+                        continue;
+                    }
+                    break;
+                }
                 case 'boolean':
                     if (typeof value === 'boolean') {
                         entry.valueBool = value;

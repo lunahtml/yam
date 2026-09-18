@@ -9,7 +9,48 @@ export interface FieldTypeDefinition {
     supportsSorting: boolean;
     supportsAggregation: boolean;
 }
-
+const TagsField: FieldTypeDefinition = {
+    key: 'tags',
+    label: 'Теги',
+    supportsFiltering: true,
+    supportsSorting: false,
+    supportsAggregation: false,
+    validate: (value) => {
+        if (value === null || value === undefined) return [];
+        return z.array(z.string().max(50)).max(50).parse(value);
+    },
+};
+const ChecklistField: FieldTypeDefinition = {
+    key: 'checklist',
+    label: 'Чек-лист',
+    supportsFiltering: false,
+    supportsSorting: false,
+    supportsAggregation: false,
+    validate: (value) => {
+        if (value === null || value === undefined) return [];
+        return z
+            .array(
+                z.object({
+                    id: z.string(),
+                    text: z.string().max(500),
+                    done: z.boolean(),
+                }),
+            )
+            .max(200)
+            .parse(value);
+    },
+};
+const UserListField: FieldTypeDefinition = {
+    key: 'user-list',
+    label: 'Список пользователей',
+    supportsFiltering: true,
+    supportsSorting: false,
+    supportsAggregation: false,
+    validate: (value) => {
+        if (value === null || value === undefined) return [];
+        return z.array(z.string().uuid()).max(50).parse(value);
+    },
+};
 const TextField: FieldTypeDefinition = {
     key: 'text',
     label: 'Текст',
@@ -103,6 +144,9 @@ const Registry: Record<string, FieldTypeDefinition> = {
     boolean: BooleanField,
     select: SelectField,
     user: UserField,
+    tags: TagsField,
+    checklist: ChecklistField,
+    'user-list': UserListField,
 };
 
 export class FieldTypeRegistry {
