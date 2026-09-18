@@ -67,7 +67,12 @@ export const ModelName = {
     UtmCampaign: 'UtmCampaign',
     UtmRule: 'UtmRule',
     UtmLink: 'UtmLink',
-    View: 'View'
+    View: 'View',
+    Sprint: 'Sprint',
+    SprintMetric: 'SprintMetric',
+    SprintEvent: 'SprintEvent',
+    Increment: 'Increment',
+    Epic: 'Epic'
 };
 /*
  * Enums
@@ -393,6 +398,67 @@ export const ViewScalarFieldEnum = {
     type: 'type',
     config: 'config',
     isDefault: 'isDefault',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SprintScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    number: 'number',
+    goal: 'goal',
+    description: 'description',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SprintMetricScalarFieldEnum = {
+    id: 'id',
+    sprintId: 'sprintId',
+    key: 'key',
+    label: 'label',
+    metricType: 'metricType',
+    targetValue: 'targetValue',
+    actualValue: 'actualValue',
+    unit: 'unit',
+    xpReward: 'xpReward',
+    isAchieved: 'isAchieved',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SprintEventScalarFieldEnum = {
+    id: 'id',
+    sprintId: 'sprintId',
+    type: 'type',
+    title: 'title',
+    body: 'body',
+    xp: 'xp',
+    createdById: 'createdById',
+    createdAt: 'createdAt'
+};
+export const IncrementScalarFieldEnum = {
+    id: 'id',
+    sprintId: 'sprintId',
+    projectId: 'projectId',
+    name: 'name',
+    description: 'description',
+    icon: 'icon',
+    xp: 'xp',
+    createdById: 'createdById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const EpicScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    name: 'name',
+    description: 'description',
+    color: 'color',
+    status: 'status',
+    startDate: 'startDate',
+    endDate: 'endDate',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

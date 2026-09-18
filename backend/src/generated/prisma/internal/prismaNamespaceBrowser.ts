@@ -79,7 +79,12 @@ export const ModelName = {
   UtmCampaign: 'UtmCampaign',
   UtmRule: 'UtmRule',
   UtmLink: 'UtmLink',
-  View: 'View'
+  View: 'View',
+  Sprint: 'Sprint',
+  SprintMetric: 'SprintMetric',
+  SprintEvent: 'SprintEvent',
+  Increment: 'Increment',
+  Epic: 'Epic'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -530,6 +535,87 @@ export const ViewScalarFieldEnum = {
 } as const
 
 export type ViewScalarFieldEnum = (typeof ViewScalarFieldEnum)[keyof typeof ViewScalarFieldEnum]
+
+
+export const SprintScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  number: 'number',
+  goal: 'goal',
+  description: 'description',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SprintScalarFieldEnum = (typeof SprintScalarFieldEnum)[keyof typeof SprintScalarFieldEnum]
+
+
+export const SprintMetricScalarFieldEnum = {
+  id: 'id',
+  sprintId: 'sprintId',
+  key: 'key',
+  label: 'label',
+  metricType: 'metricType',
+  targetValue: 'targetValue',
+  actualValue: 'actualValue',
+  unit: 'unit',
+  xpReward: 'xpReward',
+  isAchieved: 'isAchieved',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SprintMetricScalarFieldEnum = (typeof SprintMetricScalarFieldEnum)[keyof typeof SprintMetricScalarFieldEnum]
+
+
+export const SprintEventScalarFieldEnum = {
+  id: 'id',
+  sprintId: 'sprintId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  xp: 'xp',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type SprintEventScalarFieldEnum = (typeof SprintEventScalarFieldEnum)[keyof typeof SprintEventScalarFieldEnum]
+
+
+export const IncrementScalarFieldEnum = {
+  id: 'id',
+  sprintId: 'sprintId',
+  projectId: 'projectId',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  xp: 'xp',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IncrementScalarFieldEnum = (typeof IncrementScalarFieldEnum)[keyof typeof IncrementScalarFieldEnum]
+
+
+export const EpicScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  description: 'description',
+  color: 'color',
+  status: 'status',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EpicScalarFieldEnum = (typeof EpicScalarFieldEnum)[keyof typeof EpicScalarFieldEnum]
 
 
 export const SortOrder = {

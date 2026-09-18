@@ -28,6 +28,35 @@ yam/
         │   ├── RegisterPage.tsx ✅
         │   ├── VerifyPage.tsx ✅
         │   └── DashboardPage.tsx ✅
+        │   └── project/ ✅
+                  ├── SprintDetailPage.tsx ✅
+                  ├── SprintDetailPage.css ✅
+                  ├── SprintsPage.tsx ✅
+                  ├── SprintsPage.css ✅
+                  ├── ProjectLayout.tsx ✅
+                  ├── ProjectLayout.css ✅
+                  ├── OverviewPage.tsx ✅
+                  ├── OverviewPage.css ✅
+                  ├── TasksPage.tsx ✅
+                  ├── TasksPage.css ✅
+                  ├── SettingsPage.tsx ✅
+                  ├── SettingsPage.css ✅
+                  ├── ArtifactsPage.tsx    ✅
+                  ├── ArtifactsPage.css  ✅
+                  ├── UtmPage.tsx           ✅
+                  ├── UtmPage.css  ✅
+                  ├── MarketingPage.tsx  ✅
+                  ├── MarketingPage.css
+                  ├── SeoPage.tsx  ✅
+                  ├── SeoPage.css  ✅
+                  ├── ClientsPage.tsx  ✅
+                  ├── ClientsPage.css  ✅
+                  ├── AnalyticsPage.tsx  ✅
+                  ├── AnalyticsPage.css
+                  ├── ChartsPage.tsx  ✅
+                  ├── ChartsPage.css  ✅
+                  ├── TeamPage.tsx  ✅
+                  └── TeamPage.css  ✅
         │   └── dashboard/ ✅
         │       └── utm/  ✅
         │               └── UtmPage.tsx  ✅
@@ -149,6 +178,26 @@ yam/
         │   │   ├── sessions.module.ts ✅
         │   │   └── sessions.service.ts ✅
         │   │
+        │   ├── sprints/
+                ├── contracts/
+                │   ├── create-sprint.dto.ts ✅
+                │   ├── create-epic.dto.ts ✅
+                │   ├── update-sprint.dto.ts ✅
+                │   ├── create-metric.dto.ts ✅
+                │   ├── create-event.dto.ts ✅
+                │   └── create-increment.dto.ts ✅
+                ├── services/
+                │   ├── sprints.service.ts ✅
+                │   ├── epic.service.ts ✅
+                │   ├── metrics.service.ts ✅
+                │   ├── events.service.ts ✅
+                │   └── increments.service.ts ✅
+                ├── sprints.controller.ts ✅
+                ├── metrics.controller.ts ✅
+                ├── events.controller.ts ✅
+                ├── epic.controller.ts ✅
+                ├── increments.controller.ts ✅
+                └── sprints.module.ts ✅
         │   ├── utm/
         │       ├── utm.module.ts ✅
         │       ├── sources.controller.ts ✅

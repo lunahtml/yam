@@ -35,6 +35,8 @@ export const ENTITY_TEMPLATES = [
             { name: 'tags', label: 'Теги', type: 'tags' },
             { name: 'checklist', label: 'Чек-лист', type: 'checklist' },
             { name: 'estimate', label: 'Оценка (часы)', type: 'number' },
+            { name: 'sprintId', label: 'Спринт', type: 'text' },
+            { name: 'epicId', label: 'Эпик', type: 'text' },
         ],
         defaultView: {
             name: 'Канбан',

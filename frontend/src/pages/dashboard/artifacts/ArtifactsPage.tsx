@@ -8,7 +8,7 @@ import ArtifactForm from './ArtifactForm';
 interface ArtifactsPageProps {
     projectId: string;
     projectName: string;
-    onBack: () => void;
+    onBack?: () => void;
 }
 
 const TYPE_LABELS: Record<
@@ -84,24 +84,15 @@ export default function ArtifactsPage({
 
     return (
         <div>
-            <button
-                onClick={onBack}
-                style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: 'var(--cyan)',
-                    cursor: 'pointer',
-                    fontSize: 14,
-                    padding: 0,
-                    marginBottom: 12,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                }}
-            >
-                <ArrowLeft size={16} />
-                Назад к проекту
-            </button>
+            {onBack && (
+                <button
+                    onClick={onBack}
+                    className="artifacts-back"
+                >
+                    <ArrowLeft size={16} />
+                    Назад к проекту
+                </button>
+            )}
 
             <h1
                 style={{

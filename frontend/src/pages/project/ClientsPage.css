@@ -1,0 +1,39 @@
+.clients-page { padding: 0; }
+
+.clients-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 32px 0;
+}
+
+.clients-title-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px var(--accent-glow);
+  flex-shrink: 0;
+}
+
+.clients-empty {
+  padding: 60px;
+  text-align: center;
+  background: var(--bg-surface);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  color: var(--text-muted);
+}
+
+.clients-empty p { margin: 0 0 8px 0; }
+
+.clients-hint {
+  font-size: 13px;
+  color: var(--text-dim);
+}

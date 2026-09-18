@@ -24,6 +24,10 @@ import {
     View,
     ViewType,
     EntityTemplate,
+    Sprint,
+    SprintMetric,
+    SprintEvent,
+    Increment,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -475,4 +479,72 @@ export const api = {
             method: 'POST',
             body: JSON.stringify({ templateKey }),
         }),
+
+
+
+    createSprint: (projectId: string, data: {
+        name: string;
+        goal?: string;
+        description?: string;
+        startDate: string;
+        endDate: string;
+    }) =>
+        request<Sprint>(`/sprints/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getSprints: (projectId: string) =>
+        request<Sprint[]>(`/sprints/project/${projectId}`),
+
+    getSprint: (id: string) => request<Sprint>(`/sprints/${id}`),
+
+    getSprintRecords: (id: string) =>
+        request<unknown[]>(`/sprints/${id}/records`),
+
+
+    createMetric: (sprintId: string, data: {
+        key: string;
+        label: string;
+        metricType: 'INCREASE' | 'DECREASE' | 'TARGET';
+        targetValue: number;
+        actualValue?: number;
+        unit?: string;
+        xpReward?: number;
+    }) =>
+        request<SprintMetric>(`/sprints/${sprintId}/metrics`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    deleteMetric: (sprintId: string, id: string) =>
+        request<void>(`/sprints/${sprintId}/metrics/${id}`, { method: 'DELETE' }),
+
+    createIncrement: (sprintId: string, data: {
+        name: string;
+        description?: string;
+        icon?: string;
+        xp?: number;
+    }) =>
+        request<Increment>(`/increments/sprint/${sprintId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    deleteIncrement: (id: string) =>
+        request<void>(`/increments/${id}`, { method: 'DELETE' }),
+
+    createSprintEvent: (sprintId: string, data: {
+        type: 'SUCCESS' | 'PARTIAL_SUCCESS' | 'FAILURE' | 'PIVOT' | 'PAUSE' | 'BREAKTHROUGH';
+        title: string;
+        body?: string;
+        xp?: number;
+    }) =>
+        request<SprintEvent>(`/sprints/${sprintId}/events`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    deleteSprintEvent: (sprintId: string, id: string) =>
+        request<void>(`/sprints/${sprintId}/events/${id}`, { method: 'DELETE' }),
 };

@@ -24,6 +24,7 @@ import { EntitiesModule } from './modules/entities/entities.module.js';
 import { FieldsModule } from './modules/fields/fields.module.js';
 import { RecordsModule } from './modules/records/records.module.js';
 import { ViewsModule } from './modules/views/views.module.js';
+import { SprintsModule } from './modules/sprints/sprints.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -48,6 +49,7 @@ AppModule = __decorate([
             FieldsModule,
             RecordsModule,
             ViewsModule,
+            SprintsModule,
         ],
         providers: [
             { provide: APP_GUARD, useClass: ThrottlerGuard },

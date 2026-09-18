@@ -429,3 +429,63 @@ export interface EntityTemplate {
         config: Record<string, unknown>;
     };
 }
+
+export interface Sprint {
+    id: string;
+    projectId: string;
+    number: number;
+    name: string;
+    goal: string | null;
+    description: string | null;
+    startDate: string;
+    endDate: string;
+    status: 'PLANNED' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED';
+    createdAt: string;
+    updatedAt: string;
+    metrics?: SprintMetric[];
+    events?: SprintEvent[];
+    increments?: Increment[];
+    _count?: {
+        increments: number;
+        metrics: number;
+        events: number;
+    };
+}
+
+export interface SprintMetric {
+    id: string;
+    sprintId: string;
+    key: string;
+    label: string;
+    metricType: 'INCREASE' | 'DECREASE' | 'TARGET';
+    targetValue: number;
+    actualValue: number | null;
+    unit: string | null;
+    xpReward: number;
+    isAchieved: boolean;
+}
+
+export interface SprintEvent {
+    id: string;
+    sprintId: string;
+    type: 'SUCCESS' | 'PARTIAL_SUCCESS' | 'FAILURE' | 'PIVOT' | 'PAUSE' | 'BREAKTHROUGH';
+    title: string;
+    body: string | null;
+    xp: number;
+    createdById: string;
+    createdAt: string;
+    createdBy?: { id: string; email: string; name: string | null };
+}
+
+export interface Increment {
+    id: string;
+    sprintId: string;
+    projectId: string;
+    name: string;
+    description: string | null;
+    icon: string | null;
+    xp: number;
+    createdById: string;
+    createdAt: string;
+    createdBy?: { id: string; email: string; name: string | null };
+}

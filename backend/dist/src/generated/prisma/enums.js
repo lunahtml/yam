@@ -50,4 +50,29 @@ export const ViewType = {
     CALENDAR: 'CALENDAR',
     LIST: 'LIST'
 };
+export const SprintStatus = {
+    PLANNED: 'PLANNED',
+    ACTIVE: 'ACTIVE',
+    COMPLETED: 'COMPLETED',
+    CANCELLED: 'CANCELLED'
+};
+export const MetricType = {
+    INCREASE: 'INCREASE',
+    DECREASE: 'DECREASE',
+    TARGET: 'TARGET'
+};
+export const SprintEventType = {
+    SUCCESS: 'SUCCESS',
+    PARTIAL_SUCCESS: 'PARTIAL_SUCCESS',
+    FAILURE: 'FAILURE',
+    PIVOT: 'PIVOT',
+    PAUSE: 'PAUSE',
+    BREAKTHROUGH: 'BREAKTHROUGH'
+};
+export const EpicStatus = {
+    OPEN: 'OPEN',
+    IN_PROGRESS: 'IN_PROGRESS',
+    DONE: 'DONE',
+    CANCELLED: 'CANCELLED'
+};
 //# sourceMappingURL=enums.js.map

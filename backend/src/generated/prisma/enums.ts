@@ -78,3 +78,44 @@ export const ViewType = {
 } as const
 
 export type ViewType = (typeof ViewType)[keyof typeof ViewType]
+
+
+export const SprintStatus = {
+  PLANNED: 'PLANNED',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type SprintStatus = (typeof SprintStatus)[keyof typeof SprintStatus]
+
+
+export const MetricType = {
+  INCREASE: 'INCREASE',
+  DECREASE: 'DECREASE',
+  TARGET: 'TARGET'
+} as const
+
+export type MetricType = (typeof MetricType)[keyof typeof MetricType]
+
+
+export const SprintEventType = {
+  SUCCESS: 'SUCCESS',
+  PARTIAL_SUCCESS: 'PARTIAL_SUCCESS',
+  FAILURE: 'FAILURE',
+  PIVOT: 'PIVOT',
+  PAUSE: 'PAUSE',
+  BREAKTHROUGH: 'BREAKTHROUGH'
+} as const
+
+export type SprintEventType = (typeof SprintEventType)[keyof typeof SprintEventType]
+
+
+export const EpicStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  DONE: 'DONE',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type EpicStatus = (typeof EpicStatus)[keyof typeof EpicStatus]

@@ -117,6 +117,8 @@ model User {
     emailVerifications EmailVerification[]
     status             UserStatus          @default(ACTIVE)
     createdUtmLinks    UtmLink[]
+    sprintEvents       SprintEvent[]
+    increments         Increment[]
 
     @@map("users")
 }
@@ -160,6 +162,9 @@ model Project {
     utmRules     UtmRule[]
     utmLinks     UtmLink[]
     views        View[]
+    sprints      Sprint[]
+    increments   Increment[]
+    epics        Epic[]
 
     @@index([workspaceId])
     @@map("projects")
@@ -769,4 +774,161 @@ enum ViewType {
     KANBAN
     CALENDAR
     LIST
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCRUM: SPRINTS
+// ═══════════════════════════════════════════════════════════════
+
+model Sprint {
+    id          String       @id @default(uuid(7)) @db.Uuid
+    projectId   String       @db.Uuid
+    name        String
+    number      Int
+    goal        String?
+    description String?
+    startDate   DateTime
+    endDate     DateTime
+    status      SprintStatus @default(PLANNED)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    project    Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    metrics    SprintMetric[]
+    events     SprintEvent[]
+    increments Increment[]
+
+    @@unique([projectId, number])
+    @@index([projectId])
+    @@index([projectId, status])
+    @@map("sprints")
+}
+
+enum SprintStatus {
+    PLANNED
+    ACTIVE
+    COMPLETED
+    CANCELLED
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCRUM: SPRINT METRICS
+// ═══════════════════════════════════════════════════════════════
+
+model SprintMetric {
+    id       String @id @default(uuid(7)) @db.Uuid
+    sprintId String @db.Uuid
+
+    key         String // "leads", "cpl", "deals", "increments"
+    label       String
+    metricType  MetricType // INCREASE | DECREASE | TARGET
+    targetValue Float
+    actualValue Float?
+    unit        String? // "%", "₽", "шт."
+    xpReward    Int        @default(0)
+    isAchieved  Boolean    @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+
+    @@index([sprintId])
+    @@map("sprint_metrics")
+}
+
+enum MetricType {
+    INCREASE
+    DECREASE
+    TARGET
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCRUM: SPRINT EVENTS (success, failure, pivot, etc)
+// ═══════════════════════════════════════════════════════════════
+
+model SprintEvent {
+    id          String          @id @default(uuid(7)) @db.Uuid
+    sprintId    String          @db.Uuid
+    type        SprintEventType
+    title       String
+    body        String?
+    xp          Int             @default(0)
+    createdById String          @db.Uuid
+
+    createdAt DateTime @default(now())
+
+    sprint    Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+    createdBy User   @relation(fields: [createdById], references: [id], onDelete: Restrict)
+
+    @@index([sprintId])
+    @@map("sprint_events")
+}
+
+enum SprintEventType {
+    SUCCESS
+    PARTIAL_SUCCESS
+    FAILURE
+    PIVOT
+    PAUSE
+    BREAKTHROUGH
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCRUM: INCREMENTS
+// ═══════════════════════════════════════════════════════════════
+
+model Increment {
+    id        String @id @default(uuid(7)) @db.Uuid
+    sprintId  String @db.Uuid
+    projectId String @db.Uuid
+
+    name        String
+    description String?
+    icon        String?
+    xp          Int     @default(0)
+
+    createdById String   @db.Uuid
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    sprint    Sprint  @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    createdBy User    @relation(fields: [createdById], references: [id], onDelete: Restrict)
+
+    @@index([sprintId])
+    @@index([projectId])
+    @@map("increments")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCRUM: EPICS
+// ═══════════════════════════════════════════════════════════════
+
+model Epic {
+    id          String     @id @default(uuid(7)) @db.Uuid
+    projectId   String     @db.Uuid
+    name        String
+    description String?
+    color       String?
+    status      EpicStatus @default(OPEN)
+    startDate   DateTime?
+    endDate     DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+    @@index([projectId, status])
+    @@map("epics")
+}
+
+enum EpicStatus {
+    OPEN
+    IN_PROGRESS
+    DONE
+    CANCELLED
 }

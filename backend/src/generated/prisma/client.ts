@@ -186,3 +186,28 @@ export type UtmLink = Prisma.UtmLinkModel
  * 
  */
 export type View = Prisma.ViewModel
+/**
+ * Model Sprint
+ * 
+ */
+export type Sprint = Prisma.SprintModel
+/**
+ * Model SprintMetric
+ * 
+ */
+export type SprintMetric = Prisma.SprintMetricModel
+/**
+ * Model SprintEvent
+ * 
+ */
+export type SprintEvent = Prisma.SprintEventModel
+/**
+ * Model Increment
+ * 
+ */
+export type Increment = Prisma.IncrementModel
+/**
+ * Model Epic
+ * 
+ */
+export type Epic = Prisma.EpicModel
