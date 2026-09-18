@@ -332,3 +332,30 @@
   gap: 12px;
   margin-top: 16px;
 }
+
+
+.main-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.main-profile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.main-profile:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}

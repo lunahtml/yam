@@ -5,13 +5,14 @@ import RegisterPage from './pages/RegisterPage';
 import VerifyPage from './pages/VerifyPage';
 import MainPage from './pages/MainPage';
 import ProjectLayout from './pages/project/ProjectLayout';
-
+import ProfilePage from './pages/ProfilePage';
 type Screen =
     | { name: 'login' }
     | { name: 'register' }
     | { name: 'verify'; token: string; mode: 'email' | 'login' }
     | { name: 'main' }
-    | { name: 'project'; projectId: string; projectName: string };
+    | { name: 'project'; projectId: string; projectName: string }
+    | { name: 'profile' };
 
 export default function App() {
     const [screen, setScreen] = useState<Screen>({ name: 'login' });
@@ -50,13 +51,16 @@ export default function App() {
                     }}
                 />
             )}
-
+            {screen.name === 'profile' && (
+                <ProfilePage onBack={() => setScreen({ name: 'main' })} />
+            )}
             {screen.name === 'main' && (
                 <MainPage
                     onOpenProject={(projectId, projectName) => {
                         if (!projectId) return;
                         setScreen({ name: 'project', projectId, projectName });
                     }}
+                    onOpenProfile={() => setScreen({ name: 'profile' })}
                     onLogout={() => {
                         localStorage.clear();
                         setScreen({ name: 'login' });

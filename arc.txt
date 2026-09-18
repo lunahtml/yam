@@ -23,12 +23,15 @@ yam/
         │   └── Sidebar.tsx ✅
         │   └── Layout.tsx ✅
         ├── pages/
+        │   ├── ProfilePage.tsx ✅
         │   ├── MainPage.tsx ✅
         │   ├── LoginPage.tsx ✅
         │   ├── RegisterPage.tsx ✅
         │   ├── VerifyPage.tsx ✅
         │   └── DashboardPage.tsx ✅
         │   └── project/ ✅
+                  ├── SkillsPage.tsx ✅
+                  ├── SkillsPage.css ✅
                   ├── SprintDetailPage.tsx ✅
                   ├── SprintDetailPage.css ✅
                   ├── SprintsPage.tsx ✅
@@ -228,9 +231,12 @@ yam/
         │       ├── services
         │               ├── artifacts.service.ts ✅
         │   ├── users/
-        │   │   ├── users.module.ts ⬜
-        │   │   ├── users.service.ts ⬜
-        │   │   └── users.controller.ts ⬜
+        │   │   ├── users.module.ts ✅
+        │   │   ├── contracts/
+        │   │     ├── update-user.dto.ts ✅
+        │   │   ├── services/
+        │   │     ├── users.service.ts ✅
+        │   │   └── users.controller.ts ✅
         │   │
         │   ├── organizations/
                 ├── contracts/
@@ -260,6 +266,31 @@ yam/
         │   │
         │   ├── teams/ ⬜
         │   ├── roles/ ⬜
+        │   ├── categories/ 
+                ├── contracts/
+                │   ├── create-category.dto.ts ✅
+                │   └── update-category.dto.ts ⬜
+                ├── services/
+                │   └── categories.service.ts ✅
+                ├── categories.controller.ts ✅
+                └── categories.module.ts ✅
+        │   ├── tags/ 
+        │       ├── tags.controller.ts  ✅
+        │       ├── tags.module.ts  ✅
+        │       ├── contracts/ 
+        │           ├── create-tag.dto.ts  ✅
+        │       ├── services/ 
+        │           ├── tags.service.ts  ✅
+        │   ├── skills/ 
+        │       ├── skills.controller.ts  ✅
+        │       ├── user-skills.controller.ts  ✅
+        │       ├── skills.module.ts  ✅
+        │       ├── contracts/ 
+        │           ├── create-skill.dto.ts  ✅
+        │           ├── user-skill.dto.ts  ✅
+        │       ├── services/ 
+        │           ├── skills.service.ts  ✅
+        │           ├── user-skills.service.ts  ✅
         │   ├── permissions/ ⬜
         │   ├── entities/ 
         │       ├── entities.controller.ts   ✅

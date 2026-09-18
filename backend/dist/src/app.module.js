@@ -25,6 +25,10 @@ import { FieldsModule } from './modules/fields/fields.module.js';
 import { RecordsModule } from './modules/records/records.module.js';
 import { ViewsModule } from './modules/views/views.module.js';
 import { SprintsModule } from './modules/sprints/sprints.module.js';
+import { UsersModule } from './modules/users/users.module.js';
+import { CategoriesModule } from './modules/categories/categories.module.js';
+import { TagsModule } from './modules/tags/tags.module.js';
+import { SkillsModule } from './modules/skills/skills.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -50,6 +54,10 @@ AppModule = __decorate([
             RecordsModule,
             ViewsModule,
             SprintsModule,
+            UsersModule,
+            CategoriesModule,
+            TagsModule,
+            SkillsModule,
         ],
         providers: [
             { provide: APP_GUARD, useClass: ThrottlerGuard },

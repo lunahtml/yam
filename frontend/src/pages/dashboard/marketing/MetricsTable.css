@@ -1,0 +1,130 @@
+/* frontend/src/pages/dashboard/marketing/MetricsTable.css */
+
+.metrics-table {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.metrics-group {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.metrics-group-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.metrics-group-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.metrics-th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
+.metrics-th-right {
+  text-align: right;
+}
+
+.metrics-row {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.metrics-row:last-child {
+  border-bottom: none;
+}
+
+.metrics-row:hover {
+  background: var(--bg-elevated);
+}
+
+.metrics-td {
+  padding: 14px 12px;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.metrics-td-right {
+  text-align: right;
+}
+
+.metrics-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.metrics-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.metrics-formula {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: monospace;
+  background: var(--bg-elevated);
+  border-radius: 6px;
+  padding: 8px 10px;
+  max-width: 320px;
+  word-break: break-word;
+}
+
+.metrics-value {
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.metrics-value-good {
+  color: var(--success);
+}
+
+.metrics-value-warning {
+  color: var(--warning);
+}
+
+.metrics-value-bad {
+  color: var(--error);
+}
+
+.metrics-value-neutral {
+  color: var(--text-muted);
+}
+
+/* Левая полоса статуса */
+.metrics-row-good {
+  border-left: 3px solid var(--success);
+}
+
+.metrics-row-warning {
+  border-left: 3px solid var(--warning);
+}
+
+.metrics-row-bad {
+  border-left: 3px solid var(--error);
+}
+
+.metrics-row-neutral {
+  border-left: 3px solid transparent;
+}

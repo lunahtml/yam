@@ -119,3 +119,34 @@ export const EpicStatus = {
 } as const
 
 export type EpicStatus = (typeof EpicStatus)[keyof typeof EpicStatus]
+
+
+export const CategoryScope = {
+  PROJECT: 'PROJECT',
+  TASK: 'TASK',
+  TAG: 'TAG',
+  SKILL: 'SKILL'
+} as const
+
+export type CategoryScope = (typeof CategoryScope)[keyof typeof CategoryScope]
+
+
+export const SkillType = {
+  HARD: 'HARD',
+  SOFT: 'SOFT'
+} as const
+
+export type SkillType = (typeof SkillType)[keyof typeof SkillType]
+
+
+export const EvidenceType = {
+  TASK_COMPLETED: 'TASK_COMPLETED',
+  INTERNAL_EXAM: 'INTERNAL_EXAM',
+  EXTERNAL_EDUCATION: 'EXTERNAL_EDUCATION',
+  IMPLEMENTATION: 'IMPLEMENTATION',
+  HELPED_COLLEAGUE: 'HELPED_COLLEAGUE',
+  MANUAL_GRANT: 'MANUAL_GRANT',
+  FACILITATION: 'FACILITATION'
+} as const
+
+export type EvidenceType = (typeof EvidenceType)[keyof typeof EvidenceType]

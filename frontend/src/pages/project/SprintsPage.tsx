@@ -6,6 +6,7 @@ import {
     Calendar,
     CheckCircle2,
     Clock,
+    Rocket,
     XCircle,
     Sparkles,
 } from 'lucide-react';
@@ -213,7 +214,8 @@ export default function SprintsPage({
 
                                 {sprint.goal && (
                                     <div className="sprint-card-goal">
-                                        🎯 {sprint.goal}
+                                        <Rocket size={12} />
+                                        {sprint.goal}
                                     </div>
                                 )}
 

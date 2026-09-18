@@ -7,7 +7,10 @@
 export interface User {
     id: string;
     email: string;
-    name?: string;
+    name: string | null;
+    avatarUrl?: string | null;
+    status?: 'ACTIVE' | 'SUSPENDED' | 'DELETED';
+    createdAt?: string;
 }
 
 export interface AuthResponse {
@@ -488,4 +491,108 @@ export interface Increment {
     createdById: string;
     createdAt: string;
     createdBy?: { id: string; email: string; name: string | null };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CATEGORIES
+// ═══════════════════════════════════════════════════════════════
+
+export type CategoryScope = 'PROJECT' | 'TASK' | 'TAG' | 'SKILL';
+
+export interface Category {
+    id: string;
+    organizationId: string;
+    parentId: string | null;
+    name: string;
+    slug: string;
+    description: string | null;
+    icon: string | null;
+    color: string | null;
+    scope: CategoryScope;
+    createdAt: string;
+    updatedAt: string;
+    _count?: {
+        children: number;
+        tags: number;
+        skills: number;
+    };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TAGS
+// ═══════════════════════════════════════════════════════════════
+
+export interface Tag {
+    id: string;
+    organizationId: string;
+    name: string;
+    label: string;
+    description: string | null;
+    icon: string | null;
+    color: string | null;
+    categoryId: string | null;
+    skillId: string | null;
+    createdById: string | null;
+    createdAt: string;
+    category?: { id: string; name: string; slug: string };
+    skill?: { id: string; name: string; type: 'HARD' | 'SOFT' };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SKILLS
+// ═══════════════════════════════════════════════════════════════
+
+export type SkillType = 'HARD' | 'SOFT';
+
+export interface Skill {
+    id: string;
+    organizationId: string;
+    name: string;
+    label: string;
+    description: string | null;
+    type: SkillType;
+    categoryId: string | null;
+    createdAt: string;
+    updatedAt: string;
+    category?: { id: string; name: string; slug: string };
+}
+
+export type EvidenceType =
+    | 'TASK_COMPLETED'
+    | 'INTERNAL_EXAM'
+    | 'EXTERNAL_EDUCATION'
+    | 'IMPLEMENTATION'
+    | 'HELPED_COLLEAGUE'
+    | 'MANUAL_GRANT'
+    | 'FACILITATION';
+
+export interface SkillEvidence {
+    id: string;
+    userSkillId: string;
+    type: EvidenceType;
+    sourceId: string | null;
+    sourceType: string | null;
+    weight: number;
+    comment: string | null;
+    createdById: string | null;
+    createdAt: string;
+}
+
+export interface UserSkill {
+    id: string;
+    userId: string;
+    skillId: string;
+    organizationId: string;
+    level: number;
+    levelLabel: string | null;
+    contextId: string | null;
+    contextType: string | null;
+    practiceCount: number;
+    evidenceCount: number;
+    lastUsedAt: string | null;
+    createdAt: string;
+    updatedAt: string;
+    skill?: Skill;
+    context?: { id: string; name: string; slug: string } | null;
+    evidences?: SkillEvidence[];
 }

@@ -100,7 +100,13 @@ export const ModelName = {
     SprintMetric: 'SprintMetric',
     SprintEvent: 'SprintEvent',
     Increment: 'Increment',
-    Epic: 'Epic'
+    Epic: 'Epic',
+    Tag: 'Tag',
+    Category: 'Category',
+    Skill: 'Skill',
+    UserSkill: 'UserSkill',
+    SkillEvidence: 'SkillEvidence',
+    TaskComplexity: 'TaskComplexity'
 };
 /**
  * Enums
@@ -487,6 +493,82 @@ export const EpicScalarFieldEnum = {
     status: 'status',
     startDate: 'startDate',
     endDate: 'endDate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const TagScalarFieldEnum = {
+    id: 'id',
+    organizationId: 'organizationId',
+    name: 'name',
+    label: 'label',
+    description: 'description',
+    icon: 'icon',
+    color: 'color',
+    categoryId: 'categoryId',
+    skillId: 'skillId',
+    createdById: 'createdById',
+    createdAt: 'createdAt'
+};
+export const CategoryScalarFieldEnum = {
+    id: 'id',
+    organizationId: 'organizationId',
+    parentId: 'parentId',
+    name: 'name',
+    slug: 'slug',
+    description: 'description',
+    icon: 'icon',
+    color: 'color',
+    scope: 'scope',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SkillScalarFieldEnum = {
+    id: 'id',
+    organizationId: 'organizationId',
+    name: 'name',
+    label: 'label',
+    description: 'description',
+    type: 'type',
+    categoryId: 'categoryId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const UserSkillScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    skillId: 'skillId',
+    organizationId: 'organizationId',
+    level: 'level',
+    levelLabel: 'levelLabel',
+    contextId: 'contextId',
+    contextType: 'contextType',
+    practiceCount: 'practiceCount',
+    evidenceCount: 'evidenceCount',
+    lastUsedAt: 'lastUsedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SkillEvidenceScalarFieldEnum = {
+    id: 'id',
+    userSkillId: 'userSkillId',
+    type: 'type',
+    sourceId: 'sourceId',
+    sourceType: 'sourceType',
+    weight: 'weight',
+    comment: 'comment',
+    createdById: 'createdById',
+    createdAt: 'createdAt'
+};
+export const TaskComplexityScalarFieldEnum = {
+    id: 'id',
+    recordId: 'recordId',
+    projectId: 'projectId',
+    poEstimate: 'poEstimate',
+    teamEstimate: 'teamEstimate',
+    executorEstimate: 'executorEstimate',
+    finalComplexity: 'finalComplexity',
+    complexityLabel: 'complexityLabel',
+    teamVotes: 'teamVotes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

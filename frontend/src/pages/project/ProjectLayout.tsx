@@ -11,6 +11,7 @@ import {
     BarChart3,
     LineChart,
     UserCog,
+    Rocket,
     Settings,
     ArrowLeft,
     Sparkles,
@@ -29,6 +30,9 @@ import TeamPage from './TeamPage';
 import SprintsPage from './SprintsPage';
 import SprintDetailPage from './SprintDetailPage';
 import SettingsPage from './SettingsPage';
+import SkillsPage from './SkillsPage';
+import { useEffect } from 'react';
+import { api } from '../../api/client';
 import './ProjectLayout.css';
 
 interface ProjectLayoutProps {
@@ -49,6 +53,7 @@ type Section =
     | 'charts'
     | 'team'
     | 'sprints'
+    | 'skills'
     | 'settings';
 
 interface MenuItem {
@@ -59,12 +64,13 @@ interface MenuItem {
 
 const MENU: MenuItem[] = [
     { key: 'overview', label: 'Обзор', icon: LayoutDashboard },
-    { key: 'sprints', label: 'Спринты', icon: ListTodo },
+    { key: 'sprints', label: 'Спринты', icon: Rocket },
     { key: 'tasks', label: 'Задачи', icon: ListTodo },
     { key: 'artifacts', label: 'Артефакты', icon: Link2 },
     { key: 'utm', label: 'UTM-метки', icon: Target },
     { key: 'marketing', label: 'Маркетинг', icon: Megaphone },
     { key: 'seo', label: 'SEO', icon: Search },
+    { key: 'skills', label: 'Навыки', icon: Sparkles },
     { key: 'clients', label: 'Клиенты', icon: Users },
     { key: 'analytics', label: 'Аналитика', icon: BarChart3 },
     { key: 'charts', label: 'Чарты', icon: LineChart },
@@ -78,6 +84,21 @@ export default function ProjectLayout({
     onBack,
 }: ProjectLayoutProps) {
     const [active, setActive] = useState<Section>('overview');
+    const [organizationId, setOrganizationId] = useState<string>('');
+
+    useEffect(() => {
+        api
+            .getProject(projectId)
+            .then(async (project: any) => {
+                if (project?.workspaceId) {
+                    const workspace = await api.getWorkspace(project.workspaceId);
+                    if (workspace?.organizationId) {
+                        setOrganizationId(workspace.organizationId);
+                    }
+                }
+            })
+            .catch(() => { });
+    }, [projectId]);
     const [activeSprint, setActiveSprint] = useState<{
         id: string;
         name: string;
@@ -125,6 +146,11 @@ export default function ProjectLayout({
                 return <ChartsPage />;
             case 'team':
                 return <TeamPage />;
+            case 'skills':
+                if (!organizationId) {
+                    return <div style={{ padding: 40, color: 'var(--text-muted)' }}>Загрузка...</div>;
+                }
+                return <SkillsPage organizationId={organizationId} />;
             case 'settings':
                 return <SettingsPage />;
             default:

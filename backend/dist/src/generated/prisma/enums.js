@@ -75,4 +75,23 @@ export const EpicStatus = {
     DONE: 'DONE',
     CANCELLED: 'CANCELLED'
 };
+export const CategoryScope = {
+    PROJECT: 'PROJECT',
+    TASK: 'TASK',
+    TAG: 'TAG',
+    SKILL: 'SKILL'
+};
+export const SkillType = {
+    HARD: 'HARD',
+    SOFT: 'SOFT'
+};
+export const EvidenceType = {
+    TASK_COMPLETED: 'TASK_COMPLETED',
+    INTERNAL_EXAM: 'INTERNAL_EXAM',
+    EXTERNAL_EDUCATION: 'EXTERNAL_EDUCATION',
+    IMPLEMENTATION: 'IMPLEMENTATION',
+    HELPED_COLLEAGUE: 'HELPED_COLLEAGUE',
+    MANUAL_GRANT: 'MANUAL_GRANT',
+    FACILITATION: 'FACILITATION'
+};
 //# sourceMappingURL=enums.js.map

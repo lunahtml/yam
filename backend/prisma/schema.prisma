@@ -26,11 +26,14 @@ enum ProjectRoleEnum {
 // ═══════════════════════════════════════════════════════════════
 
 model Organization {
-    id        String   @id @default(uuid(7)) @db.Uuid
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
+    id         String               @id @default(uuid(7)) @db.Uuid
+    name       String
+    createdAt  DateTime             @default(now())
+    updatedAt  DateTime             @updatedAt
+    categories Category[]
+    tags       Tag[]
+    skills     Skill[]
+    userSkills UserSkill[]
     workspaces Workspace[]
     members    OrganizationMember[]
 
@@ -119,6 +122,9 @@ model User {
     createdUtmLinks    UtmLink[]
     sprintEvents       SprintEvent[]
     increments         Increment[]
+    createdTags        Tag[]
+    userSkills         UserSkill[]
+    createdEvidences   SkillEvidence[]
 
     @@map("users")
 }
@@ -155,16 +161,17 @@ model Project {
     activityLogs        ActivityLog[]
     marketingDashboards MarketingDashboard[]
 
-    artifacts    Artifact[]
-    utmSources   UtmSource[]
-    utmMediums   UtmMedium[]
-    utmCampaigns UtmCampaign[]
-    utmRules     UtmRule[]
-    utmLinks     UtmLink[]
-    views        View[]
-    sprints      Sprint[]
-    increments   Increment[]
-    epics        Epic[]
+    artifacts        Artifact[]
+    utmSources       UtmSource[]
+    utmMediums       UtmMedium[]
+    utmCampaigns     UtmCampaign[]
+    utmRules         UtmRule[]
+    utmLinks         UtmLink[]
+    views            View[]
+    sprints          Sprint[]
+    increments       Increment[]
+    epics            Epic[]
+    taskComplexities TaskComplexity[]
 
     @@index([workspaceId])
     @@map("projects")
@@ -282,11 +289,11 @@ model Record {
     entityId  String @db.Uuid
     projectId String @db.Uuid
 
-    data Json
-
-    createdById String   @db.Uuid
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    data           Json
+    taskComplexity TaskComplexity?
+    createdById    String          @db.Uuid
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @updatedAt
 
     entity  Entity  @relation(fields: [entityId], references: [id], onDelete: Cascade)
     project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
@@ -931,4 +938,182 @@ enum EpicStatus {
     IN_PROGRESS
     DONE
     CANCELLED
+}
+
+model Tag {
+    id             String @id @default(uuid(7)) @db.Uuid
+    organizationId String @db.Uuid
+
+    name        String
+    label       String
+    description String?
+    icon        String?
+    color       String?
+
+    categoryId String? @db.Uuid
+    skillId    String? @db.Uuid
+
+    createdById String?  @db.Uuid
+    createdAt   DateTime @default(now())
+
+    organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    category     Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    skill        Skill?       @relation(fields: [skillId], references: [id], onDelete: SetNull)
+    createdBy    User?        @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+    @@unique([organizationId, name])
+    @@index([organizationId])
+    @@index([categoryId])
+    @@map("tags")
+}
+
+model Category {
+    id             String  @id @default(uuid(7)) @db.Uuid
+    organizationId String  @db.Uuid
+    parentId       String? @db.Uuid
+
+    name        String
+    slug        String
+    description String?
+    icon        String?
+    color       String?
+    scope       CategoryScope
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    parent       Category?    @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+    children     Category[]   @relation("CategoryTree")
+
+    tags       Tag[]
+    skills     Skill[]
+    userSkills UserSkill[]
+
+    @@unique([organizationId, scope, slug])
+    @@index([organizationId])
+    @@map("categories")
+}
+
+enum CategoryScope {
+    PROJECT
+    TASK
+    TAG
+    SKILL
+}
+
+model Skill {
+    id             String @id @default(uuid(7)) @db.Uuid
+    organizationId String @db.Uuid
+
+    name        String
+    label       String
+    description String?
+    type        SkillType
+    categoryId  String?   @db.Uuid
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    category     Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    userSkills   UserSkill[]
+    tags         Tag[]
+
+    @@unique([organizationId, name])
+    @@index([organizationId])
+    @@index([type])
+    @@map("skills")
+}
+
+enum SkillType {
+    HARD
+    SOFT
+}
+
+model UserSkill {
+    id             String @id @default(uuid(7)) @db.Uuid
+    userId         String @db.Uuid
+    skillId        String @db.Uuid
+    organizationId String @db.Uuid
+
+    level      Int
+    levelLabel String?
+
+    contextId   String? @db.Uuid
+    contextType String?
+
+    practiceCount Int @default(0)
+    evidenceCount Int @default(0)
+
+    lastUsedAt DateTime?
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+
+    user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    skill        Skill           @relation(fields: [skillId], references: [id], onDelete: Cascade)
+    organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    context      Category?       @relation(fields: [contextId], references: [id], onDelete: SetNull)
+    evidences    SkillEvidence[]
+
+    @@unique([userId, skillId, organizationId, contextId])
+    @@index([userId])
+    @@index([skillId])
+    @@map("user_skills")
+}
+
+model SkillEvidence {
+    id          String @id @default(uuid(7)) @db.Uuid
+    userSkillId String @db.Uuid
+
+    type       EvidenceType
+    sourceId   String?      @db.Uuid
+    sourceType String?
+
+    weight  Int     @default(1)
+    comment String?
+
+    createdById String?  @db.Uuid
+    createdAt   DateTime @default(now())
+
+    userSkill UserSkill @relation(fields: [userSkillId], references: [id], onDelete: Cascade)
+    createdBy User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+    @@index([userSkillId])
+    @@map("skill_evidences")
+}
+
+enum EvidenceType {
+    TASK_COMPLETED // закрытая задача
+    INTERNAL_EXAM // внутренний экзамен
+    EXTERNAL_EDUCATION // внешнее обучение, диплом
+    IMPLEMENTATION // внедрение идеи
+    HELPED_COLLEAGUE // помог коллеге
+    MANUAL_GRANT // ручной подъём
+    FACILITATION // разбор спорного случая
+}
+
+model TaskComplexity {
+    id        String @id @default(uuid(7)) @db.Uuid
+    recordId  String @db.Uuid
+    projectId String @db.Uuid
+
+    poEstimate       Int?
+    teamEstimate     Int?
+    executorEstimate Int?
+
+    finalComplexity Int     @default(1)
+    complexityLabel String?
+
+    teamVotes Json?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    record  Record  @relation(fields: [recordId], references: [id], onDelete: Cascade)
+    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@unique([recordId])
+    @@index([projectId])
+    @@map("task_complexities")
 }

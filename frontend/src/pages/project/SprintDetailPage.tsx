@@ -1,10 +1,12 @@
 //frontend/src/pages/project/SprintDetailPage.tsx
 import { useEffect, useState } from 'react';
+import { api } from '../../api/client';
+import { EntityRecord, Sprint as SprintType } from '../../types/api';
+
 import {
     ArrowLeft,
     Target,
     Calendar,
-    Plus,
     Trash2,
     TrendingUp,
     TrendingDown,
@@ -17,9 +19,9 @@ import {
     Rocket,
     Award,
     Zap,
+    Kanban, Plus, Check
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { api } from '../../api/client';
 import { Sprint, SprintMetric, SprintEvent, Increment } from '../../types/api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -31,7 +33,7 @@ interface SprintDetailPageProps {
     onBack: () => void;
 }
 
-type Tab = 'overview' | 'metrics' | 'increments' | 'events';
+type Tab = 'overview' | 'tasks' | 'metrics' | 'increments' | 'events';
 type EventType =
     | 'SUCCESS'
     | 'PARTIAL_SUCCESS'
@@ -132,6 +134,12 @@ export default function SprintDetailPage({
                     Обзор
                 </button>
                 <button
+                    className={`sprint-detail-tab ${tab === 'tasks' ? 'sprint-detail-tab-active' : ''}`}
+                    onClick={() => setTab('tasks')}
+                >
+                    Задачи
+                </button>
+                <button
                     className={`sprint-detail-tab ${tab === 'metrics' ? 'sprint-detail-tab-active' : ''}`}
                     onClick={() => setTab('metrics')}
                 >
@@ -155,7 +163,13 @@ export default function SprintDetailPage({
             {tab === 'overview' && (
                 <SprintOverview sprint={sprint} metrics={metrics} />
             )}
-
+            {tab === 'tasks' && (
+                <SprintTasksTab
+                    sprintId={sprintId}
+                    projectId={sprint.projectId}
+                    onReload={load}
+                />
+            )}
             {tab === 'metrics' && (
                 <MetricsTab sprintId={sprintId} metrics={metrics} onReload={load} />
             )}
@@ -575,6 +589,302 @@ function EventsTab({
                     })}
                 </div>
             )}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TASKS TAB
+// ═══════════════════════════════════════════════════════════════
+
+function SprintTasksTab({
+    sprintId,
+    projectId,
+    onReload,
+}: {
+    sprintId: string;
+    projectId: string;
+    onReload: () => void;
+}) {
+    const [tasks, setTasks] = useState<EntityRecord[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [showPicker, setShowPicker] = useState(false);
+
+    const loadTasks = async () => {
+        setLoading(true);
+        try {
+            const data = await api.getSprintRecords(sprintId);
+            setTasks(data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to load');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadTasks();
+    }, [sprintId]);
+
+    const handleRemoveFromSprint = async (recordId: string) => {
+        if (!confirm('Убрать задачу из спринта?')) return;
+        try {
+            const record = await api.getRecord(recordId);
+            await api.updateRecord(recordId, {
+                ...record.data,
+                sprintId: null,
+            });
+            await loadTasks();
+            onReload();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed');
+        }
+    };
+
+    const handleAdded = async () => {
+        setShowPicker(false);
+        await loadTasks();
+        onReload();
+    };
+
+    if (loading) {
+        return <div className="sprint-tasks-loading">Загрузка...</div>;
+    }
+
+    return (
+        <div className="sprint-tasks-tab">
+            {error && <div className="sprint-tasks-error">{error}</div>}
+
+            <div className="sprint-tasks-actions">
+                <Button
+                    onClick={() => setShowPicker(true)}
+                    style={{ width: 'auto', padding: '10px 20px' }}
+                >
+                    <Plus size={16} />
+                    Добавить задачи
+                </Button>
+            </div>
+
+            {tasks.length === 0 ? (
+                <div className="sprint-tasks-empty">
+                    Пока нет задач в этом спринте.
+                    <br />
+                    Нажми «Добавить задачи», чтобы выбрать из бэклога.
+                </div>
+            ) : (
+                <div className="sprint-tasks-list">
+                    {tasks.map((task) => {
+                        const status = String(task.data.status ?? '');
+                        const priority = String(task.data.priority ?? '');
+
+                        return (
+                            <div key={task.id} className="sprint-task-item">
+                                <div className="sprint-task-status">
+                                    {status === 'done' ? (
+                                        <Check size={14} style={{ color: 'var(--success)' }} />
+                                    ) : (
+                                        <span className="sprint-task-status-dot" />
+                                    )}
+                                </div>
+
+                                <div className="sprint-task-content">
+                                    <div className="sprint-task-title">
+                                        {String(task.data.title ?? 'Без названия')}
+                                    </div>
+                                    <div className="sprint-task-meta">
+                                        <span className="sprint-task-tag">{status}</span>
+                                        {priority && (
+                                            <span className="sprint-task-tag">{priority}</span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <button
+                                    className="sprint-task-remove"
+                                    onClick={() => handleRemoveFromSprint(task.id)}
+                                    title="Убрать из спринта"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            {showPicker && (
+                <SprintTaskPicker
+                    sprintId={sprintId}
+                    projectId={projectId}
+                    onClose={() => setShowPicker(false)}
+                    onAdded={handleAdded}
+                />
+            )}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TASK PICKER (модалка добавления задач из бэклога)
+// ═══════════════════════════════════════════════════════════════
+
+function SprintTaskPicker({
+    sprintId,
+    projectId,
+    onClose,
+    onAdded,
+}: {
+    sprintId: string;
+    projectId: string;
+    onClose: () => void;
+    onAdded: () => void;
+}) {
+    const [entities, setEntities] = useState<
+        { id: string; name: string; label: string }[]
+    >([]);
+    const [activeEntityId, setActiveEntityId] = useState<string>('');
+    const [tasks, setTasks] = useState<EntityRecord[]>([]);
+    const [selected, setSelected] = useState<Set<string>>(new Set());
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        api
+            .getEntities(projectId)
+            .then((data) => {
+                setEntities(data);
+                if (data.length > 0) setActiveEntityId(data[0].id);
+            })
+            .finally(() => setLoading(false));
+    }, [projectId]);
+
+    useEffect(() => {
+        if (!activeEntityId) return;
+
+        setLoading(true);
+        api
+            .getRecords(activeEntityId, { page: 1, limit: 500 })
+            .then((res) => {
+                // показываем только задачи без спринта
+                const backlog = res.records.filter(
+                    (r) => !r.data.sprintId || r.data.sprintId === '',
+                );
+                setTasks(backlog);
+            })
+            .catch((err) =>
+                setError(err instanceof Error ? err.message : 'Failed to load'),
+            )
+            .finally(() => setLoading(false));
+    }, [activeEntityId]);
+
+    const toggle = (id: string) => {
+        const next = new Set(selected);
+        if (next.has(id)) next.delete(id);
+        else next.add(id);
+        setSelected(next);
+    };
+
+    const handleAdd = async () => {
+        if (selected.size === 0) return;
+        setSaving(true);
+        setError('');
+
+        try {
+            for (const id of selected) {
+                const task = tasks.find((t) => t.id === id);
+                if (!task) continue;
+
+                await api.updateRecord(id, {
+                    ...task.data,
+                    sprintId,
+                });
+            }
+
+            onAdded();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to add');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    return (
+        <div className="sprint-picker-overlay" onClick={onClose}>
+            <div className="sprint-picker" onClick={(e) => e.stopPropagation()}>
+                <div className="sprint-picker-header">
+                    <h3 className="sprint-picker-title">Добавить задачи в спринт</h3>
+                    <button className="sprint-picker-close" onClick={onClose}>
+                        ✕
+                    </button>
+                </div>
+
+                {entities.length > 1 && (
+                    <div className="sprint-picker-entities">
+                        {entities.map((e) => (
+                            <button
+                                key={e.id}
+                                className={`sprint-picker-entity ${activeEntityId === e.id ? 'sprint-picker-entity-active' : ''}`}
+                                onClick={() => {
+                                    setActiveEntityId(e.id);
+                                    setSelected(new Set());
+                                }}
+                            >
+                                {e.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {error && <div className="sprint-picker-error">{error}</div>}
+
+                <div className="sprint-picker-body">
+                    {loading ? (
+                        <div className="sprint-picker-loading">Загрузка...</div>
+                    ) : tasks.length === 0 ? (
+                        <div className="sprint-picker-empty">
+                            Нет задач в бэклоге для этой сущности
+                        </div>
+                    ) : (
+                        <div className="sprint-picker-list">
+                            {tasks.map((task) => {
+                                const isSelected = selected.has(task.id);
+                                return (
+                                    <label
+                                        key={task.id}
+                                        className={`sprint-picker-item ${isSelected ? 'sprint-picker-item-selected' : ''}`}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={isSelected}
+                                            onChange={() => toggle(task.id)}
+                                        />
+                                        <div className="sprint-picker-item-content">
+                                            <div className="sprint-picker-item-title">
+                                                {String(task.data.title ?? 'Без названия')}
+                                            </div>
+                                            <div className="sprint-picker-item-meta">
+                                                {String(task.data.status ?? '')}
+                                                {task.data.priority ? ` · ${String(task.data.priority)}` : ''}
+                                            </div>
+                                        </div>
+                                    </label>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+
+                <div className="sprint-picker-footer">
+                    <Button onClick={handleAdd} loading={saving}>
+                        Добавить выбранные ({selected.size})
+                    </Button>
+                    <Button onClick={onClose} variant="secondary">
+                        Отмена
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 }

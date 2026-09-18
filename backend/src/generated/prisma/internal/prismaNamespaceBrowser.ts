@@ -84,7 +84,13 @@ export const ModelName = {
   SprintMetric: 'SprintMetric',
   SprintEvent: 'SprintEvent',
   Increment: 'Increment',
-  Epic: 'Epic'
+  Epic: 'Epic',
+  Tag: 'Tag',
+  Category: 'Category',
+  Skill: 'Skill',
+  UserSkill: 'UserSkill',
+  SkillEvidence: 'SkillEvidence',
+  TaskComplexity: 'TaskComplexity'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -616,6 +622,106 @@ export const EpicScalarFieldEnum = {
 } as const
 
 export type EpicScalarFieldEnum = (typeof EpicScalarFieldEnum)[keyof typeof EpicScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  name: 'name',
+  label: 'label',
+  description: 'description',
+  icon: 'icon',
+  color: 'color',
+  categoryId: 'categoryId',
+  skillId: 'skillId',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  parentId: 'parentId',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  icon: 'icon',
+  color: 'color',
+  scope: 'scope',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const SkillScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  name: 'name',
+  label: 'label',
+  description: 'description',
+  type: 'type',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SkillScalarFieldEnum = (typeof SkillScalarFieldEnum)[keyof typeof SkillScalarFieldEnum]
+
+
+export const UserSkillScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  skillId: 'skillId',
+  organizationId: 'organizationId',
+  level: 'level',
+  levelLabel: 'levelLabel',
+  contextId: 'contextId',
+  contextType: 'contextType',
+  practiceCount: 'practiceCount',
+  evidenceCount: 'evidenceCount',
+  lastUsedAt: 'lastUsedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserSkillScalarFieldEnum = (typeof UserSkillScalarFieldEnum)[keyof typeof UserSkillScalarFieldEnum]
+
+
+export const SkillEvidenceScalarFieldEnum = {
+  id: 'id',
+  userSkillId: 'userSkillId',
+  type: 'type',
+  sourceId: 'sourceId',
+  sourceType: 'sourceType',
+  weight: 'weight',
+  comment: 'comment',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type SkillEvidenceScalarFieldEnum = (typeof SkillEvidenceScalarFieldEnum)[keyof typeof SkillEvidenceScalarFieldEnum]
+
+
+export const TaskComplexityScalarFieldEnum = {
+  id: 'id',
+  recordId: 'recordId',
+  projectId: 'projectId',
+  poEstimate: 'poEstimate',
+  teamEstimate: 'teamEstimate',
+  executorEstimate: 'executorEstimate',
+  finalComplexity: 'finalComplexity',
+  complexityLabel: 'complexityLabel',
+  teamVotes: 'teamVotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TaskComplexityScalarFieldEnum = (typeof TaskComplexityScalarFieldEnum)[keyof typeof TaskComplexityScalarFieldEnum]
 
 
 export const SortOrder = {

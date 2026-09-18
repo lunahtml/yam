@@ -26,7 +26,7 @@ export default function TaskDetailPopup({
     const [data, setData] = useState<Record<string, unknown>>(record.data);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
-
+    const HIDDEN_FIELDS = ['sprintId', 'epicId'];
     const update = (name: string, value: unknown) => {
         setData({ ...data, [name]: value });
     };
@@ -187,17 +187,19 @@ export default function TaskDetailPopup({
                 {error && <div className="task-detail-error">{error}</div>}
 
                 <div className="task-detail-body">
-                    {fields.map((field) => (
-                        <div key={field.id} className="task-detail-field">
-                            <label className="task-detail-label">
-                                {field.label}
-                                {field.isRequired && (
-                                    <span className="task-detail-required">*</span>
-                                )}
-                            </label>
-                            {renderField(field)}
-                        </div>
-                    ))}
+                    {fields
+                        .filter((field) => !HIDDEN_FIELDS.includes(field.name))
+                        .map((field) => (
+                            <div key={field.id} className="task-detail-field">
+                                <label className="task-detail-label">
+                                    {field.label}
+                                    {field.isRequired && (
+                                        <span className="task-detail-required">*</span>
+                                    )}
+                                </label>
+                                {renderField(field)}
+                            </div>
+                        ))}
                 </div>
 
                 <div className="task-detail-footer">

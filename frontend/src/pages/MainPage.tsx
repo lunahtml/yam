@@ -8,7 +8,9 @@ import {
     LogOut,
     Layers,
     Briefcase,
+
 } from 'lucide-react';
+import { User as UserIcon } from 'lucide-react';
 import { api } from '../api/client';
 import { Organization, Workspace, Project } from '../types/api';
 import Input from '../components/Input';
@@ -18,6 +20,7 @@ import './MainPage.css';
 interface MainPageProps {
     onOpenProject: (projectId: string, projectName: string) => void;
     onLogout: () => void;
+    onOpenProfile: () => void;
 }
 
 interface WorkspaceWithProjects extends Workspace {
@@ -34,7 +37,11 @@ type ModalType =
     | { type: 'workspace'; organizationId: string }
     | { type: 'project'; workspaceId: string };
 
-export default function MainPage({ onOpenProject, onLogout }: MainPageProps) {
+export default function MainPage({
+    onOpenProject,
+    onOpenProfile,
+    onLogout,
+}: MainPageProps) {
     const [organizations, setOrganizations] = useState<OrgWithWorkspaces[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -116,7 +123,10 @@ export default function MainPage({ onOpenProject, onLogout }: MainPageProps) {
                         <div className="main-header-subtitle">You Are Magic</div>
                     </div>
                 </div>
-
+                <button className="main-profile" onClick={onOpenProfile}>
+                    <UserIcon size={16} />
+                    Профиль
+                </button>
                 <button className="main-logout" onClick={onLogout}>
                     <LogOut size={16} />
                     Выйти

@@ -1,6 +1,15 @@
 //frontend/src/pages/project/TasksPage.tsx
 import { useEffect, useState } from 'react';
-import { ListTodo, Plus } from 'lucide-react';
+import {
+    ListTodo,
+    Plus,
+    Trash2,
+    Users,
+    Target,
+    Package,
+    FileText,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { api } from '../../api/client';
 import { Entity, EntityTemplate } from '../../types/api';
 import EntityDetailPage from '../dashboard/entities/EntityDetailPage';
@@ -17,7 +26,13 @@ export default function TasksPage({ projectId }: TasksPageProps) {
     const [loading, setLoading] = useState(true);
     const [showTemplates, setShowTemplates] = useState(false);
     const [error, setError] = useState('');
-
+    const TEMPLATE_ICONS: Record<string, LucideIcon> = {
+        task: ListTodo,
+        client: Users,
+        lead: Target,
+        order: Package,
+        content: FileText,
+    };
     const loadEntities = async () => {
         setLoading(true);
         try {
@@ -49,7 +64,24 @@ export default function TasksPage({ projectId }: TasksPageProps) {
             setError(err instanceof Error ? err.message : 'Failed to create');
         }
     };
+    const handleDeleteEntity = async (id: string) => {
+        if (
+            !confirm(
+                'Удалить сущность? Все её записи, поля и представления будут потеряны.',
+            )
+        )
+            return;
 
+        setError('');
+
+        try {
+            await api.deleteEntity(id);
+            setActiveEntity(null);
+            await loadEntities();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to delete');
+        }
+    };
     return (
         <div className="tasks-page">
             <div className="tasks-header">
@@ -82,18 +114,24 @@ export default function TasksPage({ projectId }: TasksPageProps) {
                             Отмена
                         </button>
                     </div>
+
                     <div className="tasks-templates-grid">
-                        {templates.map((t) => (
-                            <button
-                                key={t.key}
-                                className="tasks-template-card"
-                                onClick={() => handleCreateFromTemplate(t.key)}
-                            >
-                                <div className="tasks-template-icon">{t.icon}</div>
-                                <div className="tasks-template-label">{t.label}</div>
-                                <div className="tasks-template-desc">{t.description}</div>
-                            </button>
-                        ))}
+                        {templates.map((t) => {
+                            const Icon = TEMPLATE_ICONS[t.key] ?? ListTodo;
+                            return (
+                                <button
+                                    key={t.key}
+                                    className="tasks-template-card"
+                                    onClick={() => handleCreateFromTemplate(t.key)}
+                                >
+                                    <div className="tasks-template-icon">
+                                        <Icon size={28} />
+                                    </div>
+                                    <div className="tasks-template-label">{t.label}</div>
+                                    <div className="tasks-template-desc">{t.description}</div>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             )}
@@ -108,13 +146,21 @@ export default function TasksPage({ projectId }: TasksPageProps) {
                 <>
                     <div className="tasks-tabs">
                         {entities.map((e) => (
-                            <button
-                                key={e.id}
-                                className={`tasks-tab ${activeEntity?.id === e.id ? 'tasks-tab-active' : ''}`}
-                                onClick={() => setActiveEntity(e)}
-                            >
-                                {e.label}
-                            </button>
+                            <div key={e.id} className="tasks-tab-wrapper">
+                                <button
+                                    className={`tasks-tab ${activeEntity?.id === e.id ? 'tasks-tab-active' : ''}`}
+                                    onClick={() => setActiveEntity(e)}
+                                >
+                                    {e.label}
+                                </button>
+                                <button
+                                    className="tasks-tab-delete"
+                                    onClick={() => handleDeleteEntity(e.id)}
+                                    title="Удалить сущность"
+                                >
+                                    <Trash2 size={12} />
+                                </button>
+                            </div>
                         ))}
                     </div>
 

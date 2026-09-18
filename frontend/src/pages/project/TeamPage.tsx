@@ -1,5 +1,6 @@
 //frontend/src/pages/project/TeamPage.tsx
 import { UserCog } from 'lucide-react';
+
 import './TeamPage.css';
 
 export default function TeamPage() {

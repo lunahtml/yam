@@ -3,11 +3,11 @@ export const ENTITY_TEMPLATES = [
         key: 'task',
         label: 'Задачи',
         description: 'Канбан-доска для задач и багов',
-        icon: '📋',
+        icon: '',
         entity: {
             name: 'tasks',
             label: 'Задачи',
-            icon: '📋',
+            icon: '',
         },
         fields: [
             { name: 'title', label: 'Заголовок', type: 'text', isRequired: true },
@@ -48,7 +48,7 @@ export const ENTITY_TEMPLATES = [
         key: 'client',
         label: 'Клиенты',
         description: 'База клиентов',
-        icon: '👥',
+        icon: '',
         entity: { name: 'clients', label: 'Клиенты', icon: '👥' },
         fields: [
             { name: 'name', label: 'Имя', type: 'text', isRequired: true },
@@ -72,8 +72,8 @@ export const ENTITY_TEMPLATES = [
         key: 'lead',
         label: 'Лиды',
         description: 'Воронка лидов',
-        icon: '🎯',
-        entity: { name: 'leads', label: 'Лиды', icon: '🎯' },
+        icon: '',
+        entity: { name: 'leads', label: 'Лиды', icon: '' },
         fields: [
             { name: 'name', label: 'Имя', type: 'text', isRequired: true },
             { name: 'source', label: 'Источник', type: 'text' },
@@ -97,8 +97,8 @@ export const ENTITY_TEMPLATES = [
         key: 'order',
         label: 'Заказы',
         description: 'Заказы клиентов',
-        icon: '📦',
-        entity: { name: 'orders', label: 'Заказы', icon: '📦' },
+        icon: '',
+        entity: { name: 'orders', label: 'Заказы', icon: '' },
         fields: [
             { name: 'number', label: 'Номер', type: 'text', isRequired: true },
             { name: 'amount', label: 'Сумма', type: 'number' },
@@ -120,8 +120,8 @@ export const ENTITY_TEMPLATES = [
         key: 'content',
         label: 'Контент-план',
         description: 'Публикации и посты',
-        icon: '📝',
-        entity: { name: 'content', label: 'Контент', icon: '📝' },
+        icon: '',
+        entity: { name: 'content', label: 'Контент', icon: '' },
         fields: [
             { name: 'title', label: 'Заголовок', type: 'text', isRequired: true },
             { name: 'channel', label: 'Канал', type: 'text' },

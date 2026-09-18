@@ -28,6 +28,14 @@ import {
     SprintMetric,
     SprintEvent,
     Increment,
+    User,
+    Category,
+    CategoryScope,
+    Tag,
+    Skill,
+    SkillType,
+    UserSkill,
+    EvidenceType,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -184,7 +192,7 @@ export const api = {
 
     getWorkspacesByOrganization: (organizationId: string) =>
         request<Workspace[]>(`/workspaces/organization/${organizationId}`),
-
+    getWorkspace: (id: string) => request<Workspace>(`/workspaces/${id}`),
     // БЫЛО:
     // exportDashboard: async (id: string): Promise<Blob> => {
     //     const res = await fetch(`${API_BASE}/marketing-dashboard/${id}/export`, {
@@ -500,7 +508,7 @@ export const api = {
     getSprint: (id: string) => request<Sprint>(`/sprints/${id}`),
 
     getSprintRecords: (id: string) =>
-        request<unknown[]>(`/sprints/${id}/records`),
+        request<EntityRecord[]>(`/sprints/${id}/records`),
 
 
     createMetric: (sprintId: string, data: {
@@ -547,4 +555,163 @@ export const api = {
 
     deleteSprintEvent: (sprintId: string, id: string) =>
         request<void>(`/sprints/${sprintId}/events/${id}`, { method: 'DELETE' }),
+
+
+    // ═══════════════════════════════════════════════════════════════
+    // USERS
+    // ═══════════════════════════════════════════════════════════════
+
+    getMe: () => request<User>('/users/me'),
+
+    updateMe: (data: { name?: string; avatarUrl?: string }) =>
+        request<User>('/users/me', {
+            method: 'PATCH',
+            body: JSON.stringify(data),
+        }),
+
+    searchUsers: (query: string, limit?: number) => {
+        const params = new URLSearchParams({ q: query });
+        if (limit) params.set('limit', String(limit));
+        return request<User[]>(`/users/search?${params.toString()}`);
+    },
+
+    getUser: (id: string) => request<User>(`/users/${id}`),
+
+
+    // ═══════════════════════════════════════════════════════════════
+    // CATEGORIES
+    // ═══════════════════════════════════════════════════════════════
+
+    createCategory: (data: {
+        organizationId: string;
+        parentId?: string;
+        name: string;
+        slug: string;
+        description?: string;
+        icon?: string;
+        color?: string;
+        scope: CategoryScope;
+    }) =>
+        request<Category>('/categories', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getCategories: (organizationId: string, scope?: CategoryScope) => {
+        const qs = scope ? `?scope=${scope}` : '';
+        return request<Category[]>(
+            `/categories/organization/${organizationId}${qs}`,
+        );
+    },
+
+    getCategory: (id: string) => request<Category>(`/categories/${id}`),
+
+    updateCategory: (id: string, data: Partial<Category>) =>
+        request<Category>(`/categories/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteCategory: (id: string) =>
+        request<void>(`/categories/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // TAGS
+    // ═══════════════════════════════════════════════════════════════
+
+    createTag: (data: {
+        organizationId: string;
+        name: string;
+        label: string;
+        description?: string;
+        icon?: string;
+        color?: string;
+        categoryId?: string;
+        skillId?: string;
+    }) =>
+        request<Tag>('/tags', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getTags: (organizationId: string) =>
+        request<Tag[]>(`/tags/organization/${organizationId}`),
+
+    searchTags: (organizationId: string, query: string) =>
+        request<Tag[]>(
+            `/tags/organization/${organizationId}/search?q=${encodeURIComponent(query)}`,
+        ),
+
+    getTag: (id: string) => request<Tag>(`/tags/${id}`),
+
+    updateTag: (id: string, data: Partial<Tag>) =>
+        request<Tag>(`/tags/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteTag: (id: string) =>
+        request<void>(`/tags/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // SKILLS
+    // ═══════════════════════════════════════════════════════════════
+
+    createSkill: (data: {
+        organizationId: string;
+        name: string;
+        label: string;
+        description?: string;
+        type: SkillType;
+        categoryId?: string;
+    }) =>
+        request<Skill>('/skills', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getSkills: (organizationId: string) =>
+        request<Skill[]>(`/skills/organization/${organizationId}`),
+
+    getSkill: (id: string) => request<Skill>(`/skills/${id}`),
+
+    updateSkill: (id: string, data: Partial<Skill>) =>
+        request<Skill>(`/skills/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteSkill: (id: string) =>
+        request<void>(`/skills/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // USER SKILLS
+    // ═══════════════════════════════════════════════════════════════
+
+    getUserSkills: (userId: string) =>
+        request<UserSkill[]>(`/user-skills/user/${userId}`),
+
+    addSkillEvidence: (userSkillId: string, data: {
+        type: EvidenceType;
+        weight?: number;
+        comment?: string;
+        sourceId?: string;
+        sourceType?: string;
+    }) =>
+        request<unknown>(`/user-skills/${userSkillId}/evidence`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    setSkillLevel: (userSkillId: string, data: {
+        level: number;
+        comment?: string;
+    }) =>
+        request<UserSkill>(`/user-skills/${userSkillId}/level`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteUserSkill: (id: string) =>
+        request<void>(`/user-skills/${id}`, { method: 'DELETE' }),
 };

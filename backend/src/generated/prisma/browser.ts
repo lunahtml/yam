@@ -187,3 +187,33 @@ export type Increment = Prisma.IncrementModel
  * 
  */
 export type Epic = Prisma.EpicModel
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
+ * Model Skill
+ * 
+ */
+export type Skill = Prisma.SkillModel
+/**
+ * Model UserSkill
+ * 
+ */
+export type UserSkill = Prisma.UserSkillModel
+/**
+ * Model SkillEvidence
+ * 
+ */
+export type SkillEvidence = Prisma.SkillEvidenceModel
+/**
+ * Model TaskComplexity
+ * 
+ */
+export type TaskComplexity = Prisma.TaskComplexityModel
