@@ -15,6 +15,7 @@ import {
     Settings,
     ArrowLeft,
     Sparkles,
+    Tag,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import OverviewPage from './OverviewPage';
@@ -31,6 +32,7 @@ import SprintsPage from './SprintsPage';
 import SprintDetailPage from './SprintDetailPage';
 import SettingsPage from './SettingsPage';
 import SkillsPage from './SkillsPage';
+import TagsPage from './TagsPage';
 import { useEffect } from 'react';
 import { api } from '../../api/client';
 import './ProjectLayout.css';
@@ -54,7 +56,8 @@ type Section =
     | 'team'
     | 'sprints'
     | 'skills'
-    | 'settings';
+    | 'settings'
+    | 'tags';
 
 interface MenuItem {
     key: Section;
@@ -71,6 +74,7 @@ const MENU: MenuItem[] = [
     { key: 'marketing', label: 'Маркетинг', icon: Megaphone },
     { key: 'seo', label: 'SEO', icon: Search },
     { key: 'skills', label: 'Навыки', icon: Sparkles },
+    { key: 'tags', label: 'Теги', icon: Tag },
     { key: 'clients', label: 'Клиенты', icon: Users },
     { key: 'analytics', label: 'Аналитика', icon: BarChart3 },
     { key: 'charts', label: 'Чарты', icon: LineChart },
@@ -146,6 +150,11 @@ export default function ProjectLayout({
                 return <ChartsPage />;
             case 'team':
                 return <TeamPage />;
+            case 'tags':
+                if (!organizationId) {
+                    return <div style={{ padding: 40, color: 'var(--text-muted)' }}>Загрузка...</div>;
+                }
+                return <TagsPage organizationId={organizationId} />;
             case 'skills':
                 if (!organizationId) {
                     return <div style={{ padding: 40, color: 'var(--text-muted)' }}>Загрузка...</div>;

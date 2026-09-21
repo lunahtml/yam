@@ -1,7 +1,8 @@
 //frontend/src/pages/dashboard/entities/TaskDetailPopup.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Save, Plus, Check, Trash2, XCircle } from 'lucide-react';
-import { EntityRecord, Field } from '../../../types/api';
+import { api } from '../../../api/client';
+import { EntityRecord, Field, Tag, User } from '../../../types/api';
 import './TaskDetailPopup.css';
 
 interface TaskDetailPopupProps {
@@ -43,6 +44,38 @@ export default function TaskDetailPopup({
             setSaving(false);
         }
     };
+    const [organizationId, setOrganizationId] = useState<string>('');
+
+    useEffect(() => {
+        if (!record.projectId) return;
+
+        //     api
+        //         .getProject(record.projectId)
+        //         .then(async (project: any) => {
+        //             if (project?.workspaceId) {
+        //                 const ws = await api.getWorkspace(project.workspaceId);
+        //                 if (ws?.organizationId) {
+        //                     setOrganizationId(ws.organizationId);
+        //                 }
+        //             }
+        //         })
+        //         .catch(() => { });
+        // }, [record.projectId]);
+
+        api
+            .getProject(record.projectId)
+            .then(async (project: any) => {
+                console.log('PROJECT:', project);
+                if (project?.workspaceId) {
+                    const ws = await api.getWorkspace(project.workspaceId);
+                    console.log('WORKSPACE:', ws);
+                    if (ws?.organizationId) {
+                        setOrganizationId(ws.organizationId);
+                    }
+                }
+            })
+            .catch((err) => console.error('ORG_LOAD_ERROR:', err));
+    }, [record.projectId]);
 
     const renderField = (field: Field) => {
         const value = data[field.name];
@@ -131,11 +164,9 @@ export default function TaskDetailPopup({
 
             case 'user':
                 return (
-                    <input
-                        className="task-detail-input"
-                        value={String(value ?? '')}
-                        onChange={(e) => update(field.name, e.target.value)}
-                        placeholder="ID пользователя"
+                    <UserPicker
+                        value={value ? String(value) : null}
+                        onChange={(v) => update(field.name, v)}
                     />
                 );
 
@@ -147,11 +178,23 @@ export default function TaskDetailPopup({
                     />
                 );
 
+            // case 'tags':
+            //     return (
+            //         <TagsEditor
+            //             value={Array.isArray(value) ? (value as string[]) : []}
+            //             onChange={(v) => update(field.name, v)}
+            //             organizationId={organizationId}
+            //         />
+            //     );
             case 'tags':
+                if (!organizationId) {
+                    return <div className="task-detail-input">Загрузка тегов...</div>;
+                }
                 return (
                     <TagsEditor
                         value={Array.isArray(value) ? (value as string[]) : []}
                         onChange={(v) => update(field.name, v)}
+                        organizationId={organizationId}
                     />
                 );
 
@@ -228,68 +271,7 @@ export default function TaskDetailPopup({
     );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// USER LIST EDITOR
-// ═══════════════════════════════════════════════════════════════
 
-function UserListEditor({
-    value,
-    onChange,
-}: {
-    value: string[];
-    onChange: (v: string[]) => void;
-}) {
-    const [input, setInput] = useState('');
-
-    const add = () => {
-        if (!input.trim() || value.includes(input.trim())) return;
-        onChange([...value, input.trim()]);
-        setInput('');
-    };
-
-    const remove = (id: string) => {
-        onChange(value.filter((v) => v !== id));
-    };
-
-    return (
-        <div className="task-editor">
-            <div className="task-editor-input-row">
-                <input
-                    className="task-detail-input"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="ID пользователя"
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            add();
-                        }
-                    }}
-                />
-                <button className="task-editor-add" onClick={add} type="button">
-                    <Plus size={14} />
-                </button>
-            </div>
-
-            {value.length > 0 && (
-                <div className="task-editor-chips">
-                    {value.map((id) => (
-                        <span key={id} className="task-editor-chip">
-                            👤 {id.slice(0, 8)}...
-                            <button
-                                className="task-editor-chip-remove"
-                                onClick={() => remove(id)}
-                                type="button"
-                            >
-                                <X size={10} />
-                            </button>
-                        </span>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-}
 
 // ═══════════════════════════════════════════════════════════════
 // TAGS EDITOR
@@ -298,57 +280,177 @@ function UserListEditor({
 function TagsEditor({
     value,
     onChange,
+    organizationId,
 }: {
     value: string[];
     onChange: (v: string[]) => void;
+    organizationId: string;
 }) {
-    const [input, setInput] = useState('');
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState<Tag[]>([]);
+    const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [creating, setCreating] = useState(false);
 
-    const add = () => {
-        const tag = input.trim().toLowerCase();
-        if (!tag || value.includes(tag)) return;
-        onChange([...value, tag]);
-        setInput('');
+    // загружаем выбранные теги
+    useEffect(() => {
+        if (value.length === 0) {
+            setSelectedTags([]);
+            return;
+        }
+
+        api
+            .getTags(organizationId)
+            .then((allTags) => {
+                setSelectedTags(allTags.filter((t) => value.includes(t.name)));
+            })
+            .catch(() => { });
+    }, [value, organizationId]);
+
+    // поиск
+    useEffect(() => {
+        if (!open || query.trim().length < 1) {
+            setResults([]);
+            return;
+        }
+
+        setLoading(true);
+        const t = setTimeout(() => {
+            api
+                .searchTags(organizationId, query.trim())
+                .then((tags) => setResults(tags.filter((t) => !value.includes(t.name))))
+                .finally(() => setLoading(false));
+        }, 300);
+
+        return () => clearTimeout(t);
+    }, [query, open, organizationId, value]);
+
+    const handleSelect = (tag: Tag) => {
+        onChange([...value, tag.name]);
+        setSelectedTags([...selectedTags, tag]);
+        setQuery('');
+        setOpen(false);
     };
 
-    const remove = (tag: string) => {
-        onChange(value.filter((v) => v !== tag));
+    const handleRemove = (tagName: string) => {
+        onChange(value.filter((v) => v !== tagName));
+        setSelectedTags(selectedTags.filter((t) => t.name !== tagName));
+    };
+
+    const handleCreateNew = async () => {
+        if (!query.trim()) return;
+        setCreating(true);
+
+        try {
+            const slug = query.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '_');
+            const newTag = await api.createTag({
+                organizationId,
+                name: slug,
+                label: query.trim(),
+            });
+            onChange([...value, newTag.name]);
+            setSelectedTags([...selectedTags, newTag]);
+            setQuery('');
+            setOpen(false);
+        } catch (err) {
+            // тег уже существует — попробуем найти его
+            const allTags = await api.getTags(organizationId);
+            const existing = allTags.find(
+                (t) => t.name === query.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '_'),
+            );
+            if (existing && !value.includes(existing.name)) {
+                onChange([...value, existing.name]);
+                setSelectedTags([...selectedTags, existing]);
+            }
+            setQuery('');
+            setOpen(false);
+        } finally {
+            setCreating(false);
+        }
     };
 
     return (
         <div className="task-editor">
-            <div className="task-editor-input-row">
-                <input
-                    className="task-detail-input"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Новый тег"
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ',') {
-                            e.preventDefault();
-                            add();
-                        }
-                    }}
-                />
-                <button className="task-editor-add" onClick={add} type="button">
-                    <Plus size={14} />
-                </button>
-            </div>
-
-            {value.length > 0 && (
+            {selectedTags.length > 0 && (
                 <div className="task-editor-chips">
-                    {value.map((tag) => (
-                        <span key={tag} className="task-editor-chip task-editor-chip-tag">
-                            #{tag}
+                    {selectedTags.map((tag) => (
+                        <span
+                            key={tag.id}
+                            className="task-editor-chip task-editor-chip-tag"
+                            style={tag.color ? { borderColor: tag.color } : undefined}
+                        >
+                            {tag.icon ?? '#'}
+                            {tag.label}
                             <button
                                 className="task-editor-chip-remove"
-                                onClick={() => remove(tag)}
+                                onClick={() => handleRemove(tag.name)}
                                 type="button"
                             >
                                 <X size={10} />
                             </button>
                         </span>
                     ))}
+                </div>
+            )}
+
+            <div className="task-editor-input-row">
+                <input
+                    className="task-detail-input"
+                    value={query}
+                    onChange={(e) => {
+                        setQuery(e.target.value);
+                        setOpen(true);
+                    }}
+                    onFocus={() => setOpen(true)}
+                    placeholder="Найди тег..."
+                />
+            </div>
+
+            {open && query.trim().length > 0 && (
+                <div className="user-picker-dropdown">
+                    {loading ? (
+                        <div className="user-picker-loading">Поиск...</div>
+                    ) : (
+                        <>
+                            {results.map((tag) => (
+                                <button
+                                    key={tag.id}
+                                    type="button"
+                                    className="user-picker-item"
+                                    onClick={() => handleSelect(tag)}
+                                >
+                                    <div className="user-picker-item-info">
+                                        <div className="user-picker-item-name">
+                                            {tag.icon ?? '#'} {tag.label}
+                                        </div>
+                                        <div className="user-picker-item-email">
+                                            #{tag.name}
+                                            {tag.skill && ` · ${tag.skill.label}`}
+                                        </div>
+                                    </div>
+                                </button>
+                            ))}
+
+                            {results.length === 0 && !loading && (
+                                <button
+                                    type="button"
+                                    className="user-picker-item"
+                                    onClick={handleCreateNew}
+                                    disabled={creating}
+                                >
+                                    <div className="user-picker-item-info">
+                                        <div className="user-picker-item-name">
+                                            + Создать тег «{query.trim()}»
+                                        </div>
+                                        <div className="user-picker-item-email">
+                                            Новый тег в реестре организации
+                                        </div>
+                                    </div>
+                                </button>
+                            )}
+                        </>
+                    )}
                 </div>
             )}
         </div>
@@ -527,4 +629,286 @@ function ChecklistEditor({
             )}
         </div>
     );
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// USER PICKER (одиночный)
+// ═══════════════════════════════════════════════════════════════
+
+function UserPicker({
+    value,
+    onChange,
+}: {
+    value: string | null;
+    onChange: (v: string | null) => void;
+}) {
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState<User[]>([]);
+    const [selected, setSelected] = useState<User | null>(null);
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!value) {
+            setSelected(null);
+            return;
+        }
+        api
+            .getUser(value)
+            .then(setSelected)
+            .catch(() => setSelected(null));
+    }, [value]);
+
+    useEffect(() => {
+        if (!open || query.trim().length < 1) {
+            setResults([]);
+            return;
+        }
+
+        setLoading(true);
+        const t = setTimeout(() => {
+            api
+                .searchUsers(query.trim(), 10)
+                .then(setResults)
+                .finally(() => setLoading(false));
+        }, 300);
+
+        return () => clearTimeout(t);
+    }, [query, open]);
+
+    const handleSelect = (user: User) => {
+        onChange(user.id);
+        setSelected(user);
+        setQuery('');
+        setOpen(false);
+    };
+
+    const handleClear = () => {
+        onChange(null);
+        setSelected(null);
+        setQuery('');
+    };
+
+    if (selected) {
+        return (
+            <div className="user-picker">
+                <div className="user-chip">
+                    {selected.avatarUrl ? (
+                        <img src={selected.avatarUrl} alt="" className="user-chip-avatar" />
+                    ) : (
+                        <div className="user-chip-avatar user-chip-avatar-placeholder">
+                            {getInitials(selected.name ?? selected.email)}
+                        </div>
+                    )}
+                    <div className="user-chip-info">
+                        <div className="user-chip-name">
+                            {selected.name ?? selected.email}
+                        </div>
+                        {selected.name && (
+                            <div className="user-chip-email">{selected.email}</div>
+                        )}
+                    </div>
+                    <button className="user-chip-remove" onClick={handleClear} type="button">
+                        <X size={12} />
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="user-picker">
+            <input
+                className="task-detail-input"
+                value={query}
+                onChange={(e) => {
+                    setQuery(e.target.value);
+                    setOpen(true);
+                }}
+                onFocus={() => setOpen(true)}
+                placeholder="Найди пользователя по имени или email..."
+            />
+
+            {open && query.trim().length > 0 && (
+                <div className="user-picker-dropdown">
+                    {loading ? (
+                        <div className="user-picker-loading">Поиск...</div>
+                    ) : results.length === 0 ? (
+                        <div className="user-picker-empty">Никого не найдено</div>
+                    ) : (
+                        results.map((u) => (
+                            <button
+                                key={u.id}
+                                type="button"
+                                className="user-picker-item"
+                                onClick={() => handleSelect(u)}
+                            >
+                                {u.avatarUrl ? (
+                                    <img src={u.avatarUrl} alt="" className="user-chip-avatar" />
+                                ) : (
+                                    <div className="user-chip-avatar user-chip-avatar-placeholder">
+                                        {getInitials(u.name ?? u.email)}
+                                    </div>
+                                )}
+                                <div className="user-picker-item-info">
+                                    <div className="user-picker-item-name">
+                                        {u.name ?? u.email}
+                                    </div>
+                                    {u.name && (
+                                        <div className="user-picker-item-email">{u.email}</div>
+                                    )}
+                                </div>
+                            </button>
+                        ))
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// USER LIST EDITOR (множественный)
+// ═══════════════════════════════════════════════════════════════
+
+function UserListEditor({
+    value,
+    onChange,
+}: {
+    value: string[];
+    onChange: (v: string[]) => void;
+}) {
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState<User[]>([]);
+    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (value.length === 0) {
+            setSelectedUsers([]);
+            return;
+        }
+
+        Promise.all(value.map((id) => api.getUser(id).catch(() => null))).then(
+            (users) => setSelectedUsers(users.filter((u): u is User => u !== null)),
+        );
+    }, [value]);
+
+    useEffect(() => {
+        if (!open || query.trim().length < 1) {
+            setResults([]);
+            return;
+        }
+
+        setLoading(true);
+        const t = setTimeout(() => {
+            api
+                .searchUsers(query.trim(), 10)
+                .then((users) => setResults(users.filter((u) => !value.includes(u.id))))
+                .finally(() => setLoading(false));
+        }, 300);
+
+        return () => clearTimeout(t);
+    }, [query, open, value]);
+
+    const handleAdd = (user: User) => {
+        onChange([...value, user.id]);
+        setSelectedUsers([...selectedUsers, user]);
+        setQuery('');
+        setOpen(false);
+    };
+
+    const handleRemove = (id: string) => {
+        onChange(value.filter((v) => v !== id));
+        setSelectedUsers(selectedUsers.filter((u) => u.id !== id));
+    };
+
+    return (
+        <div className="user-picker">
+            {selectedUsers.length > 0 && (
+                <div className="user-chips">
+                    {selectedUsers.map((u) => (
+                        <div key={u.id} className="user-chip">
+                            {u.avatarUrl ? (
+                                <img src={u.avatarUrl} alt="" className="user-chip-avatar" />
+                            ) : (
+                                <div className="user-chip-avatar user-chip-avatar-placeholder">
+                                    {getInitials(u.name ?? u.email)}
+                                </div>
+                            )}
+                            <div className="user-chip-info">
+                                <div className="user-chip-name">{u.name ?? u.email}</div>
+                            </div>
+                            <button
+                                className="user-chip-remove"
+                                onClick={() => handleRemove(u.id)}
+                                type="button"
+                            >
+                                <X size={12} />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            <input
+                className="task-detail-input"
+                value={query}
+                onChange={(e) => {
+                    setQuery(e.target.value);
+                    setOpen(true);
+                }}
+                onFocus={() => setOpen(true)}
+                placeholder="Добавить пользователя..."
+            />
+
+            {open && query.trim().length > 0 && (
+                <div className="user-picker-dropdown">
+                    {loading ? (
+                        <div className="user-picker-loading">Поиск...</div>
+                    ) : results.length === 0 ? (
+                        <div className="user-picker-empty">Никого не найдено</div>
+                    ) : (
+                        results.map((u) => (
+                            <button
+                                key={u.id}
+                                type="button"
+                                className="user-picker-item"
+                                onClick={() => handleAdd(u)}
+                            >
+                                {u.avatarUrl ? (
+                                    <img src={u.avatarUrl} alt="" className="user-chip-avatar" />
+                                ) : (
+                                    <div className="user-chip-avatar user-chip-avatar-placeholder">
+                                        {getInitials(u.name ?? u.email)}
+                                    </div>
+                                )}
+                                <div className="user-picker-item-info">
+                                    <div className="user-picker-item-name">
+                                        {u.name ?? u.email}
+                                    </div>
+                                    {u.name && (
+                                        <div className="user-picker-item-email">{u.email}</div>
+                                    )}
+                                </div>
+                            </button>
+                        ))
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+function getInitials(str: string): string {
+    const parts = str.split(/[\s@.]+/).filter((p) => p.length > 0);
+    if (parts.length === 0) return '?';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
 }

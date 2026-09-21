@@ -1,6 +1,7 @@
 //frontend/src/pages/ProfilePage.tsx
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Save, User as UserIcon, Mail } from 'lucide-react';
+import { ArrowLeft, Save, User as UserIcon, Mail, Sparkles, TrendingUp } from 'lucide-react';
+import { UserSkill } from '../types/api';
 import { api } from '../api/client';
 import { User } from '../types/api';
 import Input from '../components/Input';
@@ -19,7 +20,21 @@ export default function ProfilePage({ onBack }: ProfilePageProps) {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
-
+    const [skills, setSkills] = useState<UserSkill[]>([]);
+    const [skillsLoading, setSkillsLoading] = useState(true);
+    // useEffect(() => {
+    //     api
+    //         .getMe()
+    //         .then((u) => {
+    //             setUser(u);
+    //             setName(u.name ?? '');
+    //             setAvatarUrl(u.avatarUrl ?? '');
+    //         })
+    //         .catch((err) =>
+    //             setError(err instanceof Error ? err.message : 'Failed to load'),
+    //         )
+    //         .finally(() => setLoading(false));
+    // }, []);
     useEffect(() => {
         api
             .getMe()
@@ -27,13 +42,18 @@ export default function ProfilePage({ onBack }: ProfilePageProps) {
                 setUser(u);
                 setName(u.name ?? '');
                 setAvatarUrl(u.avatarUrl ?? '');
+
+                api
+                    .getUserSkills(u.id)
+                    .then(setSkills)
+                    .catch(() => { })
+                    .finally(() => setSkillsLoading(false));
             })
             .catch((err) =>
                 setError(err instanceof Error ? err.message : 'Failed to load'),
             )
             .finally(() => setLoading(false));
     }, []);
-
     const handleSave = async () => {
         setSaving(true);
         setError('');
@@ -112,7 +132,52 @@ export default function ProfilePage({ onBack }: ProfilePageProps) {
                             Сохранить
                         </Button>
                     </div>
+                    <div className="profile-skills">
+                        <h3 className="profile-skills-title">
+                            <Sparkles size={18} />
+                            Мои навыки ({skills.length})
+                        </h3>
 
+                        {skillsLoading ? (
+                            <div className="profile-skills-empty">Загрузка...</div>
+                        ) : skills.length === 0 ? (
+                            <div className="profile-skills-empty">
+                                Пока нет навыков. Закрывай задачи с тегами, связанными со skills.
+                            </div>
+                        ) : (
+                            <div className="profile-skills-list">
+                                {skills.map((us) => (
+                                    <div key={us.id} className="profile-skill">
+                                        <div className="profile-skill-header">
+                                            <div className="profile-skill-name">
+                                                {us.skill?.label ?? 'Навык'}
+                                                {us.skill?.type === 'SOFT' && (
+                                                    <span className="profile-skill-type">Soft</span>
+                                                )}
+                                            </div>
+                                            <div className="profile-skill-level">
+                                                {us.levelLabel} · {us.level}/10
+                                            </div>
+                                        </div>
+
+                                        <div className="profile-skill-bar">
+                                            <div
+                                                className="profile-skill-bar-fill"
+                                                style={{ width: `${us.level * 10}%` }}
+                                            />
+                                        </div>
+
+                                        <div className="profile-skill-meta">
+                                            <TrendingUp size={12} />
+                                            Практика: {us.practiceCount}
+                                            {us.context && ` · ${us.context.name}`}
+                                            {us.lastUsedAt && ` · ${new Date(us.lastUsedAt).toLocaleDateString('ru-RU')}`}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                     <div className="profile-meta">
                         ID: {user.id.slice(0, 8)}...
                         {user.createdAt && ` · Создан: ${new Date(user.createdAt).toLocaleDateString('ru-RU')}`}

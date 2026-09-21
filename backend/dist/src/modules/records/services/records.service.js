@@ -14,16 +14,22 @@ import { MembershipService } from '../../../common/services/membership.service.j
 import { EDIT_ROLES, DESTRUCTIVE_ROLES, } from '../../../common/types/roles.type.js';
 import { RecordValidatorService } from './record-validator.service.js';
 import { RecordIndexService } from './record-index.service.js';
+import { UserSkillsService } from '../../skills/services/user-skills.service.js';
+import { SprintsService } from '../../sprints/services/sprints.service.js';
 let RecordsService = class RecordsService {
     prisma;
     membership;
     validator;
     indexer;
-    constructor(prisma, membership, validator, indexer) {
+    userSkills;
+    sprints;
+    constructor(prisma, membership, validator, indexer, userSkills, sprints) {
         this.prisma = prisma;
         this.membership = membership;
         this.validator = validator;
         this.indexer = indexer;
+        this.userSkills = userSkills;
+        this.sprints = sprints;
     }
     async create(userId, entityId, data) {
         const entity = await this.prisma.client.entity.findUnique({
@@ -165,6 +171,7 @@ let RecordsService = class RecordsService {
             select: {
                 projectId: true,
                 entityId: true,
+                data: true,
                 entity: { select: { fields: true } },
             },
         });
@@ -174,16 +181,93 @@ let RecordsService = class RecordsService {
         await this.membership.assertProjectRole(userId, record.projectId, EDIT_ROLES);
         const validated = this.validator.validate(data.data, record.entity.fields);
         const indexes = this.indexer.buildIndexes(validated, record.entity.fields);
-        return this.prisma.client.$transaction(async (tx) => {
-            const updated = await tx.record.update({
+        const updated = await this.prisma.client.$transaction(async (tx) => {
+            const result = await tx.record.update({
                 where: { id },
                 data: {
                     data: validated,
                 },
             });
             await this.indexer.replaceIndexes(tx, id, record.entityId, record.projectId, indexes);
-            return updated;
+            return result;
         });
+        // Триггер X-Matrix: если статус сменился на "done"
+        const oldData = record.data;
+        const oldStatus = String(oldData.status ?? '');
+        const newStatus = String(validated.status ?? '');
+        if (oldStatus !== 'done' && newStatus === 'done') {
+            await this.processTaskCompletion(id, record.projectId, validated);
+        }
+        return updated;
+    }
+    async processTaskCompletion(recordId, projectId, data) {
+        try {
+            // 1. Проверяем, что у задачи есть теги
+            const tags = Array.isArray(data.tags) ? data.tags : [];
+            if (tags.length === 0)
+                return;
+            // 2. Находим проект → организацию
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: projectId },
+                select: {
+                    workspace: {
+                        select: { organizationId: true },
+                    },
+                },
+            });
+            if (!project?.workspace?.organizationId)
+                return;
+            const organizationId = project.workspace.organizationId;
+            // 3. Находим теги в реестре, у которых есть skill
+            const tagRecords = await this.prisma.client.tag.findMany({
+                where: {
+                    organizationId,
+                    name: { in: tags },
+                    skillId: { not: null },
+                },
+                select: { id: true, skillId: true },
+            });
+            if (tagRecords.length === 0)
+                return;
+            // 4. Находим assignee + coAssignees
+            const userIds = new Set();
+            if (data.assignee && typeof data.assignee === 'string') {
+                userIds.add(data.assignee);
+            }
+            if (Array.isArray(data.coAssignees)) {
+                for (const uid of data.coAssignees) {
+                    if (typeof uid === 'string')
+                        userIds.add(uid);
+                }
+            }
+            if (userIds.size === 0)
+                return;
+            // 5. Определяем вес (из TaskComplexity)
+            const complexity = await this.prisma.client.taskComplexity.findUnique({
+                where: { recordId },
+                select: { finalComplexity: true },
+            });
+            const weight = complexity?.finalComplexity ?? 1;
+            // 6. Для каждого user × skill — создаём evidence
+            for (const uid of userIds) {
+                for (const tag of tagRecords) {
+                    if (!tag.skillId)
+                        continue;
+                    const userSkill = await this.userSkills.getOrCreate(uid, tag.skillId, organizationId);
+                    await this.userSkills.addEvidence(uid, userSkill.id, {
+                        type: 'TASK_COMPLETED',
+                        weight,
+                        sourceId: recordId,
+                        sourceType: 'record',
+                        comment: `Закрыта задача с тегом #${tags.find((t) => t === tags[0])}`,
+                    });
+                }
+            }
+        }
+        catch (err) {
+            // Не блокируем update, если X-Matrix не сработал
+            console.error('X-Matrix error:', err);
+        }
     }
     async remove(userId, id) {
         const record = await this.prisma.client.record.findUnique({
@@ -204,7 +288,9 @@ RecordsService = __decorate([
     __metadata("design:paramtypes", [PrismaService,
         MembershipService,
         RecordValidatorService,
-        RecordIndexService])
+        RecordIndexService,
+        UserSkillsService,
+        SprintsService])
 ], RecordsService);
 export { RecordsService };
 //# sourceMappingURL=records.service.js.map

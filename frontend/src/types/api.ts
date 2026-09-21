@@ -535,7 +535,7 @@ export interface Tag {
     createdById: string | null;
     createdAt: string;
     category?: { id: string; name: string; slug: string };
-    skill?: { id: string; name: string; type: 'HARD' | 'SOFT' };
+    skill?: { id: string; name: string; label: string; type: 'HARD' | 'SOFT' };
 }
 
 // ═══════════════════════════════════════════════════════════════

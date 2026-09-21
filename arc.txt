@@ -30,6 +30,8 @@ yam/
         │   ├── VerifyPage.tsx ✅
         │   └── DashboardPage.tsx ✅
         │   └── project/ ✅
+                  ├── TagsPage.tsx ✅
+                  ├── TagsPage.css ✅
                   ├── SkillsPage.tsx ✅
                   ├── SkillsPage.css ✅
                   ├── SprintDetailPage.tsx ✅

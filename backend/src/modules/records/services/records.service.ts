@@ -17,6 +17,8 @@ import { RecordIndexService } from './record-index.service.js';
 import { CreateRecordDto } from '../contracts/create-record.dto.js';
 import { UpdateRecordDto } from '../contracts/update-record.dto.js';
 import { ListRecordsQueryDto } from '../contracts/list-records.dto.js';
+import { UserSkillsService } from '../../skills/services/user-skills.service.js';
+import { SprintsService } from '../../sprints/services/sprints.service.js';
 
 @Injectable()
 export class RecordsService {
@@ -25,6 +27,8 @@ export class RecordsService {
         private membership: MembershipService,
         private validator: RecordValidatorService,
         private indexer: RecordIndexService,
+        private userSkills: UserSkillsService,
+        private sprints: SprintsService,
     ) { }
 
     async create(userId: string, entityId: string, data: CreateRecordDto) {
@@ -229,6 +233,7 @@ export class RecordsService {
             select: {
                 projectId: true,
                 entityId: true,
+                data: true,
                 entity: { select: { fields: true } },
             },
         });
@@ -246,8 +251,8 @@ export class RecordsService {
         const validated = this.validator.validate(data.data, record.entity.fields);
         const indexes = this.indexer.buildIndexes(validated, record.entity.fields);
 
-        return this.prisma.client.$transaction(async (tx) => {
-            const updated = await tx.record.update({
+        const updated = await this.prisma.client.$transaction(async (tx) => {
+            const result = await tx.record.update({
                 where: { id },
                 data: {
                     data: validated as Prisma.InputJsonValue,
@@ -262,10 +267,100 @@ export class RecordsService {
                 indexes,
             );
 
-            return updated;
+            return result;
         });
-    }
 
+        // Триггер X-Matrix: если статус сменился на "done"
+        const oldData = record.data as Record<string, unknown>;
+        const oldStatus = String(oldData.status ?? '');
+        const newStatus = String(validated.status ?? '');
+
+        if (oldStatus !== 'done' && newStatus === 'done') {
+            await this.processTaskCompletion(id, record.projectId, validated);
+        }
+
+        return updated;
+    }
+    private async processTaskCompletion(
+        recordId: string,
+        projectId: string,
+        data: Record<string, unknown>,
+    ) {
+        try {
+            // 1. Проверяем, что у задачи есть теги
+            const tags = Array.isArray(data.tags) ? (data.tags as string[]) : [];
+            if (tags.length === 0) return;
+
+            // 2. Находим проект → организацию
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: projectId },
+                select: {
+                    workspace: {
+                        select: { organizationId: true },
+                    },
+                },
+            });
+
+            if (!project?.workspace?.organizationId) return;
+            const organizationId = project.workspace.organizationId;
+
+            // 3. Находим теги в реестре, у которых есть skill
+            const tagRecords = await this.prisma.client.tag.findMany({
+                where: {
+                    organizationId,
+                    name: { in: tags },
+                    skillId: { not: null },
+                },
+                select: { id: true, skillId: true },
+            });
+
+            if (tagRecords.length === 0) return;
+
+            // 4. Находим assignee + coAssignees
+            const userIds = new Set<string>();
+            if (data.assignee && typeof data.assignee === 'string') {
+                userIds.add(data.assignee);
+            }
+            if (Array.isArray(data.coAssignees)) {
+                for (const uid of data.coAssignees) {
+                    if (typeof uid === 'string') userIds.add(uid);
+                }
+            }
+
+            if (userIds.size === 0) return;
+
+            // 5. Определяем вес (из TaskComplexity)
+            const complexity = await this.prisma.client.taskComplexity.findUnique({
+                where: { recordId },
+                select: { finalComplexity: true },
+            });
+            const weight = complexity?.finalComplexity ?? 1;
+
+            // 6. Для каждого user × skill — создаём evidence
+            for (const uid of userIds) {
+                for (const tag of tagRecords) {
+                    if (!tag.skillId) continue;
+
+                    const userSkill = await this.userSkills.getOrCreate(
+                        uid,
+                        tag.skillId,
+                        organizationId,
+                    );
+
+                    await this.userSkills.addEvidence(uid, userSkill.id, {
+                        type: 'TASK_COMPLETED',
+                        weight,
+                        sourceId: recordId,
+                        sourceType: 'record',
+                        comment: `Закрыта задача с тегом #${tags.find((t) => t === tags[0])}`,
+                    });
+                }
+            }
+        } catch (err) {
+            // Не блокируем update, если X-Matrix не сработал
+            console.error('X-Matrix error:', err);
+        }
+    }
     async remove(userId: string, id: string) {
         const record = await this.prisma.client.record.findUnique({
             where: { id },

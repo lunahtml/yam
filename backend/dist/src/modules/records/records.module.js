@@ -10,10 +10,13 @@ import { RecordsController } from './records.controller.js';
 import { RecordsService } from './services/records.service.js';
 import { RecordValidatorService } from './services/record-validator.service.js';
 import { RecordIndexService } from './services/record-index.service.js';
+import { SkillsModule } from '../skills/skills.module.js';
+import { SprintsModule } from '../sprints/sprints.module.js';
 let RecordsModule = class RecordsModule {
 };
 RecordsModule = __decorate([
     Module({
+        imports: [SkillsModule, SprintsModule],
         controllers: [RecordsController],
         providers: [
             RecordsService,

@@ -60,7 +60,7 @@ export class TagsService {
             orderBy: { label: 'asc' },
             include: {
                 category: { select: { id: true, name: true, slug: true } },
-                skill: { select: { id: true, name: true, type: true } },
+                skill: { select: { id: true, name: true, label: true, type: true } },
             },
         });
     }
