@@ -1,17 +1,16 @@
 //frontend/src/pages/project/TagsPage.tsx
 import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { Plus, Trash2, Tag as TagIcon } from 'lucide-react';
 import { api } from '../../api/client';
 import { Tag, Skill, Category } from '../../types/api';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './TagsPage.css';
 
-interface TagsPageProps {
-    organizationId: string;
-}
-
-export default function TagsPage({ organizationId }: TagsPageProps) {
+export default function TagsPage() {
+    const { organizationId } = useOutletContext<ProjectContext>();
     const [tags, setTags] = useState<Tag[]>([]);
     const [skills, setSkills] = useState<Skill[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -88,6 +87,10 @@ export default function TagsPage({ organizationId }: TagsPageProps) {
             setError(err instanceof Error ? err.message : 'Failed to delete');
         }
     };
+
+    if (!organizationId) {
+        return <div className="tags-loading">Загрузка...</div>;
+    }
 
     return (
         <div className="tags-page">

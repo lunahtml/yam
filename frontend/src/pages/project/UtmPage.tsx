@@ -1,30 +1,18 @@
 //frontend/src/pages/project/UtmPage.tsx
 import { useEffect, useState } from 'react';
-import {
-    Link,
-    ArrowLeft,
-    Zap,
-    Radio,
-    Megaphone,
-    Target,
-    Settings,
-} from 'lucide-react';
+import { useOutletContext } from 'react-router-dom';
+import { Link, Zap, Radio, Megaphone, Target, Settings } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { api } from '../../api/client';
 import { Artifact } from '../../types/api';
-import SourcesTab from '../dashboard/utm/SourcesTab';
-import MediumsTab from '../dashboard/utm/MediumsTab';
-import CampaignsTab from '../dashboard/utm/CampaignsTab';
-import RulesTab from '../dashboard/utm/RulesTab';
-import GeneratorTab from '../dashboard/utm/GeneratorTab';
-import LinksTab from '../dashboard/utm/LinksTab';
+import SourcesTab from '../../features/utm/SourcesTab';
+import MediumsTab from '../../features/utm/MediumsTab';
+import CampaignsTab from '../../features/utm/CampaignsTab';
+import RulesTab from '../../features/utm/RulesTab';
+import GeneratorTab from '../../features/utm/GeneratorTab';
+import LinksTab from '../../features/utm/LinksTab';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './UtmPage.css';
-
-interface UtmPageProps {
-    projectId: string;
-    projectName: string;
-    onBack?: () => void;
-}
 
 type Tab = 'generator' | 'links' | 'sources' | 'mediums' | 'campaigns' | 'rules';
 
@@ -37,11 +25,8 @@ const TABS: { key: Tab; label: string; icon: LucideIcon }[] = [
     { key: 'rules', label: 'Правила', icon: Settings },
 ];
 
-export default function UtmPage({
-    projectId,
-    projectName,
-    onBack,
-}: UtmPageProps) {
+export default function UtmPage() {
+    const { projectId, projectName } = useOutletContext<ProjectContext>();
     const [tab, setTab] = useState<Tab>('generator');
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [error, setError] = useState('');
@@ -49,7 +34,7 @@ export default function UtmPage({
     useEffect(() => {
         api
             .getArtifacts(projectId)
-            .then((data) => setArtifacts(data))
+            .then(setArtifacts)
             .catch((err) =>
                 setError(err instanceof Error ? err.message : 'Failed to load'),
             );
@@ -57,22 +42,13 @@ export default function UtmPage({
 
     return (
         <div className="utm-page">
-            {onBack && (
-                <button className="utm-back" onClick={onBack}>
-                    <ArrowLeft size={16} />
-                    Назад к проекту
-                </button>
-            )}
-
             <h1 className="utm-title">
                 <span className="utm-title-icon">
                     <Link size={22} color="#fff" strokeWidth={2.5} />
                 </span>
                 UTM-метки · {projectName}
             </h1>
-
             {error && <div className="utm-error">{error}</div>}
-
             <div className="utm-tabs">
                 {TABS.map((t) => {
                     const Icon = t.icon;
@@ -88,11 +64,8 @@ export default function UtmPage({
                     );
                 })}
             </div>
-
             <div className="utm-content">
-                {tab === 'generator' && (
-                    <GeneratorTab projectId={projectId} artifacts={artifacts} />
-                )}
+                {tab === 'generator' && <GeneratorTab projectId={projectId} artifacts={artifacts} />}
                 {tab === 'links' && <LinksTab projectId={projectId} />}
                 {tab === 'sources' && <SourcesTab projectId={projectId} />}
                 {tab === 'mediums' && <MediumsTab projectId={projectId} />}

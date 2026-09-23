@@ -1,8 +1,7 @@
 //frontend/src/pages/project/SprintDetailPage.tsx
 import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../../api/client';
-import { EntityRecord, Sprint as SprintType } from '../../types/api';
-
 import {
     ArrowLeft,
     Target,
@@ -10,28 +9,26 @@ import {
     Trash2,
     TrendingUp,
     TrendingDown,
-    Minus,
     CheckCircle2,
     XCircle,
     AlertCircle,
     RefreshCw,
     Pause,
     Rocket,
-    Award,
-    Zap,
-    Kanban, Plus, Check
+    Plus,
+    Check,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { Sprint, SprintMetric, SprintEvent, Increment } from '../../types/api';
+import {
+    EntityRecord,
+    Sprint,
+    SprintMetric,
+    SprintEvent,
+    Increment,
+} from '../../types/api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import './SprintDetailPage.css';
-
-interface SprintDetailPageProps {
-    sprintId: string;
-    sprintName: string;
-    onBack: () => void;
-}
 
 type Tab = 'overview' | 'tasks' | 'metrics' | 'increments' | 'events';
 type EventType =
@@ -41,6 +38,7 @@ type EventType =
     | 'PIVOT'
     | 'PAUSE'
     | 'BREAKTHROUGH';
+
 const METRIC_TYPE_ICONS: Record<string, LucideIcon> = {
     INCREASE: TrendingUp,
     DECREASE: TrendingDown,
@@ -56,17 +54,16 @@ const EVENT_ICONS: Record<EventType, { icon: LucideIcon; label: string; cls: str
     BREAKTHROUGH: { icon: Rocket, label: 'Прорыв', cls: 'event-breakthrough' },
 };
 
-export default function SprintDetailPage({
-    sprintId,
-    sprintName,
-    onBack,
-}: SprintDetailPageProps) {
+export default function SprintDetailPage() {
+    const { sprintId } = useParams<{ sprintId: string }>();
+    const navigate = useNavigate();
     const [sprint, setSprint] = useState<Sprint | null>(null);
     const [tab, setTab] = useState<Tab>('overview');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     const load = async () => {
+        if (!sprintId) return;
         setLoading(true);
         try {
             const data = await api.getSprint(sprintId);
@@ -99,7 +96,7 @@ export default function SprintDetailPage({
 
     return (
         <div className="sprint-detail">
-            <button className="sprint-detail-back" onClick={onBack}>
+            <button className="sprint-detail-back" onClick={() => navigate('..')}>
                 <ArrowLeft size={16} />
                 Назад к спринтам
             </button>
@@ -161,25 +158,23 @@ export default function SprintDetailPage({
 
             {/* Контент */}
             {tab === 'overview' && (
-                <SprintOverview sprint={sprint} metrics={metrics} />
+                <SprintOverview metrics={metrics} />
             )}
             {tab === 'tasks' && (
                 <SprintTasksTab
-                    sprintId={sprintId}
+                    sprintId={sprintId!}
                     projectId={sprint.projectId}
                     onReload={load}
                 />
             )}
             {tab === 'metrics' && (
-                <MetricsTab sprintId={sprintId} metrics={metrics} onReload={load} />
+                <MetricsTab sprintId={sprintId!} metrics={metrics} onReload={load} />
             )}
-
             {tab === 'increments' && (
-                <IncrementsTab sprintId={sprintId} increments={increments} onReload={load} />
+                <IncrementsTab sprintId={sprintId!} increments={increments} onReload={load} />
             )}
-
             {tab === 'events' && (
-                <EventsTab sprintId={sprintId} events={events} onReload={load} />
+                <EventsTab sprintId={sprintId!} events={events} onReload={load} />
             )}
         </div>
     );
@@ -190,10 +185,8 @@ export default function SprintDetailPage({
 // ═══════════════════════════════════════════════════════════════
 
 function SprintOverview({
-    sprint,
     metrics,
 }: {
-    sprint: Sprint;
     metrics: SprintMetric[];
 }) {
     const achieved = metrics.filter((m) => m.isAchieved).length;
@@ -322,7 +315,13 @@ function MetricsTab({
                     <div className="metrics-form-row">
                         <div className="metrics-form-field">
                             <label className="metrics-form-label">Тип</label>
-                            <select className="metrics-form-select" value={metricType} onChange={(e) => setMetricType(e.target.value as any)}>
+                            <select
+                                className="metrics-form-select"
+                                value={metricType}
+                                onChange={(e) =>
+                                    setMetricType(e.target.value as 'INCREASE' | 'DECREASE' | 'TARGET')
+                                }
+                            >
                                 <option value="INCREASE">Увеличить</option>
                                 <option value="DECREASE">Уменьшить</option>
                                 <option value="TARGET">Достичь</option>
@@ -488,8 +487,6 @@ function EventsTab({
     onReload: () => void;
 }) {
     const [showForm, setShowForm] = useState(false);
-
-
     const [type, setType] = useState<EventType>('SUCCESS');
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
@@ -767,7 +764,6 @@ function SprintTaskPicker({
         api
             .getRecords(activeEntityId, { page: 1, limit: 500 })
             .then((res) => {
-                // показываем только задачи без спринта
                 const backlog = res.records.filter(
                     (r) => !r.data.sprintId || r.data.sprintId === '',
                 );

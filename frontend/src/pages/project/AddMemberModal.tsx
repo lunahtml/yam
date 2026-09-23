@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { X, Search, UserPlus, Mail } from 'lucide-react';
 import { api } from '../../api/client';
 import { User } from '../../types/api';
-import Button from '../../components/Button';
+// import Button from '../../components/Button';
 import './AddMemberModal.css';
 
 interface AddMemberModalProps {

@@ -1,0 +1,242 @@
+/* frontend\src\pages\projects\ProfilePagecss */
+
+.profile-page {
+  padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.profile-back {
+  background: transparent;
+  border: none;
+  color: var(--cyan);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-back:hover {
+  color: var(--cyan-bright);
+}
+
+.profile-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 24px 0;
+}
+
+.profile-title-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px var(--accent-glow);
+  flex-shrink: 0;
+}
+
+.profile-loading,
+.profile-error {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.profile-error {
+  color: var(--error);
+}
+
+.profile-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.profile-avatar-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: 0 0 32px var(--accent-glow);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-email {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.profile-fields {
+  margin-bottom: 16px;
+}
+
+.profile-message {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.profile-message-error {
+  color: var(--error);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.profile-message-success {
+  color: var(--success);
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.profile-actions {
+  margin-top: 16px;
+}
+
+.profile-meta {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: monospace;
+}
+
+.profile-skills {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.profile-skills-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px 0;
+}
+
+.profile-skills-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+
+.profile-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-skill {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.profile-skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 12px;
+}
+
+.profile-skill-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-skill-type {
+  font-size: 10px;
+  padding: 2px 6px;
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--accent-bright);
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.profile-skill-level {
+  font-size: 12px;
+  color: var(--cyan);
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.profile-skill-bar {
+  height: 6px;
+  background: var(--bg-surface);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.profile-skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--cyan));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.profile-skill-meta {
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.profile-skill-clickable {
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.profile-skill-clickable:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+}

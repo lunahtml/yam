@@ -1,101 +1,89 @@
 //frontend/src/App.tsx
-import { useState } from 'react';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import VerifyPage from './pages/VerifyPage';
-import MainPage from './pages/MainPage';
-import ProjectLayout from './pages/project/ProjectLayout';
-import ProfilePage from './pages/ProfilePage';
-import InviteAcceptPage from './pages/InviteAcceptPage';
-type Screen =
-    | { name: 'login' }
-    | { name: 'register' }
-    | { name: 'verify'; token: string; mode: 'email' | 'login' }
-    | { name: 'main' }
-    | { name: 'project'; projectId: string; projectName: string }
-    | { name: 'profile' }
-    | { name: 'invite'; token: string };
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+// Layouts
+import AuthLayout from './layouts/AuthLayout';
+import PublicLayout from './layouts/PublicLayout';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// Public
+import LandingPage from './pages/public/LandingPage';
+
+// Auth
+import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
+import VerifyPage from './pages/auth/VerifyPage';
+
+// Invite
+import InviteAcceptPage from './pages/invite/InviteAcceptPage';
+
+// Projects
+import ProjectsListPage from './pages/projects/ProjectsListPage';
+import ProfilePage from './pages/projects/ProfilePage';
+
+// Project inner (старые страницы — пока подключим на время, потом перенесём)
+import ProjectLayout from './layouts/ProjectLayout';
+import OverviewPage from './pages/project/OverviewPage';
+import SprintsPage from './pages/project/SprintsPage';
+import SprintDetailPage from './pages/project/SprintDetailPage';
+import TasksPage from './pages/project/TasksPage';
+import ArtifactsPage from './pages/project/ArtifactsPage';
+import UtmPage from './pages/project/UtmPage';
+import MarketingPage from './pages/project/MarketingPage';
+import SeoPage from './pages/project/SeoPage';
+import ClientsPage from './pages/project/ClientsPage';
+import AnalyticsPage from './pages/project/AnalyticsPage';
+import ChartsPage from './pages/project/ChartsPage';
+import TeamPage from './pages/project/TeamPage';
+import SkillsPage from './pages/project/SkillsPage';
+import TagsPage from './pages/project/TagsPage';
+import SettingsPage from './pages/project/SettingsPage';
 
 export default function App() {
-    // const [screen, setScreen] = useState<Screen>({ name: 'login' });
-    const [screen, setScreen] = useState<Screen>(() => {
-        // Проверяем URL на /invite/:token
-        const match = window.location.pathname.match(/^\/invite\/([a-f0-9]+)$/);
-        if (match) {
-            return { name: 'invite', token: match[1] };
-        }
-
-        const isAuth = localStorage.getItem('isAuthenticated') === '1';
-        return isAuth ? { name: 'main' } : { name: 'login' };
-    });
     return (
-        <div style={{ minHeight: '100vh', background: 'var(--bg-base)' }}>
-            {screen.name === 'login' && (
-                <LoginPage
-                    onVerify={(token) =>
-                        setScreen({ name: 'verify', token, mode: 'login' })
-                    }
-                    onSuccess={() => {
-                        localStorage.setItem('isAuthenticated', '1');
-                        setScreen({ name: 'main' });
-                    }}
-                    onSwitchToRegister={() => setScreen({ name: 'register' })}
-                />
-            )}
+        <Routes>
+            {/* ═══════════════ PUBLIC ═══════════════ */}
+            <Route element={<PublicLayout />}>
+                <Route path="/" element={<LandingPage />} />
+            </Route>
 
-            {screen.name === 'register' && (
-                <RegisterPage
-                    onVerify={(token) =>
-                        setScreen({ name: 'verify', token, mode: 'email' })
-                    }
-                    onSwitchToLogin={() => setScreen({ name: 'login' })}
-                />
-            )}
+            {/* ═══════════════ AUTH ═══════════════ */}
+            <Route element={<AuthLayout />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/verify" element={<VerifyPage />} />
+            </Route>
 
-            {screen.name === 'verify' && (
-                <VerifyPage
-                    verificationToken={screen.token}
-                    mode={screen.mode}
-                    onSuccess={() => {
-                        localStorage.setItem('isAuthenticated', '1');
-                        setScreen({ name: 'main' });
-                    }}
-                />
-            )}
-            {screen.name === 'profile' && (
-                <ProfilePage onBack={() => setScreen({ name: 'main' })} />
-            )}
-            {screen.name === 'main' && (
-                <MainPage
-                    onOpenProject={(projectId, projectName) => {
-                        if (!projectId) return;
-                        setScreen({ name: 'project', projectId, projectName });
-                    }}
-                    onOpenProfile={() => setScreen({ name: 'profile' })}
-                    onLogout={() => {
-                        localStorage.clear();
-                        setScreen({ name: 'login' });
-                    }}
-                />
-            )}
+            {/* ═══════════════ INVITE ═══════════════ */}
+            <Route path="/invite/:token" element={<InviteAcceptPage />} />
 
-            {screen.name === 'project' && (
-                <ProjectLayout
-                    projectId={screen.projectId}
-                    projectName={screen.projectName}
-                    onBack={() => setScreen({ name: 'main' })}
-                />
-            )}
-            {screen.name === 'invite' && (
-                <InviteAcceptPage
-                    token={screen.token}
-                    onGoToLogin={() => setScreen({ name: 'login' })}
-                    onGoToProject={(projectId) => {
-                        window.history.replaceState({}, '', '/');
-                        setScreen({ name: 'project', projectId, projectName: '' });
-                    }}
-                />
-            )}
-        </div>
+            {/* ═══════════════ PROTECTED ═══════════════ */}
+            <Route element={<ProtectedRoute />}>
+                <Route path="/projects" element={<ProjectsListPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+
+                {/* ═══════════════ PROJECT INNER ═══════════════ */}
+                <Route path="/projects/:projectId" element={<ProjectLayout />}>
+                    <Route index element={<OverviewPage />} />
+                    <Route path="sprints" element={<SprintsPage />} />
+                    <Route path="sprints/:sprintId" element={<SprintDetailPage />} />
+                    <Route path="tasks" element={<TasksPage />} />
+                    <Route path="artifacts" element={<ArtifactsPage />} />
+                    <Route path="utm" element={<UtmPage />} />
+                    <Route path="marketing" element={<MarketingPage />} />
+                    <Route path="seo" element={<SeoPage />} />
+                    <Route path="clients" element={<ClientsPage />} />
+                    <Route path="analytics" element={<AnalyticsPage />} />
+                    <Route path="charts" element={<ChartsPage />} />
+                    <Route path="team" element={<TeamPage />} />
+                    <Route path="skills" element={<SkillsPage />} />
+                    <Route path="tags" element={<TagsPage />} />
+                    <Route path="settings" element={<SettingsPage />} />
+                </Route>
+            </Route>
+
+            {/* ═══════════════ FALLBACK ═══════════════ */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
     );
 }

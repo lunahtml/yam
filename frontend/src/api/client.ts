@@ -150,7 +150,7 @@ export const api = {
     getProjectsByWorkspace: (workspaceId: string) =>
         request<Project[]>(`/projects/workspace/${workspaceId}`),
 
-    getProject: (id: string) => request(`/projects/${id}`),
+    getProject: (id: string) => request<Project>(`/projects/${id}`),
 
     createOrganization: (name: string) =>
         request<Organization>('/organizations', {

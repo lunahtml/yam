@@ -3,384 +3,378 @@ yam/
 │
 ├── nginx/
 │   ├── nginx.conf ✅
-├── frontend/
-│   ├── Dockerfile ✅
-│   ├── package.json ✅
-│   ├── index.html ✅
-│   ├── vite.config.ts ✅
-│   ├── tsconfig.json ✅
-│   ├── src ✅
-        ├── main.tsx ✅
-        ├── vite-env.d.ts ✅
-        ├── App.tsx ✅
-        ├── api/
-        │   └── client.ts ✅
-        ├── components/
-        │   ├── Button.tsx ✅
-        │   ├── InfoPopup.tsx ✅
-        │   ├── Input.tsx ✅
-        │   └── Card.tsx ✅
-        │   └── Sidebar.tsx ✅
-        │   └── Layout.tsx ✅
-        ├── pages/
-        │   ├── InviteAcceptPage.tsx ✅
-        │   ├── InviteAcceptPage.css ✅
-        │   ├── ProfilePage.tsx ✅
-        │   ├── ProfilePage.css ✅
-        │   ├── MainPage.tsx ✅
-        │   ├── MainPage.css ✅
-        │   ├── LoginPage.tsx ✅
-        │   ├── RegisterPage.tsx ✅
-        │   ├── VerifyPage.tsx ✅
-        │   └── DashboardPage.tsx ✅
-        │   └── SkillDetailPopup.tsx ✅
-        │   └── SkillDetailPopup.css ✅
-        │   └── project/ ✅
-                  ├── AddMemberModal.tsx ✅
-                  ├── AddMemberModal.css ✅
-                  ├── TagsPage.tsx ✅
-                  ├── TagsPage.css ✅
-                  ├── SkillsPage.tsx ✅
-                  ├── SkillsPage.css ✅
-                  ├── SprintDetailPage.tsx ✅
-                  ├── SprintDetailPage.css ✅
-                  ├── SprintsPage.tsx ✅
-                  ├── SprintsPage.css ✅
-                  ├── ProjectLayout.tsx ✅
-                  ├── ProjectLayout.css ✅
-                  ├── OverviewPage.tsx ✅
-                  ├── OverviewPage.css ✅
-                  ├── TasksPage.tsx ✅
-                  ├── TasksPage.css ✅
-                  ├── SettingsPage.tsx ✅
-                  ├── SettingsPage.css ✅
-                  ├── ArtifactsPage.tsx    ✅
-                  ├── ArtifactsPage.css  ✅
-                  ├── UtmPage.tsx           ✅
-                  ├── UtmPage.css  ✅
-                  ├── MarketingPage.tsx  ✅
-                  ├── MarketingPage.css
-                  ├── SeoPage.tsx  ✅
-                  ├── SeoPage.css  ✅
-                  ├── ClientsPage.tsx  ✅
-                  ├── ClientsPage.css  ✅
-                  ├── AnalyticsPage.tsx  ✅
-                  ├── AnalyticsPage.css
-                  ├── ChartsPage.tsx  ✅
-                  ├── ChartsPage.css  ✅
-                  ├── TeamPage.tsx  ✅
-                  └── TeamPage.css  ✅
-        │   └── dashboard/ ✅
-        │       └── utm/  ✅
-        │               └── UtmPage.tsx  ✅
-        │               └── SourcesTab.tsx  ✅
-        │               └── MediumsTab.tsx  ✅
-        │               └── CampaignsTab.tsx  ✅
-        │               └── GeneratorTab.tsx  ✅
-        │               └── LinksTab.tsx  ✅
-        │               └── RulesTab.tsx  ✅
-        │       └── entities/  ✅
-        │               └── TaskQuickForm.tsx  ✅
-        │               └── ViewForm.tsx  ✅
-        │               └── ViewManager.tsx  ✅
-        │               └── KanbanView.tsx  ✅
-        │               └── EntitiesPage.tsx  ✅
-        │               └── FieldForm.tsx  ✅
-        │               └── FieldsManager.tsx  ✅
-        │               └── EntityDetailPage.tsx  ✅
-        │               └── RecordForm.tsx  ✅
-        │               └── RecordsTable.tsx  ✅
-        │       └── artifacts/  ✅
-        │               └── ArtifactForm.tsx  ✅
-        │               └── ArtifactsPage.tsx  ✅
-        │       └── marketing/  ✅
-        │           └── MarketingForm.tsx  ✅
-        │           └── MetricsTable.tsx  ✅
-        │           └── metricsConfig.ts  ✅
-        │       └── UtmPage.tsx ✅
-        │       └── AnalyticsPage.tsx ✅
-        │       └── ProjectsPage.tsx ✅
-        │       └── ClientsPage.tsx ✅
-        │       └── ChartsPage.tsx ✅
-        │       └── SeoPage.tsx ✅
-        │       └── TeamPage.tsx ✅
-        │       └── MarketingPage.tsx ✅
-        │       └── WorkspaceDetailPage.tsx ✅
-        │       └── ProjectDetailPage.tsx ✅
-        ├── styles/
-        │   └── global.css ✅
-        └── types/
-            └── api.ts ✅
+frontend/src/
 │
-└── backend/
-    ├── Dockerfile ✅
-    ├── package.json ✅
-    ├── tsconfig.json ✅
-    ├── .env ✅
-    ├── .env.docker ✅
-    ├── .dockerignore ✅
-    ├── prisma.config.ts ✅
+├── main.tsx                              ✅
+├── App.tsx                               ✅
+├── vite-env.d.ts                         ✅
+│
+├── api/
+│   └── client.ts                         ✅
+│
+├── types/
+│   └── api.ts                            ✅
+│
+├── styles/
+│   └── global.css                        ✅
+│
+├── components/
+│   ├── Button.tsx                        ✅
+│   ├── Card.tsx                          ✅
+│   ├── InfoPopup.tsx                     ✅
+│   ├── InfoPopup.css                     ✅
+│   ├── Input.tsx                         ✅
+│   └── ProtectedRoute.tsx                ✅
+│
+├── layouts/
+│   ├── AuthLayout.tsx                    ✅
+│   └── PublicLayout.tsx                  ✅
+│   └── ProjectLayout.tsx                  ✅
+│   └── ProjectLayout.css                  ✅
+│
+├── features/
+│   ├── artifacts/
+│   │   ├── ArtifactForm.tsx              ✅
+│   ├── entities/
+│   │   ├── EntityDetailPage.tsx          ✅
+│   │   ├── EntityDetailPage.css          ✅
+│   │   ├── FieldForm.tsx                 ✅
+│   │   ├── FieldsManager.tsx             ✅
+│   │   ├── FieldsManager.css             ✅
+│   │   ├── KanbanView.tsx                ✅
+│   │   ├── KanbanView.css                ✅
+│   │   ├── RecordForm.tsx                ✅
+│   │   ├── RecordsTable.tsx              ✅
+│   │   ├── TaskDetailPopup.tsx           ✅
+│   │   ├── TaskDetailPopup.css           ✅
+│   │   ├── TaskQuickForm.tsx             ✅
+│   │   ├── TaskQuickForm.css             ✅
+│   │   ├── ViewForm.tsx                  ✅
+│   │   └── ViewsManager.tsx              ✅
+│   ├── marketing/
+│   │   ├── MarketingForm.tsx             ✅
+│   │   ├── MarketingForm.css             ✅
+│   │   ├── MetricsTable.tsx              ✅
+│   │   ├── MetricsTable.css              ✅
+│   │   └── metricsConfig.ts              ✅
+│   └── utm/
+│       ├── SourcesTab.tsx                ✅
+│       ├── SourcesTab.css                ✅
+│       ├── MediumsTab.tsx                ✅
+│       ├── MediumsTab.css                ✅
+│       ├── CampaignsTab.tsx              ✅
+│       ├── CampaignsTab.css              ✅
+│       ├── RulesTab.tsx                  ✅
+│       ├── RulesTab.css                  ✅
+│       ├── GeneratorTab.tsx              ✅
+│       ├── GeneratorTab.css              ✅
+│       ├── LinksTab.tsx                  ✅
+│       └── LinksTab.css                  ✅
+│
+└── pages/
+    ├── public/
+    │   └── LandingPage.tsx               ✅
+    ├── auth/
+    │   ├── LoginPage.tsx                 ✅
+    │   ├── RegisterPage.tsx              ✅
+    │   └── VerifyPage.tsx                ✅
+    ├── invite/
+    │   ├── InviteAcceptPage.tsx          ✅
+    │   └── InviteAcceptPage.css          ✅
+    ├── projects/
+    │   ├── ProjectsListPage.tsx          ✅
+    │   ├── ProjectsListPage.css          ✅
+    │   ├── ProfilePage.tsx               ✅
+    │   ├── ProfilePage.css               ✅
+    │   ├── SkillDetailPopup.tsx          ✅
+    │   └── SkillDetailPopup.css          ✅
+    └── project/
+        ├── ProjectLayout.tsx             ✅
+        ├── ProjectLayout.css             ✅
+        ├── AddMemberModal.tsx            ✅
+        ├── AddMemberModal.css            ✅
+        ├── OverviewPage.tsx              ✅
+        ├── OverviewPage.css              ✅
+        ├── SprintsPage.tsx               ✅
+        ├── SprintsPage.css               ✅
+        ├── SprintDetailPage.tsx          ✅
+        ├── SprintDetailPage.css          ✅
+        ├── TasksPage.tsx                 ✅
+        ├── TasksPage.css                 ✅
+        ├── ArtifactsPage.tsx             ✅
+        ├── ArtifactsPage.css             ✅
+        ├── UtmPage.tsx                   ✅
+        ├── UtmPage.css                   ✅
+        ├── MarketingPage.tsx             ✅
+        ├── MarketingPage.css             ✅
+        ├── SeoPage.tsx                   ✅
+        ├── SeoPage.css                   ✅
+        ├── ClientsPage.tsx               ✅
+        ├── ClientsPage.css               ✅
+        ├── AnalyticsPage.tsx             ✅
+        ├── AnalyticsPage.css             ✅
+        ├── ChartsPage.tsx                ✅
+        ├── ChartsPage.css                ✅
+        ├── TeamPage.tsx                  ✅
+        ├── TeamPage.css                  ✅
+        ├── SkillsPage.tsx                ✅
+        ├── SkillsPage.css                ✅
+        ├── TagsPage.tsx                  ✅
+        ├── TagsPage.css                  ✅
+        ├── SettingsPage.tsx              ✅
+        └── SettingsPage.css              ✅
+backend/src/
+│
+├── main.ts                                          ✅
+├── app.module.ts                                    ✅
+│
+├── config/
+│   └── env.schema.ts                                ✅
+│
+├── common/
+│   ├── decorators/
+│   │   ├── current-user.decorator.ts                ✅
+│   │   ├── current-user-id.decorator.ts             ✅
+│   │   └── public.decorator.ts                      ✅
+│   ├── filters/
+│   │   └── all-exceptions.filter.ts                 ✅
+│   ├── guards/
+│   │   └── jwt-auth.guard.ts                        ✅
+│   ├── interceptors/                                ⬜
+│   ├── pipes/
+│   │   └── zod-validation.pipe.ts                   ✅
+│   ├── services/
+│   │   ├── membership.module.ts                     ✅
+│   │   └── membership.service.ts                    ✅
+│   └── types/
+│       ├── authenticated-user.type.ts               ✅
+│       ├── device-info.type.ts                      ✅
+│       └── roles.type.ts                            ✅
+│
+├── infra/
+│   ├── email/
+│   │   ├── email.service.ts                         ✅
+│   │   └── templates/
+│   │       └── project-invitation.hbs               ✅
+│   ├── prisma/
+│   │   ├── prisma.module.ts                         ✅
+│   │   └── prisma.service.ts                        ✅
+│   ├── queue/                                       ⬜
+│   └── redis/                                       ⬜
+│
+└── modules/
     │
-    ├── prisma/
-    │   ├── schema.prisma ✅
-    │   └── migrations/ ✅ (пустая)
+    ├── artifacts/
+    │   ├── artifacts.controller.ts                  ✅
+    │   ├── artifacts.module.ts                      ✅
+    │   ├── contracts/
+    │   │   ├── create-artifact.dto.ts               ✅
+    │   │   └── update-artifact.dto.ts               ✅
+    │   └── services/
+    │       └── artifacts.service.ts                 ✅
     │
-    └── src/
-        ├── main.ts ✅
-        ├── app.module.ts ✅
-        │
-        ├── config/ 
-        │    ├── env.schema.ts ✅
-        ├── infra/
-        │    ├── prisma/
-        │       ├── prisma.module.ts ✅
-        │       └── prisma.service.ts ✅
-        │    ├── redis/
-        │    ├── queue/
-        │    ├── email/
-        │       ├── email.service.ts ✅
-        │       ├── templates/
-        │           ├── project-invitation.hbs ✅
-        │
-        ├── common/
-        │   ├── guards/ 
-        │       ├── jwt-auth.guard.ts ✅
-        │   ├── decorators/ 
-        │       ├── current-user.decorator.ts  ✅
-        │       ├── current-user-id.decorator.ts  ✅
-        │       ├── public.decorator.ts  ✅
-        │   ├── filters/ 
-        │       ├── all-exceptions.filter.ts ✅
-        │   ├── interceptors/ ⬜
-        │   ├── services/ 
-        │       ├── membership.service.ts  ✅
-        │       ├── membership.module.ts  ✅
-        │   └── pipes/ 
-        │       └── zod-validation.pipe.ts ✅
-        │   └── types/ 
-        │       └── device-info.type.ts ✅
-        │       └── roles.type.ts ✅
-        │       └── authenticated-user.type.ts ✅
-        │
-        ├── modules/
-        │   ├── marketing-dashboard/ ✅
-        │           ├── marketing-dashboard.controller.ts ✅
-        │           ├── marketing-dashboard.module.ts ✅
-        │           ├── contracts/✅
-        │               ├── update-dashboard.dto.ts✅
-        │               ├── create-dashboard.dto.ts✅
-        │           ├── services/ ✅
-        │               ├── marketing-dashboard.service.ts ✅
-        │               ├── excel-export.service.ts ✅
-        │   ├── auth/
-        │   │   ├── contracts/
-        │   │   │   ├── refresh.dto.ts ✅
-        │   │   │   ├── register.dto.ts ✅
-        │   │   │   ├── login.dto.ts ✅
-        │   │   │   ├── verify-email.dto.ts ✅
-        │   │   │   └── verify-login.dto.ts ✅
-        │   │   ├── services/
-        │   │       ├── auth.service.ts ✅
-        │   │       └── security.service.ts ✅
-        │   │   ├── strategies/
-        │   │   │   └── jwt.strategy.ts ✅
-        │   │   ├── auth.controller.ts ✅
-        │   │   ├── auth.module.ts ✅
-        │   │
-        │   ├── sessions/
-        │   │   ├── sessions.controller.ts ✅
-        │   │   ├── sessions.module.ts ✅
-        │   │   └── sessions.service.ts ✅
-        │   │
-        │   ├── invitations/
-        │       ├── nvitations.controller.ts ✅
-        │       ├── nvitations.module.ts ✅
-        │       ├── contracts/
-        │           ├── create-invitation.dto.ts ✅
-        │       ├── services/
-        │           ├── invitations.service.ts ✅
-        │   ├── sprints/
-                ├── contracts/
-                │   ├── create-sprint.dto.ts ✅
-                │   ├── create-epic.dto.ts ✅
-                │   ├── update-sprint.dto.ts ✅
-                │   ├── create-metric.dto.ts ✅
-                │   ├── create-event.dto.ts ✅
-                │   └── create-increment.dto.ts ✅
-                ├── services/
-                │   ├── sprints.service.ts ✅
-                │   ├── epic.service.ts ✅
-                │   ├── metrics.service.ts ✅
-                │   ├── events.service.ts ✅
-                │   └── increments.service.ts ✅
-                ├── sprints.controller.ts ✅
-                ├── metrics.controller.ts ✅
-                ├── events.controller.ts ✅
-                ├── epic.controller.ts ✅
-                ├── increments.controller.ts ✅
-                └── sprints.module.ts ✅
-        │   ├── utm/
-        │       ├── utm.module.ts ✅
-        │       ├── sources.controller.ts ✅
-        │       ├── mediums.controller.ts ✅
-        │       ├── campaigns.controller.ts ✅
-        │       ├── rules.controller.ts ✅
-        │       ├── links.controller.ts ✅
-        │       ├── contracts/
-        │               ├── source.dto.ts ✅
-        │               ├── medium.dto.ts ✅
-        │               ├── campaign.dto.ts ✅
-        │               ├── rule.dto.ts ✅
-        │               ├── link.dto.ts ✅
-        │       ├── services/
-        │               ├── url-builder.service.ts ✅
-        │               ├── sources.service.ts ✅
-        │               ├── mediums.service.ts ✅
-        │               ├── campaigns.service.ts ✅
-        │               ├── rules.service.ts ✅
-        │               ├── links.service.ts ✅
-        │               ├── defaults.service.ts ✅
-        │   ├── artifacts/
-        │       ├── artifacts.controller.ts  ✅
-        │       ├── artifacts.module.ts  ✅
-        │       ├── contracts/
-        │               ├── create-artifact.dto.ts ✅
-        │               ├── update-artifact.dto.ts ✅
-        │       ├── services
-        │               ├── artifacts.service.ts ✅
-        │   ├── users/
-        │   │   ├── users.module.ts ✅
-        │   │   ├── contracts/
-        │   │     ├── update-user.dto.ts ✅
-        │   │   ├── services/
-        │   │     ├── users.service.ts ✅
-        │   │   └── users.controller.ts ✅
-        │   │
-        │   ├── organizations/
-                ├── contracts/
-                │   ├── create-organization.dto.ts ✅
-                │   └── update-organization.dto.ts ✅
-                ├── services/
-                │   └── organizations.service.ts ✅
-                ├── organizations.controller.ts ✅
-                └── organizations.module.ts ✅
-        │   │
-        │   ├── workspaces/
-                ├── contracts/
-                │   ├── create-workspace.dto.ts ✅
-                │   └── update-workspace.dto.ts ✅
-                ├── services/
-                │   └── workspaces.service.ts ✅
-                ├── workspaces.controller.ts ✅
-                └── workspaces.module.ts ✅
-        │   │
-        │   ├── projects/
-        │   │   ├── services/  ✅
-        │   │       ├── projects.service.ts  ✅
-        │   │   ├── contracts/  ✅
-        │   │       ├── create-project.dto.ts  ✅
-        │   │   └── projects.controller.ts ✅
-        │   │   └── projects.module.ts ✅
-        │   │
-        │   ├── teams/ ⬜
-        │   ├── roles/ ⬜
-        │   ├── members/
-        │       ├── members.controller.ts ✅
-        │       ├── members.module.ts ✅
-        │       ├── contracts/
-        │           ├── add-member.dto.ts ✅
-        │       ├── services/
-        │           ├── members.service.ts ✅
-        │   ├── categories/ 
-                ├── contracts/
-                │   ├── create-category.dto.ts ✅
-                │   └── update-category.dto.ts ⬜
-                ├── services/
-                │   └── categories.service.ts ✅
-                ├── categories.controller.ts ✅
-                └── categories.module.ts ✅
-        │   ├── tags/ 
-        │       ├── tags.controller.ts  ✅
-        │       ├── tags.module.ts  ✅
-        │       ├── contracts/ 
-        │           ├── create-tag.dto.ts  ✅
-        │       ├── services/ 
-        │           ├── tags.service.ts  ✅
-        │   ├── skills/ 
-        │       ├── skills.controller.ts  ✅
-        │       ├── user-skills.controller.ts  ✅
-        │       ├── skills.module.ts  ✅
-        │       ├── contracts/ 
-        │           ├── create-skill.dto.ts  ✅
-        │           ├── user-skill.dto.ts  ✅
-        │       ├── services/ 
-        │           ├── skills.service.ts  ✅
-        │           ├── user-skills.service.ts  ✅
-        │   ├── permissions/ ⬜
-        │   ├── entities/ 
-        │       ├── entities.controller.ts   ✅
-        │       ├── entities.module.ts   ✅
-        │       ├── templates/ 
-        │           ├── entity-templates.ts  ✅
-        │       ├── services/ 
-        │           ├── entities.service.ts  ✅
-        │       ├── contracts/ 
-        │           ├── create-entity.dto.ts ✅ 
-        │           ├── update-entity.dto.ts ✅ 
-        │   ├── fields/ 
-        │       ├── fields.controller.ts  ✅
-        │       ├── fields.module.ts  ✅
-        │       ├── services/ 
-        │           ├── fields.service.ts  ✅
-        │       ├── contracts/ 
-        │           ├── create-field.dto.ts  ✅ 
-        │           ├── update-field.dto.ts  ✅ 
-        │   ├── records/ 
-        │       ├── records.controller.ts  ✅
-        │       ├── records.module.ts  ✅
-        │       ├── contracts/ 
-        │           ├── create-record.dto.ts  ✅
-        │           ├── update-record.dto.ts  ✅
-        │           ├── list-records.dto.ts  ✅
-        │       ├── services/ 
-        │           ├── record-validator.service.ts  ✅
-        │           ├── records.service.ts  ✅
-        │           ├── record-index.service.ts  ✅
-        │       ├── field-types/ 
-        │           ├── field-type.registry.ts ✅
-        │   ├── workflows/ ⬜
-        │   ├── views/ 
-        │       ├── views.controller.ts ✅
-        │       ├── views.module.ts ✅
-        │       ├── services/ ✅
-        │           ├── views.service.ts ✅
-        │       ├── contracts/ ✅
-        │           ├── create-view.dto.ts ✅
-        │           ├── update-view.dto.ts ✅
-        │   ├── automations/ ⬜
-        │   ├── comments/ ⬜
-        │   ├── activity/ ⬜
-        │   ├── files/ ⬜
-        │   └── modules/ ⬜
-        │
-        ├── generated/
-        │   └── prisma/
-        │       ├── internal/
-        │       │   ├── class.ts ✅
-        │       │   ├── prismaNamespace.ts ✅
-        │       │   └── prismaNamespaceBrowser.tsx ✅
-        │       ├── models/  ✅  all models
-        │       ├── browser.ts ✅
-        │       ├── client.ts ✅
-        │       ├── enums.ts ✅
-        │       ├── models.ts ✅
-        │       └── commonInputTypes.ts ✅
-        │
-        └── shared/
-            ├── redis/ ⬜
-            ├── queue/ ⬜
-            └── utils/ ⬜
-
+    ├── auth/
+    │   ├── auth.controller.ts                       ✅
+    │   ├── auth.module.ts                           ✅
+    │   ├── contracts/
+    │   │   ├── login.dto.ts                         ✅
+    │   │   ├── refresh.dto.ts                       ✅
+    │   │   ├── register.dto.ts                      ✅
+    │   │   ├── verify-email.dto.ts                  ✅
+    │   │   └── verify-login.dto.ts                  ✅
+    │   ├── services/
+    │   │   ├── auth.service.ts                      ✅
+    │   │   └── security.service.ts                  ✅
+    │   └── strategies/
+    │       └── jwt.strategy.ts                      ✅
+    │
+    ├── categories/
+    │   ├── categories.controller.ts                 ✅
+    │   ├── categories.module.ts                     ✅
+    │   ├── contracts/
+    │   │   └── create-category.dto.ts               ✅
+    │   └── services/
+    │       └── categories.service.ts                ✅
+    │
+    ├── entities/
+    │   ├── entities.controller.ts                   ✅
+    │   ├── entities.module.ts                       ✅
+    │   ├── contracts/
+    │   │   ├── create-entity.dto.ts                 ✅
+    │   │   └── update-entity.dto.ts                 ✅
+    │   ├── services/
+    │   │   └── entities.service.ts                  ✅
+    │   └── templates/
+    │       └── entity-templates.ts                  ✅
+    │
+    ├── fields/
+    │   ├── fields.controller.ts                     ✅
+    │   ├── fields.module.ts                         ✅
+    │   ├── contracts/
+    │   │   ├── create-field.dto.ts                  ✅
+    │   │   └── update-field.dto.ts                  ✅
+    │   └── services/
+    │       └── fields.service.ts                    ✅
+    │
+    ├── invitations/
+    │   ├── invitations.controller.ts                ✅
+    │   ├── invitations.module.ts                    ✅
+    │   ├── contracts/
+    │   │   └── create-invitation.dto.ts             ✅
+    │   └── services/
+    │       └── invitations.service.ts               ✅
+    │
+    ├── marketing-dashboard/
+    │   ├── marketing-dashboard.controller.ts        ✅
+    │   ├── marketing-dashboard.module.ts            ✅
+    │   ├── contracts/
+    │   │   ├── create-dashboard.dto.ts              ✅
+    │   │   └── update-dashboard.dto.ts              ✅
+    │   └── services/
+    │       ├── excel-export.service.ts              ✅
+    │       └── marketing-dashboard.service.ts       ✅
+    │
+    ├── members/
+    │   ├── members.controller.ts                    ✅
+    │   ├── members.module.ts                        ✅
+    │   ├── contracts/
+    │   │   └── add-member.dto.ts                    ✅
+    │   └── services/
+    │       └── members.service.ts                   ✅
+    │
+    ├── organizations/
+    │   ├── organizations.controller.ts              ✅
+    │   ├── organizations.module.ts                  ✅
+    │   ├── contracts/
+    │   │   ├── create-organization.dto.ts           ✅
+    │   │   └── update-organization.dto.ts           ✅
+    │   └── services/
+    │       └── organizations.service.ts             ✅
+    │
+    ├── projects/
+    │   ├── projects.controller.ts                   ✅
+    │   ├── projects.module.ts                       ✅
+    │   ├── contracts/
+    │   │   └── create-project.dto.ts                ✅
+    │   └── services/
+    │       └── projects.service.ts                  ✅
+    │
+    ├── records/
+    │   ├── records.controller.ts                    ✅
+    │   ├── records.module.ts                        ✅
+    │   ├── contracts/
+    │   │   ├── create-record.dto.ts                 ✅
+    │   │   ├── list-records.dto.ts                  ✅
+    │   │   └── update-record.dto.ts                 ✅
+    │   ├── field-types/
+    │   │   └── field-type.registry.ts               ✅
+    │   └── services/
+    │       ├── record-index.service.ts              ✅
+    │       ├── records.service.ts                   ✅
+    │       └── record-validator.service.ts          ✅
+    │
+    ├── sessions/
+    │   ├── sessions.controller.ts                   ✅
+    │   ├── sessions.module.ts                       ✅
+    │   └── sessions.service.ts                      ✅
+    │
+    ├── skills/
+    │   ├── skills.controller.ts                     ✅
+    │   ├── skills.module.ts                         ✅
+    │   ├── user-skills.controller.ts                ✅
+    │   ├── contracts/
+    │   │   ├── create-skill.dto.ts                  ✅
+    │   │   └── user-skill.dto.ts                    ✅
+    │   └── services/
+    │       ├── skills.service.ts                    ✅
+    │       └── user-skills.service.ts               ✅
+    │
+    ├── sprints/
+    │   ├── epics.controller.ts                      ✅
+    │   ├── events.controller.ts                     ✅
+    │   ├── increments.controller.ts                 ✅
+    │   ├── metrics.controller.ts                    ✅
+    │   ├── sprints.controller.ts                    ✅
+    │   ├── sprints.module.ts                        ✅
+    │   ├── contracts/
+    │   │   ├── create-epic.dto.ts                   ✅
+    │   │   ├── create-event.dto.ts                  ✅
+    │   │   ├── create-increment.dto.ts              ✅
+    │   │   ├── create-metric.dto.ts                 ✅
+    │   │   ├── create-sprint.dto.ts                 ✅
+    │   │   └── update-sprint.dto.ts                 ✅
+    │   └── services/
+    │       ├── epics.service.ts                     ✅
+    │       ├── events.service.ts                    ✅
+    │       ├── increments.service.ts                ✅
+    │       ├── metrics.service.ts                   ✅
+    │       └── sprints.service.ts                   ✅
+    │
+    ├── tags/
+    │   ├── tags.controller.ts                       ✅
+    │   ├── tags.module.ts                           ✅
+    │   ├── contracts/
+    │   │   └── create-tag.dto.ts                    ✅
+    │   └── services/
+    │       └── tags.service.ts                      ✅
+    │
+    ├── users/
+    │   ├── users.controller.ts                      ✅
+    │   ├── users.module.ts                          ✅
+    │   ├── contracts/
+    │   │   └── update-user.dto.ts                   ✅
+    │   └── services/
+    │       └── users.service.ts                     ✅
+    │
+    ├── utm/
+    │   ├── campaigns.controller.ts                  ✅
+    │   ├── links.controller.ts                      ✅
+    │   ├── mediums.controller.ts                    ✅
+    │   ├── rules.controller.ts                      ✅
+    │   ├── sources.controller.ts                    ✅
+    │   ├── utm.module.ts                            ✅
+    │   ├── contracts/
+    │   │   ├── campaign.dto.ts                      ✅
+    │   │   ├── link.dto.ts                          ✅
+    │   │   ├── medium.dto.ts                        ✅
+    │   │   ├── rule.dto.ts                          ✅
+    │   │   └── source.dto.ts                        ✅
+    │   └── services/
+    │       ├── campaigns.service.ts                 ✅
+    │       ├── defaults.service.ts                  ✅
+    │       ├── links.service.ts                     ✅
+    │       ├── mediums.service.ts                   ✅
+    │       ├── rules.service.ts                     ✅
+    │       ├── sources.service.ts                   ✅
+    │       └── url-builder.service.ts               ✅
+    │
+    ├── views/
+    │   ├── views.controller.ts                      ✅
+    │   ├── views.module.ts                          ✅
+    │   ├── contracts/
+    │   │   ├── create-view.dto.ts                   ✅
+    │   │   └── update-view.dto.ts                   ✅
+    │   └── services/
+    │       └── views.service.ts                     ✅
+    │
+    ├── workspaces/
+    │   ├── workspaces.controller.ts                 ✅
+    │   ├── workspaces.module.ts                     ✅
+    │   ├── contracts/
+    │   │   ├── create-workspace.dto.ts              ✅
+    │   │   └── update-workspace.dto.ts              ✅
+    │   └── services/
+    │       └── workspaces.service.ts                ✅
+    │
+    ├── teams/                                       ⬜
+    ├── roles/                                       ⬜
+    ├── permissions/                                 ⬜
+    ├── workflows/                                   ⬜
+    ├── automations/                                 ⬜
+    ├── comments/                                    ⬜
+    ├── activity/                                    ⬜
+    ├── files/                                       ⬜
+    └── modules/                                     ⬜
 
 Воронка (конверсии)
 Метрика	Формула

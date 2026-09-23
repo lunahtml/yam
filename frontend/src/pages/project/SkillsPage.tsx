@@ -1,18 +1,17 @@
 //frontend/src/pages/project/SkillsPage.tsx
 import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { Plus, Trash2, Cpu, Heart, Sparkles } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { api } from '../../api/client';
 import { Skill, SkillType } from '../../types/api';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './SkillsPage.css';
 
-interface SkillsPageProps {
-    organizationId: string;
-}
-
-export default function SkillsPage({ organizationId }: SkillsPageProps) {
+export default function SkillsPage() {
+    const { organizationId } = useOutletContext<ProjectContext>();
     const [skills, setSkills] = useState<Skill[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -78,6 +77,10 @@ export default function SkillsPage({ organizationId }: SkillsPageProps) {
 
     const hardSkills = skills.filter((s) => s.type === 'HARD');
     const softSkills = skills.filter((s) => s.type === 'SOFT');
+
+    if (!organizationId) {
+        return <div className="skills-loading">Загрузка...</div>;
+    }
 
     return (
         <div className="skills-page">

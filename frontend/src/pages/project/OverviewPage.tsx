@@ -1,19 +1,14 @@
 //frontend/src/pages/project/OverviewPage.tsx
 import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { LayoutDashboard } from 'lucide-react';
 import { api } from '../../api/client';
 import { Entity } from '../../types/api';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './OverviewPage.css';
 
-interface OverviewPageProps {
-    projectId: string;
-    projectName: string;
-}
-
-export default function OverviewPage({
-    projectId,
-    projectName,
-}: OverviewPageProps) {
+export default function OverviewPage() {
+    const { projectId, projectName } = useOutletContext<ProjectContext>();
     const [entities, setEntities] = useState<Entity[]>([]);
     const [loading, setLoading] = useState(true);
 

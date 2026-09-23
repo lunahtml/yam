@@ -1,5 +1,6 @@
 //frontend/src/pages/project/SprintsPage.tsx
 import { useEffect, useState } from 'react';
+import { NavLink, useOutletContext } from 'react-router-dom';
 import {
     Plus,
     Target,
@@ -7,20 +8,14 @@ import {
     CheckCircle2,
     Clock,
     Rocket,
-    XCircle,
     Sparkles,
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import { api } from '../../api/client';
 import { Sprint } from '../../types/api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './SprintsPage.css';
-
-interface SprintsPageProps {
-    projectId: string;
-    onOpenSprint: (sprintId: string, sprintName: string) => void;
-}
 
 const STATUS_LABELS: Record<string, string> = {
     PLANNED: 'Запланирован',
@@ -36,10 +31,8 @@ const STATUS_COLORS: Record<string, string> = {
     CANCELLED: 'sprint-status-cancelled',
 };
 
-export default function SprintsPage({
-    projectId,
-    onOpenSprint,
-}: SprintsPageProps) {
+export default function SprintsPage() {
+    const { projectId } = useOutletContext<ProjectContext>();
     const [sprints, setSprints] = useState<Sprint[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -194,10 +187,10 @@ export default function SprintsPage({
                         const daysLeft = getDaysLeft(sprint);
 
                         return (
-                            <button
+                            <NavLink
                                 key={sprint.id}
+                                to={`sprints/${sprint.id}`}
                                 className="sprint-card"
-                                onClick={() => onOpenSprint(sprint.id, sprint.name)}
                             >
                                 <div className="sprint-card-header">
                                     <div className="sprint-card-number">
@@ -255,7 +248,7 @@ export default function SprintsPage({
                                         </span>
                                     </div>
                                 )}
-                            </button>
+                            </NavLink>
                         );
                     })}
                 </div>

@@ -1,17 +1,16 @@
 //frontend/src/pages/project/TeamPage.tsx
 import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { Users, Plus, Trash2 } from 'lucide-react';
 import { api } from '../../api/client';
 import { ProjectMember } from '../../types/api';
 import Button from '../../components/Button';
 import AddMemberModal from './AddMemberModal';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './TeamPage.css';
 
-interface TeamPageProps {
-    projectId: string;
-}
-
-export default function TeamPage({ projectId }: TeamPageProps) {
+export default function TeamPage() {
+    const { projectId } = useOutletContext<ProjectContext>();
     const [members, setMembers] = useState<ProjectMember[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');

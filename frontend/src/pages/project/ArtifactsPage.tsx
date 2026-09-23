@@ -1,14 +1,23 @@
-//frontend\src\pages\project\ArtifactsPage.tsx
+//frontend/src/pages/project/ArtifactsPage.tsx
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Link2, Globe, Smartphone, FileText, BarChart3, Video, Folder, Building2, Link as LinkIcon, Trash2, LucideIcon } from 'lucide-react';
+import { useOutletContext } from 'react-router-dom';
+import {
+    Link2,
+    Globe,
+    Smartphone,
+    FileText,
+    BarChart3,
+    Video,
+    Folder,
+    Building2,
+    Link as LinkIcon,
+    Trash2,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { api } from '../../api/client';
 import { Artifact, ArtifactType } from '../../types/api';
-import ArtifactForm from '../dashboard/artifacts/ArtifactForm';
-interface ArtifactsPageProps {
-    projectId: string;
-    projectName: string;
-    onBack?: () => void;
-}
+import ArtifactForm from '../../features/artifacts/ArtifactForm';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 
 const TYPE_LABELS: Record<
     ArtifactType,
@@ -24,11 +33,8 @@ const TYPE_LABELS: Record<
     CUSTOM: { label: 'Другое', icon: LinkIcon },
 };
 
-export default function ArtifactsPage({
-    projectId,
-    projectName,
-    onBack,
-}: ArtifactsPageProps) {
+export default function ArtifactsPage() {
+    const { projectId, projectName } = useOutletContext<ProjectContext>();
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [filter, setFilter] = useState<ArtifactType | 'ALL'>('ALL');
     const [loading, setLoading] = useState(false);
@@ -83,16 +89,6 @@ export default function ArtifactsPage({
 
     return (
         <div>
-            {onBack && (
-                <button
-                    onClick={onBack}
-                    className="artifacts-back"
-                >
-                    <ArrowLeft size={16} />
-                    Назад к проекту
-                </button>
-            )}
-
             <h1
                 style={{
                     fontSize: 28,

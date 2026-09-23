@@ -1,5 +1,6 @@
 //frontend/src/pages/project/TasksPage.tsx
 import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import {
     ListTodo,
     Plus,
@@ -12,27 +13,27 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { api } from '../../api/client';
 import { Entity, EntityTemplate } from '../../types/api';
-import EntityDetailPage from '../dashboard/entities/EntityDetailPage';
+import EntityDetailPage from '../../features/entities/EntityDetailPage';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './TasksPage.css';
 
-interface TasksPageProps {
-    projectId: string;
-}
+const TEMPLATE_ICONS: Record<string, LucideIcon> = {
+    task: ListTodo,
+    client: Users,
+    lead: Target,
+    order: Package,
+    content: FileText,
+};
 
-export default function TasksPage({ projectId }: TasksPageProps) {
+export default function TasksPage() {
+    const { projectId } = useOutletContext<ProjectContext>();
     const [entities, setEntities] = useState<Entity[]>([]);
     const [templates, setTemplates] = useState<EntityTemplate[]>([]);
     const [activeEntity, setActiveEntity] = useState<Entity | null>(null);
     const [loading, setLoading] = useState(true);
     const [showTemplates, setShowTemplates] = useState(false);
     const [error, setError] = useState('');
-    const TEMPLATE_ICONS: Record<string, LucideIcon> = {
-        task: ListTodo,
-        client: Users,
-        lead: Target,
-        order: Package,
-        content: FileText,
-    };
+
     const loadEntities = async () => {
         setLoading(true);
         try {
@@ -64,6 +65,7 @@ export default function TasksPage({ projectId }: TasksPageProps) {
             setError(err instanceof Error ? err.message : 'Failed to create');
         }
     };
+
     const handleDeleteEntity = async (id: string) => {
         if (
             !confirm(
@@ -82,6 +84,7 @@ export default function TasksPage({ projectId }: TasksPageProps) {
             setError(err instanceof Error ? err.message : 'Failed to delete');
         }
     };
+
     return (
         <div className="tasks-page">
             <div className="tasks-header">

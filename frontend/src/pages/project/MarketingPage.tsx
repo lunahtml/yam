@@ -1,8 +1,8 @@
 //frontend/src/pages/project/MarketingPage.tsx
 import { useState } from 'react';
 import { Megaphone, Calculator, BarChart3 } from 'lucide-react';
-import MarketingForm from '../dashboard/marketing/MarketingForm';
-import MetricsTable from '../dashboard/marketing/MetricsTable';
+import MarketingForm from '../../features/marketing/MarketingForm';
+import MetricsTable from '../../features/marketing/MetricsTable';
 import { DashboardForm, MarketingMetrics } from '../../types/api';
 import Button from '../../components/Button';
 import './MarketingPage.css';
@@ -43,11 +43,7 @@ const INITIAL: DashboardForm = {
     som: 0,
 };
 
-interface MarketingPageProps {
-    projectId?: string;
-}
-
-export default function MarketingPage(_props: MarketingPageProps) {
+export default function MarketingPage() {
     const [form, setForm] = useState<DashboardForm>(INITIAL);
     const [metrics, setMetrics] = useState<MarketingMetrics | null>(null);
 
