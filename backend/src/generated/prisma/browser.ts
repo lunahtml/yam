@@ -217,3 +217,8 @@ export type SkillEvidence = Prisma.SkillEvidenceModel
  * 
  */
 export type TaskComplexity = Prisma.TaskComplexityModel
+/**
+ * Model Invitation
+ * 
+ */
+export type Invitation = Prisma.InvitationModel

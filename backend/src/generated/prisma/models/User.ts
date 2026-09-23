@@ -221,6 +221,7 @@ export type UserWhereInput = {
   createdTags?: Prisma.TagListRelationFilter
   userSkills?: Prisma.UserSkillListRelationFilter
   createdEvidences?: Prisma.SkillEvidenceListRelationFilter
+  invitations?: Prisma.InvitationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -247,6 +248,7 @@ export type UserOrderByWithRelationInput = {
   createdTags?: Prisma.TagOrderByRelationAggregateInput
   userSkills?: Prisma.UserSkillOrderByRelationAggregateInput
   createdEvidences?: Prisma.SkillEvidenceOrderByRelationAggregateInput
+  invitations?: Prisma.InvitationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -276,6 +278,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdTags?: Prisma.TagListRelationFilter
   userSkills?: Prisma.UserSkillListRelationFilter
   createdEvidences?: Prisma.SkillEvidenceListRelationFilter
+  invitations?: Prisma.InvitationListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -330,6 +333,7 @@ export type UserCreateInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -356,6 +360,7 @@ export type UserUncheckedCreateInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUpdateInput = {
@@ -382,6 +387,7 @@ export type UserUpdateInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -408,6 +414,7 @@ export type UserUncheckedUpdateInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -708,6 +715,20 @@ export type UserUpdateOneWithoutCreatedEvidencesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedEvidencesInput, Prisma.UserUpdateWithoutCreatedEvidencesInput>, Prisma.UserUncheckedUpdateWithoutCreatedEvidencesInput>
 }
 
+export type UserCreateNestedOneWithoutInvitationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInvitationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitationsInput
+  upsert?: Prisma.UserUpsertWithoutInvitationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvitationsInput, Prisma.UserUpdateWithoutInvitationsInput>, Prisma.UserUncheckedUpdateWithoutInvitationsInput>
+}
+
 export type UserCreateWithoutOrganizationMembershipsInput = {
   id?: string
   email: string
@@ -731,6 +752,7 @@ export type UserCreateWithoutOrganizationMembershipsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutOrganizationMembershipsInput = {
@@ -756,6 +778,7 @@ export type UserUncheckedCreateWithoutOrganizationMembershipsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutOrganizationMembershipsInput = {
@@ -797,6 +820,7 @@ export type UserUpdateWithoutOrganizationMembershipsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrganizationMembershipsInput = {
@@ -822,6 +846,7 @@ export type UserUncheckedUpdateWithoutOrganizationMembershipsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutWorkspaceMembershipsInput = {
@@ -847,6 +872,7 @@ export type UserCreateWithoutWorkspaceMembershipsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutWorkspaceMembershipsInput = {
@@ -872,6 +898,7 @@ export type UserUncheckedCreateWithoutWorkspaceMembershipsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutWorkspaceMembershipsInput = {
@@ -913,6 +940,7 @@ export type UserUpdateWithoutWorkspaceMembershipsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkspaceMembershipsInput = {
@@ -938,6 +966,7 @@ export type UserUncheckedUpdateWithoutWorkspaceMembershipsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutProjectMembershipsInput = {
@@ -963,6 +992,7 @@ export type UserCreateWithoutProjectMembershipsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -988,6 +1018,7 @@ export type UserUncheckedCreateWithoutProjectMembershipsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -1029,6 +1060,7 @@ export type UserUpdateWithoutProjectMembershipsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -1054,6 +1086,7 @@ export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutCreatedRecordsInput = {
@@ -1079,6 +1112,7 @@ export type UserCreateWithoutCreatedRecordsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutCreatedRecordsInput = {
@@ -1104,6 +1138,7 @@ export type UserUncheckedCreateWithoutCreatedRecordsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutCreatedRecordsInput = {
@@ -1145,6 +1180,7 @@ export type UserUpdateWithoutCreatedRecordsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedRecordsInput = {
@@ -1170,6 +1206,7 @@ export type UserUncheckedUpdateWithoutCreatedRecordsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -1195,6 +1232,7 @@ export type UserCreateWithoutCommentsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -1220,6 +1258,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -1261,6 +1300,7 @@ export type UserUpdateWithoutCommentsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -1286,6 +1326,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutUploadedFilesInput = {
@@ -1311,6 +1352,7 @@ export type UserCreateWithoutUploadedFilesInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutUploadedFilesInput = {
@@ -1336,6 +1378,7 @@ export type UserUncheckedCreateWithoutUploadedFilesInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutUploadedFilesInput = {
@@ -1377,6 +1420,7 @@ export type UserUpdateWithoutUploadedFilesInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUploadedFilesInput = {
@@ -1402,6 +1446,7 @@ export type UserUncheckedUpdateWithoutUploadedFilesInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutActivityLogsInput = {
@@ -1427,6 +1472,7 @@ export type UserCreateWithoutActivityLogsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutActivityLogsInput = {
@@ -1452,6 +1498,7 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -1493,6 +1540,7 @@ export type UserUpdateWithoutActivityLogsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivityLogsInput = {
@@ -1518,6 +1566,7 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -1543,6 +1592,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -1568,6 +1618,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -1609,6 +1660,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -1634,6 +1686,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutEmailVerificationsInput = {
@@ -1659,6 +1712,7 @@ export type UserCreateWithoutEmailVerificationsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutEmailVerificationsInput = {
@@ -1684,6 +1738,7 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutEmailVerificationsInput = {
@@ -1725,6 +1780,7 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
@@ -1750,6 +1806,7 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutCreatedUtmLinksInput = {
@@ -1775,6 +1832,7 @@ export type UserCreateWithoutCreatedUtmLinksInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutCreatedUtmLinksInput = {
@@ -1800,6 +1858,7 @@ export type UserUncheckedCreateWithoutCreatedUtmLinksInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutCreatedUtmLinksInput = {
@@ -1841,6 +1900,7 @@ export type UserUpdateWithoutCreatedUtmLinksInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedUtmLinksInput = {
@@ -1866,6 +1926,7 @@ export type UserUncheckedUpdateWithoutCreatedUtmLinksInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutSprintEventsInput = {
@@ -1891,6 +1952,7 @@ export type UserCreateWithoutSprintEventsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutSprintEventsInput = {
@@ -1916,6 +1978,7 @@ export type UserUncheckedCreateWithoutSprintEventsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutSprintEventsInput = {
@@ -1957,6 +2020,7 @@ export type UserUpdateWithoutSprintEventsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSprintEventsInput = {
@@ -1982,6 +2046,7 @@ export type UserUncheckedUpdateWithoutSprintEventsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutIncrementsInput = {
@@ -2007,6 +2072,7 @@ export type UserCreateWithoutIncrementsInput = {
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutIncrementsInput = {
@@ -2032,6 +2098,7 @@ export type UserUncheckedCreateWithoutIncrementsInput = {
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutIncrementsInput = {
@@ -2073,6 +2140,7 @@ export type UserUpdateWithoutIncrementsInput = {
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIncrementsInput = {
@@ -2098,6 +2166,7 @@ export type UserUncheckedUpdateWithoutIncrementsInput = {
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutCreatedTagsInput = {
@@ -2123,6 +2192,7 @@ export type UserCreateWithoutCreatedTagsInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutCreatedTagsInput = {
@@ -2148,6 +2218,7 @@ export type UserUncheckedCreateWithoutCreatedTagsInput = {
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutCreatedTagsInput = {
@@ -2189,6 +2260,7 @@ export type UserUpdateWithoutCreatedTagsInput = {
   increments?: Prisma.IncrementUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedTagsInput = {
@@ -2214,6 +2286,7 @@ export type UserUncheckedUpdateWithoutCreatedTagsInput = {
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutUserSkillsInput = {
@@ -2239,6 +2312,7 @@ export type UserCreateWithoutUserSkillsInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutCreatedByInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutUserSkillsInput = {
@@ -2264,6 +2338,7 @@ export type UserUncheckedCreateWithoutUserSkillsInput = {
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutCreatedByInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutUserSkillsInput = {
@@ -2305,6 +2380,7 @@ export type UserUpdateWithoutUserSkillsInput = {
   increments?: Prisma.IncrementUpdateManyWithoutCreatedByNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserSkillsInput = {
@@ -2330,6 +2406,7 @@ export type UserUncheckedUpdateWithoutUserSkillsInput = {
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutCreatedByNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserCreateWithoutCreatedEvidencesInput = {
@@ -2355,6 +2432,7 @@ export type UserCreateWithoutCreatedEvidencesInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutCreatedByInput
   createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutCreatedEvidencesInput = {
@@ -2380,6 +2458,7 @@ export type UserUncheckedCreateWithoutCreatedEvidencesInput = {
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutCreatedByInput
   createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
   userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutCreatedEvidencesInput = {
@@ -2421,6 +2500,7 @@ export type UserUpdateWithoutCreatedEvidencesInput = {
   increments?: Prisma.IncrementUpdateManyWithoutCreatedByNestedInput
   createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedEvidencesInput = {
@@ -2446,6 +2526,127 @@ export type UserUncheckedUpdateWithoutCreatedEvidencesInput = {
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutCreatedByNestedInput
   createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
   userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+}
+
+export type UserCreateWithoutInvitationsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.UserStatus
+  organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
+  workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
+  projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
+  createdRecords?: Prisma.RecordCreateNestedManyWithoutCreatorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  uploadedFiles?: Prisma.FileCreateNestedManyWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  createdUtmLinks?: Prisma.UtmLinkCreateNestedManyWithoutCreatedByInput
+  sprintEvents?: Prisma.SprintEventCreateNestedManyWithoutCreatedByInput
+  increments?: Prisma.IncrementCreateNestedManyWithoutCreatedByInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutInvitationsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.UserStatus
+  organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
+  workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
+  projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+  createdRecords?: Prisma.RecordUncheckedCreateNestedManyWithoutCreatorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  uploadedFiles?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  createdUtmLinks?: Prisma.UtmLinkUncheckedCreateNestedManyWithoutCreatedByInput
+  sprintEvents?: Prisma.SprintEventUncheckedCreateNestedManyWithoutCreatedByInput
+  increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutCreatedByInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutInvitationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
+}
+
+export type UserUpsertWithoutInvitationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInvitationsInput, Prisma.UserUncheckedUpdateWithoutInvitationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitationsInput, Prisma.UserUncheckedCreateWithoutInvitationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInvitationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInvitationsInput, Prisma.UserUncheckedUpdateWithoutInvitationsInput>
+}
+
+export type UserUpdateWithoutInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
+  workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
+  projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
+  createdRecords?: Prisma.RecordUpdateManyWithoutCreatorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  uploadedFiles?: Prisma.FileUpdateManyWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  createdUtmLinks?: Prisma.UtmLinkUpdateManyWithoutCreatedByNestedInput
+  sprintEvents?: Prisma.SprintEventUpdateManyWithoutCreatedByNestedInput
+  increments?: Prisma.IncrementUpdateManyWithoutCreatedByNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
+  workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
+  projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+  createdRecords?: Prisma.RecordUncheckedUpdateManyWithoutCreatorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  uploadedFiles?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  createdUtmLinks?: Prisma.UtmLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+  sprintEvents?: Prisma.SprintEventUncheckedUpdateManyWithoutCreatedByNestedInput
+  increments?: Prisma.IncrementUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 
@@ -2469,6 +2670,7 @@ export type UserCountOutputType = {
   createdTags: number
   userSkills: number
   createdEvidences: number
+  invitations: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2487,6 +2689,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   createdTags?: boolean | UserCountOutputTypeCountCreatedTagsArgs
   userSkills?: boolean | UserCountOutputTypeCountUserSkillsArgs
   createdEvidences?: boolean | UserCountOutputTypeCountCreatedEvidencesArgs
+  invitations?: boolean | UserCountOutputTypeCountInvitationsArgs
 }
 
 /**
@@ -2604,6 +2807,13 @@ export type UserCountOutputTypeCountCreatedEvidencesArgs<ExtArgs extends runtime
   where?: Prisma.SkillEvidenceWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InvitationWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2629,6 +2839,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdTags?: boolean | Prisma.User$createdTagsArgs<ExtArgs>
   userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
   createdEvidences?: boolean | Prisma.User$createdEvidencesArgs<ExtArgs>
+  invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2682,6 +2893,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdTags?: boolean | Prisma.User$createdTagsArgs<ExtArgs>
   userSkills?: boolean | Prisma.User$userSkillsArgs<ExtArgs>
   createdEvidences?: boolean | Prisma.User$createdEvidencesArgs<ExtArgs>
+  invitations?: boolean | Prisma.User$invitationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2705,6 +2917,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdTags: Prisma.$TagPayload<ExtArgs>[]
     userSkills: Prisma.$UserSkillPayload<ExtArgs>[]
     createdEvidences: Prisma.$SkillEvidencePayload<ExtArgs>[]
+    invitations: Prisma.$InvitationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3124,6 +3337,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   createdTags<T extends Prisma.User$createdTagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userSkills<T extends Prisma.User$userSkillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdEvidences<T extends Prisma.User$createdEvidencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdEvidencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkillEvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invitations<T extends Prisma.User$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3911,6 +4125,30 @@ export type User$createdEvidencesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.SkillEvidenceScalarFieldEnum | Prisma.SkillEvidenceScalarFieldEnum[]
+}
+
+/**
+ * User.invitations
+ */
+export type User$invitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Invitation
+   */
+  select?: Prisma.InvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Invitation
+   */
+  omit?: Prisma.InvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvitationInclude<ExtArgs> | null
+  where?: Prisma.InvitationWhereInput
+  orderBy?: Prisma.InvitationOrderByWithRelationInput | Prisma.InvitationOrderByWithRelationInput[]
+  cursor?: Prisma.InvitationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InvitationScalarFieldEnum | Prisma.InvitationScalarFieldEnum[]
 }
 
 /**

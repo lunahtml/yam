@@ -125,6 +125,7 @@ model User {
     createdTags        Tag[]
     userSkills         UserSkill[]
     createdEvidences   SkillEvidence[]
+    invitations        Invitation[]
 
     @@map("users")
 }
@@ -172,6 +173,7 @@ model Project {
     increments       Increment[]
     epics            Epic[]
     taskComplexities TaskComplexity[]
+    invitations      Invitation[]
 
     @@index([workspaceId])
     @@map("projects")
@@ -1116,4 +1118,27 @@ model TaskComplexity {
     @@unique([recordId])
     @@index([projectId])
     @@map("task_complexities")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INVITATIONS
+// ═══════════════════════════════════════════════════════════════
+
+model Invitation {
+    id          String    @id @default(uuid(7)) @db.Uuid
+    projectId   String    @db.Uuid
+    email       String
+    role        String    @default("member")
+    token       String    @unique
+    invitedById String    @db.Uuid
+    expiresAt   DateTime
+    acceptedAt  DateTime?
+    createdAt   DateTime  @default(now())
+
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    invitedBy User    @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+    @@index([email])
+    @@map("invitations")
 }

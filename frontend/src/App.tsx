@@ -6,17 +6,28 @@ import VerifyPage from './pages/VerifyPage';
 import MainPage from './pages/MainPage';
 import ProjectLayout from './pages/project/ProjectLayout';
 import ProfilePage from './pages/ProfilePage';
+import InviteAcceptPage from './pages/InviteAcceptPage';
 type Screen =
     | { name: 'login' }
     | { name: 'register' }
     | { name: 'verify'; token: string; mode: 'email' | 'login' }
     | { name: 'main' }
     | { name: 'project'; projectId: string; projectName: string }
-    | { name: 'profile' };
+    | { name: 'profile' }
+    | { name: 'invite'; token: string };
 
 export default function App() {
-    const [screen, setScreen] = useState<Screen>({ name: 'login' });
+    // const [screen, setScreen] = useState<Screen>({ name: 'login' });
+    const [screen, setScreen] = useState<Screen>(() => {
+        // Проверяем URL на /invite/:token
+        const match = window.location.pathname.match(/^\/invite\/([a-f0-9]+)$/);
+        if (match) {
+            return { name: 'invite', token: match[1] };
+        }
 
+        const isAuth = localStorage.getItem('isAuthenticated') === '1';
+        return isAuth ? { name: 'main' } : { name: 'login' };
+    });
     return (
         <div style={{ minHeight: '100vh', background: 'var(--bg-base)' }}>
             {screen.name === 'login' && (
@@ -73,6 +84,16 @@ export default function App() {
                     projectId={screen.projectId}
                     projectName={screen.projectName}
                     onBack={() => setScreen({ name: 'main' })}
+                />
+            )}
+            {screen.name === 'invite' && (
+                <InviteAcceptPage
+                    token={screen.token}
+                    onGoToLogin={() => setScreen({ name: 'login' })}
+                    onGoToProject={(projectId) => {
+                        window.history.replaceState({}, '', '/');
+                        setScreen({ name: 'project', projectId, projectName: '' });
+                    }}
                 />
             )}
         </div>

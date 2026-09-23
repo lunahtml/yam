@@ -23,13 +23,21 @@ yam/
         │   └── Sidebar.tsx ✅
         │   └── Layout.tsx ✅
         ├── pages/
+        │   ├── InviteAcceptPage.tsx ✅
+        │   ├── InviteAcceptPage.css ✅
         │   ├── ProfilePage.tsx ✅
+        │   ├── ProfilePage.css ✅
         │   ├── MainPage.tsx ✅
+        │   ├── MainPage.css ✅
         │   ├── LoginPage.tsx ✅
         │   ├── RegisterPage.tsx ✅
         │   ├── VerifyPage.tsx ✅
         │   └── DashboardPage.tsx ✅
+        │   └── SkillDetailPopup.tsx ✅
+        │   └── SkillDetailPopup.css ✅
         │   └── project/ ✅
+                  ├── AddMemberModal.tsx ✅
+                  ├── AddMemberModal.css ✅
                   ├── TagsPage.tsx ✅
                   ├── TagsPage.css ✅
                   ├── SkillsPage.tsx ✅
@@ -132,6 +140,7 @@ yam/
         │    ├── email/
         │       ├── email.service.ts ✅
         │       ├── templates/
+        │           ├── project-invitation.hbs ✅
         │
         ├── common/
         │   ├── guards/ 
@@ -183,6 +192,13 @@ yam/
         │   │   ├── sessions.module.ts ✅
         │   │   └── sessions.service.ts ✅
         │   │
+        │   ├── invitations/
+        │       ├── nvitations.controller.ts ✅
+        │       ├── nvitations.module.ts ✅
+        │       ├── contracts/
+        │           ├── create-invitation.dto.ts ✅
+        │       ├── services/
+        │           ├── invitations.service.ts ✅
         │   ├── sprints/
                 ├── contracts/
                 │   ├── create-sprint.dto.ts ✅
@@ -268,6 +284,13 @@ yam/
         │   │
         │   ├── teams/ ⬜
         │   ├── roles/ ⬜
+        │   ├── members/
+        │       ├── members.controller.ts ✅
+        │       ├── members.module.ts ✅
+        │       ├── contracts/
+        │           ├── add-member.dto.ts ✅
+        │       ├── services/
+        │           ├── members.service.ts ✅
         │   ├── categories/ 
                 ├── contracts/
                 │   ├── create-category.dto.ts ✅

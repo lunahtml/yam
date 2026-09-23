@@ -149,7 +149,7 @@ export default function ProjectLayout({
             case 'charts':
                 return <ChartsPage />;
             case 'team':
-                return <TeamPage />;
+                return <TeamPage projectId={projectId} />;
             case 'tags':
                 if (!organizationId) {
                     return <div style={{ padding: 40, color: 'var(--text-muted)' }}>Загрузка...</div>;

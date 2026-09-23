@@ -29,7 +29,13 @@ export class UserSkillsController {
     ) {
         return this.userSkillsService.getUserSkills(currentUserId, userId);
     }
-
+    @Get(':id')
+    async getUserSkill(
+        @CurrentUserId() userId: string,
+        @Param('id') id: string,
+    ) {
+        return this.userSkillsService.getUserSkillById(userId, id);
+    }
     @Post(':id/evidence')
     async addEvidence(
         @CurrentUserId() userId: string,

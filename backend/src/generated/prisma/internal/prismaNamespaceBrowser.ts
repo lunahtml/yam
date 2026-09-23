@@ -90,7 +90,8 @@ export const ModelName = {
   Skill: 'Skill',
   UserSkill: 'UserSkill',
   SkillEvidence: 'SkillEvidence',
-  TaskComplexity: 'TaskComplexity'
+  TaskComplexity: 'TaskComplexity',
+  Invitation: 'Invitation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -722,6 +723,21 @@ export const TaskComplexityScalarFieldEnum = {
 } as const
 
 export type TaskComplexityScalarFieldEnum = (typeof TaskComplexityScalarFieldEnum)[keyof typeof TaskComplexityScalarFieldEnum]
+
+
+export const InvitationScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  invitedById: 'invitedById',
+  expiresAt: 'expiresAt',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum]
 
 
 export const SortOrder = {

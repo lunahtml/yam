@@ -24,6 +24,9 @@ let UserSkillsController = class UserSkillsController {
     async getUserSkills(currentUserId, userId) {
         return this.userSkillsService.getUserSkills(currentUserId, userId);
     }
+    async getUserSkill(userId, id) {
+        return this.userSkillsService.getUserSkillById(userId, id);
+    }
     async addEvidence(userId, id, data) {
         return this.userSkillsService.addEvidence(userId, id, data);
     }
@@ -42,6 +45,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserSkillsController.prototype, "getUserSkills", null);
+__decorate([
+    Get(':id'),
+    __param(0, CurrentUserId()),
+    __param(1, Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], UserSkillsController.prototype, "getUserSkill", null);
 __decorate([
     Post(':id/evidence'),
     __param(0, CurrentUserId()),

@@ -230,3 +230,13 @@
   align-items: center;
   gap: 4px;
 }
+
+.profile-skill-clickable {
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.profile-skill-clickable:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+}

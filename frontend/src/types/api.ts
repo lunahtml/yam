@@ -554,7 +554,7 @@ export interface Skill {
     categoryId: string | null;
     createdAt: string;
     updatedAt: string;
-    category?: { id: string; name: string; slug: string };
+    category?: { id: string; name: string; slug: string } | null;
 }
 
 export type EvidenceType =
@@ -576,6 +576,12 @@ export interface SkillEvidence {
     comment: string | null;
     createdById: string | null;
     createdAt: string;
+    createdBy?: {
+        id: string;
+        email: string;
+        name: string | null;
+        avatarUrl: string | null;
+    } | null;
 }
 
 export interface UserSkill {
@@ -592,7 +598,50 @@ export interface UserSkill {
     lastUsedAt: string | null;
     createdAt: string;
     updatedAt: string;
+    // skill?: Skill;
+    // context?: { id: string; name: string; slug: string } | null;
+    // evidences?: SkillEvidence[];
     skill?: Skill;
     context?: { id: string; name: string; slug: string } | null;
     evidences?: SkillEvidence[];
+}
+
+export interface ProjectMember {
+    id: string;
+    projectId: string;
+    userId: string;
+    role: string;
+    createdAt: string;
+    user: {
+        id: string;
+        email: string;
+        name: string | null;
+        avatarUrl: string | null;
+        status?: string;
+    };
+    skills?: {
+        id: string;
+        level: number;
+        levelLabel: string | null;
+        skill: { id: string; name: string; label: string; type: 'HARD' | 'SOFT' };
+    }[];
+}
+
+export interface Invitation {
+    id: string;
+    projectId: string;
+    email: string;
+    role: string;
+    token: string;
+    invitedById: string;
+    expiresAt: string;
+    acceptedAt: string | null;
+    createdAt: string;
+    project?: { id: string; name: string; workspaceId: string };
+    invitedBy?: {
+        id: string;
+        email: string;
+        name: string | null;
+        avatarUrl: string | null;
+    };
 }

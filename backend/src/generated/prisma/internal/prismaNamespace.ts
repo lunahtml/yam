@@ -436,7 +436,8 @@ export const ModelName = {
   Skill: 'Skill',
   UserSkill: 'UserSkill',
   SkillEvidence: 'SkillEvidence',
-  TaskComplexity: 'TaskComplexity'
+  TaskComplexity: 'TaskComplexity',
+  Invitation: 'Invitation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -452,7 +453,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink" | "view" | "sprint" | "sprintMetric" | "sprintEvent" | "increment" | "epic" | "tag" | "category" | "skill" | "userSkill" | "skillEvidence" | "taskComplexity"
+    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink" | "view" | "sprint" | "sprintMetric" | "sprintEvent" | "increment" | "epic" | "tag" | "category" | "skill" | "userSkill" | "skillEvidence" | "taskComplexity" | "invitation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3416,6 +3417,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Invitation: {
+      payload: Prisma.$InvitationPayload<ExtArgs>
+      fields: Prisma.InvitationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InvitationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InvitationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>
+        }
+        findFirst: {
+          args: Prisma.InvitationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InvitationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>
+        }
+        findMany: {
+          args: Prisma.InvitationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>[]
+        }
+        create: {
+          args: Prisma.InvitationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>
+        }
+        createMany: {
+          args: Prisma.InvitationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InvitationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>[]
+        }
+        delete: {
+          args: Prisma.InvitationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>
+        }
+        update: {
+          args: Prisma.InvitationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>
+        }
+        deleteMany: {
+          args: Prisma.InvitationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InvitationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InvitationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>[]
+        }
+        upsert: {
+          args: Prisma.InvitationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InvitationPayload>
+        }
+        aggregate: {
+          args: Prisma.InvitationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInvitation>
+        }
+        groupBy: {
+          args: Prisma.InvitationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InvitationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InvitationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InvitationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4070,6 +4145,21 @@ export const TaskComplexityScalarFieldEnum = {
 export type TaskComplexityScalarFieldEnum = (typeof TaskComplexityScalarFieldEnum)[keyof typeof TaskComplexityScalarFieldEnum]
 
 
+export const InvitationScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  invitedById: 'invitedById',
+  expiresAt: 'expiresAt',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -4587,6 +4677,7 @@ export type GlobalOmitConfig = {
   userSkill?: Prisma.UserSkillOmit
   skillEvidence?: Prisma.SkillEvidenceOmit
   taskComplexity?: Prisma.TaskComplexityOmit
+  invitation?: Prisma.InvitationOmit
 }
 
 /* Types for Logging */

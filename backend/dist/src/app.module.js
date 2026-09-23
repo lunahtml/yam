@@ -29,6 +29,8 @@ import { UsersModule } from './modules/users/users.module.js';
 import { CategoriesModule } from './modules/categories/categories.module.js';
 import { TagsModule } from './modules/tags/tags.module.js';
 import { SkillsModule } from './modules/skills/skills.module.js';
+import { MembersModule } from './modules/members/members.module.js';
+import { InvitationsModule } from './modules/invitations/invitations.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -58,6 +60,8 @@ AppModule = __decorate([
             CategoriesModule,
             TagsModule,
             SkillsModule,
+            MembersModule,
+            InvitationsModule,
         ],
         providers: [
             { provide: APP_GUARD, useClass: ThrottlerGuard },

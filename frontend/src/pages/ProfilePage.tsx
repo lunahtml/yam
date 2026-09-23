@@ -5,6 +5,7 @@ import { UserSkill } from '../types/api';
 import { api } from '../api/client';
 import { User } from '../types/api';
 import Input from '../components/Input';
+import SkillDetailPopup from './SkillDetailPopup';
 import Button from '../components/Button';
 import './ProfilePage.css';
 
@@ -21,6 +22,7 @@ export default function ProfilePage({ onBack }: ProfilePageProps) {
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const [skills, setSkills] = useState<UserSkill[]>([]);
+    const [openedSkillId, setOpenedSkillId] = useState<string | null>(null);
     const [skillsLoading, setSkillsLoading] = useState(true);
     // useEffect(() => {
     //     api
@@ -147,7 +149,11 @@ export default function ProfilePage({ onBack }: ProfilePageProps) {
                         ) : (
                             <div className="profile-skills-list">
                                 {skills.map((us) => (
-                                    <div key={us.id} className="profile-skill">
+                                    <div
+                                        key={us.id}
+                                        className="profile-skill profile-skill-clickable"
+                                        onClick={() => setOpenedSkillId(us.id)}
+                                    >
                                         <div className="profile-skill-header">
                                             <div className="profile-skill-name">
                                                 {us.skill?.label ?? 'Навык'}
@@ -183,6 +189,12 @@ export default function ProfilePage({ onBack }: ProfilePageProps) {
                         {user.createdAt && ` · Создан: ${new Date(user.createdAt).toLocaleDateString('ru-RU')}`}
                     </div>
                 </div>
+            )}
+            {openedSkillId && (
+                <SkillDetailPopup
+                    userSkillId={openedSkillId}
+                    onClose={() => setOpenedSkillId(null)}
+                />
             )}
         </div>
     );

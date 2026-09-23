@@ -36,6 +36,8 @@ import {
     SkillType,
     UserSkill,
     EvidenceType,
+    ProjectMember,
+    Invitation,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -65,7 +67,7 @@ async function request<T>(
             credentials: 'include',
             headers: { 'X-Requested-With': 'fetch' },
         });
-
+        console.log('[AUTH] Refresh attempt:', refreshRes.status);
         if (refreshRes.ok) {
             const retryRes = await fetch(`${API_BASE}${path}`, {
                 ...options,
@@ -78,11 +80,15 @@ async function request<T>(
             if (!retryRes.ok) {
                 throw new Error(retryData?.message || 'Request failed');
             }
+            console.log('[AUTH] Refresh OK, retrying:', path);
             return retryData;
         }
 
         // refresh тоже не прошёл — сессия реально кончилась (например, logout
         // на другом устройстве или refresh-токен истёк через 30 дней)
+        console.warn('[AUTH] Session expired, redirecting to login');
+        localStorage.removeItem('isAuthenticated');
+        window.location.href = '/';
         throw new Error('Session expired');
     }
 
@@ -690,7 +696,8 @@ export const api = {
 
     getUserSkills: (userId: string) =>
         request<UserSkill[]>(`/user-skills/user/${userId}`),
-
+    getUserSkill: (id: string) =>
+        request<UserSkill>(`/user-skills/${id}`),
     addSkillEvidence: (userSkillId: string, data: {
         type: EvidenceType;
         weight?: number;
@@ -714,4 +721,62 @@ export const api = {
 
     deleteUserSkill: (id: string) =>
         request<void>(`/user-skills/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // PROJECT MEMBERS
+    // ═══════════════════════════════════════════════════════════════
+
+    getProjectMembers: (projectId: string) =>
+        request<ProjectMember[]>(`/projects/${projectId}/members`),
+
+    addProjectMember: (projectId: string, data: {
+        userId: string;
+        role?: string;
+    }) =>
+        request<ProjectMember>(`/projects/${projectId}/members`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    updateProjectMemberRole: (projectId: string, memberId: string, role: string) =>
+        request<ProjectMember>(`/projects/${projectId}/members/${memberId}`, {
+            method: 'PUT',
+            body: JSON.stringify({ role }),
+        }),
+
+    removeProjectMember: (projectId: string, memberId: string) =>
+        request<void>(`/projects/${projectId}/members/${memberId}`, {
+            method: 'DELETE',
+        }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // INVITATIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    createInvitation: (projectId: string, data: {
+        email: string;
+        role?: string;
+    }) =>
+        request<Invitation>(`/projects/${projectId}/invitations`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getProjectInvitations: (projectId: string) =>
+        request<Invitation[]>(`/projects/${projectId}/invitations`),
+
+    getInvitationByToken: (token: string) =>
+        request<Invitation>(`/invitations/${token}`),
+
+    acceptInvitation: (token: string) =>
+        request<{ success: boolean; projectId: string; projectName: string }>(
+            `/invitations/${token}/accept`,
+            { method: 'POST' },
+        ),
+
+    deleteInvitation: (id: string) =>
+        request<void>(`/invitations/${id}`, { method: 'DELETE' }),
+
+
+
 };

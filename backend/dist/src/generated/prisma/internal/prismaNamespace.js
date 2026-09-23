@@ -106,7 +106,8 @@ export const ModelName = {
     Skill: 'Skill',
     UserSkill: 'UserSkill',
     SkillEvidence: 'SkillEvidence',
-    TaskComplexity: 'TaskComplexity'
+    TaskComplexity: 'TaskComplexity',
+    Invitation: 'Invitation'
 };
 /**
  * Enums
@@ -571,6 +572,17 @@ export const TaskComplexityScalarFieldEnum = {
     teamVotes: 'teamVotes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
+};
+export const InvitationScalarFieldEnum = {
+    id: 'id',
+    projectId: 'projectId',
+    email: 'email',
+    role: 'role',
+    token: 'token',
+    invitedById: 'invitedById',
+    expiresAt: 'expiresAt',
+    acceptedAt: 'acceptedAt',
+    createdAt: 'createdAt'
 };
 export const SortOrder = {
     asc: 'asc',

@@ -93,6 +93,33 @@ let EmailService = class EmailService {
             html: '<h1>Кто-то пытался зарегистрироваться с вашим email. Если это не вы — проигнорируйте.</h1>',
         });
     }
+    async sendProjectInvitation(email, projectName, inviterName, inviteUrl) {
+        const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: Arial, sans-serif; background: #0a0612; color: #f5f3ff; padding: 40px;">
+  <div style="max-width: 560px; margin: 0 auto; background: #130a20; padding: 32px; border-radius: 12px;">
+    <h1 style="font-size: 24px; margin: 0 0 16px 0;">🪄 YAM</h1>
+    <h2 style="font-size: 20px; margin: 0 0 16px 0;">Приглашение в проект</h2>
+    <p>Здравствуйте!</p>
+    <p><strong>${inviterName}</strong> приглашает вас в проект <strong>${projectName}</strong> на платформе YAM.</p>
+    <p style="margin: 24px 0;">
+      <a href="${inviteUrl}" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #a855f7, #22d3ee); color: #0a0612; text-decoration: none; border-radius: 8px; font-weight: 600;">Принять приглашение</a>
+    </p>
+    <p style="font-size: 12px; color: #8b7ba8;">Ссылка действительна 7 дней. Если это не вы — просто проигнорируйте письмо.</p>
+    <p style="font-size: 12px; color: #8b7ba8; margin-top: 24px;">YAM. You Are Magic.</p>
+  </div>
+</body>
+</html>
+`;
+        await this.transporter.sendMail({
+            from: 'YAM <no-reply@yam.local>',
+            to: email,
+            subject: `YAM — приглашение в проект «${projectName}»`,
+            html,
+        });
+    }
 };
 EmailService = __decorate([
     Injectable(),

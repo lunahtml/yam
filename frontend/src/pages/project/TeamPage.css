@@ -1,4 +1,15 @@
+/* frontend/src/pages/project/TeamPage.css */
+
 .team-page { padding: 0; }
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
 
 .team-title {
   font-size: 28px;
@@ -7,7 +18,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  margin: 0 0 32px 0;
+  margin: 0;
 }
 
 .team-title-icon {
@@ -22,18 +33,139 @@
   flex-shrink: 0;
 }
 
+.team-error {
+  color: var(--error);
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.team-loading,
 .team-empty {
   padding: 60px;
   text-align: center;
+  color: var(--text-muted);
   background: var(--bg-surface);
   border: 1px dashed var(--border);
   border-radius: 12px;
-  color: var(--text-muted);
 }
 
-.team-empty p { margin: 0 0 8px 0; }
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
 
-.team-hint {
-  font-size: 13px;
+.team-member {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.team-member-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.team-member-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.team-member-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.team-member-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.team-member-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team-member-email {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team-member-role {
+  font-size: 10px;
+  padding: 3px 8px;
+  background: var(--bg-elevated);
+  color: var(--cyan);
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.team-member-remove {
+  background: transparent;
+  border: none;
   color: var(--text-dim);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.team-member-remove:hover {
+  color: var(--error);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.team-member-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.team-skill-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: 12px;
+  font-size: 11px;
+}
+
+.team-skill-name {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.team-skill-level {
+  color: var(--accent-bright);
+  font-family: monospace;
+  font-weight: 700;
 }

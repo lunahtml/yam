@@ -46,6 +46,40 @@ let UserSkillsService = class UserSkillsService {
             },
         });
     }
+    async getUserSkillById(userId, id) {
+        const userSkill = await this.prisma.client.userSkill.findUnique({
+            where: { id },
+            select: { organizationId: true },
+        });
+        if (!userSkill) {
+            throw new NotFoundException('UserSkill not found');
+        }
+        await this.membership.assertOrganizationMember(userId, userSkill.organizationId);
+        return this.prisma.client.userSkill.findUnique({
+            where: { id },
+            include: {
+                skill: {
+                    select: {
+                        id: true,
+                        name: true,
+                        label: true,
+                        type: true,
+                        description: true,
+                        category: { select: { id: true, name: true } },
+                    },
+                },
+                context: { select: { id: true, name: true, slug: true } },
+                evidences: {
+                    orderBy: { createdAt: 'desc' },
+                    include: {
+                        createdBy: {
+                            select: { id: true, email: true, name: true, avatarUrl: true },
+                        },
+                    },
+                },
+            },
+        });
+    }
     async getOrCreate(targetUserId, skillId, organizationId, contextId) {
         const existing = await this.prisma.client.userSkill.findFirst({
             where: {
