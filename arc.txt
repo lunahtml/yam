@@ -89,6 +89,7 @@ frontend/src/
     │   ├── SkillDetailPopup.tsx          ✅
     │   └── SkillDetailPopup.css          ✅
     └── project/
+        ├── EpicsPage.tsx                 ✅
         ├── ProjectLayout.tsx             ✅
         ├── ProjectLayout.css             ✅
         ├── AddMemberModal.tsx            ✅

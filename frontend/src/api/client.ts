@@ -38,6 +38,8 @@ import {
     EvidenceType,
     ProjectMember,
     Invitation,
+    Epic,
+    EpicStatus,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -562,7 +564,40 @@ export const api = {
     deleteSprintEvent: (sprintId: string, id: string) =>
         request<void>(`/sprints/${sprintId}/events/${id}`, { method: 'DELETE' }),
 
+    // ═══════════════════════════════════════════════════════════════
+    // EPICS
+    // ═══════════════════════════════════════════════════════════════
 
+    createEpic: (projectId: string, data: {
+        name: string;
+        description?: string;
+        color?: string;
+        startDate?: string;
+        endDate?: string;
+    }) =>
+        request<Epic>(`/epics/project/${projectId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getEpics: (projectId: string) =>
+        request<Epic[]>(`/epics/project/${projectId}`),
+
+    updateEpic: (id: string, data: Partial<{
+        name: string;
+        description: string;
+        color: string;
+        status: EpicStatus;
+        startDate: string;
+        endDate: string;
+    }>) =>
+        request<Epic>(`/epics/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteEpic: (id: string) =>
+        request<void>(`/epics/${id}`, { method: 'DELETE' }),
     // ═══════════════════════════════════════════════════════════════
     // USERS
     // ═══════════════════════════════════════════════════════════════

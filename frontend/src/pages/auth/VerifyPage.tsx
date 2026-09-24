@@ -19,6 +19,16 @@ export default function VerifyPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const redirectAfterAuth = () => {
+        const pendingInvite = localStorage.getItem('pendingInviteToken');
+        if (pendingInvite) {
+            localStorage.removeItem('pendingInviteToken');
+            navigate(`/invite/${pendingInvite}`);
+        } else {
+            navigate('/projects');
+        }
+    };
+
     const handleVerify = async () => {
         setError('');
         setLoading(true);
@@ -27,14 +37,15 @@ export default function VerifyPage() {
             if (mode === 'email') {
                 await api.verifyEmail(verificationToken, code);
                 localStorage.removeItem('verificationToken');
-                navigate('/login');
+                localStorage.setItem('isAuthenticated', '1');
+                redirectAfterAuth();
                 return;
             }
 
             await api.verifyLogin(verificationToken, code);
             localStorage.removeItem('verificationToken');
             localStorage.setItem('isAuthenticated', '1');
-            navigate('/projects');
+            redirectAfterAuth();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Verification failed');
         } finally {

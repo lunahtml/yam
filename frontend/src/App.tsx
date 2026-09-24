@@ -21,7 +21,7 @@ import InviteAcceptPage from './pages/invite/InviteAcceptPage';
 import ProjectsListPage from './pages/projects/ProjectsListPage';
 import ProfilePage from './pages/projects/ProfilePage';
 
-// Project inner (старые страницы — пока подключим на время, потом перенесём)
+// Project inner
 import ProjectLayout from './layouts/ProjectLayout';
 import OverviewPage from './pages/project/OverviewPage';
 import SprintsPage from './pages/project/SprintsPage';
@@ -38,7 +38,7 @@ import TeamPage from './pages/project/TeamPage';
 import SkillsPage from './pages/project/SkillsPage';
 import TagsPage from './pages/project/TagsPage';
 import SettingsPage from './pages/project/SettingsPage';
-
+import EpicsPage from './pages/project/EpicsPage';
 export default function App() {
     return (
         <Routes>
@@ -66,6 +66,7 @@ export default function App() {
                 <Route path="/projects/:projectId" element={<ProjectLayout />}>
                     <Route index element={<OverviewPage />} />
                     <Route path="sprints" element={<SprintsPage />} />
+                    <Route path="epics" element={<EpicsPage />} />
                     <Route path="sprints/:sprintId" element={<SprintDetailPage />} />
                     <Route path="tasks" element={<TasksPage />} />
                     <Route path="artifacts" element={<ArtifactsPage />} />

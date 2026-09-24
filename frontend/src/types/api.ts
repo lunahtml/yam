@@ -492,7 +492,24 @@ export interface Increment {
     createdAt: string;
     createdBy?: { id: string; email: string; name: string | null };
 }
+// ═══════════════════════════════════════════════════════════════
+// EPICS
+// ═══════════════════════════════════════════════════════════════
 
+export type EpicStatus = 'OPEN' | 'IN_PROGRESS' | 'DONE' | 'CANCELLED';
+
+export interface Epic {
+    id: string;
+    projectId: string;
+    name: string;
+    description: string | null;
+    color: string | null;
+    status: EpicStatus;
+    startDate: string | null;
+    endDate: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
 // ═══════════════════════════════════════════════════════════════
 // CATEGORIES
 // ═══════════════════════════════════════════════════════════════

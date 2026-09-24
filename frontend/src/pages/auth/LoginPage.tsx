@@ -32,7 +32,14 @@ export default function LoginPage() {
 
             if (!res.requiresTwoFactor) {
                 localStorage.setItem('isAuthenticated', '1');
-                navigate('/projects');
+
+                const pendingInvite = localStorage.getItem('pendingInviteToken');
+                if (pendingInvite) {
+                    localStorage.removeItem('pendingInviteToken');
+                    navigate(`/invite/${pendingInvite}`);
+                } else {
+                    navigate('/projects');
+                }
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Login failed');

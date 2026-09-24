@@ -1,0 +1,159 @@
+/*frontend/src/pages/project/EpicsPage.css*/
+.epics-page {
+    padding: 0;
+}
+
+.epics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.epics-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+}
+
+.epics-title-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.epics-error {
+    color: var(--error);
+    margin-bottom: 16px;
+    font-size: 13px;
+    padding: 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+}
+
+.epics-form {
+    background: var(--bg-surface);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.epics-form-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.epics-form-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.epics-form-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.epics-loading,
+.epics-empty {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.epics-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.epic-card {
+    background: var(--bg-surface);
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.15s;
+}
+
+.epic-card:hover {
+    border-color: var(--border-bright);
+}
+
+.epic-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.epic-card-name {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.epic-card-status {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.epic-status-open { color: var(--cyan); border-color: var(--cyan); }
+.epic-status-progress { color: var(--accent); border-color: var(--accent); }
+.epic-status-done { color: var(--success); border-color: var(--success); }
+.epic-status-cancelled { color: var(--text-muted); }
+
+.epic-card-delete {
+    background: transparent;
+    border: none;
+    color: var(--error);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: background 0.15s;
+}
+
+.epic-card-delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.epic-card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.epic-card-dates {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+}

@@ -107,8 +107,20 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     async verifyEmail(
         @Body(new ZodValidationPipe(VerifyEmailSchema)) dto: VerifyEmailDto,
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response,
     ) {
-        return this.authService.verifyEmail(dto);
+        const result = await this.authService.verifyEmail(dto);
+
+        const deviceInfo = this.getDeviceInfo(req, res);
+        const tokens = await this.sessionsService.createSession(
+            result.userId,
+            deviceInfo,
+        );
+
+        this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+
+        return { success: true };
     }
 
     @Public()

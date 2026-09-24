@@ -34,6 +34,7 @@ export default function InviteAcceptPage() {
         if (!token) return;
 
         if (!isAuthenticated) {
+            localStorage.setItem('pendingInviteToken', token);
             navigate('/login');
             return;
         }

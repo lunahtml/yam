@@ -115,7 +115,7 @@ export class AuthService {
             data: { verifiedAt: new Date() },
         });
 
-        return { success: true };
+        return { success: true, userId };
     }
 
     async login(dto: LoginDto, deviceInfo: DeviceInfo) {

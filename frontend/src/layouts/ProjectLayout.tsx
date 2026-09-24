@@ -17,6 +17,7 @@ import {
     ArrowLeft,
     Sparkles,
     Tag,
+    Layers,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { api } from '../api/client';
@@ -38,6 +39,7 @@ interface MenuItem {
 const MENU: MenuItem[] = [
     { to: '', label: 'Обзор', icon: LayoutDashboard, end: true },
     { to: 'sprints', label: 'Спринты', icon: Rocket },
+    { to: 'epics', label: 'Эпики', icon: Layers },
     { to: 'tasks', label: 'Задачи', icon: ListTodo },
     { to: 'artifacts', label: 'Артефакты', icon: Link2 },
     { to: 'utm', label: 'UTM-метки', icon: Target },

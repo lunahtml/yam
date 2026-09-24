@@ -101,7 +101,7 @@ let AuthService = class AuthService {
             where: { id: verification.id },
             data: { verifiedAt: new Date() },
         });
-        return { success: true };
+        return { success: true, userId };
     }
     async login(dto, deviceInfo) {
         await this.security.checkBruteforce(dto.email, deviceInfo.ip);

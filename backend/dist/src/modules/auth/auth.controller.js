@@ -77,8 +77,12 @@ let AuthController = class AuthController {
     async register(dto) {
         return this.authService.register(dto);
     }
-    async verifyEmail(dto) {
-        return this.authService.verifyEmail(dto);
+    async verifyEmail(dto, req, res) {
+        const result = await this.authService.verifyEmail(dto);
+        const deviceInfo = this.getDeviceInfo(req, res);
+        const tokens = await this.sessionsService.createSession(result.userId, deviceInfo);
+        this.setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+        return { success: true };
     }
     async login(dto, req, res) {
         // БЫЛО: return this.authService.login(dto, this.getDeviceInfo(req, res));
@@ -141,8 +145,10 @@ __decorate([
     Post('verify-email'),
     HttpCode(HttpStatus.OK),
     __param(0, Body(new ZodValidationPipe(VerifyEmailSchema))),
+    __param(1, Req()),
+    __param(2, Res({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "verifyEmail", null);
 __decorate([
