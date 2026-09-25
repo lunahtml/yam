@@ -46,6 +46,7 @@ export type SprintMinAggregateOutputType = {
   status: $Enums.SprintStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  epicId: string | null
 }
 
 export type SprintMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type SprintMaxAggregateOutputType = {
   status: $Enums.SprintStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  epicId: string | null
 }
 
 export type SprintCountAggregateOutputType = {
@@ -74,6 +76,7 @@ export type SprintCountAggregateOutputType = {
   status: number
   createdAt: number
   updatedAt: number
+  epicId: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type SprintMinAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  epicId?: true
 }
 
 export type SprintMaxAggregateInputType = {
@@ -112,6 +116,7 @@ export type SprintMaxAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  epicId?: true
 }
 
 export type SprintCountAggregateInputType = {
@@ -126,6 +131,7 @@ export type SprintCountAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  epicId?: true
   _all?: true
 }
 
@@ -227,6 +233,7 @@ export type SprintGroupByOutputType = {
   status: $Enums.SprintStatus
   createdAt: Date
   updatedAt: Date
+  epicId: string | null
   _count: SprintCountAggregateOutputType | null
   _avg: SprintAvgAggregateOutputType | null
   _sum: SprintSumAggregateOutputType | null
@@ -264,10 +271,13 @@ export type SprintWhereInput = {
   status?: Prisma.EnumSprintStatusFilter<"Sprint"> | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFilter<"Sprint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Sprint"> | Date | string
+  epicId?: Prisma.UuidNullableFilter<"Sprint"> | string | null
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   metrics?: Prisma.SprintMetricListRelationFilter
   events?: Prisma.SprintEventListRelationFilter
   increments?: Prisma.IncrementListRelationFilter
+  epic?: Prisma.XOR<Prisma.EpicNullableScalarRelationFilter, Prisma.EpicWhereInput> | null
+  records?: Prisma.RecordListRelationFilter
 }
 
 export type SprintOrderByWithRelationInput = {
@@ -282,10 +292,13 @@ export type SprintOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  epicId?: Prisma.SortOrderInput | Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   metrics?: Prisma.SprintMetricOrderByRelationAggregateInput
   events?: Prisma.SprintEventOrderByRelationAggregateInput
   increments?: Prisma.IncrementOrderByRelationAggregateInput
+  epic?: Prisma.EpicOrderByWithRelationInput
+  records?: Prisma.RecordOrderByRelationAggregateInput
 }
 
 export type SprintWhereUniqueInput = Prisma.AtLeast<{
@@ -304,10 +317,13 @@ export type SprintWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumSprintStatusFilter<"Sprint"> | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFilter<"Sprint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Sprint"> | Date | string
+  epicId?: Prisma.UuidNullableFilter<"Sprint"> | string | null
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   metrics?: Prisma.SprintMetricListRelationFilter
   events?: Prisma.SprintEventListRelationFilter
   increments?: Prisma.IncrementListRelationFilter
+  epic?: Prisma.XOR<Prisma.EpicNullableScalarRelationFilter, Prisma.EpicWhereInput> | null
+  records?: Prisma.RecordListRelationFilter
 }, "id" | "projectId_number">
 
 export type SprintOrderByWithAggregationInput = {
@@ -322,6 +338,7 @@ export type SprintOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  epicId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SprintCountOrderByAggregateInput
   _avg?: Prisma.SprintAvgOrderByAggregateInput
   _max?: Prisma.SprintMaxOrderByAggregateInput
@@ -344,6 +361,7 @@ export type SprintScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumSprintStatusWithAggregatesFilter<"Sprint"> | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Sprint"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Sprint"> | Date | string
+  epicId?: Prisma.UuidNullableWithAggregatesFilter<"Sprint"> | string | null
 }
 
 export type SprintCreateInput = {
@@ -361,6 +379,8 @@ export type SprintCreateInput = {
   metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateInput = {
@@ -375,9 +395,11 @@ export type SprintUncheckedCreateInput = {
   status?: $Enums.SprintStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  epicId?: string | null
   metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUpdateInput = {
@@ -395,6 +417,8 @@ export type SprintUpdateInput = {
   metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateInput = {
@@ -409,9 +433,11 @@ export type SprintUncheckedUpdateInput = {
   status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateManyInput = {
@@ -426,6 +452,7 @@ export type SprintCreateManyInput = {
   status?: $Enums.SprintStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  epicId?: string | null
 }
 
 export type SprintUpdateManyMutationInput = {
@@ -453,6 +480,7 @@ export type SprintUncheckedUpdateManyInput = {
   status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SprintListRelationFilter = {
@@ -463,6 +491,11 @@ export type SprintListRelationFilter = {
 
 export type SprintOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type SprintNullableScalarRelationFilter = {
+  is?: Prisma.SprintWhereInput | null
+  isNot?: Prisma.SprintWhereInput | null
 }
 
 export type SprintProjectIdNumberCompoundUniqueInput = {
@@ -482,6 +515,7 @@ export type SprintCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  epicId?: Prisma.SortOrder
 }
 
 export type SprintAvgOrderByAggregateInput = {
@@ -500,6 +534,7 @@ export type SprintMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  epicId?: Prisma.SortOrder
 }
 
 export type SprintMinOrderByAggregateInput = {
@@ -514,6 +549,7 @@ export type SprintMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  epicId?: Prisma.SortOrder
 }
 
 export type SprintSumOrderByAggregateInput = {
@@ -567,6 +603,22 @@ export type SprintUncheckedUpdateManyWithoutProjectNestedInput = {
   deleteMany?: Prisma.SprintScalarWhereInput | Prisma.SprintScalarWhereInput[]
 }
 
+export type SprintCreateNestedOneWithoutRecordsInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutRecordsInput, Prisma.SprintUncheckedCreateWithoutRecordsInput>
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutRecordsInput
+  connect?: Prisma.SprintWhereUniqueInput
+}
+
+export type SprintUpdateOneWithoutRecordsNestedInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutRecordsInput, Prisma.SprintUncheckedCreateWithoutRecordsInput>
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutRecordsInput
+  upsert?: Prisma.SprintUpsertWithoutRecordsInput
+  disconnect?: Prisma.SprintWhereInput | boolean
+  delete?: Prisma.SprintWhereInput | boolean
+  connect?: Prisma.SprintWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SprintUpdateToOneWithWhereWithoutRecordsInput, Prisma.SprintUpdateWithoutRecordsInput>, Prisma.SprintUncheckedUpdateWithoutRecordsInput>
+}
+
 export type EnumSprintStatusFieldUpdateOperationsInput = {
   set?: $Enums.SprintStatus
 }
@@ -613,6 +665,48 @@ export type SprintUpdateOneRequiredWithoutIncrementsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SprintUpdateToOneWithWhereWithoutIncrementsInput, Prisma.SprintUpdateWithoutIncrementsInput>, Prisma.SprintUncheckedUpdateWithoutIncrementsInput>
 }
 
+export type SprintCreateNestedManyWithoutEpicInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutEpicInput, Prisma.SprintUncheckedCreateWithoutEpicInput> | Prisma.SprintCreateWithoutEpicInput[] | Prisma.SprintUncheckedCreateWithoutEpicInput[]
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutEpicInput | Prisma.SprintCreateOrConnectWithoutEpicInput[]
+  createMany?: Prisma.SprintCreateManyEpicInputEnvelope
+  connect?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+}
+
+export type SprintUncheckedCreateNestedManyWithoutEpicInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutEpicInput, Prisma.SprintUncheckedCreateWithoutEpicInput> | Prisma.SprintCreateWithoutEpicInput[] | Prisma.SprintUncheckedCreateWithoutEpicInput[]
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutEpicInput | Prisma.SprintCreateOrConnectWithoutEpicInput[]
+  createMany?: Prisma.SprintCreateManyEpicInputEnvelope
+  connect?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+}
+
+export type SprintUpdateManyWithoutEpicNestedInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutEpicInput, Prisma.SprintUncheckedCreateWithoutEpicInput> | Prisma.SprintCreateWithoutEpicInput[] | Prisma.SprintUncheckedCreateWithoutEpicInput[]
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutEpicInput | Prisma.SprintCreateOrConnectWithoutEpicInput[]
+  upsert?: Prisma.SprintUpsertWithWhereUniqueWithoutEpicInput | Prisma.SprintUpsertWithWhereUniqueWithoutEpicInput[]
+  createMany?: Prisma.SprintCreateManyEpicInputEnvelope
+  set?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  disconnect?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  delete?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  connect?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  update?: Prisma.SprintUpdateWithWhereUniqueWithoutEpicInput | Prisma.SprintUpdateWithWhereUniqueWithoutEpicInput[]
+  updateMany?: Prisma.SprintUpdateManyWithWhereWithoutEpicInput | Prisma.SprintUpdateManyWithWhereWithoutEpicInput[]
+  deleteMany?: Prisma.SprintScalarWhereInput | Prisma.SprintScalarWhereInput[]
+}
+
+export type SprintUncheckedUpdateManyWithoutEpicNestedInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutEpicInput, Prisma.SprintUncheckedCreateWithoutEpicInput> | Prisma.SprintCreateWithoutEpicInput[] | Prisma.SprintUncheckedCreateWithoutEpicInput[]
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutEpicInput | Prisma.SprintCreateOrConnectWithoutEpicInput[]
+  upsert?: Prisma.SprintUpsertWithWhereUniqueWithoutEpicInput | Prisma.SprintUpsertWithWhereUniqueWithoutEpicInput[]
+  createMany?: Prisma.SprintCreateManyEpicInputEnvelope
+  set?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  disconnect?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  delete?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  connect?: Prisma.SprintWhereUniqueInput | Prisma.SprintWhereUniqueInput[]
+  update?: Prisma.SprintUpdateWithWhereUniqueWithoutEpicInput | Prisma.SprintUpdateWithWhereUniqueWithoutEpicInput[]
+  updateMany?: Prisma.SprintUpdateManyWithWhereWithoutEpicInput | Prisma.SprintUpdateManyWithWhereWithoutEpicInput[]
+  deleteMany?: Prisma.SprintScalarWhereInput | Prisma.SprintScalarWhereInput[]
+}
+
 export type SprintCreateWithoutProjectInput = {
   id?: string
   name: string
@@ -627,6 +721,8 @@ export type SprintCreateWithoutProjectInput = {
   metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutProjectInput = {
@@ -640,9 +736,11 @@ export type SprintUncheckedCreateWithoutProjectInput = {
   status?: $Enums.SprintStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  epicId?: string | null
   metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutProjectInput = {
@@ -686,6 +784,95 @@ export type SprintScalarWhereInput = {
   status?: Prisma.EnumSprintStatusFilter<"Sprint"> | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFilter<"Sprint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Sprint"> | Date | string
+  epicId?: Prisma.UuidNullableFilter<"Sprint"> | string | null
+}
+
+export type SprintCreateWithoutRecordsInput = {
+  id?: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutSprintsInput
+  metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+}
+
+export type SprintUncheckedCreateWithoutRecordsInput = {
+  id?: string
+  projectId: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  epicId?: string | null
+  metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+}
+
+export type SprintCreateOrConnectWithoutRecordsInput = {
+  where: Prisma.SprintWhereUniqueInput
+  create: Prisma.XOR<Prisma.SprintCreateWithoutRecordsInput, Prisma.SprintUncheckedCreateWithoutRecordsInput>
+}
+
+export type SprintUpsertWithoutRecordsInput = {
+  update: Prisma.XOR<Prisma.SprintUpdateWithoutRecordsInput, Prisma.SprintUncheckedUpdateWithoutRecordsInput>
+  create: Prisma.XOR<Prisma.SprintCreateWithoutRecordsInput, Prisma.SprintUncheckedCreateWithoutRecordsInput>
+  where?: Prisma.SprintWhereInput
+}
+
+export type SprintUpdateToOneWithWhereWithoutRecordsInput = {
+  where?: Prisma.SprintWhereInput
+  data: Prisma.XOR<Prisma.SprintUpdateWithoutRecordsInput, Prisma.SprintUncheckedUpdateWithoutRecordsInput>
+}
+
+export type SprintUpdateWithoutRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutSprintsNestedInput
+  metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+}
+
+export type SprintUncheckedUpdateWithoutRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateWithoutMetricsInput = {
@@ -702,6 +889,8 @@ export type SprintCreateWithoutMetricsInput = {
   project: Prisma.ProjectCreateNestedOneWithoutSprintsInput
   events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutMetricsInput = {
@@ -716,8 +905,10 @@ export type SprintUncheckedCreateWithoutMetricsInput = {
   status?: $Enums.SprintStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  epicId?: string | null
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutMetricsInput = {
@@ -750,6 +941,8 @@ export type SprintUpdateWithoutMetricsInput = {
   project?: Prisma.ProjectUpdateOneRequiredWithoutSprintsNestedInput
   events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutMetricsInput = {
@@ -764,8 +957,10 @@ export type SprintUncheckedUpdateWithoutMetricsInput = {
   status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateWithoutEventsInput = {
@@ -782,6 +977,8 @@ export type SprintCreateWithoutEventsInput = {
   project: Prisma.ProjectCreateNestedOneWithoutSprintsInput
   metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutEventsInput = {
@@ -796,8 +993,10 @@ export type SprintUncheckedCreateWithoutEventsInput = {
   status?: $Enums.SprintStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  epicId?: string | null
   metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutEventsInput = {
@@ -830,6 +1029,8 @@ export type SprintUpdateWithoutEventsInput = {
   project?: Prisma.ProjectUpdateOneRequiredWithoutSprintsNestedInput
   metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutEventsInput = {
@@ -844,8 +1045,10 @@ export type SprintUncheckedUpdateWithoutEventsInput = {
   status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateWithoutIncrementsInput = {
@@ -862,6 +1065,8 @@ export type SprintCreateWithoutIncrementsInput = {
   project: Prisma.ProjectCreateNestedOneWithoutSprintsInput
   metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutIncrementsInput = {
@@ -876,8 +1081,10 @@ export type SprintUncheckedCreateWithoutIncrementsInput = {
   status?: $Enums.SprintStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  epicId?: string | null
   metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutIncrementsInput = {
@@ -910,6 +1117,8 @@ export type SprintUpdateWithoutIncrementsInput = {
   project?: Prisma.ProjectUpdateOneRequiredWithoutSprintsNestedInput
   metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutIncrementsInput = {
@@ -924,8 +1133,72 @@ export type SprintUncheckedUpdateWithoutIncrementsInput = {
   status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+}
+
+export type SprintCreateWithoutEpicInput = {
+  id?: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutSprintsInput
+  metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+}
+
+export type SprintUncheckedCreateWithoutEpicInput = {
+  id?: string
+  projectId: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+}
+
+export type SprintCreateOrConnectWithoutEpicInput = {
+  where: Prisma.SprintWhereUniqueInput
+  create: Prisma.XOR<Prisma.SprintCreateWithoutEpicInput, Prisma.SprintUncheckedCreateWithoutEpicInput>
+}
+
+export type SprintCreateManyEpicInputEnvelope = {
+  data: Prisma.SprintCreateManyEpicInput | Prisma.SprintCreateManyEpicInput[]
+  skipDuplicates?: boolean
+}
+
+export type SprintUpsertWithWhereUniqueWithoutEpicInput = {
+  where: Prisma.SprintWhereUniqueInput
+  update: Prisma.XOR<Prisma.SprintUpdateWithoutEpicInput, Prisma.SprintUncheckedUpdateWithoutEpicInput>
+  create: Prisma.XOR<Prisma.SprintCreateWithoutEpicInput, Prisma.SprintUncheckedCreateWithoutEpicInput>
+}
+
+export type SprintUpdateWithWhereUniqueWithoutEpicInput = {
+  where: Prisma.SprintWhereUniqueInput
+  data: Prisma.XOR<Prisma.SprintUpdateWithoutEpicInput, Prisma.SprintUncheckedUpdateWithoutEpicInput>
+}
+
+export type SprintUpdateManyWithWhereWithoutEpicInput = {
+  where: Prisma.SprintScalarWhereInput
+  data: Prisma.XOR<Prisma.SprintUpdateManyMutationInput, Prisma.SprintUncheckedUpdateManyWithoutEpicInput>
 }
 
 export type SprintCreateManyProjectInput = {
@@ -939,6 +1212,7 @@ export type SprintCreateManyProjectInput = {
   status?: $Enums.SprintStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  epicId?: string | null
 }
 
 export type SprintUpdateWithoutProjectInput = {
@@ -955,6 +1229,8 @@ export type SprintUpdateWithoutProjectInput = {
   metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutProjectInput = {
@@ -968,13 +1244,80 @@ export type SprintUncheckedUpdateWithoutProjectInput = {
   status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type SprintCreateManyEpicInput = {
+  id?: string
+  projectId: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SprintUpdateWithoutEpicInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutSprintsNestedInput
+  metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+}
+
+export type SprintUncheckedUpdateWithoutEpicInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+}
+
+export type SprintUncheckedUpdateManyWithoutEpicInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
   goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -995,12 +1338,14 @@ export type SprintCountOutputType = {
   metrics: number
   events: number
   increments: number
+  records: number
 }
 
 export type SprintCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   metrics?: boolean | SprintCountOutputTypeCountMetricsArgs
   events?: boolean | SprintCountOutputTypeCountEventsArgs
   increments?: boolean | SprintCountOutputTypeCountIncrementsArgs
+  records?: boolean | SprintCountOutputTypeCountRecordsArgs
 }
 
 /**
@@ -1034,6 +1379,13 @@ export type SprintCountOutputTypeCountIncrementsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.IncrementWhereInput
 }
 
+/**
+ * SprintCountOutputType without action
+ */
+export type SprintCountOutputTypeCountRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecordWhereInput
+}
+
 
 export type SprintSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1047,10 +1399,13 @@ export type SprintSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  epicId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   metrics?: boolean | Prisma.Sprint$metricsArgs<ExtArgs>
   events?: boolean | Prisma.Sprint$eventsArgs<ExtArgs>
   increments?: boolean | Prisma.Sprint$incrementsArgs<ExtArgs>
+  epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
+  records?: boolean | Prisma.Sprint$recordsArgs<ExtArgs>
   _count?: boolean | Prisma.SprintCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sprint"]>
 
@@ -1066,7 +1421,9 @@ export type SprintSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  epicId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
 }, ExtArgs["result"]["sprint"]>
 
 export type SprintSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1081,7 +1438,9 @@ export type SprintSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  epicId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
 }, ExtArgs["result"]["sprint"]>
 
 export type SprintSelectScalar = {
@@ -1096,21 +1455,26 @@ export type SprintSelectScalar = {
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  epicId?: boolean
 }
 
-export type SprintOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "name" | "number" | "goal" | "description" | "startDate" | "endDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["sprint"]>
+export type SprintOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "name" | "number" | "goal" | "description" | "startDate" | "endDate" | "status" | "createdAt" | "updatedAt" | "epicId", ExtArgs["result"]["sprint"]>
 export type SprintInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   metrics?: boolean | Prisma.Sprint$metricsArgs<ExtArgs>
   events?: boolean | Prisma.Sprint$eventsArgs<ExtArgs>
   increments?: boolean | Prisma.Sprint$incrementsArgs<ExtArgs>
+  epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
+  records?: boolean | Prisma.Sprint$recordsArgs<ExtArgs>
   _count?: boolean | Prisma.SprintCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SprintIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
 }
 export type SprintIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
 }
 
 export type $SprintPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1120,6 +1484,8 @@ export type $SprintPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     metrics: Prisma.$SprintMetricPayload<ExtArgs>[]
     events: Prisma.$SprintEventPayload<ExtArgs>[]
     increments: Prisma.$IncrementPayload<ExtArgs>[]
+    epic: Prisma.$EpicPayload<ExtArgs> | null
+    records: Prisma.$RecordPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1133,6 +1499,7 @@ export type $SprintPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     status: $Enums.SprintStatus
     createdAt: Date
     updatedAt: Date
+    epicId: string | null
   }, ExtArgs["result"]["sprint"]>
   composites: {}
 }
@@ -1531,6 +1898,8 @@ export interface Prisma__SprintClient<T, Null = never, ExtArgs extends runtime.T
   metrics<T extends Prisma.Sprint$metricsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$metricsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SprintMetricPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.Sprint$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SprintEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   increments<T extends Prisma.Sprint$incrementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$incrementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncrementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  epic<T extends Prisma.Sprint$epicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$epicArgs<ExtArgs>>): Prisma.Prisma__EpicClient<runtime.Types.Result.GetResult<Prisma.$EpicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  records<T extends Prisma.Sprint$recordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1571,6 +1940,7 @@ export interface SprintFieldRefs {
   readonly status: Prisma.FieldRef<"Sprint", 'SprintStatus'>
   readonly createdAt: Prisma.FieldRef<"Sprint", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Sprint", 'DateTime'>
+  readonly epicId: Prisma.FieldRef<"Sprint", 'String'>
 }
     
 
@@ -2041,6 +2411,49 @@ export type Sprint$incrementsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.IncrementScalarFieldEnum | Prisma.IncrementScalarFieldEnum[]
+}
+
+/**
+ * Sprint.epic
+ */
+export type Sprint$epicArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Epic
+   */
+  select?: Prisma.EpicSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Epic
+   */
+  omit?: Prisma.EpicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EpicInclude<ExtArgs> | null
+  where?: Prisma.EpicWhereInput
+}
+
+/**
+ * Sprint.records
+ */
+export type Sprint$recordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Record
+   */
+  select?: Prisma.RecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Record
+   */
+  omit?: Prisma.RecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecordInclude<ExtArgs> | null
+  where?: Prisma.RecordWhereInput
+  orderBy?: Prisma.RecordOrderByWithRelationInput | Prisma.RecordOrderByWithRelationInput[]
+  cursor?: Prisma.RecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecordScalarFieldEnum | Prisma.RecordScalarFieldEnum[]
 }
 
 /**

@@ -1,4 +1,4 @@
-//frontend\src\features\entities\KanbanView.tsx
+//frontend/src/features/entities/KanbanView.tsx
 import { useEffect, useState } from 'react';
 import {
     DndContext,
@@ -11,7 +11,7 @@ import {
     useDroppable,
     useDraggable,
 } from '@dnd-kit/core';
-import { Plus, Trash2, Clock, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, Clock, AlertCircle, Zap } from 'lucide-react';
 import { api } from '../../api/client';
 import { EntityRecord, Field } from '../../types/api';
 import TaskDetailPopup from './TaskDetailPopup';
@@ -22,6 +22,7 @@ interface KanbanViewProps {
     entityId: string;
     fields: Field[];
     config: Record<string, unknown>;
+    sprintId?: string | null;
 }
 
 interface KanbanColumn {
@@ -53,6 +54,7 @@ export default function KanbanView({
     entityId,
     fields,
     config,
+    sprintId,
 }: KanbanViewProps) {
     const [records, setRecords] = useState<EntityRecord[]>([]);
     const [loading, setLoading] = useState(true);
@@ -75,7 +77,16 @@ export default function KanbanView({
     const loadRecords = async () => {
         setLoading(true);
         try {
-            const res = await api.getRecords(entityId, { page: 1, limit: 500 });
+            const query: Parameters<typeof api.getRecords>[1] = {
+                page: 1,
+                limit: 500,
+            };
+
+            if (sprintId !== undefined) {
+                query.sprintId = sprintId === null ? 'null' : sprintId;
+            }
+
+            const res = await api.getRecords(entityId, query);
             setRecords(res.records);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load');
@@ -86,7 +97,7 @@ export default function KanbanView({
 
     useEffect(() => {
         loadRecords();
-    }, [entityId]);
+    }, [entityId, sprintId]);
 
     const columns: KanbanColumn[] = (() => {
         if (!groupFieldDef) return [{ key: 'all', label: 'Все записи' }];
@@ -172,7 +183,11 @@ export default function KanbanView({
 
     const handleQuickCreate = async (data: Record<string, unknown>) => {
         try {
-            await api.createRecord(entityId, data);
+            await api.createRecord(
+                entityId,
+                data,
+                sprintId !== undefined && sprintId !== null ? sprintId : undefined,
+            );
             setQuickCreateColumn(null);
             await loadRecords();
         } catch (err) {
@@ -211,7 +226,6 @@ export default function KanbanView({
         ? records.find((r) => r.id === activeId)
         : null;
 
-    // Счётчики
     const total = records.length;
     const inProgress = records.filter((r) => {
         const c = getRecordColumn(r);
@@ -260,7 +274,6 @@ export default function KanbanView({
                 </DragOverlay>
             </DndContext>
 
-            {/* Счётчики */}
             <div className="kanban-stats">
                 <div className="kanban-stat">
                     <span className="kanban-stat-label">Всего:</span>
@@ -279,7 +292,6 @@ export default function KanbanView({
                 </div>
             </div>
 
-            {/* Быстрая форма создания */}
             {quickCreateColumn && (
                 <TaskQuickForm
                     fields={fields}
@@ -292,7 +304,6 @@ export default function KanbanView({
                 />
             )}
 
-            {/* Попап карточки */}
             {openedRecord && (
                 <TaskDetailPopup
                     record={openedRecord}
@@ -451,6 +462,13 @@ function KanbanCard({
                     <span className="kanban-card-assignee">👤 {assignee}</span>
                 )}
             </div>
+
+            {record.sprint && (
+                <div className="kanban-card-sprint">
+                    <Zap size={10} />
+                    Спринт #{record.sprint.number}
+                </div>
+            )}
 
             {dueDate && (
                 <div

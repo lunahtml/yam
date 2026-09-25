@@ -8,5 +8,6 @@ export const UpdateSprintSchema = z.object({
     startDate: z.string().optional(),
     endDate: z.string().optional(),
     status: SprintStatusSchema.optional(),
+    epicId: z.string().uuid().nullable().optional(),
 });
 //# sourceMappingURL=update-sprint.dto.js.map

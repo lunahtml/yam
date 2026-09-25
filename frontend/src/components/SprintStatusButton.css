@@ -1,0 +1,50 @@
+/*frontend/src/components/SprintStatusButton.css*/
+.sprint-status-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.sprint-status-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sprint-status-btn-normal {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.sprint-status-btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.sprint-status-btn-primary {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
+    color: #0a0612;
+    box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.sprint-status-btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px var(--accent-glow);
+}
+
+.sprint-status-btn-secondary {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--border-bright);
+}
+
+.sprint-status-btn-secondary:hover:not(:disabled) {
+    background: var(--bg-hover);
+}

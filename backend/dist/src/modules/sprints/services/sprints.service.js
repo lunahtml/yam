@@ -43,6 +43,10 @@ let SprintsService = class SprintsService {
                 startDate,
                 endDate,
                 status: 'PLANNED',
+                epicId: data.epicId,
+            },
+            include: {
+                epic: { select: { id: true, name: true, color: true } },
             },
         });
     }
@@ -52,8 +56,14 @@ let SprintsService = class SprintsService {
             where: { projectId },
             orderBy: { number: 'desc' },
             include: {
+                epic: { select: { id: true, name: true, color: true } },
                 _count: {
-                    select: { increments: true, metrics: true, events: true },
+                    select: {
+                        increments: true,
+                        metrics: true,
+                        events: true,
+                        records: true,
+                    },
                 },
             },
         });
@@ -70,6 +80,7 @@ let SprintsService = class SprintsService {
         return this.prisma.client.sprint.findUnique({
             where: { id },
             include: {
+                epic: { select: { id: true, name: true, color: true } },
                 metrics: { orderBy: { createdAt: 'asc' } },
                 events: {
                     orderBy: { createdAt: 'desc' },
@@ -95,20 +106,8 @@ let SprintsService = class SprintsService {
             throw new ForbiddenException('Access denied to sprint');
         }
         await this.membership.assertProjectMember(userId, sprint.projectId);
-        // Находим все records, где data.sprintId = sprintId
-        const indexes = await this.prisma.client.recordIndex.findMany({
-            where: {
-                projectId: sprint.projectId,
-                fieldName: 'sprintId',
-                valueText: sprintId,
-            },
-            select: { recordId: true },
-        });
-        const recordIds = indexes.map((i) => i.recordId);
-        if (recordIds.length === 0)
-            return [];
         return this.prisma.client.record.findMany({
-            where: { id: { in: recordIds } },
+            where: { sprintId },
             include: {
                 creator: { select: { id: true, email: true, name: true } },
                 entity: { select: { id: true, name: true, label: true } },
@@ -134,6 +133,10 @@ let SprintsService = class SprintsService {
                 startDate: data.startDate ? new Date(data.startDate) : undefined,
                 endDate: data.endDate ? new Date(data.endDate) : undefined,
                 status: data.status,
+                epicId: data.epicId,
+            },
+            include: {
+                epic: { select: { id: true, name: true, color: true } },
             },
         });
     }

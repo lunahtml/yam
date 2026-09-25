@@ -233,3 +233,105 @@
   align-items: center;
   gap: 4px;
 }
+
+
+.sprint-card-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sprint-card-epic {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.sprint-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 4px;
+}
+
+.sprints-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sprints-form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.sprints-form-select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.sprints-form-select:focus {
+    border-color: var(--accent);
+}
+
+
+.sprints-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sprints-form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.sprints-form-select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.sprints-form-select:focus {
+    border-color: var(--accent);
+}
+
+.sprint-card-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sprint-card-epic {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.sprint-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 4px;
+}

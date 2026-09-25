@@ -1,4 +1,4 @@
-//backend\src\modules\records\contracts\list-records.dto.ts
+//backend/src/modules/records/contracts/list-records.dto.ts
 import { z } from 'zod';
 export const ListRecordsQuerySchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
@@ -7,5 +7,6 @@ export const ListRecordsQuerySchema = z.object({
     sortDir: z.enum(['asc', 'desc']).default('desc'),
     filterField: z.string().optional(),
     filterValue: z.string().optional(),
+    sprintId: z.string().optional(),
 });
 //# sourceMappingURL=list-records.dto.js.map

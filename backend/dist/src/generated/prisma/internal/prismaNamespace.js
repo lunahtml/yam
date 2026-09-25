@@ -213,7 +213,8 @@ export const RecordScalarFieldEnum = {
     data: 'data',
     createdById: 'createdById',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    sprintId: 'sprintId'
 };
 export const RecordIndexScalarFieldEnum = {
     id: 'id',
@@ -447,7 +448,8 @@ export const SprintScalarFieldEnum = {
     endDate: 'endDate',
     status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    epicId: 'epicId'
 };
 export const SprintMetricScalarFieldEnum = {
     id: 'id',

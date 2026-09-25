@@ -9,11 +9,13 @@ import {
     Clock,
     Rocket,
     Sparkles,
+    Layers,
 } from 'lucide-react';
 import { api } from '../../api/client';
-import { Sprint } from '../../types/api';
+import { Sprint, Epic } from '../../types/api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import SprintStatusButton from '../../components/SprintStatusButton';
 import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './SprintsPage.css';
 
@@ -34,21 +36,28 @@ const STATUS_COLORS: Record<string, string> = {
 export default function SprintsPage() {
     const { projectId } = useOutletContext<ProjectContext>();
     const [sprints, setSprints] = useState<Sprint[]>([]);
+    const [epics, setEpics] = useState<Epic[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [statusUpdating, setStatusUpdating] = useState<string | null>(null);
 
     const [name, setName] = useState('');
     const [goal, setGoal] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [epicId, setEpicId] = useState('');
 
     const load = async () => {
         setLoading(true);
         try {
-            const data = await api.getSprints(projectId);
-            setSprints(data);
+            const [sprintsData, epicsData] = await Promise.all([
+                api.getSprints(projectId),
+                api.getEpics(projectId),
+            ]);
+            setSprints(sprintsData);
+            setEpics(epicsData);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load');
         } finally {
@@ -71,17 +80,35 @@ export default function SprintsPage() {
                 goal: goal.trim() || undefined,
                 startDate,
                 endDate,
+                epicId: epicId || undefined,
             });
             setName('');
             setGoal('');
             setStartDate('');
             setEndDate('');
+            setEpicId('');
             setShowForm(false);
             await load();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to create');
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleStatusChange = async (
+        sprintId: string,
+        status: 'PLANNED' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED',
+    ) => {
+        setStatusUpdating(sprintId);
+        setError('');
+        try {
+            await api.updateSprint(sprintId, { status });
+            await load();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to update');
+        } finally {
+            setStatusUpdating(null);
         }
     };
 
@@ -101,8 +128,13 @@ export default function SprintsPage() {
     const getDaysLeft = (sprint: Sprint) => {
         const end = new Date(sprint.endDate).getTime();
         const now = Date.now();
-        const days = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
-        return days;
+        return Math.ceil((end - now) / (1000 * 60 * 60 * 24));
+    };
+
+    const getDaysUntilStart = (sprint: Sprint) => {
+        const start = new Date(sprint.startDate).getTime();
+        const now = Date.now();
+        return Math.ceil((start - now) / (1000 * 60 * 60 * 24));
     };
 
     return (
@@ -143,6 +175,22 @@ export default function SprintsPage() {
                         onChange={(e) => setGoal(e.target.value)}
                         placeholder="+30% лидов"
                     />
+
+                    <div className="sprints-form-field">
+                        <label className="sprints-form-label">Эпик (необязательно)</label>
+                        <select
+                            className="sprints-form-select"
+                            value={epicId}
+                            onChange={(e) => setEpicId(e.target.value)}
+                        >
+                            <option value="">— Без эпика —</option>
+                            {epics.map((epic) => (
+                                <option key={epic.id} value={epic.id}>
+                                    {epic.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
                     <div className="sprints-form-dates">
                         <Input
@@ -185,70 +233,95 @@ export default function SprintsPage() {
                     {sprints.map((sprint) => {
                         const progress = getProgress(sprint);
                         const daysLeft = getDaysLeft(sprint);
+                        const daysUntilStart = getDaysUntilStart(sprint);
 
                         return (
-                            <NavLink
-                                key={sprint.id}
-                                to={`sprints/${sprint.id}`}
-                                className="sprint-card"
-                            >
-                                <div className="sprint-card-header">
-                                    <div className="sprint-card-number">
-                                        Спринт #{sprint.number}
+                            <div key={sprint.id} className="sprint-card-wrapper">
+                                <NavLink
+                                    to={`/projects/${projectId}/sprints/${sprint.id}`}
+                                    className="sprint-card"
+                                >
+                                    <div className="sprint-card-header">
+                                        <div className="sprint-card-number">
+                                            Спринт #{sprint.number}
+                                        </div>
+                                        <div
+                                            className={`sprint-card-status ${STATUS_COLORS[sprint.status]}`}
+                                        >
+                                            {STATUS_LABELS[sprint.status]}
+                                        </div>
                                     </div>
-                                    <div
-                                        className={`sprint-card-status ${STATUS_COLORS[sprint.status]}`}
-                                    >
-                                        {STATUS_LABELS[sprint.status]}
-                                    </div>
-                                </div>
 
-                                <div className="sprint-card-name">{sprint.name}</div>
+                                    <div className="sprint-card-name">{sprint.name}</div>
 
-                                {sprint.goal && (
-                                    <div className="sprint-card-goal">
-                                        <Rocket size={12} />
-                                        {sprint.goal}
-                                    </div>
-                                )}
-
-                                <div className="sprint-card-dates">
-                                    <Calendar size={12} />
-                                    {formatDate(sprint.startDate)} — {formatDate(sprint.endDate)}
-                                    {sprint.status === 'ACTIVE' && daysLeft > 0 && (
-                                        <span className="sprint-card-days">
-                                            (осталось {daysLeft} дн.)
-                                        </span>
+                                    {sprint.epic && (
+                                        <div className="sprint-card-epic">
+                                            <Layers size={12} />
+                                            {sprint.epic.name}
+                                        </div>
                                     )}
+
+                                    {sprint.goal && (
+                                        <div className="sprint-card-goal">
+                                            <Rocket size={12} />
+                                            {sprint.goal}
+                                        </div>
+                                    )}
+
+                                    <div className="sprint-card-dates">
+                                        <Calendar size={12} />
+                                        {formatDate(sprint.startDate)} — {formatDate(sprint.endDate)}
+                                        {sprint.status === 'ACTIVE' && daysLeft > 0 && (
+                                            <span className="sprint-card-days">
+                                                (осталось {daysLeft} дн.)
+                                            </span>
+                                        )}
+                                        {sprint.status === 'PLANNED' && daysUntilStart > 0 && (
+                                            <span className="sprint-card-days">
+                                                (через {daysUntilStart} дн.)
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {sprint.status === 'ACTIVE' && (
+                                        <div className="sprint-card-progress">
+                                            <div className="sprint-card-progress-bar">
+                                                <div
+                                                    className="sprint-card-progress-fill"
+                                                    style={{ width: `${progress}%` }}
+                                                />
+                                            </div>
+                                            <div className="sprint-card-progress-text">
+                                                {progress}%
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {sprint._count && (
+                                        <div className="sprint-card-counts">
+                                            <span>
+                                                <CheckCircle2 size={12} />
+                                                {sprint._count.increments} инкрементов
+                                            </span>
+                                            <span>
+                                                <Clock size={12} />
+                                                {sprint._count.metrics} метрик
+                                            </span>
+                                        </div>
+                                    )}
+                                </NavLink>
+
+                                <div className="sprint-card-actions">
+                                    <SprintStatusButton
+                                        status={sprint.status}
+                                        onStatusChange={(status) =>
+                                            handleStatusChange(sprint.id, status)
+                                        }
+                                        loading={statusUpdating === sprint.id}
+                                        size="small"
+                                    />
                                 </div>
-
-                                {sprint.status === 'ACTIVE' && (
-                                    <div className="sprint-card-progress">
-                                        <div className="sprint-card-progress-bar">
-                                            <div
-                                                className="sprint-card-progress-fill"
-                                                style={{ width: `${progress}%` }}
-                                            />
-                                        </div>
-                                        <div className="sprint-card-progress-text">
-                                            {progress}%
-                                        </div>
-                                    </div>
-                                )}
-
-                                {sprint._count && (
-                                    <div className="sprint-card-counts">
-                                        <span>
-                                            <CheckCircle2 size={12} />
-                                            {sprint._count.increments} инкрементов
-                                        </span>
-                                        <span>
-                                            <Clock size={12} />
-                                            {sprint._count.metrics} метрик
-                                        </span>
-                                    </div>
-                                )}
-                            </NavLink>
+                            </div>
                         );
                     })}
                 </div>

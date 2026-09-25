@@ -19,6 +19,7 @@ frontend/src/
 │   └── global.css                        ✅
 │
 ├── components/
+│   ├── SprintStatusButton.tsx            ✅
 │   ├── Button.tsx                        ✅
 │   ├── Card.tsx                          ✅
 │   ├── InfoPopup.tsx                     ✅
@@ -208,6 +209,9 @@ backend/src/
     │   └── templates/
     │       └── entity-templates.ts                  ✅
     │
+    ├── onboarding/
+    │    ├── contracts/
+    │    ├── services/
     ├── fields/
     │   ├── fields.controller.ts                     ✅
     │   ├── fields.module.ts                         ✅

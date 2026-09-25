@@ -1,4 +1,4 @@
-//backend\src\modules\records\contracts\list-records.dto.ts
+//backend/src/modules/records/contracts/list-records.dto.ts
 import { z } from 'zod';
 
 export const ListRecordsQuerySchema = z.object({
@@ -8,6 +8,7 @@ export const ListRecordsQuerySchema = z.object({
     sortDir: z.enum(['asc', 'desc']).default('desc'),
     filterField: z.string().optional(),
     filterValue: z.string().optional(),
+    sprintId: z.string().optional(),
 });
 
 export type ListRecordsQueryDto = z.infer<typeof ListRecordsQuerySchema>;

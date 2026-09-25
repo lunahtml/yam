@@ -14,6 +14,7 @@ export const CreateSprintSchema = z.object({
     description: z.string().max(2000).optional(),
     startDate: z.string(),
     endDate: z.string(),
+    epicId: z.string().uuid().optional(),
 });
 
 export type CreateSprintDto = z.infer<typeof CreateSprintSchema>;

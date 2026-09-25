@@ -423,10 +423,13 @@ export const api = {
     deleteField: (id: string) =>
         request<void>(`/fields/${id}`, { method: 'DELETE' }),
 
-    createRecord: (entityId: string, data: Record<string, unknown>) =>
+    createRecord: (entityId: string, data: Record<string, unknown>, sprintId?: string | null) =>
         request<EntityRecord>(`/records/entity/${entityId}`, {
             method: 'POST',
-            body: JSON.stringify({ data }),
+            body: JSON.stringify({
+                data,
+                ...(sprintId !== undefined ? { sprintId } : {}),
+            }),
         }),
 
     getRecords: (entityId: string, query?: ListRecordsQuery) => {
@@ -438,6 +441,7 @@ export const api = {
         if (query?.filterField) params.set('filterField', query.filterField);
         if (query?.filterValue !== undefined)
             params.set('filterValue', query.filterValue);
+        if (query?.sprintId !== undefined) params.set('sprintId', query.sprintId);
         const qs = params.toString();
         return request<RecordsResponse>(
             `/records/entity/${entityId}${qs ? `?${qs}` : ''}`,
@@ -446,10 +450,13 @@ export const api = {
 
     getRecord: (id: string) => request<EntityRecord>(`/records/${id}`),
 
-    updateRecord: (id: string, data: Record<string, unknown>) =>
+    updateRecord: (id: string, data: Record<string, unknown>, sprintId?: string | null) =>
         request<EntityRecord>(`/records/${id}`, {
             method: 'PUT',
-            body: JSON.stringify({ data }),
+            body: JSON.stringify({
+                data,
+                ...(sprintId !== undefined ? { sprintId } : {}),
+            }),
         }),
 
     deleteRecord: (id: string) =>
@@ -504,12 +511,25 @@ export const api = {
         description?: string;
         startDate: string;
         endDate: string;
+        epicId?: string;
     }) =>
         request<Sprint>(`/sprints/project/${projectId}`, {
             method: 'POST',
             body: JSON.stringify(data),
         }),
-
+    updateSprint: (id: string, data: Partial<{
+        name: string;
+        goal: string;
+        description: string;
+        startDate: string;
+        endDate: string;
+        status: 'PLANNED' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED';
+        epicId: string | null;
+    }>) =>
+        request<Sprint>(`/sprints/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
     getSprints: (projectId: string) =>
         request<Sprint[]>(`/sprints/project/${projectId}`),
 

@@ -303,7 +303,10 @@ model Record {
 
     comments      Comment[]
     recordIndexes RecordIndex[]
+    sprintId      String?       @db.Uuid
+    sprint        Sprint?       @relation(fields: [sprintId], references: [id], onDelete: SetNull)
 
+    @@index([sprintId])
     @@index([projectId])
     @@index([entityId])
     @@index([projectId, entityId])
@@ -807,6 +810,10 @@ model Sprint {
     metrics    SprintMetric[]
     events     SprintEvent[]
     increments Increment[]
+    epicId     String?        @db.Uuid
+    epic       Epic?          @relation(fields: [epicId], references: [id], onDelete: SetNull)
+
+    records Record[]
 
     @@unique([projectId, number])
     @@index([projectId])
@@ -924,9 +931,9 @@ model Epic {
     status      EpicStatus @default(OPEN)
     startDate   DateTime?
     endDate     DateTime?
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    sprints     Sprint[]
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
 
     project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 

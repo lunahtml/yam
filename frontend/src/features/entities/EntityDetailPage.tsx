@@ -12,6 +12,7 @@ interface EntityDetailPageProps {
     entityId: string;
     entityLabel: string;
     onBack?: () => void;
+    sprintFilter?: string | null;
 }
 
 type Tab = 'records' | 'views' | 'fields';
@@ -20,6 +21,7 @@ export default function EntityDetailPage({
     entityId,
     entityLabel,
     onBack,
+    sprintFilter,
 }: EntityDetailPageProps) {
     const [entity, setEntity] = useState<Entity | null>(null);
     const [fields, setFields] = useState<Field[]>([]);
@@ -93,7 +95,11 @@ export default function EntityDetailPage({
                 )}
 
                 {tab === 'views' && (
-                    <ViewsManager entityId={entityId} fields={fields} />
+                    <ViewsManager
+                        entityId={entityId}
+                        fields={fields}
+                        sprintFilter={sprintFilter}
+                    />
                 )}
             </div>
         </div>

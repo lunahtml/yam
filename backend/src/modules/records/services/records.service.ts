@@ -3,7 +3,6 @@ import {
     Injectable,
     ForbiddenException,
     NotFoundException,
-    BadRequestException,
 } from '@nestjs/common';
 import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
@@ -18,7 +17,6 @@ import { CreateRecordDto } from '../contracts/create-record.dto.js';
 import { UpdateRecordDto } from '../contracts/update-record.dto.js';
 import { ListRecordsQueryDto } from '../contracts/list-records.dto.js';
 import { UserSkillsService } from '../../skills/services/user-skills.service.js';
-import { SprintsService } from '../../sprints/services/sprints.service.js';
 
 @Injectable()
 export class RecordsService {
@@ -28,7 +26,6 @@ export class RecordsService {
         private validator: RecordValidatorService,
         private indexer: RecordIndexService,
         private userSkills: UserSkillsService,
-        private sprints: SprintsService,
     ) { }
 
     async create(userId: string, entityId: string, data: CreateRecordDto) {
@@ -53,15 +50,16 @@ export class RecordsService {
         const validated = this.validator.validate(data.data, entity.fields);
         const indexes = this.indexer.buildIndexes(validated, entity.fields);
 
+        const createData: Prisma.RecordUncheckedCreateInput = {
+            entityId,
+            projectId: entity.projectId,
+            data: validated as Prisma.InputJsonValue,
+            createdById: userId,
+            sprintId: data.sprintId ?? null,
+        };
+
         return this.prisma.client.$transaction(async (tx) => {
-            const record = await tx.record.create({
-                data: {
-                    entityId,
-                    projectId: entity.projectId,
-                    data: validated as Prisma.InputJsonValue,
-                    createdById: userId,
-                },
-            });
+            const record = await tx.record.create({ data: createData });
 
             await this.indexer.createIndexes(
                 tx,
@@ -93,7 +91,6 @@ export class RecordsService {
 
         const skip = (query.page - 1) * query.limit;
 
-        // Фильтрация
         let filteredRecordIds: string[] | null = null;
 
         if (query.filterField && query.filterValue !== undefined) {
@@ -122,7 +119,14 @@ export class RecordsService {
             }
         }
 
-        // Сортировка
+        const sprintFilter: Prisma.RecordWhereInput =
+            query.sprintId !== undefined
+                ? {
+                    sprintId:
+                        query.sprintId === 'null' ? null : query.sprintId,
+                }
+                : {};
+
         let records: unknown[] = [];
         let total = 0;
 
@@ -144,21 +148,25 @@ export class RecordsService {
                     query.limit,
                 );
 
-            // Пересечение с фильтром, если есть
             const finalIds = filteredRecordIds
                 ? recordIds.filter((id) => filteredRecordIds!.includes(id))
                 : recordIds;
 
             records = await this.prisma.client.record.findMany({
-                where: { id: { in: finalIds } },
+                where: {
+                    id: { in: finalIds },
+                    ...sprintFilter,
+                },
                 include: {
                     creator: {
                         select: { id: true, email: true, name: true },
                     },
+                    sprint: {
+                        select: { id: true, name: true, number: true },
+                    },
                 },
             });
 
-            // Сортируем в том же порядке, что и recordIds
             const orderMap = new Map(finalIds.map((id, i) => [id, i]));
             records.sort(
                 (a, b) =>
@@ -174,6 +182,7 @@ export class RecordsService {
                 entityId,
                 projectId: entity.projectId,
                 ...(filteredRecordIds ? { id: { in: filteredRecordIds } } : {}),
+                ...sprintFilter,
             };
 
             const [found, count] = await Promise.all([
@@ -185,6 +194,9 @@ export class RecordsService {
                     include: {
                         creator: {
                             select: { id: true, email: true, name: true },
+                        },
+                        sprint: {
+                            select: { id: true, name: true, number: true },
                         },
                     },
                 }),
@@ -223,6 +235,9 @@ export class RecordsService {
                     select: { id: true, name: true, label: true, fields: true },
                 },
                 creator: { select: { id: true, email: true, name: true } },
+                sprint: {
+                    select: { id: true, name: true, number: true },
+                },
             },
         });
     }
@@ -248,15 +263,24 @@ export class RecordsService {
             EDIT_ROLES,
         );
 
-        const validated = this.validator.validate(data.data, record.entity.fields);
+        const validated = data.data
+            ? this.validator.validate(data.data, record.entity.fields)
+            : (record.data as Record<string, unknown>);
+
         const indexes = this.indexer.buildIndexes(validated, record.entity.fields);
+
+        const updateData: Prisma.RecordUncheckedUpdateInput = {
+            data: validated as Prisma.InputJsonValue,
+        };
+
+        if (data.sprintId !== undefined) {
+            updateData.sprintId = data.sprintId;
+        }
 
         const updated = await this.prisma.client.$transaction(async (tx) => {
             const result = await tx.record.update({
                 where: { id },
-                data: {
-                    data: validated as Prisma.InputJsonValue,
-                },
+                data: updateData,
             });
 
             await this.indexer.replaceIndexes(
@@ -270,7 +294,6 @@ export class RecordsService {
             return result;
         });
 
-        // Триггер X-Matrix: если статус сменился на "done"
         const oldData = record.data as Record<string, unknown>;
         const oldStatus = String(oldData.status ?? '');
         const newStatus = String(validated.status ?? '');
@@ -281,17 +304,16 @@ export class RecordsService {
 
         return updated;
     }
+
     private async processTaskCompletion(
         recordId: string,
         projectId: string,
         data: Record<string, unknown>,
     ) {
         try {
-            // 1. Проверяем, что у задачи есть теги
             const tags = Array.isArray(data.tags) ? (data.tags as string[]) : [];
             if (tags.length === 0) return;
 
-            // 2. Находим проект → организацию
             const project = await this.prisma.client.project.findUnique({
                 where: { id: projectId },
                 select: {
@@ -304,7 +326,6 @@ export class RecordsService {
             if (!project?.workspace?.organizationId) return;
             const organizationId = project.workspace.organizationId;
 
-            // 3. Находим теги в реестре, у которых есть skill
             const tagRecords = await this.prisma.client.tag.findMany({
                 where: {
                     organizationId,
@@ -316,7 +337,6 @@ export class RecordsService {
 
             if (tagRecords.length === 0) return;
 
-            // 4. Находим assignee + coAssignees
             const userIds = new Set<string>();
             if (data.assignee && typeof data.assignee === 'string') {
                 userIds.add(data.assignee);
@@ -329,14 +349,12 @@ export class RecordsService {
 
             if (userIds.size === 0) return;
 
-            // 5. Определяем вес (из TaskComplexity)
             const complexity = await this.prisma.client.taskComplexity.findUnique({
                 where: { recordId },
                 select: { finalComplexity: true },
             });
             const weight = complexity?.finalComplexity ?? 1;
 
-            // 6. Для каждого user × skill — создаём evidence
             for (const uid of userIds) {
                 for (const tag of tagRecords) {
                     if (!tag.skillId) continue;
@@ -352,15 +370,15 @@ export class RecordsService {
                         weight,
                         sourceId: recordId,
                         sourceType: 'record',
-                        comment: `Закрыта задача с тегом #${tags.find((t) => t === tags[0])}`,
+                        comment: `Закрыта задача с тегом #${tags[0]}`,
                     });
                 }
             }
         } catch (err) {
-            // Не блокируем update, если X-Matrix не сработал
             console.error('X-Matrix error:', err);
         }
     }
+
     async remove(userId: string, id: string) {
         const record = await this.prisma.client.record.findUnique({
             where: { id },

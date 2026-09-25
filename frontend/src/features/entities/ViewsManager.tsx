@@ -10,6 +10,7 @@ import KanbanView from './KanbanView';
 interface ViewsManagerProps {
     entityId: string;
     fields: Field[];
+    sprintFilter?: string | null;
 }
 
 const TYPE_ICONS: Record<ViewType, LucideIcon> = {
@@ -26,7 +27,7 @@ const TYPE_LABELS: Record<ViewType, string> = {
     LIST: 'Список',
 };
 
-export default function ViewsManager({ entityId, fields }: ViewsManagerProps) {
+export default function ViewsManager({ entityId, fields, sprintFilter }: ViewsManagerProps) {
     const [views, setViews] = useState<View[]>([]);
     const [activeView, setActiveView] = useState<View | null>(null);
     const [loading, setLoading] = useState(false);
@@ -232,6 +233,7 @@ export default function ViewsManager({ entityId, fields }: ViewsManagerProps) {
                             entityId={entityId}
                             fields={fields}
                             config={activeView.config}
+                            sprintId={sprintFilter}
                         />
                     ) : (
                         <div

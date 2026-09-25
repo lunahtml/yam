@@ -334,6 +334,7 @@ export interface EntityRecord {
     id: string;
     entityId: string;
     projectId: string;
+    sprintId: string | null;
     data: Record<string, unknown>;
     createdById: string;
     createdAt: string;
@@ -349,6 +350,11 @@ export interface EntityRecord {
         label: string;
         fields: Field[];
     };
+    sprint?: {
+        id: string;
+        name: string;
+        number: number;
+    } | null;
 }
 
 export interface RecordsResponse {
@@ -366,6 +372,7 @@ export interface ListRecordsQuery {
     sortDir?: 'asc' | 'desc';
     filterField?: string;
     filterValue?: string;
+    sprintId?: string;
 }
 
 
@@ -436,6 +443,7 @@ export interface EntityTemplate {
 export interface Sprint {
     id: string;
     projectId: string;
+    epicId: string | null;
     number: number;
     name: string;
     goal: string | null;
@@ -445,6 +453,7 @@ export interface Sprint {
     status: 'PLANNED' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED';
     createdAt: string;
     updatedAt: string;
+    epic?: { id: string; name: string; color: string | null } | null;
     metrics?: SprintMetric[];
     events?: SprintEvent[];
     increments?: Increment[];
@@ -452,6 +461,7 @@ export interface Sprint {
         increments: number;
         metrics: number;
         events: number;
+        records?: number;
     };
 }
 

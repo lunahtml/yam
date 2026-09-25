@@ -17,6 +17,10 @@ import {
     Rocket,
     Plus,
     Check,
+    Layers,
+    Pencil,
+    Save,
+    X,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import {
@@ -25,9 +29,11 @@ import {
     SprintMetric,
     SprintEvent,
     Increment,
+    Epic,
 } from '../../types/api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import SprintStatusButton from '../../components/SprintStatusButton';
 import './SprintDetailPage.css';
 
 type Tab = 'overview' | 'tasks' | 'metrics' | 'increments' | 'events';
@@ -55,19 +61,33 @@ const EVENT_ICONS: Record<EventType, { icon: LucideIcon; label: string; cls: str
 };
 
 export default function SprintDetailPage() {
-    const { sprintId } = useParams<{ sprintId: string }>();
+    const { projectId, sprintId } = useParams<{ projectId: string; sprintId: string }>();
     const navigate = useNavigate();
     const [sprint, setSprint] = useState<Sprint | null>(null);
+    const [epics, setEpics] = useState<Epic[]>([]);
     const [tab, setTab] = useState<Tab>('overview');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [editing, setEditing] = useState(false);
+    const [saving, setSaving] = useState(false);
+
+    const [editName, setEditName] = useState('');
+    const [editGoal, setEditGoal] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+    const [editStartDate, setEditStartDate] = useState('');
+    const [editEndDate, setEditEndDate] = useState('');
+    const [editEpicId, setEditEpicId] = useState('');
 
     const load = async () => {
-        if (!sprintId) return;
+        if (!sprintId || !projectId) return;
         setLoading(true);
         try {
-            const data = await api.getSprint(sprintId);
-            setSprint(data as Sprint);
+            const [sprintData, epicsData] = await Promise.all([
+                api.getSprint(sprintId),
+                api.getEpics(projectId),
+            ]);
+            setSprint(sprintData as Sprint);
+            setEpics(epicsData);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to load');
         } finally {
@@ -77,7 +97,53 @@ export default function SprintDetailPage() {
 
     useEffect(() => {
         load();
-    }, [sprintId]);
+    }, [sprintId, projectId]);
+
+    const handleStatusChange = async (
+        status: 'PLANNED' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED',
+    ) => {
+        if (!sprint) return;
+        setError('');
+        try {
+            await api.updateSprint(sprint.id, { status });
+            await load();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to update');
+        }
+    };
+
+    const startEditing = () => {
+        if (!sprint) return;
+        setEditName(sprint.name);
+        setEditGoal(sprint.goal ?? '');
+        setEditDescription(sprint.description ?? '');
+        setEditStartDate(sprint.startDate.slice(0, 10));
+        setEditEndDate(sprint.endDate.slice(0, 10));
+        setEditEpicId(sprint.epicId ?? '');
+        setEditing(true);
+    };
+
+    const handleSave = async () => {
+        if (!sprint || !editName.trim()) return;
+        setSaving(true);
+        setError('');
+        try {
+            await api.updateSprint(sprint.id, {
+                name: editName.trim(),
+                goal: editGoal.trim() || undefined,
+                description: editDescription.trim() || undefined,
+                startDate: editStartDate,
+                endDate: editEndDate,
+                epicId: editEpicId || null,
+            });
+            setEditing(false);
+            await load();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to save');
+        } finally {
+            setSaving(false);
+        }
+    };
 
     const formatDate = (iso: string) =>
         new Date(iso).toLocaleDateString('ru-RU');
@@ -101,80 +167,185 @@ export default function SprintDetailPage() {
                 Назад к спринтам
             </button>
 
-            <h1 className="sprint-detail-title">
-                <span className="sprint-detail-title-icon">
-                    <Target size={22} color="#fff" strokeWidth={2.5} />
-                </span>
-                Спринт #{sprint.number} · {sprint.name}
-            </h1>
+            {!editing && (
+                <>
+                    <div className="sprint-detail-header">
+                        <h1 className="sprint-detail-title">
+                            <span className="sprint-detail-title-icon">
+                                <Target size={22} color="#fff" strokeWidth={2.5} />
+                            </span>
+                            Спринт #{sprint.number} · {sprint.name}
+                        </h1>
 
-            {sprint.goal && (
-                <div className="sprint-detail-goal">
-                    <Target size={16} />
-                    {sprint.goal}
+                        <div className="sprint-detail-header-actions">
+                            <button
+                                className="sprint-detail-edit-btn"
+                                onClick={startEditing}
+                                title="Редактировать"
+                            >
+                                <Pencil size={16} />
+                                Редактировать
+                            </button>
+
+                            <SprintStatusButton
+                                status={sprint.status}
+                                onStatusChange={handleStatusChange}
+                            />
+                        </div>
+                    </div>
+
+                    {sprint.epic && (
+                        <div className="sprint-detail-epic">
+                            <Layers size={14} />
+                            Эпик: <strong>{sprint.epic.name}</strong>
+                        </div>
+                    )}
+
+                    {sprint.goal && (
+                        <div className="sprint-detail-goal">
+                            <Target size={16} />
+                            {sprint.goal}
+                        </div>
+                    )}
+
+                    <div className="sprint-detail-dates">
+                        <Calendar size={14} />
+                        {formatDate(sprint.startDate)} — {formatDate(sprint.endDate)}
+                    </div>
+                </>
+            )}
+
+            {editing && (
+                <div className="sprint-detail-edit-form">
+                    <div className="sprint-detail-edit-header">
+                        <h2 className="sprint-detail-edit-title">Редактирование спринта</h2>
+                        <button
+                            className="sprint-detail-edit-close"
+                            onClick={() => setEditing(false)}
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
+
+                    <Input
+                        label="Название"
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                    />
+
+                    <Input
+                        label="Цель спринта"
+                        value={editGoal}
+                        onChange={(e) => setEditGoal(e.target.value)}
+                        placeholder="+30% лидов"
+                    />
+
+                    <Input
+                        label="Описание"
+                        value={editDescription}
+                        onChange={(e) => setEditDescription(e.target.value)}
+                        placeholder="Что входит в спринт"
+                    />
+
+                    <div className="sprint-detail-edit-field">
+                        <label className="sprint-detail-edit-label">Эпик</label>
+                        <select
+                            className="sprint-detail-edit-select"
+                            value={editEpicId}
+                            onChange={(e) => setEditEpicId(e.target.value)}
+                        >
+                            <option value="">— Без эпика —</option>
+                            {epics.map((epic) => (
+                                <option key={epic.id} value={epic.id}>
+                                    {epic.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="sprint-detail-edit-dates">
+                        <Input
+                            label="Начало"
+                            type="date"
+                            value={editStartDate}
+                            onChange={(e) => setEditStartDate(e.target.value)}
+                        />
+                        <Input
+                            label="Конец"
+                            type="date"
+                            value={editEndDate}
+                            onChange={(e) => setEditEndDate(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="sprint-detail-edit-actions">
+                        <Button onClick={handleSave} loading={saving}>
+                            <Save size={16} /> Сохранить
+                        </Button>
+                        <Button onClick={() => setEditing(false)} variant="secondary">
+                            Отмена
+                        </Button>
+                    </div>
                 </div>
             )}
 
-            <div className="sprint-detail-dates">
-                <Calendar size={14} />
-                {formatDate(sprint.startDate)} — {formatDate(sprint.endDate)}
-            </div>
-
             {error && <div className="sprint-detail-error">{error}</div>}
 
-            {/* Табы */}
-            <div className="sprint-detail-tabs">
-                <button
-                    className={`sprint-detail-tab ${tab === 'overview' ? 'sprint-detail-tab-active' : ''}`}
-                    onClick={() => setTab('overview')}
-                >
-                    Обзор
-                </button>
-                <button
-                    className={`sprint-detail-tab ${tab === 'tasks' ? 'sprint-detail-tab-active' : ''}`}
-                    onClick={() => setTab('tasks')}
-                >
-                    Задачи
-                </button>
-                <button
-                    className={`sprint-detail-tab ${tab === 'metrics' ? 'sprint-detail-tab-active' : ''}`}
-                    onClick={() => setTab('metrics')}
-                >
-                    Метрики ({metrics.length})
-                </button>
-                <button
-                    className={`sprint-detail-tab ${tab === 'increments' ? 'sprint-detail-tab-active' : ''}`}
-                    onClick={() => setTab('increments')}
-                >
-                    Инкременты ({increments.length})
-                </button>
-                <button
-                    className={`sprint-detail-tab ${tab === 'events' ? 'sprint-detail-tab-active' : ''}`}
-                    onClick={() => setTab('events')}
-                >
-                    События ({events.length})
-                </button>
-            </div>
+            {!editing && (
+                <>
+                    <div className="sprint-detail-tabs">
+                        <button
+                            className={`sprint-detail-tab ${tab === 'overview' ? 'sprint-detail-tab-active' : ''}`}
+                            onClick={() => setTab('overview')}
+                        >
+                            Обзор
+                        </button>
+                        <button
+                            className={`sprint-detail-tab ${tab === 'tasks' ? 'sprint-detail-tab-active' : ''}`}
+                            onClick={() => setTab('tasks')}
+                        >
+                            Задачи
+                        </button>
+                        <button
+                            className={`sprint-detail-tab ${tab === 'metrics' ? 'sprint-detail-tab-active' : ''}`}
+                            onClick={() => setTab('metrics')}
+                        >
+                            Метрики ({metrics.length})
+                        </button>
+                        <button
+                            className={`sprint-detail-tab ${tab === 'increments' ? 'sprint-detail-tab-active' : ''}`}
+                            onClick={() => setTab('increments')}
+                        >
+                            Инкременты ({increments.length})
+                        </button>
+                        <button
+                            className={`sprint-detail-tab ${tab === 'events' ? 'sprint-detail-tab-active' : ''}`}
+                            onClick={() => setTab('events')}
+                        >
+                            События ({events.length})
+                        </button>
+                    </div>
 
-            {/* Контент */}
-            {tab === 'overview' && (
-                <SprintOverview metrics={metrics} />
-            )}
-            {tab === 'tasks' && (
-                <SprintTasksTab
-                    sprintId={sprintId!}
-                    projectId={sprint.projectId}
-                    onReload={load}
-                />
-            )}
-            {tab === 'metrics' && (
-                <MetricsTab sprintId={sprintId!} metrics={metrics} onReload={load} />
-            )}
-            {tab === 'increments' && (
-                <IncrementsTab sprintId={sprintId!} increments={increments} onReload={load} />
-            )}
-            {tab === 'events' && (
-                <EventsTab sprintId={sprintId!} events={events} onReload={load} />
+                    {tab === 'overview' && (
+                        <SprintOverview metrics={metrics} />
+                    )}
+                    {tab === 'tasks' && (
+                        <SprintTasksTab
+                            sprintId={sprintId!}
+                            projectId={sprint.projectId}
+                            onReload={load}
+                        />
+                    )}
+                    {tab === 'metrics' && (
+                        <MetricsTab sprintId={sprintId!} metrics={metrics} onReload={load} />
+                    )}
+                    {tab === 'increments' && (
+                        <IncrementsTab sprintId={sprintId!} increments={increments} onReload={load} />
+                    )}
+                    {tab === 'events' && (
+                        <EventsTab sprintId={sprintId!} events={events} onReload={load} />
+                    )}
+                </>
             )}
         </div>
     );
@@ -184,11 +355,7 @@ export default function SprintDetailPage() {
 // OVERVIEW
 // ═══════════════════════════════════════════════════════════════
 
-function SprintOverview({
-    metrics,
-}: {
-    metrics: SprintMetric[];
-}) {
+function SprintOverview({ metrics }: { metrics: SprintMetric[] }) {
     const achieved = metrics.filter((m) => m.isAchieved).length;
     const total = metrics.length;
     const progress = total === 0 ? 0 : Math.round((achieved / total) * 100);
@@ -628,10 +795,8 @@ function SprintTasksTab({
         if (!confirm('Убрать задачу из спринта?')) return;
         try {
             const record = await api.getRecord(recordId);
-            await api.updateRecord(recordId, {
-                ...record.data,
-                sprintId: null,
-            });
+            const { sprintId: _drop, ...cleanData } = record.data;
+            await api.updateRecord(recordId, cleanData, null);
             await loadTasks();
             onReload();
         } catch (err) {
@@ -764,9 +929,7 @@ function SprintTaskPicker({
         api
             .getRecords(activeEntityId, { page: 1, limit: 500 })
             .then((res) => {
-                const backlog = res.records.filter(
-                    (r) => !r.data.sprintId || r.data.sprintId === '',
-                );
+                const backlog = res.records.filter((r) => !r.sprintId);
                 setTasks(backlog);
             })
             .catch((err) =>
@@ -792,10 +955,8 @@ function SprintTaskPicker({
                 const task = tasks.find((t) => t.id === id);
                 if (!task) continue;
 
-                await api.updateRecord(id, {
-                    ...task.data,
-                    sprintId,
-                });
+                const { sprintId: _drop, ...cleanData } = task.data;
+                await api.updateRecord(id, cleanData, sprintId);
             }
 
             onAdded();
