@@ -832,6 +832,15 @@ export const api = {
     deleteInvitation: (id: string) =>
         request<void>(`/invitations/${id}`, { method: 'DELETE' }),
 
+    // ═══════════════════════════════════════════════════════════════
+    // ONBOARDING
+    // ═══════════════════════════════════════════════════════════════
 
+    createDemo: () =>
+        request<{
+            organizationId: string;
+            workspaceId: string;
+            projectId: string;
+        }>('/onboarding/demo', { method: 'POST' }),
 
 };

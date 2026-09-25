@@ -39,6 +39,7 @@ export default function ProjectsListPage() {
     const [inputValue, setInputValue] = useState('');
     const [inputDesc, setInputDesc] = useState('');
     const [saving, setSaving] = useState(false);
+    const [creatingDemo, setCreatingDemo] = useState(false);
 
     useEffect(() => {
         loadAll();
@@ -110,7 +111,19 @@ export default function ProjectsListPage() {
         localStorage.removeItem('isAuthenticated');
         navigate('/login');
     };
+    const handleCreateDemo = async () => {
+        setCreatingDemo(true);
+        setError('');
 
+        try {
+            const result = await api.createDemo();
+            navigate(`/projects/${result.projectId}`);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to create demo');
+        } finally {
+            setCreatingDemo(false);
+        }
+    };
     return (
         <div className="main-page">
             <div className="main-header">
@@ -156,11 +169,42 @@ export default function ProjectsListPage() {
                 {loading ? (
                     <div className="main-loading">Загрузка...</div>
                 ) : organizations.length === 0 ? (
-                    <div className="main-empty">
-                        <Building2 size={48} style={{ opacity: 0.3, marginBottom: 16 }} />
-                        <p>У вас пока нет организаций.</p>
-                        <p className="main-empty-hint">
-                            Создайте организацию, чтобы начать.
+                    <div className="main-demo">
+                        <div className="main-demo-icon">
+                            <Sparkles size={48} />
+                        </div>
+                        <h2 className="main-demo-title">
+                            Добро пожаловать в YAM 🪄
+                        </h2>
+                        <p className="main-demo-text">
+                            Создай демо-проект, чтобы посмотреть, как всё
+                            устроено. Внутри — эпик, спринт, задачи, метрики,
+                            артефакты и UTM-метки.
+                        </p>
+                        <div className="main-demo-actions">
+                            <Button
+                                onClick={handleCreateDemo}
+                                loading={creatingDemo}
+                                style={{ width: 'auto', padding: '12px 28px' }}
+                            >
+                                <Sparkles size={16} />
+                                Создать демо-проект
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setModal({ type: 'organization' });
+                                    setInputValue('');
+                                }}
+                                variant="secondary"
+                                style={{ width: 'auto', padding: '12px 28px' }}
+                            >
+                                <Building2 size={16} />
+                                Создать организацию вручную
+                            </Button>
+                        </div>
+                        <p className="main-demo-hint">
+                            Демо-проект создаётся один раз. Потом можно
+                            удалить и начать с чистого листа.
                         </p>
                     </div>
                 ) : (

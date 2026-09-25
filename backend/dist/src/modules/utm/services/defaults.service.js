@@ -42,9 +42,13 @@ let UtmDefaultsService = class UtmDefaultsService {
     /**
      * Создать дефолтные справочники для нового проекта.
      * Вызывается при создании проекта.
+     *
+     * @param tx — опциональный транзакционный клиент.
+     *             Если передан — работаем внутри существующей транзакции.
      */
-    async createDefaults(projectId) {
-        await this.prisma.client.utmSource.createMany({
+    async createDefaults(projectId, tx) {
+        const client = tx ?? this.prisma.client;
+        await client.utmSource.createMany({
             data: DEFAULT_SOURCES.map((s) => ({
                 projectId,
                 name: s.name,
@@ -54,7 +58,7 @@ let UtmDefaultsService = class UtmDefaultsService {
             })),
             skipDuplicates: true,
         });
-        await this.prisma.client.utmMedium.createMany({
+        await client.utmMedium.createMany({
             data: DEFAULT_MEDIUMS.map((m) => ({
                 projectId,
                 name: m.name,
@@ -63,8 +67,7 @@ let UtmDefaultsService = class UtmDefaultsService {
             })),
             skipDuplicates: true,
         });
-        // Дефолтное правило
-        await this.prisma.client.utmRule.create({
+        await client.utmRule.create({
             data: {
                 projectId,
                 name: 'Основное правило',

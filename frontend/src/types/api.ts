@@ -672,3 +672,4 @@ export interface Invitation {
         avatarUrl: string | null;
     };
 }
+

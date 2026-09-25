@@ -210,8 +210,12 @@ backend/src/
     │       └── entity-templates.ts                  ✅
     │
     ├── onboarding/
+    │    ├── onboarding.controller.ts ✅
+    │    ├── onboarding.module.ts ✅
     │    ├── contracts/
+    │        ├── create-demo.dto.ts ✅
     │    ├── services/
+    │        ├── onboarding.service.ts ✅
     ├── fields/
     │   ├── fields.controller.ts                     ✅
     │   ├── fields.module.ts                         ✅
