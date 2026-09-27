@@ -39,6 +39,14 @@ export class EpicsController {
         return this.epicsService.findByProject(userId, projectId);
     }
 
+    @Get(':id')
+    async findById(
+        @CurrentUserId() userId: string,
+        @Param('id') id: string,
+    ) {
+        return this.epicsService.findById(userId, id);
+    }
+
     @Put(':id')
     async update(
         @CurrentUserId() userId: string,

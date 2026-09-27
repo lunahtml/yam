@@ -34,9 +34,56 @@ let EpicsService = class EpicsService {
     }
     async findByProject(userId, projectId) {
         await this.membership.assertProjectMember(userId, projectId);
-        return this.prisma.client.epic.findMany({
+        const epics = await this.prisma.client.epic.findMany({
             where: { projectId },
             orderBy: { createdAt: 'desc' },
+            include: {
+                _count: { select: { sprints: true } },
+            },
+        });
+        // Для каждого эпика — сколько спринтов завершено
+        const completedCounts = await this.prisma.client.sprint.groupBy({
+            by: ['epicId'],
+            where: {
+                epicId: { in: epics.map((e) => e.id) },
+                status: 'COMPLETED',
+            },
+            _count: { _all: true },
+        });
+        const completedMap = new Map(completedCounts
+            .filter((row) => row.epicId !== null)
+            .map((row) => [row.epicId, row._count._all]));
+        return epics.map((epic) => ({
+            ...epic,
+            completedSprints: completedMap.get(epic.id) ?? 0,
+        }));
+    }
+    async findById(userId, id) {
+        const epic = await this.prisma.client.epic.findUnique({
+            where: { id },
+            select: { projectId: true },
+        });
+        if (!epic) {
+            throw new ForbiddenException('Access denied to epic');
+        }
+        await this.membership.assertProjectMember(userId, epic.projectId);
+        return this.prisma.client.epic.findUnique({
+            where: { id },
+            include: {
+                sprints: {
+                    orderBy: { number: 'desc' },
+                    include: {
+                        _count: {
+                            select: {
+                                increments: true,
+                                metrics: true,
+                                events: true,
+                                records: true,
+                            },
+                        },
+                    },
+                },
+            },
         });
     }
     async update(userId, id, data) {

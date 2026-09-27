@@ -90,6 +90,17 @@ export const SprintStatus = {
 export type SprintStatus = (typeof SprintStatus)[keyof typeof SprintStatus]
 
 
+export const GoalStatus = {
+  PENDING: 'PENDING',
+  ACHIEVED: 'ACHIEVED',
+  CARRIED_OVER: 'CARRIED_OVER',
+  MOVED_BACKLOG: 'MOVED_BACKLOG',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type GoalStatus = (typeof GoalStatus)[keyof typeof GoalStatus]
+
+
 export const MetricType = {
   INCREASE: 'INCREASE',
   DECREASE: 'DECREASE',

@@ -1,6 +1,6 @@
 //frontend/src/pages/project/EpicsPage.tsx
 import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, NavLink } from 'react-router-dom';
 import { Plus, Trash2, Layers, Calendar } from 'lucide-react';
 import { api } from '../../api/client';
 import { Epic, EpicStatus } from '../../types/api';
@@ -183,8 +183,9 @@ export default function EpicsPage() {
             ) : (
                 <div className="epics-list">
                     {epics.map((epic) => (
-                        <div
+                        <NavLink
                             key={epic.id}
+                            to={`/projects/${projectId}/epics/${epic.id}`}
                             className="epic-card"
                             style={epic.color ? { borderLeftColor: epic.color } : undefined}
                         >
@@ -226,7 +227,7 @@ export default function EpicsPage() {
                                     {epic.endDate && formatDate(epic.endDate)}
                                 </div>
                             )}
-                        </div>
+                        </NavLink>
                     ))}
                 </div>
             )}

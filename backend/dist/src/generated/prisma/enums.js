@@ -56,6 +56,13 @@ export const SprintStatus = {
     COMPLETED: 'COMPLETED',
     CANCELLED: 'CANCELLED'
 };
+export const GoalStatus = {
+    PENDING: 'PENDING',
+    ACHIEVED: 'ACHIEVED',
+    CARRIED_OVER: 'CARRIED_OVER',
+    MOVED_BACKLOG: 'MOVED_BACKLOG',
+    CANCELLED: 'CANCELLED'
+};
 export const MetricType = {
     INCREASE: 'INCREASE',
     DECREASE: 'DECREASE',

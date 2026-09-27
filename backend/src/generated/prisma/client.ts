@@ -192,6 +192,16 @@ export type View = Prisma.ViewModel
  */
 export type Sprint = Prisma.SprintModel
 /**
+ * Model SprintGoal
+ * 
+ */
+export type SprintGoal = Prisma.SprintGoalModel
+/**
+ * Model SprintRetro
+ * 
+ */
+export type SprintRetro = Prisma.SprintRetroModel
+/**
  * Model SprintMetric
  * 
  */

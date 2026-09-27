@@ -58,6 +58,20 @@ const DEMO_METRICS = [
         xpReward: 150,
     },
 ];
+const DEMO_GOALS = [
+    {
+        text: 'Изучить возможности YAM',
+        description: 'Пройдись по разделам: спринты, эпики, задачи, цели, метрики, артефакты, UTM.',
+    },
+    {
+        text: 'Настроить артефакты и UTM-метки',
+        description: 'Добавь свои сайты и соцсети. Настрой UTM для отслеживания трафика.',
+    },
+    {
+        text: 'Пригласить команду в проект',
+        description: 'Пригласи коллег. Каждый получит роль и доступ к задачам.',
+    },
+];
 const DEMO_ARTIFACTS = [
     {
         type: 'WEBSITE',
@@ -217,6 +231,19 @@ let OnboardingService = OnboardingService_1 = class OnboardingService {
                         actualValue: 0,
                         unit: m.unit,
                         xpReward: m.xpReward,
+                    },
+                });
+            }
+            // 10.1. Цели спринта
+            let goalOrder = 0;
+            for (const g of DEMO_GOALS) {
+                await tx.sprintGoal.create({
+                    data: {
+                        sprintId: sprint.id,
+                        text: g.text,
+                        description: g.description,
+                        status: 'PENDING',
+                        order: goalOrder++,
                     },
                 });
             }

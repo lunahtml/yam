@@ -457,12 +457,15 @@ export interface Sprint {
     metrics?: SprintMetric[];
     events?: SprintEvent[];
     increments?: Increment[];
+    sprintGoals?: SprintGoal[];
+    sprintRetros?: SprintRetro[];
     _count?: {
         increments: number;
         metrics: number;
         events: number;
         records?: number;
     };
+    achievedMetrics?: number;
 }
 
 export interface SprintMetric {
@@ -490,6 +493,9 @@ export interface SprintEvent {
     createdBy?: { id: string; email: string; name: string | null };
 }
 
+
+
+
 export interface Increment {
     id: string;
     sprintId: string;
@@ -501,6 +507,72 @@ export interface Increment {
     createdById: string;
     createdAt: string;
     createdBy?: { id: string; email: string; name: string | null };
+}
+
+
+
+// ═══════════════════════════════════════════════════════════════
+// SPRINT GOALS
+// ═══════════════════════════════════════════════════════════════
+
+export type GoalStatus =
+    | 'PENDING'
+    | 'ACHIEVED'
+    | 'CARRIED_OVER'
+    | 'MOVED_BACKLOG'
+    | 'CANCELLED';
+
+export interface SprintGoal {
+    id: string;
+    sprintId: string;
+    text: string;
+    description: string | null;
+    status: GoalStatus;
+    order: number;
+    carriedFromId: string | null;
+    movedToBacklog: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SPRINT RETRO
+// ═══════════════════════════════════════════════════════════════
+
+export interface SprintRetro {
+    id: string;
+    sprintId: string;
+    userId: string;
+    goalAchievement: number | null;
+    teamwork: number | null;
+    process: number | null;
+    quality: number | null;
+    speed: number | null;
+    overall: number | null;
+    wellDone: string | null;
+    improvements: string | null;
+    notes: string | null;
+    createdAt: string;
+    updatedAt: string;
+    user?: {
+        id: string;
+        email: string;
+        name: string | null;
+        avatarUrl: string | null;
+    };
+}
+
+export interface SprintRetroResponse {
+    retros: SprintRetro[];
+    averages: {
+        goalAchievement: number;
+        teamwork: number;
+        process: number;
+        quality: number;
+        speed: number;
+        overall: number;
+    };
+    count: number;
 }
 // ═══════════════════════════════════════════════════════════════
 // EPICS
@@ -519,6 +591,11 @@ export interface Epic {
     endDate: string | null;
     createdAt: string;
     updatedAt: string;
+    sprints?: Sprint[];
+    _count?: {
+        sprints: number;
+    };
+    completedSprints?: number;
 }
 // ═══════════════════════════════════════════════════════════════
 // CATEGORIES

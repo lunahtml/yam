@@ -27,6 +27,9 @@ let EpicsController = class EpicsController {
     async findByProject(userId, projectId) {
         return this.epicsService.findByProject(userId, projectId);
     }
+    async findById(userId, id) {
+        return this.epicsService.findById(userId, id);
+    }
     async update(userId, id, data) {
         return this.epicsService.update(userId, id, data);
     }
@@ -51,6 +54,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], EpicsController.prototype, "findByProject", null);
+__decorate([
+    Get(':id'),
+    __param(0, CurrentUserId()),
+    __param(1, Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], EpicsController.prototype, "findById", null);
 __decorate([
     Put(':id'),
     __param(0, CurrentUserId()),

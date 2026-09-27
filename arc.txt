@@ -90,6 +90,8 @@ frontend/src/
     │   ├── SkillDetailPopup.tsx          ✅
     │   └── SkillDetailPopup.css          ✅
     └── project/
+        ├── EpicDetailPage.tsx            ✅
+        ├── EpicDetailPage.css            ✅
         ├── EpicsPage.tsx                 ✅
         ├── ProjectLayout.tsx             ✅
         ├── ProjectLayout.css             ✅
@@ -304,9 +306,13 @@ backend/src/
     │   ├── increments.controller.ts                 ✅
     │   ├── metrics.controller.ts                    ✅
     │   ├── sprints.controller.ts                    ✅
+    │   ├── sprint-goals.controller.ts               ✅
+    │   ├── sprint-retros.controller.ts              ✅
     │   ├── sprints.module.ts                        ✅
     │   ├── contracts/
     │   │   ├── create-epic.dto.ts                   ✅
+    │   │   ├── sprint-goal.dto.ts                   ✅
+    │   │   ├── sprint-retro.dto.ts                  ✅
     │   │   ├── create-event.dto.ts                  ✅
     │   │   ├── create-increment.dto.ts              ✅
     │   │   ├── create-metric.dto.ts                 ✅
@@ -318,6 +324,8 @@ backend/src/
     │       ├── increments.service.ts                ✅
     │       ├── metrics.service.ts                   ✅
     │       └── sprints.service.ts                   ✅
+    │       └── sprint-goals.service.ts              ✅
+    │       └── sprint-retros.service.ts             ✅
     │
     ├── tags/
     │   ├── tags.controller.ts                       ✅

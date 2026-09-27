@@ -97,6 +97,8 @@ export const ModelName = {
     UtmLink: 'UtmLink',
     View: 'View',
     Sprint: 'Sprint',
+    SprintGoal: 'SprintGoal',
+    SprintRetro: 'SprintRetro',
     SprintMetric: 'SprintMetric',
     SprintEvent: 'SprintEvent',
     Increment: 'Increment',
@@ -450,6 +452,34 @@ export const SprintScalarFieldEnum = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     epicId: 'epicId'
+};
+export const SprintGoalScalarFieldEnum = {
+    id: 'id',
+    sprintId: 'sprintId',
+    text: 'text',
+    description: 'description',
+    status: 'status',
+    order: 'order',
+    carriedFromId: 'carriedFromId',
+    movedToBacklog: 'movedToBacklog',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SprintRetroScalarFieldEnum = {
+    id: 'id',
+    sprintId: 'sprintId',
+    userId: 'userId',
+    goalAchievement: 'goalAchievement',
+    teamwork: 'teamwork',
+    process: 'process',
+    quality: 'quality',
+    speed: 'speed',
+    overall: 'overall',
+    wellDone: 'wellDone',
+    improvements: 'improvements',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const SprintMetricScalarFieldEnum = {
     id: 'id',

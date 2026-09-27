@@ -278,6 +278,8 @@ export type SprintWhereInput = {
   increments?: Prisma.IncrementListRelationFilter
   epic?: Prisma.XOR<Prisma.EpicNullableScalarRelationFilter, Prisma.EpicWhereInput> | null
   records?: Prisma.RecordListRelationFilter
+  sprintGoals?: Prisma.SprintGoalListRelationFilter
+  sprintRetros?: Prisma.SprintRetroListRelationFilter
 }
 
 export type SprintOrderByWithRelationInput = {
@@ -299,6 +301,8 @@ export type SprintOrderByWithRelationInput = {
   increments?: Prisma.IncrementOrderByRelationAggregateInput
   epic?: Prisma.EpicOrderByWithRelationInput
   records?: Prisma.RecordOrderByRelationAggregateInput
+  sprintGoals?: Prisma.SprintGoalOrderByRelationAggregateInput
+  sprintRetros?: Prisma.SprintRetroOrderByRelationAggregateInput
 }
 
 export type SprintWhereUniqueInput = Prisma.AtLeast<{
@@ -324,6 +328,8 @@ export type SprintWhereUniqueInput = Prisma.AtLeast<{
   increments?: Prisma.IncrementListRelationFilter
   epic?: Prisma.XOR<Prisma.EpicNullableScalarRelationFilter, Prisma.EpicWhereInput> | null
   records?: Prisma.RecordListRelationFilter
+  sprintGoals?: Prisma.SprintGoalListRelationFilter
+  sprintRetros?: Prisma.SprintRetroListRelationFilter
 }, "id" | "projectId_number">
 
 export type SprintOrderByWithAggregationInput = {
@@ -381,6 +387,8 @@ export type SprintCreateInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
   epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
   records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateInput = {
@@ -400,6 +408,8 @@ export type SprintUncheckedCreateInput = {
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUpdateInput = {
@@ -419,6 +429,8 @@ export type SprintUpdateInput = {
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
   epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
   records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateInput = {
@@ -438,6 +450,8 @@ export type SprintUncheckedUpdateInput = {
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateManyInput = {
@@ -623,6 +637,34 @@ export type EnumSprintStatusFieldUpdateOperationsInput = {
   set?: $Enums.SprintStatus
 }
 
+export type SprintCreateNestedOneWithoutSprintGoalsInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutSprintGoalsInput, Prisma.SprintUncheckedCreateWithoutSprintGoalsInput>
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutSprintGoalsInput
+  connect?: Prisma.SprintWhereUniqueInput
+}
+
+export type SprintUpdateOneRequiredWithoutSprintGoalsNestedInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutSprintGoalsInput, Prisma.SprintUncheckedCreateWithoutSprintGoalsInput>
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutSprintGoalsInput
+  upsert?: Prisma.SprintUpsertWithoutSprintGoalsInput
+  connect?: Prisma.SprintWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SprintUpdateToOneWithWhereWithoutSprintGoalsInput, Prisma.SprintUpdateWithoutSprintGoalsInput>, Prisma.SprintUncheckedUpdateWithoutSprintGoalsInput>
+}
+
+export type SprintCreateNestedOneWithoutSprintRetrosInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutSprintRetrosInput, Prisma.SprintUncheckedCreateWithoutSprintRetrosInput>
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutSprintRetrosInput
+  connect?: Prisma.SprintWhereUniqueInput
+}
+
+export type SprintUpdateOneRequiredWithoutSprintRetrosNestedInput = {
+  create?: Prisma.XOR<Prisma.SprintCreateWithoutSprintRetrosInput, Prisma.SprintUncheckedCreateWithoutSprintRetrosInput>
+  connectOrCreate?: Prisma.SprintCreateOrConnectWithoutSprintRetrosInput
+  upsert?: Prisma.SprintUpsertWithoutSprintRetrosInput
+  connect?: Prisma.SprintWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SprintUpdateToOneWithWhereWithoutSprintRetrosInput, Prisma.SprintUpdateWithoutSprintRetrosInput>, Prisma.SprintUncheckedUpdateWithoutSprintRetrosInput>
+}
+
 export type SprintCreateNestedOneWithoutMetricsInput = {
   create?: Prisma.XOR<Prisma.SprintCreateWithoutMetricsInput, Prisma.SprintUncheckedCreateWithoutMetricsInput>
   connectOrCreate?: Prisma.SprintCreateOrConnectWithoutMetricsInput
@@ -723,6 +765,8 @@ export type SprintCreateWithoutProjectInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
   epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
   records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutProjectInput = {
@@ -741,6 +785,8 @@ export type SprintUncheckedCreateWithoutProjectInput = {
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutProjectInput = {
@@ -803,6 +849,8 @@ export type SprintCreateWithoutRecordsInput = {
   events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
   epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutRecordsInput = {
@@ -821,6 +869,8 @@ export type SprintUncheckedCreateWithoutRecordsInput = {
   metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutRecordsInput = {
@@ -855,6 +905,8 @@ export type SprintUpdateWithoutRecordsInput = {
   events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
   epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutRecordsInput = {
@@ -873,6 +925,200 @@ export type SprintUncheckedUpdateWithoutRecordsInput = {
   metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
+}
+
+export type SprintCreateWithoutSprintGoalsInput = {
+  id?: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutSprintsInput
+  metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
+}
+
+export type SprintUncheckedCreateWithoutSprintGoalsInput = {
+  id?: string
+  projectId: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  epicId?: string | null
+  metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
+}
+
+export type SprintCreateOrConnectWithoutSprintGoalsInput = {
+  where: Prisma.SprintWhereUniqueInput
+  create: Prisma.XOR<Prisma.SprintCreateWithoutSprintGoalsInput, Prisma.SprintUncheckedCreateWithoutSprintGoalsInput>
+}
+
+export type SprintUpsertWithoutSprintGoalsInput = {
+  update: Prisma.XOR<Prisma.SprintUpdateWithoutSprintGoalsInput, Prisma.SprintUncheckedUpdateWithoutSprintGoalsInput>
+  create: Prisma.XOR<Prisma.SprintCreateWithoutSprintGoalsInput, Prisma.SprintUncheckedCreateWithoutSprintGoalsInput>
+  where?: Prisma.SprintWhereInput
+}
+
+export type SprintUpdateToOneWithWhereWithoutSprintGoalsInput = {
+  where?: Prisma.SprintWhereInput
+  data: Prisma.XOR<Prisma.SprintUpdateWithoutSprintGoalsInput, Prisma.SprintUncheckedUpdateWithoutSprintGoalsInput>
+}
+
+export type SprintUpdateWithoutSprintGoalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutSprintsNestedInput
+  metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
+}
+
+export type SprintUncheckedUpdateWithoutSprintGoalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
+}
+
+export type SprintCreateWithoutSprintRetrosInput = {
+  id?: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutSprintsInput
+  metrics?: Prisma.SprintMetricCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
+  epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
+  records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+}
+
+export type SprintUncheckedCreateWithoutSprintRetrosInput = {
+  id?: string
+  projectId: string
+  name: string
+  number: number
+  goal?: string | null
+  description?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  status?: $Enums.SprintStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  epicId?: string | null
+  metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
+  events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
+  increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+}
+
+export type SprintCreateOrConnectWithoutSprintRetrosInput = {
+  where: Prisma.SprintWhereUniqueInput
+  create: Prisma.XOR<Prisma.SprintCreateWithoutSprintRetrosInput, Prisma.SprintUncheckedCreateWithoutSprintRetrosInput>
+}
+
+export type SprintUpsertWithoutSprintRetrosInput = {
+  update: Prisma.XOR<Prisma.SprintUpdateWithoutSprintRetrosInput, Prisma.SprintUncheckedUpdateWithoutSprintRetrosInput>
+  create: Prisma.XOR<Prisma.SprintCreateWithoutSprintRetrosInput, Prisma.SprintUncheckedCreateWithoutSprintRetrosInput>
+  where?: Prisma.SprintWhereInput
+}
+
+export type SprintUpdateToOneWithWhereWithoutSprintRetrosInput = {
+  where?: Prisma.SprintWhereInput
+  data: Prisma.XOR<Prisma.SprintUpdateWithoutSprintRetrosInput, Prisma.SprintUncheckedUpdateWithoutSprintRetrosInput>
+}
+
+export type SprintUpdateWithoutSprintRetrosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutSprintsNestedInput
+  metrics?: Prisma.SprintMetricUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
+  epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
+  records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+}
+
+export type SprintUncheckedUpdateWithoutSprintRetrosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  goal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumSprintStatusFieldUpdateOperationsInput | $Enums.SprintStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  epicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
+  events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
+  increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateWithoutMetricsInput = {
@@ -891,6 +1137,8 @@ export type SprintCreateWithoutMetricsInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
   epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
   records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutMetricsInput = {
@@ -909,6 +1157,8 @@ export type SprintUncheckedCreateWithoutMetricsInput = {
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutMetricsInput = {
@@ -943,6 +1193,8 @@ export type SprintUpdateWithoutMetricsInput = {
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
   epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
   records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutMetricsInput = {
@@ -961,6 +1213,8 @@ export type SprintUncheckedUpdateWithoutMetricsInput = {
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateWithoutEventsInput = {
@@ -979,6 +1233,8 @@ export type SprintCreateWithoutEventsInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
   epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
   records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutEventsInput = {
@@ -997,6 +1253,8 @@ export type SprintUncheckedCreateWithoutEventsInput = {
   metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutEventsInput = {
@@ -1031,6 +1289,8 @@ export type SprintUpdateWithoutEventsInput = {
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
   epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
   records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutEventsInput = {
@@ -1049,6 +1309,8 @@ export type SprintUncheckedUpdateWithoutEventsInput = {
   metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateWithoutIncrementsInput = {
@@ -1067,6 +1329,8 @@ export type SprintCreateWithoutIncrementsInput = {
   events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
   epic?: Prisma.EpicCreateNestedOneWithoutSprintsInput
   records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutIncrementsInput = {
@@ -1085,6 +1349,8 @@ export type SprintUncheckedCreateWithoutIncrementsInput = {
   metrics?: Prisma.SprintMetricUncheckedCreateNestedManyWithoutSprintInput
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutIncrementsInput = {
@@ -1119,6 +1385,8 @@ export type SprintUpdateWithoutIncrementsInput = {
   events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
   epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
   records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutIncrementsInput = {
@@ -1137,6 +1405,8 @@ export type SprintUncheckedUpdateWithoutIncrementsInput = {
   metrics?: Prisma.SprintMetricUncheckedUpdateManyWithoutSprintNestedInput
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintCreateWithoutEpicInput = {
@@ -1155,6 +1425,8 @@ export type SprintCreateWithoutEpicInput = {
   events?: Prisma.SprintEventCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementCreateNestedManyWithoutSprintInput
   records?: Prisma.RecordCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutSprintInput
 }
 
 export type SprintUncheckedCreateWithoutEpicInput = {
@@ -1173,6 +1445,8 @@ export type SprintUncheckedCreateWithoutEpicInput = {
   events?: Prisma.SprintEventUncheckedCreateNestedManyWithoutSprintInput
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutSprintInput
   records?: Prisma.RecordUncheckedCreateNestedManyWithoutSprintInput
+  sprintGoals?: Prisma.SprintGoalUncheckedCreateNestedManyWithoutSprintInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutSprintInput
 }
 
 export type SprintCreateOrConnectWithoutEpicInput = {
@@ -1231,6 +1505,8 @@ export type SprintUpdateWithoutProjectInput = {
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
   epic?: Prisma.EpicUpdateOneWithoutSprintsNestedInput
   records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutProjectInput = {
@@ -1249,6 +1525,8 @@ export type SprintUncheckedUpdateWithoutProjectInput = {
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateManyWithoutProjectInput = {
@@ -1295,6 +1573,8 @@ export type SprintUpdateWithoutEpicInput = {
   events?: Prisma.SprintEventUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUpdateManyWithoutSprintNestedInput
   records?: Prisma.RecordUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateWithoutEpicInput = {
@@ -1313,6 +1593,8 @@ export type SprintUncheckedUpdateWithoutEpicInput = {
   events?: Prisma.SprintEventUncheckedUpdateManyWithoutSprintNestedInput
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutSprintNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutSprintNestedInput
+  sprintGoals?: Prisma.SprintGoalUncheckedUpdateManyWithoutSprintNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutSprintNestedInput
 }
 
 export type SprintUncheckedUpdateManyWithoutEpicInput = {
@@ -1339,6 +1621,8 @@ export type SprintCountOutputType = {
   events: number
   increments: number
   records: number
+  sprintGoals: number
+  sprintRetros: number
 }
 
 export type SprintCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1346,6 +1630,8 @@ export type SprintCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   events?: boolean | SprintCountOutputTypeCountEventsArgs
   increments?: boolean | SprintCountOutputTypeCountIncrementsArgs
   records?: boolean | SprintCountOutputTypeCountRecordsArgs
+  sprintGoals?: boolean | SprintCountOutputTypeCountSprintGoalsArgs
+  sprintRetros?: boolean | SprintCountOutputTypeCountSprintRetrosArgs
 }
 
 /**
@@ -1386,6 +1672,20 @@ export type SprintCountOutputTypeCountRecordsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.RecordWhereInput
 }
 
+/**
+ * SprintCountOutputType without action
+ */
+export type SprintCountOutputTypeCountSprintGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SprintGoalWhereInput
+}
+
+/**
+ * SprintCountOutputType without action
+ */
+export type SprintCountOutputTypeCountSprintRetrosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SprintRetroWhereInput
+}
+
 
 export type SprintSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1406,6 +1706,8 @@ export type SprintSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   increments?: boolean | Prisma.Sprint$incrementsArgs<ExtArgs>
   epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
   records?: boolean | Prisma.Sprint$recordsArgs<ExtArgs>
+  sprintGoals?: boolean | Prisma.Sprint$sprintGoalsArgs<ExtArgs>
+  sprintRetros?: boolean | Prisma.Sprint$sprintRetrosArgs<ExtArgs>
   _count?: boolean | Prisma.SprintCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sprint"]>
 
@@ -1466,6 +1768,8 @@ export type SprintInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   increments?: boolean | Prisma.Sprint$incrementsArgs<ExtArgs>
   epic?: boolean | Prisma.Sprint$epicArgs<ExtArgs>
   records?: boolean | Prisma.Sprint$recordsArgs<ExtArgs>
+  sprintGoals?: boolean | Prisma.Sprint$sprintGoalsArgs<ExtArgs>
+  sprintRetros?: boolean | Prisma.Sprint$sprintRetrosArgs<ExtArgs>
   _count?: boolean | Prisma.SprintCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SprintIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1486,6 +1790,8 @@ export type $SprintPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     increments: Prisma.$IncrementPayload<ExtArgs>[]
     epic: Prisma.$EpicPayload<ExtArgs> | null
     records: Prisma.$RecordPayload<ExtArgs>[]
+    sprintGoals: Prisma.$SprintGoalPayload<ExtArgs>[]
+    sprintRetros: Prisma.$SprintRetroPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1900,6 +2206,8 @@ export interface Prisma__SprintClient<T, Null = never, ExtArgs extends runtime.T
   increments<T extends Prisma.Sprint$incrementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$incrementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncrementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   epic<T extends Prisma.Sprint$epicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$epicArgs<ExtArgs>>): Prisma.Prisma__EpicClient<runtime.Types.Result.GetResult<Prisma.$EpicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   records<T extends Prisma.Sprint$recordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sprintGoals<T extends Prisma.Sprint$sprintGoalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$sprintGoalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SprintGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sprintRetros<T extends Prisma.Sprint$sprintRetrosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sprint$sprintRetrosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SprintRetroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2454,6 +2762,54 @@ export type Sprint$recordsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.RecordScalarFieldEnum | Prisma.RecordScalarFieldEnum[]
+}
+
+/**
+ * Sprint.sprintGoals
+ */
+export type Sprint$sprintGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SprintGoal
+   */
+  select?: Prisma.SprintGoalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SprintGoal
+   */
+  omit?: Prisma.SprintGoalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SprintGoalInclude<ExtArgs> | null
+  where?: Prisma.SprintGoalWhereInput
+  orderBy?: Prisma.SprintGoalOrderByWithRelationInput | Prisma.SprintGoalOrderByWithRelationInput[]
+  cursor?: Prisma.SprintGoalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SprintGoalScalarFieldEnum | Prisma.SprintGoalScalarFieldEnum[]
+}
+
+/**
+ * Sprint.sprintRetros
+ */
+export type Sprint$sprintRetrosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SprintRetro
+   */
+  select?: Prisma.SprintRetroSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SprintRetro
+   */
+  omit?: Prisma.SprintRetroOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SprintRetroInclude<ExtArgs> | null
+  where?: Prisma.SprintRetroWhereInput
+  orderBy?: Prisma.SprintRetroOrderByWithRelationInput | Prisma.SprintRetroOrderByWithRelationInput[]
+  cursor?: Prisma.SprintRetroWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SprintRetroScalarFieldEnum | Prisma.SprintRetroScalarFieldEnum[]
 }
 
 /**

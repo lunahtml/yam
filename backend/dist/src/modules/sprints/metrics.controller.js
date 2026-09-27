@@ -24,6 +24,9 @@ let MetricsController = class MetricsController {
     async create(userId, sprintId, data) {
         return this.metricsService.create(userId, sprintId, data);
     }
+    async recalculate(userId, sprintId) {
+        return this.metricsService.recalculate(userId, sprintId);
+    }
     async update(userId, id, data) {
         return this.metricsService.update(userId, id, data);
     }
@@ -40,6 +43,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], MetricsController.prototype, "create", null);
+__decorate([
+    Post('recalculate'),
+    __param(0, CurrentUserId()),
+    __param(1, Param('sprintId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], MetricsController.prototype, "recalculate", null);
 __decorate([
     Put(':id'),
     __param(0, CurrentUserId()),

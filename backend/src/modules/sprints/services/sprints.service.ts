@@ -61,7 +61,7 @@ export class SprintsService {
     async findByProject(userId: string, projectId: string) {
         await this.membership.assertProjectMember(userId, projectId);
 
-        return this.prisma.client.sprint.findMany({
+        const sprints = await this.prisma.client.sprint.findMany({
             where: { projectId },
             orderBy: { number: 'desc' },
             include: {
@@ -76,6 +76,18 @@ export class SprintsService {
                 },
             },
         });
+
+        // Добавляем achievedMetrics для каждого спринта
+        const sprintsWithAchieved = await Promise.all(
+            sprints.map(async (sprint) => {
+                const achievedMetrics = await this.prisma.client.sprintMetric.count({
+                    where: { sprintId: sprint.id, isAchieved: true },
+                });
+                return { ...sprint, achievedMetrics };
+            }),
+        );
+
+        return sprintsWithAchieved;
     }
 
     async findById(userId: string, id: string) {

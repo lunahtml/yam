@@ -40,6 +40,9 @@ import {
     Invitation,
     Epic,
     EpicStatus,
+    SprintGoal,
+    SprintRetro,
+    SprintRetroResponse,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -537,7 +540,60 @@ export const api = {
 
     getSprintRecords: (id: string) =>
         request<EntityRecord[]>(`/sprints/${id}/records`),
+    // ═══════════════════════════════════════════════════════════════
+    // SPRINT GOALS
+    // ═══════════════════════════════════════════════════════════════
 
+    createSprintGoal: (sprintId: string, data: {
+        text: string;
+        description?: string;
+    }) =>
+        request<SprintGoal>(`/sprints/${sprintId}/goals`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getSprintGoals: (sprintId: string) =>
+        request<SprintGoal[]>(`/sprints/${sprintId}/goals`),
+
+    updateSprintGoal: (id: string, data: {
+        text?: string;
+        description?: string;
+        order?: number;
+    }) =>
+        request<SprintGoal>(`/sprints/goals/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteSprintGoal: (id: string) =>
+        request<void>(`/sprints/goals/${id}`, { method: 'DELETE' }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // SPRINT RETRO
+    // ═══════════════════════════════════════════════════════════════
+
+    upsertSprintRetro: (sprintId: string, data: {
+        goalAchievement?: number;
+        teamwork?: number;
+        process?: number;
+        quality?: number;
+        speed?: number;
+        overall?: number;
+        wellDone?: string;
+        improvements?: string;
+        notes?: string;
+    }) =>
+        request<SprintRetro>(`/sprints/${sprintId}/retro`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getSprintRetros: (sprintId: string) =>
+        request<SprintRetroResponse>(`/sprints/${sprintId}/retro`),
+
+    getMySprintRetro: (sprintId: string) =>
+        request<SprintRetro | null>(`/sprints/${sprintId}/retro/my`),
 
     createMetric: (sprintId: string, data: {
         key: string;
@@ -551,6 +607,17 @@ export const api = {
         request<SprintMetric>(`/sprints/${sprintId}/metrics`, {
             method: 'POST',
             body: JSON.stringify(data),
+        }),
+
+    recalculateMetrics: (sprintId: string) =>
+        request<{
+            updated: number;
+            recalculated?: number;
+            skipped: number;
+            dashboardId?: string;
+            reason?: string;
+        }>(`/sprints/${sprintId}/metrics/recalculate`, {
+            method: 'POST',
         }),
 
     deleteMetric: (sprintId: string, id: string) =>
@@ -602,7 +669,8 @@ export const api = {
 
     getEpics: (projectId: string) =>
         request<Epic[]>(`/epics/project/${projectId}`),
-
+    getEpic: (id: string) =>
+        request<Epic>(`/epics/${id}`),
     updateEpic: (id: string, data: Partial<{
         name: string;
         description: string;

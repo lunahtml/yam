@@ -126,6 +126,7 @@ model User {
     userSkills         UserSkill[]
     createdEvidences   SkillEvidence[]
     invitations        Invitation[]
+    sprintRetros       SprintRetro[]
 
     @@map("users")
 }
@@ -813,7 +814,9 @@ model Sprint {
     epicId     String?        @db.Uuid
     epic       Epic?          @relation(fields: [epicId], references: [id], onDelete: SetNull)
 
-    records Record[]
+    records      Record[]
+    sprintGoals  SprintGoal[]
+    sprintRetros SprintRetro[]
 
     @@unique([projectId, number])
     @@index([projectId])
@@ -826,6 +829,68 @@ enum SprintStatus {
     ACTIVE
     COMPLETED
     CANCELLED
+}
+
+model SprintGoal {
+    id          String     @id @default(uuid(7)) @db.Uuid
+    sprintId    String     @db.Uuid
+    text        String
+    description String?
+    status      GoalStatus @default(PENDING)
+    order       Int        @default(0)
+
+    // Перенос в следующий спринт
+    carriedFromId String?      @db.Uuid // ← ID цели из прошлого спринта (если перенесена)
+    carriedFrom   SprintGoal?  @relation("GoalCarry", fields: [carriedFromId], references: [id], onDelete: SetNull)
+    carriedTo     SprintGoal[] @relation("GoalCarry")
+
+    // Опционально: перенос в бэклог (без спринта)
+    movedToBacklog Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+
+    @@index([sprintId])
+    @@map("sprint_goals")
+}
+
+enum GoalStatus {
+    PENDING // ещё не оценена (активный спринт)
+    ACHIEVED // завершена
+    CARRIED_OVER // перенесена в следующий
+    MOVED_BACKLOG // в бэклог
+    CANCELLED // удалена
+}
+
+model SprintRetro {
+    id       String @id @default(uuid(7)) @db.Uuid
+    sprintId String @db.Uuid
+    userId   String @db.Uuid
+
+    // Оценки по критериям (1-10)
+    goalAchievement Float? // Достижение целей
+    teamwork        Float? // Командная работа
+    process         Float? // Процесс
+    quality         Float? // Качество
+    speed           Float? // Скорость
+    overall         Float? // Общая оценка
+
+    // Комментарии
+    wellDone     String? // Что было хорошо
+    improvements String? // Что улучшить
+    notes        String? // Прочее
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([sprintId, userId])
+    @@index([sprintId])
+    @@map("sprint_retros")
 }
 
 // ═══════════════════════════════════════════════════════════════

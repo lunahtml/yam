@@ -30,6 +30,14 @@ export class MetricsController {
         return this.metricsService.create(userId, sprintId, data);
     }
 
+    @Post('recalculate')
+    async recalculate(
+        @CurrentUserId() userId: string,
+        @Param('sprintId') sprintId: string,
+    ) {
+        return this.metricsService.recalculate(userId, sprintId);
+    }
+
     @Put(':id')
     async update(
         @CurrentUserId() userId: string,

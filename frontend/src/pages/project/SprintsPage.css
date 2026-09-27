@@ -335,3 +335,8 @@
     justify-content: flex-end;
     padding: 0 4px;
 }
+
+.sprint-metric-success {
+    color: var(--success);
+    font-weight: 600;
+}

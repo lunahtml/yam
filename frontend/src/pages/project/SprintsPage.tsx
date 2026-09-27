@@ -303,9 +303,9 @@ export default function SprintsPage() {
                                                 <CheckCircle2 size={12} />
                                                 {sprint._count.increments} инкрементов
                                             </span>
-                                            <span>
+                                            <span className={sprint.achievedMetrics === sprint._count.metrics && sprint._count.metrics > 0 ? 'sprint-metric-success' : ''}>
                                                 <Clock size={12} />
-                                                {sprint._count.metrics} метрик
+                                                {sprint.achievedMetrics ?? 0} / {sprint._count.metrics} метрик
                                             </span>
                                         </div>
                                     )}

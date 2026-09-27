@@ -427,6 +427,8 @@ export const ModelName = {
   UtmLink: 'UtmLink',
   View: 'View',
   Sprint: 'Sprint',
+  SprintGoal: 'SprintGoal',
+  SprintRetro: 'SprintRetro',
   SprintMetric: 'SprintMetric',
   SprintEvent: 'SprintEvent',
   Increment: 'Increment',
@@ -453,7 +455,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink" | "view" | "sprint" | "sprintMetric" | "sprintEvent" | "increment" | "epic" | "tag" | "category" | "skill" | "userSkill" | "skillEvidence" | "taskComplexity" | "invitation"
+    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink" | "view" | "sprint" | "sprintGoal" | "sprintRetro" | "sprintMetric" | "sprintEvent" | "increment" | "epic" | "tag" | "category" | "skill" | "userSkill" | "skillEvidence" | "taskComplexity" | "invitation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2677,6 +2679,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SprintGoal: {
+      payload: Prisma.$SprintGoalPayload<ExtArgs>
+      fields: Prisma.SprintGoalFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SprintGoalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SprintGoalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>
+        }
+        findFirst: {
+          args: Prisma.SprintGoalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SprintGoalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>
+        }
+        findMany: {
+          args: Prisma.SprintGoalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>[]
+        }
+        create: {
+          args: Prisma.SprintGoalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>
+        }
+        createMany: {
+          args: Prisma.SprintGoalCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SprintGoalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>[]
+        }
+        delete: {
+          args: Prisma.SprintGoalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>
+        }
+        update: {
+          args: Prisma.SprintGoalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>
+        }
+        deleteMany: {
+          args: Prisma.SprintGoalDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SprintGoalUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SprintGoalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>[]
+        }
+        upsert: {
+          args: Prisma.SprintGoalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintGoalPayload>
+        }
+        aggregate: {
+          args: Prisma.SprintGoalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSprintGoal>
+        }
+        groupBy: {
+          args: Prisma.SprintGoalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SprintGoalGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SprintGoalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SprintGoalCountAggregateOutputType> | number
+        }
+      }
+    }
+    SprintRetro: {
+      payload: Prisma.$SprintRetroPayload<ExtArgs>
+      fields: Prisma.SprintRetroFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SprintRetroFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SprintRetroFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>
+        }
+        findFirst: {
+          args: Prisma.SprintRetroFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SprintRetroFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>
+        }
+        findMany: {
+          args: Prisma.SprintRetroFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>[]
+        }
+        create: {
+          args: Prisma.SprintRetroCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>
+        }
+        createMany: {
+          args: Prisma.SprintRetroCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SprintRetroCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>[]
+        }
+        delete: {
+          args: Prisma.SprintRetroDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>
+        }
+        update: {
+          args: Prisma.SprintRetroUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>
+        }
+        deleteMany: {
+          args: Prisma.SprintRetroDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SprintRetroUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SprintRetroUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>[]
+        }
+        upsert: {
+          args: Prisma.SprintRetroUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SprintRetroPayload>
+        }
+        aggregate: {
+          args: Prisma.SprintRetroAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSprintRetro>
+        }
+        groupBy: {
+          args: Prisma.SprintRetroGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SprintRetroGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SprintRetroCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SprintRetroCountAggregateOutputType> | number
+        }
+      }
+    }
     SprintMetric: {
       payload: Prisma.$SprintMetricPayload<ExtArgs>
       fields: Prisma.SprintMetricFieldRefs
@@ -3983,6 +4133,42 @@ export const SprintScalarFieldEnum = {
 export type SprintScalarFieldEnum = (typeof SprintScalarFieldEnum)[keyof typeof SprintScalarFieldEnum]
 
 
+export const SprintGoalScalarFieldEnum = {
+  id: 'id',
+  sprintId: 'sprintId',
+  text: 'text',
+  description: 'description',
+  status: 'status',
+  order: 'order',
+  carriedFromId: 'carriedFromId',
+  movedToBacklog: 'movedToBacklog',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SprintGoalScalarFieldEnum = (typeof SprintGoalScalarFieldEnum)[keyof typeof SprintGoalScalarFieldEnum]
+
+
+export const SprintRetroScalarFieldEnum = {
+  id: 'id',
+  sprintId: 'sprintId',
+  userId: 'userId',
+  goalAchievement: 'goalAchievement',
+  teamwork: 'teamwork',
+  process: 'process',
+  quality: 'quality',
+  speed: 'speed',
+  overall: 'overall',
+  wellDone: 'wellDone',
+  improvements: 'improvements',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SprintRetroScalarFieldEnum = (typeof SprintRetroScalarFieldEnum)[keyof typeof SprintRetroScalarFieldEnum]
+
+
 export const SprintMetricScalarFieldEnum = {
   id: 'id',
   sprintId: 'sprintId',
@@ -4406,6 +4592,20 @@ export type ListEnumSprintStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'GoalStatus'
+ */
+export type EnumGoalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GoalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'GoalStatus[]'
+ */
+export type ListEnumGoalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GoalStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'MetricType'
  */
 export type EnumMetricTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetricType'>
@@ -4669,6 +4869,8 @@ export type GlobalOmitConfig = {
   utmLink?: Prisma.UtmLinkOmit
   view?: Prisma.ViewOmit
   sprint?: Prisma.SprintOmit
+  sprintGoal?: Prisma.SprintGoalOmit
+  sprintRetro?: Prisma.SprintRetroOmit
   sprintMetric?: Prisma.SprintMetricOmit
   sprintEvent?: Prisma.SprintEventOmit
   increment?: Prisma.IncrementOmit
