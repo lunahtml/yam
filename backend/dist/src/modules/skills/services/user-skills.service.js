@@ -42,6 +42,7 @@ let UserSkillsService = class UserSkillsService {
                     },
                 },
                 context: { select: { id: true, name: true, slug: true } },
+                geography: { select: { id: true, name: true, slug: true } },
                 evidences: { orderBy: { createdAt: 'desc' }, take: 10 },
             },
         });
@@ -69,6 +70,7 @@ let UserSkillsService = class UserSkillsService {
                     },
                 },
                 context: { select: { id: true, name: true, slug: true } },
+                geography: { select: { id: true, name: true, slug: true } },
                 evidences: {
                     orderBy: { createdAt: 'desc' },
                     include: {

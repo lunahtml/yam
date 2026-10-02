@@ -131,7 +131,11 @@ export const api = {
             method: 'POST',
             body: JSON.stringify({ verificationToken, code }),
         }),
-
+    denyLogin: (verificationToken: string) =>
+        request<{ success: boolean }>('/auth/deny-login', {
+            method: 'POST',
+            body: JSON.stringify({ verificationToken }),
+        }),
     // БЫЛО: refresh: (refreshToken: string) => request('/auth/refresh', { method: 'POST', body: JSON.stringify({ refreshToken }) }),
     // ПОЧЕМУ ИЗМЕНЕНО: refreshToken больше не передаётся явно — он уже в cookie,
     // бэкенд читает его сам. Функция больше не принимает параметров.

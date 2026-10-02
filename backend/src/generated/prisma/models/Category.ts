@@ -235,7 +235,8 @@ export type CategoryWhereInput = {
   children?: Prisma.CategoryListRelationFilter
   tags?: Prisma.TagListRelationFilter
   skills?: Prisma.SkillListRelationFilter
-  userSkills?: Prisma.UserSkillListRelationFilter
+  userSkillsAsSphere?: Prisma.UserSkillListRelationFilter
+  userSkillsAsGeography?: Prisma.UserSkillListRelationFilter
 }
 
 export type CategoryOrderByWithRelationInput = {
@@ -255,7 +256,8 @@ export type CategoryOrderByWithRelationInput = {
   children?: Prisma.CategoryOrderByRelationAggregateInput
   tags?: Prisma.TagOrderByRelationAggregateInput
   skills?: Prisma.SkillOrderByRelationAggregateInput
-  userSkills?: Prisma.UserSkillOrderByRelationAggregateInput
+  userSkillsAsSphere?: Prisma.UserSkillOrderByRelationAggregateInput
+  userSkillsAsGeography?: Prisma.UserSkillOrderByRelationAggregateInput
 }
 
 export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -279,7 +281,8 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   children?: Prisma.CategoryListRelationFilter
   tags?: Prisma.TagListRelationFilter
   skills?: Prisma.SkillListRelationFilter
-  userSkills?: Prisma.UserSkillListRelationFilter
+  userSkillsAsSphere?: Prisma.UserSkillListRelationFilter
+  userSkillsAsGeography?: Prisma.UserSkillListRelationFilter
 }, "id" | "organizationId_scope_slug">
 
 export type CategoryOrderByWithAggregationInput = {
@@ -331,7 +334,8 @@ export type CategoryCreateInput = {
   children?: Prisma.CategoryCreateNestedManyWithoutParentInput
   tags?: Prisma.TagCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryUncheckedCreateInput = {
@@ -349,7 +353,8 @@ export type CategoryUncheckedCreateInput = {
   children?: Prisma.CategoryUncheckedCreateNestedManyWithoutParentInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillUncheckedCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryUpdateInput = {
@@ -367,7 +372,8 @@ export type CategoryUpdateInput = {
   children?: Prisma.CategoryUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateInput = {
@@ -385,7 +391,8 @@ export type CategoryUncheckedUpdateInput = {
   children?: Prisma.CategoryUncheckedUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUncheckedUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryCreateManyInput = {
@@ -627,20 +634,36 @@ export type CategoryUpdateOneWithoutSkillsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutSkillsInput, Prisma.CategoryUpdateWithoutSkillsInput>, Prisma.CategoryUncheckedUpdateWithoutSkillsInput>
 }
 
-export type CategoryCreateNestedOneWithoutUserSkillsInput = {
-  create?: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsInput>
-  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutUserSkillsInput
+export type CategoryCreateNestedOneWithoutUserSkillsAsSphereInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsSphereInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsSphereInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutUserSkillsAsSphereInput
   connect?: Prisma.CategoryWhereUniqueInput
 }
 
-export type CategoryUpdateOneWithoutUserSkillsNestedInput = {
-  create?: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsInput>
-  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutUserSkillsInput
-  upsert?: Prisma.CategoryUpsertWithoutUserSkillsInput
+export type CategoryCreateNestedOneWithoutUserSkillsAsGeographyInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsGeographyInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsGeographyInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutUserSkillsAsGeographyInput
+  connect?: Prisma.CategoryWhereUniqueInput
+}
+
+export type CategoryUpdateOneWithoutUserSkillsAsSphereNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsSphereInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsSphereInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutUserSkillsAsSphereInput
+  upsert?: Prisma.CategoryUpsertWithoutUserSkillsAsSphereInput
   disconnect?: Prisma.CategoryWhereInput | boolean
   delete?: Prisma.CategoryWhereInput | boolean
   connect?: Prisma.CategoryWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutUserSkillsInput, Prisma.CategoryUpdateWithoutUserSkillsInput>, Prisma.CategoryUncheckedUpdateWithoutUserSkillsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutUserSkillsAsSphereInput, Prisma.CategoryUpdateWithoutUserSkillsAsSphereInput>, Prisma.CategoryUncheckedUpdateWithoutUserSkillsAsSphereInput>
+}
+
+export type CategoryUpdateOneWithoutUserSkillsAsGeographyNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsGeographyInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsGeographyInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutUserSkillsAsGeographyInput
+  upsert?: Prisma.CategoryUpsertWithoutUserSkillsAsGeographyInput
+  disconnect?: Prisma.CategoryWhereInput | boolean
+  delete?: Prisma.CategoryWhereInput | boolean
+  connect?: Prisma.CategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutUserSkillsAsGeographyInput, Prisma.CategoryUpdateWithoutUserSkillsAsGeographyInput>, Prisma.CategoryUncheckedUpdateWithoutUserSkillsAsGeographyInput>
 }
 
 export type CategoryCreateWithoutOrganizationInput = {
@@ -657,7 +680,8 @@ export type CategoryCreateWithoutOrganizationInput = {
   children?: Prisma.CategoryCreateNestedManyWithoutParentInput
   tags?: Prisma.TagCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryUncheckedCreateWithoutOrganizationInput = {
@@ -674,7 +698,8 @@ export type CategoryUncheckedCreateWithoutOrganizationInput = {
   children?: Prisma.CategoryUncheckedCreateNestedManyWithoutParentInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillUncheckedCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryCreateOrConnectWithoutOrganizationInput = {
@@ -734,7 +759,8 @@ export type CategoryCreateWithoutTagsInput = {
   parent?: Prisma.CategoryCreateNestedOneWithoutChildrenInput
   children?: Prisma.CategoryCreateNestedManyWithoutParentInput
   skills?: Prisma.SkillCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryUncheckedCreateWithoutTagsInput = {
@@ -751,7 +777,8 @@ export type CategoryUncheckedCreateWithoutTagsInput = {
   updatedAt?: Date | string
   children?: Prisma.CategoryUncheckedCreateNestedManyWithoutParentInput
   skills?: Prisma.SkillUncheckedCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryCreateOrConnectWithoutTagsInput = {
@@ -784,7 +811,8 @@ export type CategoryUpdateWithoutTagsInput = {
   parent?: Prisma.CategoryUpdateOneWithoutChildrenNestedInput
   children?: Prisma.CategoryUpdateManyWithoutParentNestedInput
   skills?: Prisma.SkillUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutTagsInput = {
@@ -801,7 +829,8 @@ export type CategoryUncheckedUpdateWithoutTagsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.CategoryUncheckedUpdateManyWithoutParentNestedInput
   skills?: Prisma.SkillUncheckedUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryCreateWithoutChildrenInput = {
@@ -818,7 +847,8 @@ export type CategoryCreateWithoutChildrenInput = {
   parent?: Prisma.CategoryCreateNestedOneWithoutChildrenInput
   tags?: Prisma.TagCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryUncheckedCreateWithoutChildrenInput = {
@@ -835,7 +865,8 @@ export type CategoryUncheckedCreateWithoutChildrenInput = {
   updatedAt?: Date | string
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillUncheckedCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryCreateOrConnectWithoutChildrenInput = {
@@ -857,7 +888,8 @@ export type CategoryCreateWithoutParentInput = {
   children?: Prisma.CategoryCreateNestedManyWithoutParentInput
   tags?: Prisma.TagCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryUncheckedCreateWithoutParentInput = {
@@ -874,7 +906,8 @@ export type CategoryUncheckedCreateWithoutParentInput = {
   children?: Prisma.CategoryUncheckedCreateNestedManyWithoutParentInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillUncheckedCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryCreateOrConnectWithoutParentInput = {
@@ -912,7 +945,8 @@ export type CategoryUpdateWithoutChildrenInput = {
   parent?: Prisma.CategoryUpdateOneWithoutChildrenNestedInput
   tags?: Prisma.TagUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutChildrenInput = {
@@ -929,7 +963,8 @@ export type CategoryUncheckedUpdateWithoutChildrenInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tags?: Prisma.TagUncheckedUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUncheckedUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUpsertWithWhereUniqueWithoutParentInput = {
@@ -962,7 +997,8 @@ export type CategoryCreateWithoutSkillsInput = {
   parent?: Prisma.CategoryCreateNestedOneWithoutChildrenInput
   children?: Prisma.CategoryCreateNestedManyWithoutParentInput
   tags?: Prisma.TagCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryUncheckedCreateWithoutSkillsInput = {
@@ -979,7 +1015,8 @@ export type CategoryUncheckedCreateWithoutSkillsInput = {
   updatedAt?: Date | string
   children?: Prisma.CategoryUncheckedCreateNestedManyWithoutParentInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutCategoryInput
-  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedCreateNestedManyWithoutGeographyInput
 }
 
 export type CategoryCreateOrConnectWithoutSkillsInput = {
@@ -1012,7 +1049,8 @@ export type CategoryUpdateWithoutSkillsInput = {
   parent?: Prisma.CategoryUpdateOneWithoutChildrenNestedInput
   children?: Prisma.CategoryUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutSkillsInput = {
@@ -1029,10 +1067,11 @@ export type CategoryUncheckedUpdateWithoutSkillsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.CategoryUncheckedUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedUpdateManyWithoutGeographyNestedInput
 }
 
-export type CategoryCreateWithoutUserSkillsInput = {
+export type CategoryCreateWithoutUserSkillsAsSphereInput = {
   id?: string
   name: string
   slug: string
@@ -1047,9 +1086,10 @@ export type CategoryCreateWithoutUserSkillsInput = {
   children?: Prisma.CategoryCreateNestedManyWithoutParentInput
   tags?: Prisma.TagCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillCreateNestedManyWithoutCategoryInput
+  userSkillsAsGeography?: Prisma.UserSkillCreateNestedManyWithoutGeographyInput
 }
 
-export type CategoryUncheckedCreateWithoutUserSkillsInput = {
+export type CategoryUncheckedCreateWithoutUserSkillsAsSphereInput = {
   id?: string
   organizationId: string
   parentId?: string | null
@@ -1064,25 +1104,67 @@ export type CategoryUncheckedCreateWithoutUserSkillsInput = {
   children?: Prisma.CategoryUncheckedCreateNestedManyWithoutParentInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutCategoryInput
   skills?: Prisma.SkillUncheckedCreateNestedManyWithoutCategoryInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedCreateNestedManyWithoutGeographyInput
 }
 
-export type CategoryCreateOrConnectWithoutUserSkillsInput = {
+export type CategoryCreateOrConnectWithoutUserSkillsAsSphereInput = {
   where: Prisma.CategoryWhereUniqueInput
-  create: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsSphereInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsSphereInput>
 }
 
-export type CategoryUpsertWithoutUserSkillsInput = {
-  update: Prisma.XOR<Prisma.CategoryUpdateWithoutUserSkillsInput, Prisma.CategoryUncheckedUpdateWithoutUserSkillsInput>
-  create: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsInput>
+export type CategoryCreateWithoutUserSkillsAsGeographyInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  icon?: string | null
+  color?: string | null
+  scope: $Enums.CategoryScope
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutCategoriesInput
+  parent?: Prisma.CategoryCreateNestedOneWithoutChildrenInput
+  children?: Prisma.CategoryCreateNestedManyWithoutParentInput
+  tags?: Prisma.TagCreateNestedManyWithoutCategoryInput
+  skills?: Prisma.SkillCreateNestedManyWithoutCategoryInput
+  userSkillsAsSphere?: Prisma.UserSkillCreateNestedManyWithoutContextInput
+}
+
+export type CategoryUncheckedCreateWithoutUserSkillsAsGeographyInput = {
+  id?: string
+  organizationId: string
+  parentId?: string | null
+  name: string
+  slug: string
+  description?: string | null
+  icon?: string | null
+  color?: string | null
+  scope: $Enums.CategoryScope
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  children?: Prisma.CategoryUncheckedCreateNestedManyWithoutParentInput
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutCategoryInput
+  skills?: Prisma.SkillUncheckedCreateNestedManyWithoutCategoryInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedCreateNestedManyWithoutContextInput
+}
+
+export type CategoryCreateOrConnectWithoutUserSkillsAsGeographyInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsGeographyInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsGeographyInput>
+}
+
+export type CategoryUpsertWithoutUserSkillsAsSphereInput = {
+  update: Prisma.XOR<Prisma.CategoryUpdateWithoutUserSkillsAsSphereInput, Prisma.CategoryUncheckedUpdateWithoutUserSkillsAsSphereInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsSphereInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsSphereInput>
   where?: Prisma.CategoryWhereInput
 }
 
-export type CategoryUpdateToOneWithWhereWithoutUserSkillsInput = {
+export type CategoryUpdateToOneWithWhereWithoutUserSkillsAsSphereInput = {
   where?: Prisma.CategoryWhereInput
-  data: Prisma.XOR<Prisma.CategoryUpdateWithoutUserSkillsInput, Prisma.CategoryUncheckedUpdateWithoutUserSkillsInput>
+  data: Prisma.XOR<Prisma.CategoryUpdateWithoutUserSkillsAsSphereInput, Prisma.CategoryUncheckedUpdateWithoutUserSkillsAsSphereInput>
 }
 
-export type CategoryUpdateWithoutUserSkillsInput = {
+export type CategoryUpdateWithoutUserSkillsAsSphereInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1097,9 +1179,10 @@ export type CategoryUpdateWithoutUserSkillsInput = {
   children?: Prisma.CategoryUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUpdateManyWithoutCategoryNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUpdateManyWithoutGeographyNestedInput
 }
 
-export type CategoryUncheckedUpdateWithoutUserSkillsInput = {
+export type CategoryUncheckedUpdateWithoutUserSkillsAsSphereInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1114,6 +1197,54 @@ export type CategoryUncheckedUpdateWithoutUserSkillsInput = {
   children?: Prisma.CategoryUncheckedUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUncheckedUpdateManyWithoutCategoryNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedUpdateManyWithoutGeographyNestedInput
+}
+
+export type CategoryUpsertWithoutUserSkillsAsGeographyInput = {
+  update: Prisma.XOR<Prisma.CategoryUpdateWithoutUserSkillsAsGeographyInput, Prisma.CategoryUncheckedUpdateWithoutUserSkillsAsGeographyInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutUserSkillsAsGeographyInput, Prisma.CategoryUncheckedCreateWithoutUserSkillsAsGeographyInput>
+  where?: Prisma.CategoryWhereInput
+}
+
+export type CategoryUpdateToOneWithWhereWithoutUserSkillsAsGeographyInput = {
+  where?: Prisma.CategoryWhereInput
+  data: Prisma.XOR<Prisma.CategoryUpdateWithoutUserSkillsAsGeographyInput, Prisma.CategoryUncheckedUpdateWithoutUserSkillsAsGeographyInput>
+}
+
+export type CategoryUpdateWithoutUserSkillsAsGeographyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.EnumCategoryScopeFieldUpdateOperationsInput | $Enums.CategoryScope
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutCategoriesNestedInput
+  parent?: Prisma.CategoryUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.CategoryUpdateManyWithoutParentNestedInput
+  tags?: Prisma.TagUpdateManyWithoutCategoryNestedInput
+  skills?: Prisma.SkillUpdateManyWithoutCategoryNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+}
+
+export type CategoryUncheckedUpdateWithoutUserSkillsAsGeographyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.EnumCategoryScopeFieldUpdateOperationsInput | $Enums.CategoryScope
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  children?: Prisma.CategoryUncheckedUpdateManyWithoutParentNestedInput
+  tags?: Prisma.TagUncheckedUpdateManyWithoutCategoryNestedInput
+  skills?: Prisma.SkillUncheckedUpdateManyWithoutCategoryNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
 }
 
 export type CategoryCreateManyOrganizationInput = {
@@ -1143,7 +1274,8 @@ export type CategoryUpdateWithoutOrganizationInput = {
   children?: Prisma.CategoryUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutOrganizationInput = {
@@ -1160,7 +1292,8 @@ export type CategoryUncheckedUpdateWithoutOrganizationInput = {
   children?: Prisma.CategoryUncheckedUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUncheckedUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateManyWithoutOrganizationInput = {
@@ -1203,7 +1336,8 @@ export type CategoryUpdateWithoutParentInput = {
   children?: Prisma.CategoryUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutParentInput = {
@@ -1220,7 +1354,8 @@ export type CategoryUncheckedUpdateWithoutParentInput = {
   children?: Prisma.CategoryUncheckedUpdateManyWithoutParentNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutCategoryNestedInput
   skills?: Prisma.SkillUncheckedUpdateManyWithoutCategoryNestedInput
-  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsSphere?: Prisma.UserSkillUncheckedUpdateManyWithoutContextNestedInput
+  userSkillsAsGeography?: Prisma.UserSkillUncheckedUpdateManyWithoutGeographyNestedInput
 }
 
 export type CategoryUncheckedUpdateManyWithoutParentInput = {
@@ -1245,14 +1380,16 @@ export type CategoryCountOutputType = {
   children: number
   tags: number
   skills: number
-  userSkills: number
+  userSkillsAsSphere: number
+  userSkillsAsGeography: number
 }
 
 export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   children?: boolean | CategoryCountOutputTypeCountChildrenArgs
   tags?: boolean | CategoryCountOutputTypeCountTagsArgs
   skills?: boolean | CategoryCountOutputTypeCountSkillsArgs
-  userSkills?: boolean | CategoryCountOutputTypeCountUserSkillsArgs
+  userSkillsAsSphere?: boolean | CategoryCountOutputTypeCountUserSkillsAsSphereArgs
+  userSkillsAsGeography?: boolean | CategoryCountOutputTypeCountUserSkillsAsGeographyArgs
 }
 
 /**
@@ -1289,7 +1426,14 @@ export type CategoryCountOutputTypeCountSkillsArgs<ExtArgs extends runtime.Types
 /**
  * CategoryCountOutputType without action
  */
-export type CategoryCountOutputTypeCountUserSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CategoryCountOutputTypeCountUserSkillsAsSphereArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserSkillWhereInput
+}
+
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountUserSkillsAsGeographyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserSkillWhereInput
 }
 
@@ -1311,7 +1455,8 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   children?: boolean | Prisma.Category$childrenArgs<ExtArgs>
   tags?: boolean | Prisma.Category$tagsArgs<ExtArgs>
   skills?: boolean | Prisma.Category$skillsArgs<ExtArgs>
-  userSkills?: boolean | Prisma.Category$userSkillsArgs<ExtArgs>
+  userSkillsAsSphere?: boolean | Prisma.Category$userSkillsAsSphereArgs<ExtArgs>
+  userSkillsAsGeography?: boolean | Prisma.Category$userSkillsAsGeographyArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
@@ -1368,7 +1513,8 @@ export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   children?: boolean | Prisma.Category$childrenArgs<ExtArgs>
   tags?: boolean | Prisma.Category$tagsArgs<ExtArgs>
   skills?: boolean | Prisma.Category$skillsArgs<ExtArgs>
-  userSkills?: boolean | Prisma.Category$userSkillsArgs<ExtArgs>
+  userSkillsAsSphere?: boolean | Prisma.Category$userSkillsAsSphereArgs<ExtArgs>
+  userSkillsAsGeography?: boolean | Prisma.Category$userSkillsAsGeographyArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1388,7 +1534,8 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     children: Prisma.$CategoryPayload<ExtArgs>[]
     tags: Prisma.$TagPayload<ExtArgs>[]
     skills: Prisma.$SkillPayload<ExtArgs>[]
-    userSkills: Prisma.$UserSkillPayload<ExtArgs>[]
+    userSkillsAsSphere: Prisma.$UserSkillPayload<ExtArgs>[]
+    userSkillsAsGeography: Prisma.$UserSkillPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1801,7 +1948,8 @@ export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime
   children<T extends Prisma.Category$childrenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tags<T extends Prisma.Category$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   skills<T extends Prisma.Category$skillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$skillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  userSkills<T extends Prisma.Category$userSkillsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$userSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userSkillsAsSphere<T extends Prisma.Category$userSkillsAsSphereArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$userSkillsAsSphereArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userSkillsAsGeography<T extends Prisma.Category$userSkillsAsGeographyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$userSkillsAsGeographyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2334,9 +2482,33 @@ export type Category$skillsArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Category.userSkills
+ * Category.userSkillsAsSphere
  */
-export type Category$userSkillsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Category$userSkillsAsSphereArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSkill
+   */
+  select?: Prisma.UserSkillSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSkill
+   */
+  omit?: Prisma.UserSkillOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSkillInclude<ExtArgs> | null
+  where?: Prisma.UserSkillWhereInput
+  orderBy?: Prisma.UserSkillOrderByWithRelationInput | Prisma.UserSkillOrderByWithRelationInput[]
+  cursor?: Prisma.UserSkillWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserSkillScalarFieldEnum | Prisma.UserSkillScalarFieldEnum[]
+}
+
+/**
+ * Category.userSkillsAsGeography
+ */
+export type Category$userSkillsAsGeographyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the UserSkill
    */

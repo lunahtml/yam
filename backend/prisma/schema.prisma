@@ -119,6 +119,7 @@ model User {
     refreshTokens      RefreshToken[]
     emailVerifications EmailVerification[]
     status             UserStatus          @default(ACTIVE)
+    tokenVersion       Int                 @default(0)
     createdUtmLinks    UtmLink[]
     sprintEvents       SprintEvent[]
     increments         Increment[]
@@ -1060,9 +1061,11 @@ model Category {
     parent       Category?    @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
     children     Category[]   @relation("CategoryTree")
 
-    tags       Tag[]
-    skills     Skill[]
-    userSkills UserSkill[]
+    tags   Tag[]
+    skills Skill[]
+
+    userSkillsAsSphere    UserSkill[] @relation("SkillSphere")
+    userSkillsAsGeography UserSkill[] @relation("SkillGeography")
 
     @@unique([organizationId, scope, slug])
     @@index([organizationId])
@@ -1073,7 +1076,9 @@ enum CategoryScope {
     PROJECT
     TASK
     TAG
-    SKILL
+    SKILL // X — навык
+    SPHERE // Y — ниша / сфера
+    GEOGRAPHY // Z — география
 }
 
 model Skill {
@@ -1114,8 +1119,13 @@ model UserSkill {
     level      Int
     levelLabel String?
 
+    // Y — ниша / сфера (опционально)
     contextId   String? @db.Uuid
     contextType String?
+
+    // Z — география (опционально)
+    geographyId   String? @db.Uuid
+    geographyType String?
 
     practiceCount Int @default(0)
     evidenceCount Int @default(0)
@@ -1127,12 +1137,14 @@ model UserSkill {
     user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     skill        Skill           @relation(fields: [skillId], references: [id], onDelete: Cascade)
     organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-    context      Category?       @relation(fields: [contextId], references: [id], onDelete: SetNull)
+    context      Category?       @relation("SkillSphere", fields: [contextId], references: [id], onDelete: SetNull)
+    geography    Category?       @relation("SkillGeography", fields: [geographyId], references: [id], onDelete: SetNull)
     evidences    SkillEvidence[]
 
-    @@unique([userId, skillId, organizationId, contextId])
+    @@unique([userId, skillId, organizationId, contextId, geographyId])
     @@index([userId])
     @@index([skillId])
+    @@index([geographyId])
     @@map("user_skills")
 }
 

@@ -47,6 +47,8 @@ export type UserSkillMinAggregateOutputType = {
   levelLabel: string | null
   contextId: string | null
   contextType: string | null
+  geographyId: string | null
+  geographyType: string | null
   practiceCount: number | null
   evidenceCount: number | null
   lastUsedAt: Date | null
@@ -63,6 +65,8 @@ export type UserSkillMaxAggregateOutputType = {
   levelLabel: string | null
   contextId: string | null
   contextType: string | null
+  geographyId: string | null
+  geographyType: string | null
   practiceCount: number | null
   evidenceCount: number | null
   lastUsedAt: Date | null
@@ -79,6 +83,8 @@ export type UserSkillCountAggregateOutputType = {
   levelLabel: number
   contextId: number
   contextType: number
+  geographyId: number
+  geographyType: number
   practiceCount: number
   evidenceCount: number
   lastUsedAt: number
@@ -109,6 +115,8 @@ export type UserSkillMinAggregateInputType = {
   levelLabel?: true
   contextId?: true
   contextType?: true
+  geographyId?: true
+  geographyType?: true
   practiceCount?: true
   evidenceCount?: true
   lastUsedAt?: true
@@ -125,6 +133,8 @@ export type UserSkillMaxAggregateInputType = {
   levelLabel?: true
   contextId?: true
   contextType?: true
+  geographyId?: true
+  geographyType?: true
   practiceCount?: true
   evidenceCount?: true
   lastUsedAt?: true
@@ -141,6 +151,8 @@ export type UserSkillCountAggregateInputType = {
   levelLabel?: true
   contextId?: true
   contextType?: true
+  geographyId?: true
+  geographyType?: true
   practiceCount?: true
   evidenceCount?: true
   lastUsedAt?: true
@@ -244,6 +256,8 @@ export type UserSkillGroupByOutputType = {
   levelLabel: string | null
   contextId: string | null
   contextType: string | null
+  geographyId: string | null
+  geographyType: string | null
   practiceCount: number
   evidenceCount: number
   lastUsedAt: Date | null
@@ -283,6 +297,8 @@ export type UserSkillWhereInput = {
   levelLabel?: Prisma.StringNullableFilter<"UserSkill"> | string | null
   contextId?: Prisma.UuidNullableFilter<"UserSkill"> | string | null
   contextType?: Prisma.StringNullableFilter<"UserSkill"> | string | null
+  geographyId?: Prisma.UuidNullableFilter<"UserSkill"> | string | null
+  geographyType?: Prisma.StringNullableFilter<"UserSkill"> | string | null
   practiceCount?: Prisma.IntFilter<"UserSkill"> | number
   evidenceCount?: Prisma.IntFilter<"UserSkill"> | number
   lastUsedAt?: Prisma.DateTimeNullableFilter<"UserSkill"> | Date | string | null
@@ -292,6 +308,7 @@ export type UserSkillWhereInput = {
   skill?: Prisma.XOR<Prisma.SkillScalarRelationFilter, Prisma.SkillWhereInput>
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   context?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  geography?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   evidences?: Prisma.SkillEvidenceListRelationFilter
 }
 
@@ -304,6 +321,8 @@ export type UserSkillOrderByWithRelationInput = {
   levelLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   contextId?: Prisma.SortOrderInput | Prisma.SortOrder
   contextType?: Prisma.SortOrderInput | Prisma.SortOrder
+  geographyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  geographyType?: Prisma.SortOrderInput | Prisma.SortOrder
   practiceCount?: Prisma.SortOrder
   evidenceCount?: Prisma.SortOrder
   lastUsedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -313,12 +332,13 @@ export type UserSkillOrderByWithRelationInput = {
   skill?: Prisma.SkillOrderByWithRelationInput
   organization?: Prisma.OrganizationOrderByWithRelationInput
   context?: Prisma.CategoryOrderByWithRelationInput
+  geography?: Prisma.CategoryOrderByWithRelationInput
   evidences?: Prisma.SkillEvidenceOrderByRelationAggregateInput
 }
 
 export type UserSkillWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId_skillId_organizationId_contextId?: Prisma.UserSkillUserIdSkillIdOrganizationIdContextIdCompoundUniqueInput
+  userId_skillId_organizationId_contextId_geographyId?: Prisma.UserSkillUserIdSkillIdOrganizationIdContextIdGeographyIdCompoundUniqueInput
   AND?: Prisma.UserSkillWhereInput | Prisma.UserSkillWhereInput[]
   OR?: Prisma.UserSkillWhereInput[]
   NOT?: Prisma.UserSkillWhereInput | Prisma.UserSkillWhereInput[]
@@ -329,6 +349,8 @@ export type UserSkillWhereUniqueInput = Prisma.AtLeast<{
   levelLabel?: Prisma.StringNullableFilter<"UserSkill"> | string | null
   contextId?: Prisma.UuidNullableFilter<"UserSkill"> | string | null
   contextType?: Prisma.StringNullableFilter<"UserSkill"> | string | null
+  geographyId?: Prisma.UuidNullableFilter<"UserSkill"> | string | null
+  geographyType?: Prisma.StringNullableFilter<"UserSkill"> | string | null
   practiceCount?: Prisma.IntFilter<"UserSkill"> | number
   evidenceCount?: Prisma.IntFilter<"UserSkill"> | number
   lastUsedAt?: Prisma.DateTimeNullableFilter<"UserSkill"> | Date | string | null
@@ -338,8 +360,9 @@ export type UserSkillWhereUniqueInput = Prisma.AtLeast<{
   skill?: Prisma.XOR<Prisma.SkillScalarRelationFilter, Prisma.SkillWhereInput>
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   context?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  geography?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   evidences?: Prisma.SkillEvidenceListRelationFilter
-}, "id" | "userId_skillId_organizationId_contextId">
+}, "id" | "userId_skillId_organizationId_contextId_geographyId">
 
 export type UserSkillOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -350,6 +373,8 @@ export type UserSkillOrderByWithAggregationInput = {
   levelLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   contextId?: Prisma.SortOrderInput | Prisma.SortOrder
   contextType?: Prisma.SortOrderInput | Prisma.SortOrder
+  geographyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  geographyType?: Prisma.SortOrderInput | Prisma.SortOrder
   practiceCount?: Prisma.SortOrder
   evidenceCount?: Prisma.SortOrder
   lastUsedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -374,6 +399,8 @@ export type UserSkillScalarWhereWithAggregatesInput = {
   levelLabel?: Prisma.StringNullableWithAggregatesFilter<"UserSkill"> | string | null
   contextId?: Prisma.UuidNullableWithAggregatesFilter<"UserSkill"> | string | null
   contextType?: Prisma.StringNullableWithAggregatesFilter<"UserSkill"> | string | null
+  geographyId?: Prisma.UuidNullableWithAggregatesFilter<"UserSkill"> | string | null
+  geographyType?: Prisma.StringNullableWithAggregatesFilter<"UserSkill"> | string | null
   practiceCount?: Prisma.IntWithAggregatesFilter<"UserSkill"> | number
   evidenceCount?: Prisma.IntWithAggregatesFilter<"UserSkill"> | number
   lastUsedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserSkill"> | Date | string | null
@@ -386,6 +413,7 @@ export type UserSkillCreateInput = {
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -394,7 +422,8 @@ export type UserSkillCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
   skill: Prisma.SkillCreateNestedOneWithoutUserSkillsInput
   organization: Prisma.OrganizationCreateNestedOneWithoutUserSkillsInput
-  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsInput
+  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsSphereInput
+  geography?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsGeographyInput
   evidences?: Prisma.SkillEvidenceCreateNestedManyWithoutUserSkillInput
 }
 
@@ -407,6 +436,8 @@ export type UserSkillUncheckedCreateInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -420,6 +451,7 @@ export type UserSkillUpdateInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -428,7 +460,8 @@ export type UserSkillUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
   skill?: Prisma.SkillUpdateOneRequiredWithoutUserSkillsNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutUserSkillsNestedInput
-  context?: Prisma.CategoryUpdateOneWithoutUserSkillsNestedInput
+  context?: Prisma.CategoryUpdateOneWithoutUserSkillsAsSphereNestedInput
+  geography?: Prisma.CategoryUpdateOneWithoutUserSkillsAsGeographyNestedInput
   evidences?: Prisma.SkillEvidenceUpdateManyWithoutUserSkillNestedInput
 }
 
@@ -441,6 +474,8 @@ export type UserSkillUncheckedUpdateInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -458,6 +493,8 @@ export type UserSkillCreateManyInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -470,6 +507,7 @@ export type UserSkillUpdateManyMutationInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -486,6 +524,8 @@ export type UserSkillUncheckedUpdateManyInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -503,11 +543,12 @@ export type UserSkillOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type UserSkillUserIdSkillIdOrganizationIdContextIdCompoundUniqueInput = {
+export type UserSkillUserIdSkillIdOrganizationIdContextIdGeographyIdCompoundUniqueInput = {
   userId: string
   skillId: string
   organizationId: string
   contextId: string
+  geographyId: string
 }
 
 export type UserSkillCountOrderByAggregateInput = {
@@ -519,6 +560,8 @@ export type UserSkillCountOrderByAggregateInput = {
   levelLabel?: Prisma.SortOrder
   contextId?: Prisma.SortOrder
   contextType?: Prisma.SortOrder
+  geographyId?: Prisma.SortOrder
+  geographyType?: Prisma.SortOrder
   practiceCount?: Prisma.SortOrder
   evidenceCount?: Prisma.SortOrder
   lastUsedAt?: Prisma.SortOrder
@@ -541,6 +584,8 @@ export type UserSkillMaxOrderByAggregateInput = {
   levelLabel?: Prisma.SortOrder
   contextId?: Prisma.SortOrder
   contextType?: Prisma.SortOrder
+  geographyId?: Prisma.SortOrder
+  geographyType?: Prisma.SortOrder
   practiceCount?: Prisma.SortOrder
   evidenceCount?: Prisma.SortOrder
   lastUsedAt?: Prisma.SortOrder
@@ -557,6 +602,8 @@ export type UserSkillMinOrderByAggregateInput = {
   levelLabel?: Prisma.SortOrder
   contextId?: Prisma.SortOrder
   contextType?: Prisma.SortOrder
+  geographyId?: Prisma.SortOrder
+  geographyType?: Prisma.SortOrder
   practiceCount?: Prisma.SortOrder
   evidenceCount?: Prisma.SortOrder
   lastUsedAt?: Prisma.SortOrder
@@ -666,10 +713,24 @@ export type UserSkillCreateNestedManyWithoutContextInput = {
   connect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
 }
 
+export type UserSkillCreateNestedManyWithoutGeographyInput = {
+  create?: Prisma.XOR<Prisma.UserSkillCreateWithoutGeographyInput, Prisma.UserSkillUncheckedCreateWithoutGeographyInput> | Prisma.UserSkillCreateWithoutGeographyInput[] | Prisma.UserSkillUncheckedCreateWithoutGeographyInput[]
+  connectOrCreate?: Prisma.UserSkillCreateOrConnectWithoutGeographyInput | Prisma.UserSkillCreateOrConnectWithoutGeographyInput[]
+  createMany?: Prisma.UserSkillCreateManyGeographyInputEnvelope
+  connect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+}
+
 export type UserSkillUncheckedCreateNestedManyWithoutContextInput = {
   create?: Prisma.XOR<Prisma.UserSkillCreateWithoutContextInput, Prisma.UserSkillUncheckedCreateWithoutContextInput> | Prisma.UserSkillCreateWithoutContextInput[] | Prisma.UserSkillUncheckedCreateWithoutContextInput[]
   connectOrCreate?: Prisma.UserSkillCreateOrConnectWithoutContextInput | Prisma.UserSkillCreateOrConnectWithoutContextInput[]
   createMany?: Prisma.UserSkillCreateManyContextInputEnvelope
+  connect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+}
+
+export type UserSkillUncheckedCreateNestedManyWithoutGeographyInput = {
+  create?: Prisma.XOR<Prisma.UserSkillCreateWithoutGeographyInput, Prisma.UserSkillUncheckedCreateWithoutGeographyInput> | Prisma.UserSkillCreateWithoutGeographyInput[] | Prisma.UserSkillUncheckedCreateWithoutGeographyInput[]
+  connectOrCreate?: Prisma.UserSkillCreateOrConnectWithoutGeographyInput | Prisma.UserSkillCreateOrConnectWithoutGeographyInput[]
+  createMany?: Prisma.UserSkillCreateManyGeographyInputEnvelope
   connect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
 }
 
@@ -687,6 +748,20 @@ export type UserSkillUpdateManyWithoutContextNestedInput = {
   deleteMany?: Prisma.UserSkillScalarWhereInput | Prisma.UserSkillScalarWhereInput[]
 }
 
+export type UserSkillUpdateManyWithoutGeographyNestedInput = {
+  create?: Prisma.XOR<Prisma.UserSkillCreateWithoutGeographyInput, Prisma.UserSkillUncheckedCreateWithoutGeographyInput> | Prisma.UserSkillCreateWithoutGeographyInput[] | Prisma.UserSkillUncheckedCreateWithoutGeographyInput[]
+  connectOrCreate?: Prisma.UserSkillCreateOrConnectWithoutGeographyInput | Prisma.UserSkillCreateOrConnectWithoutGeographyInput[]
+  upsert?: Prisma.UserSkillUpsertWithWhereUniqueWithoutGeographyInput | Prisma.UserSkillUpsertWithWhereUniqueWithoutGeographyInput[]
+  createMany?: Prisma.UserSkillCreateManyGeographyInputEnvelope
+  set?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  disconnect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  delete?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  connect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  update?: Prisma.UserSkillUpdateWithWhereUniqueWithoutGeographyInput | Prisma.UserSkillUpdateWithWhereUniqueWithoutGeographyInput[]
+  updateMany?: Prisma.UserSkillUpdateManyWithWhereWithoutGeographyInput | Prisma.UserSkillUpdateManyWithWhereWithoutGeographyInput[]
+  deleteMany?: Prisma.UserSkillScalarWhereInput | Prisma.UserSkillScalarWhereInput[]
+}
+
 export type UserSkillUncheckedUpdateManyWithoutContextNestedInput = {
   create?: Prisma.XOR<Prisma.UserSkillCreateWithoutContextInput, Prisma.UserSkillUncheckedCreateWithoutContextInput> | Prisma.UserSkillCreateWithoutContextInput[] | Prisma.UserSkillUncheckedCreateWithoutContextInput[]
   connectOrCreate?: Prisma.UserSkillCreateOrConnectWithoutContextInput | Prisma.UserSkillCreateOrConnectWithoutContextInput[]
@@ -698,6 +773,20 @@ export type UserSkillUncheckedUpdateManyWithoutContextNestedInput = {
   connect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
   update?: Prisma.UserSkillUpdateWithWhereUniqueWithoutContextInput | Prisma.UserSkillUpdateWithWhereUniqueWithoutContextInput[]
   updateMany?: Prisma.UserSkillUpdateManyWithWhereWithoutContextInput | Prisma.UserSkillUpdateManyWithWhereWithoutContextInput[]
+  deleteMany?: Prisma.UserSkillScalarWhereInput | Prisma.UserSkillScalarWhereInput[]
+}
+
+export type UserSkillUncheckedUpdateManyWithoutGeographyNestedInput = {
+  create?: Prisma.XOR<Prisma.UserSkillCreateWithoutGeographyInput, Prisma.UserSkillUncheckedCreateWithoutGeographyInput> | Prisma.UserSkillCreateWithoutGeographyInput[] | Prisma.UserSkillUncheckedCreateWithoutGeographyInput[]
+  connectOrCreate?: Prisma.UserSkillCreateOrConnectWithoutGeographyInput | Prisma.UserSkillCreateOrConnectWithoutGeographyInput[]
+  upsert?: Prisma.UserSkillUpsertWithWhereUniqueWithoutGeographyInput | Prisma.UserSkillUpsertWithWhereUniqueWithoutGeographyInput[]
+  createMany?: Prisma.UserSkillCreateManyGeographyInputEnvelope
+  set?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  disconnect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  delete?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  connect?: Prisma.UserSkillWhereUniqueInput | Prisma.UserSkillWhereUniqueInput[]
+  update?: Prisma.UserSkillUpdateWithWhereUniqueWithoutGeographyInput | Prisma.UserSkillUpdateWithWhereUniqueWithoutGeographyInput[]
+  updateMany?: Prisma.UserSkillUpdateManyWithWhereWithoutGeographyInput | Prisma.UserSkillUpdateManyWithWhereWithoutGeographyInput[]
   deleteMany?: Prisma.UserSkillScalarWhereInput | Prisma.UserSkillScalarWhereInput[]
 }
 
@@ -762,6 +851,7 @@ export type UserSkillCreateWithoutOrganizationInput = {
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -769,7 +859,8 @@ export type UserSkillCreateWithoutOrganizationInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
   skill: Prisma.SkillCreateNestedOneWithoutUserSkillsInput
-  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsInput
+  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsSphereInput
+  geography?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsGeographyInput
   evidences?: Prisma.SkillEvidenceCreateNestedManyWithoutUserSkillInput
 }
 
@@ -781,6 +872,8 @@ export type UserSkillUncheckedCreateWithoutOrganizationInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -827,6 +920,8 @@ export type UserSkillScalarWhereInput = {
   levelLabel?: Prisma.StringNullableFilter<"UserSkill"> | string | null
   contextId?: Prisma.UuidNullableFilter<"UserSkill"> | string | null
   contextType?: Prisma.StringNullableFilter<"UserSkill"> | string | null
+  geographyId?: Prisma.UuidNullableFilter<"UserSkill"> | string | null
+  geographyType?: Prisma.StringNullableFilter<"UserSkill"> | string | null
   practiceCount?: Prisma.IntFilter<"UserSkill"> | number
   evidenceCount?: Prisma.IntFilter<"UserSkill"> | number
   lastUsedAt?: Prisma.DateTimeNullableFilter<"UserSkill"> | Date | string | null
@@ -839,6 +934,7 @@ export type UserSkillCreateWithoutUserInput = {
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -846,7 +942,8 @@ export type UserSkillCreateWithoutUserInput = {
   updatedAt?: Date | string
   skill: Prisma.SkillCreateNestedOneWithoutUserSkillsInput
   organization: Prisma.OrganizationCreateNestedOneWithoutUserSkillsInput
-  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsInput
+  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsSphereInput
+  geography?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsGeographyInput
   evidences?: Prisma.SkillEvidenceCreateNestedManyWithoutUserSkillInput
 }
 
@@ -858,6 +955,8 @@ export type UserSkillUncheckedCreateWithoutUserInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -897,6 +996,7 @@ export type UserSkillCreateWithoutContextInput = {
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -905,6 +1005,7 @@ export type UserSkillCreateWithoutContextInput = {
   user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
   skill: Prisma.SkillCreateNestedOneWithoutUserSkillsInput
   organization: Prisma.OrganizationCreateNestedOneWithoutUserSkillsInput
+  geography?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsGeographyInput
   evidences?: Prisma.SkillEvidenceCreateNestedManyWithoutUserSkillInput
 }
 
@@ -916,6 +1017,8 @@ export type UserSkillUncheckedCreateWithoutContextInput = {
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -931,6 +1034,52 @@ export type UserSkillCreateOrConnectWithoutContextInput = {
 
 export type UserSkillCreateManyContextInputEnvelope = {
   data: Prisma.UserSkillCreateManyContextInput | Prisma.UserSkillCreateManyContextInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserSkillCreateWithoutGeographyInput = {
+  id?: string
+  level: number
+  levelLabel?: string | null
+  contextType?: string | null
+  geographyType?: string | null
+  practiceCount?: number
+  evidenceCount?: number
+  lastUsedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
+  skill: Prisma.SkillCreateNestedOneWithoutUserSkillsInput
+  organization: Prisma.OrganizationCreateNestedOneWithoutUserSkillsInput
+  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsSphereInput
+  evidences?: Prisma.SkillEvidenceCreateNestedManyWithoutUserSkillInput
+}
+
+export type UserSkillUncheckedCreateWithoutGeographyInput = {
+  id?: string
+  userId: string
+  skillId: string
+  organizationId: string
+  level: number
+  levelLabel?: string | null
+  contextId?: string | null
+  contextType?: string | null
+  geographyType?: string | null
+  practiceCount?: number
+  evidenceCount?: number
+  lastUsedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  evidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutUserSkillInput
+}
+
+export type UserSkillCreateOrConnectWithoutGeographyInput = {
+  where: Prisma.UserSkillWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserSkillCreateWithoutGeographyInput, Prisma.UserSkillUncheckedCreateWithoutGeographyInput>
+}
+
+export type UserSkillCreateManyGeographyInputEnvelope = {
+  data: Prisma.UserSkillCreateManyGeographyInput | Prisma.UserSkillCreateManyGeographyInput[]
   skipDuplicates?: boolean
 }
 
@@ -950,11 +1099,28 @@ export type UserSkillUpdateManyWithWhereWithoutContextInput = {
   data: Prisma.XOR<Prisma.UserSkillUpdateManyMutationInput, Prisma.UserSkillUncheckedUpdateManyWithoutContextInput>
 }
 
+export type UserSkillUpsertWithWhereUniqueWithoutGeographyInput = {
+  where: Prisma.UserSkillWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserSkillUpdateWithoutGeographyInput, Prisma.UserSkillUncheckedUpdateWithoutGeographyInput>
+  create: Prisma.XOR<Prisma.UserSkillCreateWithoutGeographyInput, Prisma.UserSkillUncheckedCreateWithoutGeographyInput>
+}
+
+export type UserSkillUpdateWithWhereUniqueWithoutGeographyInput = {
+  where: Prisma.UserSkillWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserSkillUpdateWithoutGeographyInput, Prisma.UserSkillUncheckedUpdateWithoutGeographyInput>
+}
+
+export type UserSkillUpdateManyWithWhereWithoutGeographyInput = {
+  where: Prisma.UserSkillScalarWhereInput
+  data: Prisma.XOR<Prisma.UserSkillUpdateManyMutationInput, Prisma.UserSkillUncheckedUpdateManyWithoutGeographyInput>
+}
+
 export type UserSkillCreateWithoutSkillInput = {
   id?: string
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -962,7 +1128,8 @@ export type UserSkillCreateWithoutSkillInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
   organization: Prisma.OrganizationCreateNestedOneWithoutUserSkillsInput
-  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsInput
+  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsSphereInput
+  geography?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsGeographyInput
   evidences?: Prisma.SkillEvidenceCreateNestedManyWithoutUserSkillInput
 }
 
@@ -974,6 +1141,8 @@ export type UserSkillUncheckedCreateWithoutSkillInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -1013,6 +1182,7 @@ export type UserSkillCreateWithoutEvidencesInput = {
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -1021,7 +1191,8 @@ export type UserSkillCreateWithoutEvidencesInput = {
   user: Prisma.UserCreateNestedOneWithoutUserSkillsInput
   skill: Prisma.SkillCreateNestedOneWithoutUserSkillsInput
   organization: Prisma.OrganizationCreateNestedOneWithoutUserSkillsInput
-  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsInput
+  context?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsSphereInput
+  geography?: Prisma.CategoryCreateNestedOneWithoutUserSkillsAsGeographyInput
 }
 
 export type UserSkillUncheckedCreateWithoutEvidencesInput = {
@@ -1033,6 +1204,8 @@ export type UserSkillUncheckedCreateWithoutEvidencesInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -1061,6 +1234,7 @@ export type UserSkillUpdateWithoutEvidencesInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1069,7 +1243,8 @@ export type UserSkillUpdateWithoutEvidencesInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
   skill?: Prisma.SkillUpdateOneRequiredWithoutUserSkillsNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutUserSkillsNestedInput
-  context?: Prisma.CategoryUpdateOneWithoutUserSkillsNestedInput
+  context?: Prisma.CategoryUpdateOneWithoutUserSkillsAsSphereNestedInput
+  geography?: Prisma.CategoryUpdateOneWithoutUserSkillsAsGeographyNestedInput
 }
 
 export type UserSkillUncheckedUpdateWithoutEvidencesInput = {
@@ -1081,6 +1256,8 @@ export type UserSkillUncheckedUpdateWithoutEvidencesInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1096,6 +1273,8 @@ export type UserSkillCreateManyOrganizationInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -1108,6 +1287,7 @@ export type UserSkillUpdateWithoutOrganizationInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1115,7 +1295,8 @@ export type UserSkillUpdateWithoutOrganizationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
   skill?: Prisma.SkillUpdateOneRequiredWithoutUserSkillsNestedInput
-  context?: Prisma.CategoryUpdateOneWithoutUserSkillsNestedInput
+  context?: Prisma.CategoryUpdateOneWithoutUserSkillsAsSphereNestedInput
+  geography?: Prisma.CategoryUpdateOneWithoutUserSkillsAsGeographyNestedInput
   evidences?: Prisma.SkillEvidenceUpdateManyWithoutUserSkillNestedInput
 }
 
@@ -1127,6 +1308,8 @@ export type UserSkillUncheckedUpdateWithoutOrganizationInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1143,6 +1326,8 @@ export type UserSkillUncheckedUpdateManyWithoutOrganizationInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1158,6 +1343,8 @@ export type UserSkillCreateManyUserInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -1170,6 +1357,7 @@ export type UserSkillUpdateWithoutUserInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1177,7 +1365,8 @@ export type UserSkillUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   skill?: Prisma.SkillUpdateOneRequiredWithoutUserSkillsNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutUserSkillsNestedInput
-  context?: Prisma.CategoryUpdateOneWithoutUserSkillsNestedInput
+  context?: Prisma.CategoryUpdateOneWithoutUserSkillsAsSphereNestedInput
+  geography?: Prisma.CategoryUpdateOneWithoutUserSkillsAsGeographyNestedInput
   evidences?: Prisma.SkillEvidenceUpdateManyWithoutUserSkillNestedInput
 }
 
@@ -1189,6 +1378,8 @@ export type UserSkillUncheckedUpdateWithoutUserInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1205,6 +1396,8 @@ export type UserSkillUncheckedUpdateManyWithoutUserInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1220,6 +1413,25 @@ export type UserSkillCreateManyContextInput = {
   level: number
   levelLabel?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
+  practiceCount?: number
+  evidenceCount?: number
+  lastUsedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserSkillCreateManyGeographyInput = {
+  id?: string
+  userId: string
+  skillId: string
+  organizationId: string
+  level: number
+  levelLabel?: string | null
+  contextId?: string | null
+  contextType?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -1232,6 +1444,7 @@ export type UserSkillUpdateWithoutContextInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1240,6 +1453,7 @@ export type UserSkillUpdateWithoutContextInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
   skill?: Prisma.SkillUpdateOneRequiredWithoutUserSkillsNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutUserSkillsNestedInput
+  geography?: Prisma.CategoryUpdateOneWithoutUserSkillsAsGeographyNestedInput
   evidences?: Prisma.SkillEvidenceUpdateManyWithoutUserSkillNestedInput
 }
 
@@ -1251,6 +1465,8 @@ export type UserSkillUncheckedUpdateWithoutContextInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1267,6 +1483,61 @@ export type UserSkillUncheckedUpdateManyWithoutContextInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
+  evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserSkillUpdateWithoutGeographyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
+  evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
+  skill?: Prisma.SkillUpdateOneRequiredWithoutUserSkillsNestedInput
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutUserSkillsNestedInput
+  context?: Prisma.CategoryUpdateOneWithoutUserSkillsAsSphereNestedInput
+  evidences?: Prisma.SkillEvidenceUpdateManyWithoutUserSkillNestedInput
+}
+
+export type UserSkillUncheckedUpdateWithoutGeographyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillId?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
+  evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
+  lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  evidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutUserSkillNestedInput
+}
+
+export type UserSkillUncheckedUpdateManyWithoutGeographyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillId?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1282,6 +1553,8 @@ export type UserSkillCreateManySkillInput = {
   levelLabel?: string | null
   contextId?: string | null
   contextType?: string | null
+  geographyId?: string | null
+  geographyType?: string | null
   practiceCount?: number
   evidenceCount?: number
   lastUsedAt?: Date | string | null
@@ -1294,6 +1567,7 @@ export type UserSkillUpdateWithoutSkillInput = {
   level?: Prisma.IntFieldUpdateOperationsInput | number
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1301,7 +1575,8 @@ export type UserSkillUpdateWithoutSkillInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserSkillsNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutUserSkillsNestedInput
-  context?: Prisma.CategoryUpdateOneWithoutUserSkillsNestedInput
+  context?: Prisma.CategoryUpdateOneWithoutUserSkillsAsSphereNestedInput
+  geography?: Prisma.CategoryUpdateOneWithoutUserSkillsAsGeographyNestedInput
   evidences?: Prisma.SkillEvidenceUpdateManyWithoutUserSkillNestedInput
 }
 
@@ -1313,6 +1588,8 @@ export type UserSkillUncheckedUpdateWithoutSkillInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1329,6 +1606,8 @@ export type UserSkillUncheckedUpdateManyWithoutSkillInput = {
   levelLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contextType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  geographyType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceCount?: Prisma.IntFieldUpdateOperationsInput | number
   evidenceCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastUsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1376,6 +1655,8 @@ export type UserSkillSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   levelLabel?: boolean
   contextId?: boolean
   contextType?: boolean
+  geographyId?: boolean
+  geographyType?: boolean
   practiceCount?: boolean
   evidenceCount?: boolean
   lastUsedAt?: boolean
@@ -1385,6 +1666,7 @@ export type UserSkillSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   context?: boolean | Prisma.UserSkill$contextArgs<ExtArgs>
+  geography?: boolean | Prisma.UserSkill$geographyArgs<ExtArgs>
   evidences?: boolean | Prisma.UserSkill$evidencesArgs<ExtArgs>
   _count?: boolean | Prisma.UserSkillCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userSkill"]>
@@ -1398,6 +1680,8 @@ export type UserSkillSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   levelLabel?: boolean
   contextId?: boolean
   contextType?: boolean
+  geographyId?: boolean
+  geographyType?: boolean
   practiceCount?: boolean
   evidenceCount?: boolean
   lastUsedAt?: boolean
@@ -1407,6 +1691,7 @@ export type UserSkillSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   context?: boolean | Prisma.UserSkill$contextArgs<ExtArgs>
+  geography?: boolean | Prisma.UserSkill$geographyArgs<ExtArgs>
 }, ExtArgs["result"]["userSkill"]>
 
 export type UserSkillSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1418,6 +1703,8 @@ export type UserSkillSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   levelLabel?: boolean
   contextId?: boolean
   contextType?: boolean
+  geographyId?: boolean
+  geographyType?: boolean
   practiceCount?: boolean
   evidenceCount?: boolean
   lastUsedAt?: boolean
@@ -1427,6 +1714,7 @@ export type UserSkillSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   context?: boolean | Prisma.UserSkill$contextArgs<ExtArgs>
+  geography?: boolean | Prisma.UserSkill$geographyArgs<ExtArgs>
 }, ExtArgs["result"]["userSkill"]>
 
 export type UserSkillSelectScalar = {
@@ -1438,6 +1726,8 @@ export type UserSkillSelectScalar = {
   levelLabel?: boolean
   contextId?: boolean
   contextType?: boolean
+  geographyId?: boolean
+  geographyType?: boolean
   practiceCount?: boolean
   evidenceCount?: boolean
   lastUsedAt?: boolean
@@ -1445,12 +1735,13 @@ export type UserSkillSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserSkillOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "skillId" | "organizationId" | "level" | "levelLabel" | "contextId" | "contextType" | "practiceCount" | "evidenceCount" | "lastUsedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["userSkill"]>
+export type UserSkillOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "skillId" | "organizationId" | "level" | "levelLabel" | "contextId" | "contextType" | "geographyId" | "geographyType" | "practiceCount" | "evidenceCount" | "lastUsedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["userSkill"]>
 export type UserSkillInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   context?: boolean | Prisma.UserSkill$contextArgs<ExtArgs>
+  geography?: boolean | Prisma.UserSkill$geographyArgs<ExtArgs>
   evidences?: boolean | Prisma.UserSkill$evidencesArgs<ExtArgs>
   _count?: boolean | Prisma.UserSkillCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1459,12 +1750,14 @@ export type UserSkillIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   context?: boolean | Prisma.UserSkill$contextArgs<ExtArgs>
+  geography?: boolean | Prisma.UserSkill$geographyArgs<ExtArgs>
 }
 export type UserSkillIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   context?: boolean | Prisma.UserSkill$contextArgs<ExtArgs>
+  geography?: boolean | Prisma.UserSkill$geographyArgs<ExtArgs>
 }
 
 export type $UserSkillPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1474,6 +1767,7 @@ export type $UserSkillPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     skill: Prisma.$SkillPayload<ExtArgs>
     organization: Prisma.$OrganizationPayload<ExtArgs>
     context: Prisma.$CategoryPayload<ExtArgs> | null
+    geography: Prisma.$CategoryPayload<ExtArgs> | null
     evidences: Prisma.$SkillEvidencePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1485,6 +1779,8 @@ export type $UserSkillPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     levelLabel: string | null
     contextId: string | null
     contextType: string | null
+    geographyId: string | null
+    geographyType: string | null
     practiceCount: number
     evidenceCount: number
     lastUsedAt: Date | null
@@ -1888,6 +2184,7 @@ export interface Prisma__UserSkillClient<T, Null = never, ExtArgs extends runtim
   skill<T extends Prisma.SkillDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SkillDefaultArgs<ExtArgs>>): Prisma.Prisma__SkillClient<runtime.Types.Result.GetResult<Prisma.$SkillPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   context<T extends Prisma.UserSkill$contextArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserSkill$contextArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  geography<T extends Prisma.UserSkill$geographyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserSkill$geographyArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   evidences<T extends Prisma.UserSkill$evidencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserSkill$evidencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkillEvidencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1926,6 +2223,8 @@ export interface UserSkillFieldRefs {
   readonly levelLabel: Prisma.FieldRef<"UserSkill", 'String'>
   readonly contextId: Prisma.FieldRef<"UserSkill", 'String'>
   readonly contextType: Prisma.FieldRef<"UserSkill", 'String'>
+  readonly geographyId: Prisma.FieldRef<"UserSkill", 'String'>
+  readonly geographyType: Prisma.FieldRef<"UserSkill", 'String'>
   readonly practiceCount: Prisma.FieldRef<"UserSkill", 'Int'>
   readonly evidenceCount: Prisma.FieldRef<"UserSkill", 'Int'>
   readonly lastUsedAt: Prisma.FieldRef<"UserSkill", 'DateTime'>
@@ -2335,6 +2634,25 @@ export type UserSkillDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
  * UserSkill.context
  */
 export type UserSkill$contextArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Category
+   */
+  select?: Prisma.CategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Category
+   */
+  omit?: Prisma.CategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryInclude<ExtArgs> | null
+  where?: Prisma.CategoryWhereInput
+}
+
+/**
+ * UserSkill.geography
+ */
+export type UserSkill$geographyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Category
    */

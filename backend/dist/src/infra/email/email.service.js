@@ -45,7 +45,7 @@ let EmailService = class EmailService {
             html: `<h1>Ваш код: ${code}</h1>`,
         });
     }
-    async sendLoginCode(userId, email) {
+    async sendLoginCode(userId, email, verificationToken) {
         const code = this.generateCode();
         const codeHash = await argon2.hash(code);
         await this.prisma.client.emailVerification.create({
@@ -55,11 +55,33 @@ let EmailService = class EmailService {
                 expiresAt: new Date(Date.now() + 10 * 60 * 1000),
             },
         });
+        const denyUrl = `${process.env.APP_URL ?? 'http://localhost'}/deny-login?token=${verificationToken}`;
         await this.transporter.sendMail({
             from: 'YAM <no-reply@yam.local>',
             to: email,
             subject: 'YAM — новый вход в аккаунт',
-            html: `<h1>Это вы входите? Код: ${code}</h1>`,
+            html: `
+                <h1>Это вы входите? Код: ${code}</h1>
+                <p style="margin-top: 24px; font-size: 13px; color: #8b7ba8;">
+                    Если это не вы — 
+                    <a href="${denyUrl}" style="color: #22d3ee;">
+                        завершите все сессии
+                    </a>.
+                </p>
+            `,
+        });
+    }
+    async sendLoginDeniedEmail(email) {
+        await this.transporter.sendMail({
+            from: 'YAM <no-reply@yam.local>',
+            to: email,
+            subject: 'YAM — все сессии завершены',
+            html: `
+                <h1>Все сессии завершены</h1>
+                <p>Кто-то пытался войти в ваш аккаунт с нового устройства, и вы отклонили этот вход.</p>
+                <p>Все активные сессии завершены. Если это были не вы — рекомендуем сменить пароль.</p>
+                <p style="margin-top: 24px; font-size: 12px; color: #8b7ba8;">YAM. You Are Magic.</p>
+            `,
         });
     }
     async verifyLoginCode(userId, code) {

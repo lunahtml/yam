@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  tokenVersion: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  tokenVersion: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -33,6 +43,7 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   status: $Enums.UserStatus | null
+  tokenVersion: number | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -44,6 +55,7 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   status: $Enums.UserStatus | null
+  tokenVersion: number | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -55,9 +67,18 @@ export type UserCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   status: number
+  tokenVersion: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  tokenVersion?: true
+}
+
+export type UserSumAggregateInputType = {
+  tokenVersion?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -68,6 +89,7 @@ export type UserMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   status?: true
+  tokenVersion?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -79,6 +101,7 @@ export type UserMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   status?: true
+  tokenVersion?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -90,6 +113,7 @@ export type UserCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   status?: true
+  tokenVersion?: true
   _all?: true
 }
 
@@ -131,6 +155,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -161,6 +197,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -174,7 +212,10 @@ export type UserGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   status: $Enums.UserStatus
+  tokenVersion: number
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -206,6 +247,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFilter<"User"> | number
   organizationMemberships?: Prisma.OrganizationMemberListRelationFilter
   workspaceMemberships?: Prisma.WorkspaceMemberListRelationFilter
   projectMemberships?: Prisma.ProjectMemberListRelationFilter
@@ -234,6 +276,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
   organizationMemberships?: Prisma.OrganizationMemberOrderByRelationAggregateInput
   workspaceMemberships?: Prisma.WorkspaceMemberOrderByRelationAggregateInput
   projectMemberships?: Prisma.ProjectMemberOrderByRelationAggregateInput
@@ -265,6 +308,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFilter<"User"> | number
   organizationMemberships?: Prisma.OrganizationMemberListRelationFilter
   workspaceMemberships?: Prisma.WorkspaceMemberListRelationFilter
   projectMemberships?: Prisma.ProjectMemberListRelationFilter
@@ -293,9 +337,12 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -310,6 +357,7 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
+  tokenVersion?: Prisma.IntWithAggregatesFilter<"User"> | number
 }
 
 export type UserCreateInput = {
@@ -321,6 +369,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -349,6 +398,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -377,6 +427,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -405,6 +456,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -433,6 +485,7 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
 }
 
 export type UserUpdateManyMutationInput = {
@@ -444,6 +497,7 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -455,6 +509,7 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserScalarRelationFilter = {
@@ -471,6 +526,11 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  tokenVersion?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -482,6 +542,7 @@ export type UserMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -493,6 +554,11 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  tokenVersion?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  tokenVersion?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -534,6 +600,14 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumUserStatusFieldUpdateOperationsInput = {
   set?: $Enums.UserStatus
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type UserCreateNestedOneWithoutProjectMembershipsInput = {
@@ -759,6 +833,7 @@ export type UserCreateWithoutOrganizationMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   createdRecords?: Prisma.RecordCreateNestedManyWithoutCreatorInput
@@ -786,6 +861,7 @@ export type UserUncheckedCreateWithoutOrganizationMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   createdRecords?: Prisma.RecordUncheckedCreateNestedManyWithoutCreatorInput
@@ -829,6 +905,7 @@ export type UserUpdateWithoutOrganizationMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   createdRecords?: Prisma.RecordUpdateManyWithoutCreatorNestedInput
@@ -856,6 +933,7 @@ export type UserUncheckedUpdateWithoutOrganizationMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   createdRecords?: Prisma.RecordUncheckedUpdateManyWithoutCreatorNestedInput
@@ -883,6 +961,7 @@ export type UserCreateWithoutWorkspaceMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   createdRecords?: Prisma.RecordCreateNestedManyWithoutCreatorInput
@@ -910,6 +989,7 @@ export type UserUncheckedCreateWithoutWorkspaceMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   createdRecords?: Prisma.RecordUncheckedCreateNestedManyWithoutCreatorInput
@@ -953,6 +1033,7 @@ export type UserUpdateWithoutWorkspaceMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   createdRecords?: Prisma.RecordUpdateManyWithoutCreatorNestedInput
@@ -980,6 +1061,7 @@ export type UserUncheckedUpdateWithoutWorkspaceMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   createdRecords?: Prisma.RecordUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1007,6 +1089,7 @@ export type UserCreateWithoutProjectMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   createdRecords?: Prisma.RecordCreateNestedManyWithoutCreatorInput
@@ -1034,6 +1117,7 @@ export type UserUncheckedCreateWithoutProjectMembershipsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   createdRecords?: Prisma.RecordUncheckedCreateNestedManyWithoutCreatorInput
@@ -1077,6 +1161,7 @@ export type UserUpdateWithoutProjectMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   createdRecords?: Prisma.RecordUpdateManyWithoutCreatorNestedInput
@@ -1104,6 +1189,7 @@ export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   createdRecords?: Prisma.RecordUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1131,6 +1217,7 @@ export type UserCreateWithoutCreatedRecordsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1158,6 +1245,7 @@ export type UserUncheckedCreateWithoutCreatedRecordsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1201,6 +1289,7 @@ export type UserUpdateWithoutCreatedRecordsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1228,6 +1317,7 @@ export type UserUncheckedUpdateWithoutCreatedRecordsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1255,6 +1345,7 @@ export type UserCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1282,6 +1373,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1325,6 +1417,7 @@ export type UserUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1352,6 +1445,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1379,6 +1473,7 @@ export type UserCreateWithoutUploadedFilesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1406,6 +1501,7 @@ export type UserUncheckedCreateWithoutUploadedFilesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1449,6 +1545,7 @@ export type UserUpdateWithoutUploadedFilesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1476,6 +1573,7 @@ export type UserUncheckedUpdateWithoutUploadedFilesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1503,6 +1601,7 @@ export type UserCreateWithoutActivityLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1530,6 +1629,7 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1573,6 +1673,7 @@ export type UserUpdateWithoutActivityLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1600,6 +1701,7 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1627,6 +1729,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1654,6 +1757,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1697,6 +1801,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1724,6 +1829,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1751,6 +1857,7 @@ export type UserCreateWithoutEmailVerificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1778,6 +1885,7 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1821,6 +1929,7 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1848,6 +1957,7 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1875,6 +1985,7 @@ export type UserCreateWithoutCreatedUtmLinksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1902,6 +2013,7 @@ export type UserUncheckedCreateWithoutCreatedUtmLinksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1945,6 +2057,7 @@ export type UserUpdateWithoutCreatedUtmLinksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1972,6 +2085,7 @@ export type UserUncheckedUpdateWithoutCreatedUtmLinksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1999,6 +2113,7 @@ export type UserCreateWithoutSprintRetrosInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2026,6 +2141,7 @@ export type UserUncheckedCreateWithoutSprintRetrosInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2069,6 +2185,7 @@ export type UserUpdateWithoutSprintRetrosInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2096,6 +2213,7 @@ export type UserUncheckedUpdateWithoutSprintRetrosInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2123,6 +2241,7 @@ export type UserCreateWithoutSprintEventsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2150,6 +2269,7 @@ export type UserUncheckedCreateWithoutSprintEventsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2193,6 +2313,7 @@ export type UserUpdateWithoutSprintEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2220,6 +2341,7 @@ export type UserUncheckedUpdateWithoutSprintEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2247,6 +2369,7 @@ export type UserCreateWithoutIncrementsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2274,6 +2397,7 @@ export type UserUncheckedCreateWithoutIncrementsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2317,6 +2441,7 @@ export type UserUpdateWithoutIncrementsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2344,6 +2469,7 @@ export type UserUncheckedUpdateWithoutIncrementsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2371,6 +2497,7 @@ export type UserCreateWithoutCreatedTagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2398,6 +2525,7 @@ export type UserUncheckedCreateWithoutCreatedTagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2441,6 +2569,7 @@ export type UserUpdateWithoutCreatedTagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2468,6 +2597,7 @@ export type UserUncheckedUpdateWithoutCreatedTagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2495,6 +2625,7 @@ export type UserCreateWithoutUserSkillsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2522,6 +2653,7 @@ export type UserUncheckedCreateWithoutUserSkillsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2565,6 +2697,7 @@ export type UserUpdateWithoutUserSkillsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2592,6 +2725,7 @@ export type UserUncheckedUpdateWithoutUserSkillsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2619,6 +2753,7 @@ export type UserCreateWithoutCreatedEvidencesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2646,6 +2781,7 @@ export type UserUncheckedCreateWithoutCreatedEvidencesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2689,6 +2825,7 @@ export type UserUpdateWithoutCreatedEvidencesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2716,6 +2853,7 @@ export type UserUncheckedUpdateWithoutCreatedEvidencesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2743,6 +2881,7 @@ export type UserCreateWithoutInvitationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2770,6 +2909,7 @@ export type UserUncheckedCreateWithoutInvitationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   status?: $Enums.UserStatus
+  tokenVersion?: number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2813,6 +2953,7 @@ export type UserUpdateWithoutInvitationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2840,6 +2981,7 @@ export type UserUncheckedUpdateWithoutInvitationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
   organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -3042,6 +3184,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   status?: boolean
+  tokenVersion?: boolean
   organizationMemberships?: boolean | Prisma.User$organizationMembershipsArgs<ExtArgs>
   workspaceMemberships?: boolean | Prisma.User$workspaceMembershipsArgs<ExtArgs>
   projectMemberships?: boolean | Prisma.User$projectMembershipsArgs<ExtArgs>
@@ -3071,6 +3214,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   status?: boolean
+  tokenVersion?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3082,6 +3226,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   status?: boolean
+  tokenVersion?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -3093,9 +3238,10 @@ export type UserSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   status?: boolean
+  tokenVersion?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "avatarUrl" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "avatarUrl" | "createdAt" | "updatedAt" | "status" | "tokenVersion", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organizationMemberships?: boolean | Prisma.User$organizationMembershipsArgs<ExtArgs>
   workspaceMemberships?: boolean | Prisma.User$workspaceMembershipsArgs<ExtArgs>
@@ -3149,6 +3295,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     status: $Enums.UserStatus
+    tokenVersion: number
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -3597,6 +3744,7 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
+  readonly tokenVersion: Prisma.FieldRef<"User", 'Int'>
 }
     
 

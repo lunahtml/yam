@@ -2,10 +2,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, User as UserIcon, Mail, Sparkles, TrendingUp } from 'lucide-react';
-import { UserSkill, User } from '../../types/api';
+import { UserSkill, User, Category } from '../../types/api';
 import { api } from '../../api/client';
 import Input from '../../components/Input';
 import SkillDetailPopup from './SkillDetailPopup';
+import XMatrix from '../../features/skills/XMatrix';
 import Button from '../../components/Button';
 import './ProfilePage.css';
 
@@ -19,22 +20,39 @@ export default function ProfilePage() {
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const [skills, setSkills] = useState<UserSkill[]>([]);
+    const [spheres, setSpheres] = useState<Category[]>([]);
+    const [geographies, setGeographies] = useState<Category[]>([]);
     const [openedSkillId, setOpenedSkillId] = useState<string | null>(null);
     const [skillsLoading, setSkillsLoading] = useState(true);
 
     useEffect(() => {
         api
             .getMe()
-            .then((u) => {
+            .then(async (u) => {
                 setUser(u);
                 setName(u.name ?? '');
                 setAvatarUrl(u.avatarUrl ?? '');
 
-                api
-                    .getUserSkills(u.id)
-                    .then(setSkills)
-                    .catch(() => { })
-                    .finally(() => setSkillsLoading(false));
+                try {
+                    const skillsData = await api.getUserSkills(u.id);
+                    setSkills(skillsData);
+
+                    // Загружаем справочники SPHERE и GEOGRAPHY
+                    const orgs = await api.getMyOrganizations();
+                    if (orgs.length > 0) {
+                        const orgId = orgs[0].id;
+                        const [spheresData, geosData] = await Promise.all([
+                            api.getCategories(orgId, 'SPHERE'),
+                            api.getCategories(orgId, 'GEOGRAPHY'),
+                        ]);
+                        setSpheres(spheresData);
+                        setGeographies(geosData);
+                    }
+                } catch {
+                    // ignore
+                } finally {
+                    setSkillsLoading(false);
+                }
             })
             .catch((err) =>
                 setError(err instanceof Error ? err.message : 'Failed to load'),
@@ -171,7 +189,15 @@ export default function ProfilePage() {
                             </div>
                         )}
                     </div>
-
+                    {!skillsLoading && skills.length > 0 && (
+                        <div className="profile-xmatrix">
+                            <XMatrix
+                                userSkills={skills}
+                                spheres={spheres}
+                                geographies={geographies}
+                            />
+                        </div>
+                    )}
                     <div className="profile-meta">
                         ID: {user.id.slice(0, 8)}...
                         {user.createdAt && ` · Создан: ${new Date(user.createdAt).toLocaleDateString('ru-RU')}`}

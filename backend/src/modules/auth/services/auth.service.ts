@@ -16,7 +16,9 @@ import { RegisterDto } from '../contracts/register.dto.js';
 import { LoginDto } from '../contracts/login.dto.js';
 import { VerifyEmailDto } from '../contracts/verify-email.dto.js';
 import { VerifyLoginDto } from '../contracts/verify-login.dto.js';
+import { DenyLoginDto } from '../contracts/deny-login.dto.js';
 import { DeviceInfo } from '../../../common/types/device-info.type.js';
+
 
 const DUMMY_HASH = '$argon2id$v=19$m=65536,t=3,p=4$dummy$dummy';
 
@@ -136,12 +138,12 @@ export class AuthService {
 
         const isNewDevice = await this.security.isNewDevice(user.id, deviceInfo);
         if (isNewDevice) {
-            await this.email.sendLoginCode(user.id, dto.email);
-
             const verificationToken = this.jwt.sign(
                 { sub: user.id, purpose: 'login_2fa' },
                 { expiresIn: '10m', issuer: 'yam-api', audience: 'yam-client' },
             );
+
+            await this.email.sendLoginCode(user.id, dto.email, verificationToken);
 
             return { requiresTwoFactor: true, verificationToken };
         }
@@ -175,5 +177,48 @@ export class AuthService {
 
         const tokens = await this.sessions.createSession(userId, deviceInfo);
         return tokens;
+    }
+    async denyLogin(dto: DenyLoginDto) {
+        let userId: string;
+
+        try {
+            const payload = this.jwt.verify(dto.verificationToken, {
+                issuer: 'yam-api',
+                audience: 'yam-client',
+            });
+
+            if (payload.purpose !== 'login_2fa') {
+                throw new UnauthorizedException('Invalid token');
+            }
+
+            userId = payload.sub;
+        } catch {
+            throw new UnauthorizedException('Invalid token');
+        }
+
+        // Отзываем все сессии
+        // Отзываем все сессии (refresh)
+        await this.sessions.revokeAllSessions(userId);
+
+        // Инкремент tokenVersion — все access-токены мгновенно невалидны
+        await this.sessions.incrementTokenVersion(userId);
+
+        // Помечаем верификацию использованной
+        await this.prisma.client.emailVerification.updateMany({
+            where: { userId, verifiedAt: null },
+            data: { verifiedAt: new Date() },
+        });
+
+        // Отправляем письмо
+        const user = await this.prisma.client.user.findUnique({
+            where: { id: userId },
+            select: { email: true },
+        });
+
+        if (user) {
+            await this.email.sendLoginDeniedEmail(user.email);
+        }
+
+        return { success: true };
     }
 }

@@ -102,6 +102,15 @@ let SprintsService = class SprintsService {
                         createdBy: { select: { id: true, email: true, name: true } },
                     },
                 },
+                sprintGoals: { orderBy: { order: 'asc' } },
+                _count: {
+                    select: {
+                        increments: true,
+                        metrics: true,
+                        events: true,
+                        records: true,
+                    },
+                },
             },
         });
     }

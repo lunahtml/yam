@@ -136,7 +136,9 @@ export const CategoryScope = {
   PROJECT: 'PROJECT',
   TASK: 'TASK',
   TAG: 'TAG',
-  SKILL: 'SKILL'
+  SKILL: 'SKILL',
+  SPHERE: 'SPHERE',
+  GEOGRAPHY: 'GEOGRAPHY'
 } as const
 
 export type CategoryScope = (typeof CategoryScope)[keyof typeof CategoryScope]

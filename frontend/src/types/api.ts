@@ -600,8 +600,13 @@ export interface Epic {
 // ═══════════════════════════════════════════════════════════════
 // CATEGORIES
 // ═══════════════════════════════════════════════════════════════
-
-export type CategoryScope = 'PROJECT' | 'TASK' | 'TAG' | 'SKILL';
+export type CategoryScope =
+    | 'PROJECT'
+    | 'TASK'
+    | 'TAG'
+    | 'SKILL'
+    | 'SPHERE'
+    | 'GEOGRAPHY';
 
 export interface Category {
     id: string;
@@ -697,16 +702,16 @@ export interface UserSkill {
     levelLabel: string | null;
     contextId: string | null;
     contextType: string | null;
+    geographyId: string | null;
+    geographyType: string | null;
     practiceCount: number;
     evidenceCount: number;
     lastUsedAt: string | null;
     createdAt: string;
     updatedAt: string;
-    // skill?: Skill;
-    // context?: { id: string; name: string; slug: string } | null;
-    // evidences?: SkillEvidence[];
     skill?: Skill;
     context?: { id: string; name: string; slug: string } | null;
+    geography?: { id: string; name: string; slug: string } | null;
     evidences?: SkillEvidence[];
 }
 

@@ -86,7 +86,9 @@ export const CategoryScope = {
     PROJECT: 'PROJECT',
     TASK: 'TASK',
     TAG: 'TAG',
-    SKILL: 'SKILL'
+    SKILL: 'SKILL',
+    SPHERE: 'SPHERE',
+    GEOGRAPHY: 'GEOGRAPHY'
 };
 export const SkillType = {
     HARD: 'HARD',

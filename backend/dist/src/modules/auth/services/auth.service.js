@@ -117,8 +117,8 @@ let AuthService = class AuthService {
         }
         const isNewDevice = await this.security.isNewDevice(user.id, deviceInfo);
         if (isNewDevice) {
-            await this.email.sendLoginCode(user.id, dto.email);
             const verificationToken = this.jwt.sign({ sub: user.id, purpose: 'login_2fa' }, { expiresIn: '10m', issuer: 'yam-api', audience: 'yam-client' });
+            await this.email.sendLoginCode(user.id, dto.email, verificationToken);
             return { requiresTwoFactor: true, verificationToken };
         }
         const tokens = await this.sessions.createSession(user.id, deviceInfo);
@@ -145,6 +145,41 @@ let AuthService = class AuthService {
             throw new UnauthorizedException('Invalid code');
         const tokens = await this.sessions.createSession(userId, deviceInfo);
         return tokens;
+    }
+    async denyLogin(dto) {
+        let userId;
+        try {
+            const payload = this.jwt.verify(dto.verificationToken, {
+                issuer: 'yam-api',
+                audience: 'yam-client',
+            });
+            if (payload.purpose !== 'login_2fa') {
+                throw new UnauthorizedException('Invalid token');
+            }
+            userId = payload.sub;
+        }
+        catch {
+            throw new UnauthorizedException('Invalid token');
+        }
+        // Отзываем все сессии
+        // Отзываем все сессии (refresh)
+        await this.sessions.revokeAllSessions(userId);
+        // Инкремент tokenVersion — все access-токены мгновенно невалидны
+        await this.sessions.incrementTokenVersion(userId);
+        // Помечаем верификацию использованной
+        await this.prisma.client.emailVerification.updateMany({
+            where: { userId, verifiedAt: null },
+            data: { verifiedAt: new Date() },
+        });
+        // Отправляем письмо
+        const user = await this.prisma.client.user.findUnique({
+            where: { id: userId },
+            select: { email: true },
+        });
+        if (user) {
+            await this.email.sendLoginDeniedEmail(user.email);
+        }
+        return { success: true };
     }
 };
 AuthService = __decorate([

@@ -15,8 +15,11 @@ export default function RegisterPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const [success, setSuccess] = useState('');
+
     const handleRegister = async () => {
         setError('');
+        setSuccess('');
         setLoading(true);
 
         try {
@@ -28,6 +31,13 @@ export default function RegisterPage() {
             if (res.verificationToken) {
                 localStorage.setItem('verificationToken', res.verificationToken);
                 navigate('/verify?mode=email');
+                return;
+            }
+
+            if (res.message) {
+                setSuccess(
+                    'Если этот email зарегистрирован — мы отправили код подтверждения. Проверь почту.',
+                );
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Registration failed');
@@ -92,7 +102,21 @@ export default function RegisterPage() {
                     {error}
                 </div>
             )}
-
+            {success && (
+                <div
+                    style={{
+                        color: 'var(--cyan)',
+                        marginBottom: 16,
+                        fontSize: 13,
+                        padding: 10,
+                        background: 'rgba(34, 211, 238, 0.1)',
+                        border: '1px solid rgba(34, 211, 238, 0.3)',
+                        borderRadius: 8,
+                    }}
+                >
+                    {success}
+                </div>
+            )}
             <Button onClick={handleRegister} loading={loading}>
                 <UserPlus size={16} />
                 Создать аккаунт

@@ -24,20 +24,23 @@ const DEMO_TASKS = [
     {
         title: 'Изучить возможности YAM',
         description: 'Пройдись по разделам: спринты, эпики, задачи, артефакты, UTM, маркетинг. Пойми, как всё связано.',
-        status: 'done',
+        status: 'in_progress',
         priority: 'medium',
+        tags: ['idea'],
     },
     {
         title: 'Настроить артефакты и UTM',
         description: 'Добавь свои сайты, соцсети, документы. Настрой UTM-метки для отслеживания трафика.',
         status: 'in_progress',
         priority: 'high',
+        tags: ['marketing'],
     },
     {
         title: 'Пригласить команду',
         description: 'Пригласи коллег в проект. Каждый получит роль: owner, admin, member или viewer.',
         status: 'todo',
         priority: 'medium',
+        tags: ['mentorship'],
     },
 ];
 const DEMO_METRICS = [
@@ -71,6 +74,36 @@ const DEMO_GOALS = [
         text: 'Пригласить команду в проект',
         description: 'Пригласи коллег. Каждый получит роль и доступ к задачам.',
     },
+];
+const DEMO_SKILLS = [
+    { name: 'backend-dev', label: 'Backend-разработка', type: 'HARD' },
+    { name: 'frontend-dev', label: 'Frontend-разработка', type: 'HARD' },
+    { name: 'legal', label: 'Юридические навыки', type: 'HARD' },
+    { name: 'marketing', label: 'Маркетинг', type: 'HARD' },
+    { name: 'design', label: 'Дизайн', type: 'HARD' },
+    { name: 'mentorship', label: 'Менторство', type: 'SOFT' },
+];
+const DEMO_SPHERES = [
+    { name: 'e-commerce', label: 'E-commerce', icon: '🛒' },
+    { name: 'fintech', label: 'Fintech', icon: '💰' },
+    { name: 'marketing', label: 'Marketing', icon: '📣' },
+    { name: 'b2b', label: 'B2B', icon: '🏢' },
+    { name: 'saas', label: 'SaaS', icon: '☁️' },
+];
+const DEMO_GEOGRAPHIES = [
+    { name: 'russia', label: 'Россия', icon: '🇷🇺' },
+    { name: 'cis', label: 'СНГ', icon: '🌍' },
+    { name: 'abroad', label: 'Зарубеж', icon: '🌐' },
+];
+const DEMO_TAGS = [
+    { name: 'backend', label: 'Backend', icon: '⚙️', skillName: 'backend-dev' },
+    { name: 'frontend', label: 'Frontend', icon: '🎨', skillName: 'frontend-dev' },
+    { name: 'legal', label: 'Legal', icon: '⚖️', skillName: 'legal' },
+    { name: 'marketing', label: 'Marketing', icon: '📈', skillName: 'marketing' },
+    { name: 'design', label: 'Design', icon: '🖌️', skillName: 'design' },
+    { name: 'mentorship', label: 'Mentorship', icon: '🎓', skillName: 'mentorship' },
+    { name: 'urgent', label: 'Срочно', icon: '🔥', skillName: '' },
+    { name: 'idea', label: 'Идея', icon: '💡', skillName: '' },
 ];
 const DEMO_ARTIFACTS = [
     {
@@ -160,6 +193,59 @@ let OnboardingService = OnboardingService_1 = class OnboardingService {
             });
             // 4. UTM defaults (внутри транзакции)
             await this.utmDefaults.createDefaults(project.id, tx);
+            // 4.1. Skills (X-Matrix: X — навык)
+            for (const s of DEMO_SKILLS) {
+                await tx.skill.create({
+                    data: {
+                        organizationId: organization.id,
+                        name: s.name,
+                        label: s.label,
+                        type: s.type,
+                        description: s.description,
+                    },
+                });
+            }
+            // 4.2. Spheres (X-Matrix: Y — ниша)
+            for (const s of DEMO_SPHERES) {
+                await tx.category.create({
+                    data: {
+                        organizationId: organization.id,
+                        scope: 'SPHERE',
+                        name: s.label,
+                        slug: s.name,
+                        icon: s.icon,
+                    },
+                });
+            }
+            // 4.3. Geographies (X-Matrix: Z — география)
+            for (const g of DEMO_GEOGRAPHIES) {
+                await tx.category.create({
+                    data: {
+                        organizationId: organization.id,
+                        scope: 'GEOGRAPHY',
+                        name: g.label,
+                        slug: g.name,
+                        icon: g.icon,
+                    },
+                });
+            }
+            // 4.4. Tags (глобальные метки организации)
+            const createdSkills = await tx.skill.findMany({
+                where: { organizationId: organization.id },
+                select: { id: true, name: true },
+            });
+            const skillMap = new Map(createdSkills.map((s) => [s.name, s.id]));
+            for (const t of DEMO_TAGS) {
+                await tx.tag.create({
+                    data: {
+                        organizationId: organization.id,
+                        name: t.name,
+                        label: t.label,
+                        icon: t.icon,
+                        skillId: t.skillName ? skillMap.get(t.skillName) : undefined,
+                    },
+                });
+            }
             // 5. Entity «Задачи» из шаблона
             const entity = await tx.entity.create({
                 data: {
@@ -259,7 +345,7 @@ let OnboardingService = OnboardingService_1 = class OnboardingService {
                     status: task.status,
                     priority: task.priority,
                     assignee: userId,
-                    tags: [],
+                    tags: task.tags,
                     checklist: [],
                 };
                 const record = await tx.record.create({

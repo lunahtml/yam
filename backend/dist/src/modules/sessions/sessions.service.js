@@ -12,7 +12,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../../infra/prisma/prisma.service.js';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
-import { randomBytes } from 'crypto';
+import { randomBytes, randomUUID } from 'crypto';
 let SessionsService = class SessionsService {
     prisma;
     jwt;
@@ -21,7 +21,11 @@ let SessionsService = class SessionsService {
         this.jwt = jwt;
     }
     async createSession(userId, deviceInfo) {
-        const accessToken = this.jwt.sign({ sub: userId }, {
+        const user = await this.prisma.client.user.findUnique({
+            where: { id: userId },
+            select: { tokenVersion: true },
+        });
+        const accessToken = this.jwt.sign({ sub: userId, jti: randomUUID(), tv: user?.tokenVersion ?? 0 }, {
             expiresIn: process.env.JWT_EXPIRES_IN || '15m',
             issuer: 'yam-api',
             audience: 'yam-client',
@@ -65,7 +69,11 @@ let SessionsService = class SessionsService {
             where: { id: token.id },
             data: { revokedAt: new Date() },
         });
-        const accessToken = this.jwt.sign({ sub: token.userId }, {
+        const user = await this.prisma.client.user.findUnique({
+            where: { id: token.userId },
+            select: { tokenVersion: true },
+        });
+        const accessToken = this.jwt.sign({ sub: token.userId, jti: randomUUID(), tv: user?.tokenVersion ?? 0 }, {
             expiresIn: process.env.JWT_EXPIRES_IN || '15m',
             issuer: 'yam-api',
             audience: 'yam-client',
@@ -85,6 +93,12 @@ let SessionsService = class SessionsService {
             },
         });
         return { accessToken, refreshToken: newRefreshToken };
+    }
+    async incrementTokenVersion(userId) {
+        await this.prisma.client.user.update({
+            where: { id: userId },
+            data: { tokenVersion: { increment: 1 } },
+        });
     }
     async revokeByToken(refreshToken) {
         const [selector, verifier] = refreshToken.split('.');

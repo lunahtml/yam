@@ -34,6 +34,8 @@ frontend/src/
 │   └── ProjectLayout.css                  ✅
 │
 ├── features/
+│   ├── skills/
+│   │   ├── XMatrix.tsx                   ✅
 │   ├── artifacts/
 │   │   ├── ArtifactForm.tsx              ✅
 │   ├── entities/
@@ -76,6 +78,7 @@ frontend/src/
     ├── public/
     │   └── LandingPage.tsx               ✅
     ├── auth/
+    │   ├── DenyLoginPage.tsx             ✅
     │   ├── LoginPage.tsx                 ✅
     │   ├── RegisterPage.tsx              ✅
     │   └── VerifyPage.tsx                ✅
@@ -164,7 +167,9 @@ backend/src/
 │   │   ├── prisma.module.ts                         ✅
 │   │   └── prisma.service.ts                        ✅
 │   ├── queue/                                       ⬜
-│   └── redis/                                       ⬜
+│   └── redis/                                       
+│       └── redis.service.ts                         ✅            
+│       └── redis.module.ts                          ✅            
 │
 └── modules/
     │

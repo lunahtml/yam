@@ -362,7 +362,7 @@ export default function SprintDetailPage() {
                             className={`sprint-detail-tab ${tab === 'tasks' ? 'sprint-detail-tab-active' : ''}`}
                             onClick={() => setTab('tasks')}
                         >
-                            Задачи
+                            Задачи ({sprint._count?.records ?? 0})
                         </button>
                         <button
                             className={`sprint-detail-tab ${tab === 'metrics' ? 'sprint-detail-tab-active' : ''}`}

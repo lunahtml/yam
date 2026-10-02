@@ -154,7 +154,8 @@ export const UserScalarFieldEnum = {
     avatarUrl: 'avatarUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    status: 'status'
+    status: 'status',
+    tokenVersion: 'tokenVersion'
 };
 export const ProjectScalarFieldEnum = {
     id: 'id',
@@ -575,6 +576,8 @@ export const UserSkillScalarFieldEnum = {
     levelLabel: 'levelLabel',
     contextId: 'contextId',
     contextType: 'contextType',
+    geographyId: 'geographyId',
+    geographyType: 'geographyType',
     practiceCount: 'practiceCount',
     evidenceCount: 'evidenceCount',
     lastUsedAt: 'lastUsedAt',

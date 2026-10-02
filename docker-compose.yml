@@ -1,5 +1,9 @@
 version: "3.9"
 #УБРАТЬ ПОРТЫ ТОРЧАЩИЕ НА РУЖУ НА ПРОДЕ
+# ПРОД: включить AOF + репликацию + Sentinel
+# appendonly yes
+# appendfsync always
+# min-replicas-to-write 1
 services:
   postgres:
     image: postgres:18-alpine
@@ -18,7 +22,7 @@ services:
     image: redis:7-alpine
     container_name: yam-redis
     restart: unless-stopped
-    command: redis-server --requirepass redis_secret
+    command: redis-server --requirepass redis_secret --maxmemory 256mb --maxmemory-policy volatile-lru
 
   mailhog:
     image: mailhog/mailhog
