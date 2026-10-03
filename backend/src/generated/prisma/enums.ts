@@ -163,3 +163,15 @@ export const EvidenceType = {
 } as const
 
 export type EvidenceType = (typeof EvidenceType)[keyof typeof EvidenceType]
+
+
+export const XpSource = {
+  SPRINT_EVENT: 'SPRINT_EVENT',
+  INCREMENT: 'INCREMENT',
+  METRIC_ACHIEVED: 'METRIC_ACHIEVED',
+  GOAL_ACHIEVED: 'GOAL_ACHIEVED',
+  TASK_COMPLETED: 'TASK_COMPLETED',
+  MANUAL_GRANT: 'MANUAL_GRANT'
+} as const
+
+export type XpSource = (typeof XpSource)[keyof typeof XpSource]

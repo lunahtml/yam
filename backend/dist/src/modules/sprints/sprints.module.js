@@ -20,10 +20,12 @@ import { IncrementsService } from './services/increments.service.js';
 import { EpicsService } from './services/epics.service.js';
 import { SprintGoalsService } from './services/sprint-goals.service.js';
 import { SprintRetrosService } from './services/sprint-retros.service.js';
+import { GamificationModule } from '../gamification/gamification.module.js';
 let SprintsModule = class SprintsModule {
 };
 SprintsModule = __decorate([
     Module({
+        imports: [GamificationModule],
         controllers: [
             SprintsController,
             MetricsController,

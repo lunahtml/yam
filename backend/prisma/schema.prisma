@@ -26,16 +26,17 @@ enum ProjectRoleEnum {
 // ═══════════════════════════════════════════════════════════════
 
 model Organization {
-    id         String               @id @default(uuid(7)) @db.Uuid
-    name       String
-    createdAt  DateTime             @default(now())
-    updatedAt  DateTime             @updatedAt
-    categories Category[]
-    tags       Tag[]
-    skills     Skill[]
-    userSkills UserSkill[]
-    workspaces Workspace[]
-    members    OrganizationMember[]
+    id           String               @id @default(uuid(7)) @db.Uuid
+    name         String
+    createdAt    DateTime             @default(now())
+    updatedAt    DateTime             @updatedAt
+    categories   Category[]
+    tags         Tag[]
+    skills       Skill[]
+    userSkills   UserSkill[]
+    workspaces   Workspace[]
+    members      OrganizationMember[]
+    achievements Achievement[]
 
     @@map("organizations")
 }
@@ -112,22 +113,25 @@ model User {
     workspaceMemberships    WorkspaceMember[]
     projectMemberships      ProjectMember[]
 
-    createdRecords     Record[]
-    comments           Comment[]
-    uploadedFiles      File[]
-    activityLogs       ActivityLog[]
-    refreshTokens      RefreshToken[]
-    emailVerifications EmailVerification[]
-    status             UserStatus          @default(ACTIVE)
-    tokenVersion       Int                 @default(0)
-    createdUtmLinks    UtmLink[]
-    sprintEvents       SprintEvent[]
-    increments         Increment[]
-    createdTags        Tag[]
-    userSkills         UserSkill[]
-    createdEvidences   SkillEvidence[]
-    invitations        Invitation[]
-    sprintRetros       SprintRetro[]
+    createdRecords      Record[]
+    comments            Comment[]
+    uploadedFiles       File[]
+    activityLogs        ActivityLog[]
+    refreshTokens       RefreshToken[]
+    emailVerifications  EmailVerification[]
+    status              UserStatus          @default(ACTIVE)
+    tokenVersion        Int                 @default(0)
+    createdUtmLinks     UtmLink[]
+    sprintEvents        SprintEvent[]
+    increments          Increment[]
+    createdTags         Tag[]
+    userSkills          UserSkill[]
+    createdEvidences    SkillEvidence[]
+    invitations         Invitation[]
+    sprintRetros        SprintRetro[]
+    userXpLogs          UserXpLog[]
+    userAchievements    UserAchievement[]   @relation("UserAchievements")
+    grantedAchievements UserAchievement[]   @relation("GrantedBy")
 
     @@map("users")
 }
@@ -1225,4 +1229,62 @@ model Invitation {
     @@index([projectId])
     @@index([email])
     @@map("invitations")
+}
+
+model UserXpLog {
+    id        String   @id @default(uuid(7)) @db.Uuid
+    userId    String   @db.Uuid
+    amount    Int
+    source    XpSource
+    sourceId  String?  @db.Uuid
+    note      String?
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId, createdAt])
+    @@map("user_xp_logs")
+}
+
+enum XpSource {
+    SPRINT_EVENT
+    INCREMENT
+    METRIC_ACHIEVED
+    GOAL_ACHIEVED
+    TASK_COMPLETED
+    MANUAL_GRANT
+}
+
+model Achievement {
+    id             String   @id @default(uuid(7)) @db.Uuid
+    organizationId String   @db.Uuid
+    code           String // "first_task", "sprint_completed", "10_tasks"
+    label          String
+    description    String?
+    icon           String?
+    xpReward       Int      @default(0)
+    isAutomatic    Boolean  @default(true)
+    createdAt      DateTime @default(now())
+
+    organization     Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+    userAchievements UserAchievement[]
+
+    @@unique([organizationId, code])
+    @@map("achievements")
+}
+
+model UserAchievement {
+    id            String   @id @default(uuid(7)) @db.Uuid
+    userId        String   @db.Uuid
+    achievementId String   @db.Uuid
+    grantedById   String?  @db.Uuid
+    note          String?
+    grantedAt     DateTime @default(now())
+
+    user        User        @relation("UserAchievements", fields: [userId], references: [id], onDelete: Cascade)
+    achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+    grantedBy   User?       @relation("GrantedBy", fields: [grantedById], references: [id], onDelete: SetNull)
+
+    @@unique([userId, achievementId])
+    @@map("user_achievements")
 }

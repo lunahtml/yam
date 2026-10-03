@@ -15,18 +15,21 @@ import { EDIT_ROLES, DESTRUCTIVE_ROLES, } from '../../../common/types/roles.type
 import { RecordValidatorService } from './record-validator.service.js';
 import { RecordIndexService } from './record-index.service.js';
 import { UserSkillsService } from '../../skills/services/user-skills.service.js';
+import { AchievementsService } from '../../gamification/services/achievements.service.js';
 let RecordsService = class RecordsService {
     prisma;
     membership;
     validator;
     indexer;
     userSkills;
-    constructor(prisma, membership, validator, indexer, userSkills) {
+    achievements;
+    constructor(prisma, membership, validator, indexer, userSkills, achievements) {
         this.prisma = prisma;
         this.membership = membership;
         this.validator = validator;
         this.indexer = indexer;
         this.userSkills = userSkills;
+        this.achievements = achievements;
     }
     async create(userId, entityId, data) {
         const entity = await this.prisma.client.entity.findUnique({
@@ -183,6 +186,7 @@ let RecordsService = class RecordsService {
                 projectId: true,
                 entityId: true,
                 data: true,
+                sprintId: true,
                 entity: { select: { fields: true } },
             },
         });
@@ -213,6 +217,7 @@ let RecordsService = class RecordsService {
         const newStatus = String(validated.status ?? '');
         if (oldStatus !== 'done' && newStatus === 'done') {
             await this.processTaskCompletion(id, record.projectId, validated);
+            await this.checkTaskAchievements(record.projectId, record.sprintId, validated);
         }
         return updated;
     }
@@ -278,6 +283,68 @@ let RecordsService = class RecordsService {
             console.error('X-Matrix error:', err);
         }
     }
+    /**
+     * Проверяет автоматические ачивки за закрытые задачи.
+     *
+     * Считает задачи, закрытые этим assignee в ЭТОМ спринте.
+     * Если счётчик совпадает с порогом (1, 10, 50) — выдаёт ачивку.
+     *
+     * grantAutomatic идемпотентен: повторно ачивку не выдаст.
+     */
+    async checkTaskAchievements(projectId, sprintId, data) {
+        try {
+            const assignee = typeof data.assignee === 'string' ? data.assignee : null;
+            if (!assignee)
+                return;
+            if (!sprintId)
+                return; // задачи без спринта не считаем
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: projectId },
+                select: {
+                    workspace: { select: { organizationId: true } },
+                },
+            });
+            const organizationId = project?.workspace?.organizationId;
+            if (!organizationId)
+                return;
+            // Все recordId с status=done в этом спринте
+            const doneIndexes = await this.prisma.client.recordIndex.findMany({
+                where: {
+                    projectId,
+                    fieldName: 'status',
+                    valueText: 'done',
+                    record: { sprintId },
+                },
+                select: { recordId: true },
+            });
+            const recordIds = doneIndexes.map((r) => r.recordId);
+            if (recordIds.length === 0)
+                return;
+            // Из них — только те, где assignee = текущий
+            const assigneeIndexes = await this.prisma.client.recordIndex.findMany({
+                where: {
+                    recordId: { in: recordIds },
+                    fieldName: 'assignee',
+                    valueText: assignee,
+                },
+                select: { recordId: true },
+            });
+            const doneCount = assigneeIndexes.length;
+            const triggers = [
+                { count: 1, code: 'first_task', note: 'Закрыл первую задачу в спринте' },
+                { count: 10, code: 'ten_tasks', note: 'Закрыл 10 задач в спринте' },
+                { count: 50, code: 'fifty_tasks', note: 'Закрыл 50 задач в спринте' },
+            ];
+            for (const t of triggers) {
+                if (doneCount === t.count) {
+                    await this.achievements.grantAutomatic(assignee, organizationId, t.code, t.note);
+                }
+            }
+        }
+        catch (err) {
+            console.error('Achievements trigger error:', err);
+        }
+    }
     async remove(userId, id) {
         const record = await this.prisma.client.record.findUnique({
             where: { id },
@@ -298,7 +365,8 @@ RecordsService = __decorate([
         MembershipService,
         RecordValidatorService,
         RecordIndexService,
-        UserSkillsService])
+        UserSkillsService,
+        AchievementsService])
 ], RecordsService);
 export { RecordsService };
 //# sourceMappingURL=records.service.js.map

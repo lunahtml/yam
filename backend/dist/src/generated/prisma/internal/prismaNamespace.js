@@ -109,7 +109,10 @@ export const ModelName = {
     UserSkill: 'UserSkill',
     SkillEvidence: 'SkillEvidence',
     TaskComplexity: 'TaskComplexity',
-    Invitation: 'Invitation'
+    Invitation: 'Invitation',
+    UserXpLog: 'UserXpLog',
+    Achievement: 'Achievement',
+    UserAchievement: 'UserAchievement'
 };
 /**
  * Enums
@@ -618,6 +621,34 @@ export const InvitationScalarFieldEnum = {
     expiresAt: 'expiresAt',
     acceptedAt: 'acceptedAt',
     createdAt: 'createdAt'
+};
+export const UserXpLogScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    amount: 'amount',
+    source: 'source',
+    sourceId: 'sourceId',
+    note: 'note',
+    createdAt: 'createdAt'
+};
+export const AchievementScalarFieldEnum = {
+    id: 'id',
+    organizationId: 'organizationId',
+    code: 'code',
+    label: 'label',
+    description: 'description',
+    icon: 'icon',
+    xpReward: 'xpReward',
+    isAutomatic: 'isAutomatic',
+    createdAt: 'createdAt'
+};
+export const UserAchievementScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    achievementId: 'achievementId',
+    grantedById: 'grantedById',
+    note: 'note',
+    grantedAt: 'grantedAt'
 };
 export const SortOrder = {
     asc: 'asc',

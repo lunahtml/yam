@@ -34,6 +34,8 @@ frontend/src/
 │   └── ProjectLayout.css                  ✅
 │
 ├── features/
+│   ├── gamification/
+│       ├── achievementTemplates.ts       ✅
 │   ├── skills/
 │   │   ├── XMatrix.tsx                   ✅
 │   ├── artifacts/
@@ -173,6 +175,15 @@ backend/src/
 │
 └── modules/
     │
+    ├── gamification/
+    │   ├── achievements.controller.ts               ✅
+    │   ├── gamification.controller.ts               ✅
+    │   ├── gamification.module.ts                   ✅
+    │   └── contracts/
+    │       └── achievement.dto.ts                   ✅
+    │   └── services/
+    │       └── xp.service.ts                        ✅
+    │       └── achievements.service.ts              ✅
     ├── artifacts/
     │   ├── artifacts.controller.ts                  ✅
     │   ├── artifacts.module.ts                      ✅

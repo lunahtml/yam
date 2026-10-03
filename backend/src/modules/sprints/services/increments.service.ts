@@ -2,6 +2,7 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
+import { XpService } from '../../gamification/services/xp.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES } from '../../../common/types/roles.type.js';
 import {
     CreateIncrementDto,
@@ -13,6 +14,7 @@ export class IncrementsService {
     constructor(
         private prisma: PrismaService,
         private membership: MembershipService,
+        private xp: XpService,
     ) { }
 
     async create(userId: string, sprintId: string, data: CreateIncrementDto) {
@@ -31,7 +33,7 @@ export class IncrementsService {
             EDIT_ROLES,
         );
 
-        return this.prisma.client.increment.create({
+        const increment = await this.prisma.client.increment.create({
             data: {
                 sprintId,
                 projectId: sprint.projectId,
@@ -42,6 +44,18 @@ export class IncrementsService {
                 createdById: userId,
             },
         });
+
+        if (data.xp > 0) {
+            await this.xp.addXp(
+                userId,
+                data.xp,
+                'INCREMENT',
+                increment.id,
+                `Инкремент: ${data.name}`,
+            );
+        }
+
+        return increment;
     }
 
     async findByProject(userId: string, projectId: string) {

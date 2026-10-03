@@ -249,3 +249,205 @@
     border: 1px solid var(--border);
     border-radius: 12px;
 }
+
+.profile-xp {
+    margin-top: 24px;
+    padding: 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.profile-xp-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 16px 0;
+}
+
+.profile-xp-total {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(34, 211, 238, 0.1));
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.profile-xp-total-value {
+    font-size: 42px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.profile-xp-total-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.profile-xp-sources {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-xp-source {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.profile-xp-source-label {
+    color: var(--text-secondary);
+}
+
+.profile-xp-source-value {
+    color: var(--accent-bright);
+    font-weight: 700;
+}
+
+.profile-achievements {
+    margin-top: 24px;
+    padding: 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.profile-achievements-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 16px 0;
+}
+
+.profile-achievements-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.profile-achievement {
+    display: flex;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.15s;
+}
+
+.profile-achievement:hover {
+    border-color: var(--accent);
+}
+
+.profile-achievement-icon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.profile-achievement-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.profile-achievement-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.profile-achievement-note {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.profile-achievement-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.profile-xp-history {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.profile-xp-history-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px 0;
+}
+
+.profile-xp-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-xp-history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.profile-xp-history-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-xp-history-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.profile-xp-history-note {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.profile-xp-history-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.profile-xp-history-amount {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent-bright);
+    flex-shrink: 0;
+}

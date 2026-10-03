@@ -43,6 +43,8 @@ import {
     SprintGoal,
     SprintRetro,
     SprintRetroResponse,
+    Achievement,
+    UserAchievement
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -914,5 +916,55 @@ export const api = {
             workspaceId: string;
             projectId: string;
         }>('/onboarding/demo', { method: 'POST' }),
+
+
+    // ═══════════════════════════════════════════════════════════════
+    // ACHIEVEMENTS
+    // ═══════════════════════════════════════════════════════════════
+
+    createAchievement: (organizationId: string, data: {
+        code: string;
+        label: string;
+        description?: string;
+        icon?: string;
+        xpReward?: number;
+        isAutomatic?: boolean;
+    }) =>
+        request<Achievement>(`/achievements/organization/${organizationId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getAchievements: (organizationId: string) =>
+        request<Achievement[]>(`/achievements/organization/${organizationId}`),
+
+    getUserAchievements: (userId: string) =>
+        request<UserAchievement[]>(`/achievements/user/${userId}`),
+
+    grantAchievement: (achievementId: string, data: {
+        userId: string;
+        note?: string;
+    }) =>
+        request<UserAchievement>(`/achievements/${achievementId}/grant`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    deleteAchievement: (id: string) =>
+        request<void>(`/achievements/${id}`, { method: 'DELETE' }),
+
+    getMyXp: () =>
+        request<{
+            total: number;
+            bySource: { source: string; total: number }[];
+            history: {
+                id: string;
+                amount: number;
+                source: string;
+                sourceId: string | null;
+                note: string | null;
+                createdAt: string;
+            }[];
+        }>('/gamification/xp/me'),
 
 };

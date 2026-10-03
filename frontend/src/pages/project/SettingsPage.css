@@ -37,3 +37,239 @@
   font-size: 13px;
   color: var(--text-dim);
 }
+
+.settings-section {
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.settings-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.settings-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.settings-error {
+    color: var(--error);
+    font-size: 13px;
+    padding: 10px 14px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.settings-achievement-form {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.settings-achievement-form-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.settings-achievement-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.settings-achievement-checkbox-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 24px;
+}
+
+.settings-achievement-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.settings-achievement-checkbox-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 22px;
+}
+
+.settings-achievement-form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.settings-achievements-loading,
+.settings-achievements-empty {
+    padding: 32px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    background: var(--bg-elevated);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    line-height: 1.6;
+}
+
+.settings-achievements-empty code {
+    background: var(--bg-hover);
+    color: var(--cyan);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.settings-achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.settings-achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.15s;
+}
+
+.settings-achievement-item:hover {
+    border-color: var(--border-bright);
+}
+
+.settings-achievement-icon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.settings-achievement-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-achievement-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.settings-achievement-badge-auto {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.15);
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.settings-achievement-code {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: monospace;
+    margin-top: 2px;
+}
+
+.settings-achievement-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.settings-achievement-xp {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-bright);
+    flex-shrink: 0;
+}
+
+.settings-achievement-delete {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+.settings-achievement-delete:hover {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+
+.settings-achievement-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.settings-achievement-form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.settings-achievement-form-select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.settings-achievement-form-select:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.settings-achievement-form-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}

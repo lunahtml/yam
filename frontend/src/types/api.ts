@@ -755,3 +755,33 @@ export interface Invitation {
     };
 }
 
+// ═══════════════════════════════════════════════════════════════
+// ACHIEVEMENTS
+// ═══════════════════════════════════════════════════════════════
+
+export interface Achievement {
+    id: string;
+    organizationId: string;
+    code: string;
+    label: string;
+    description: string | null;
+    icon: string | null;
+    xpReward: number;
+    isAutomatic: boolean;
+    createdAt: string;
+}
+
+export interface UserAchievement {
+    id: string;
+    userId: string;
+    achievementId: string;
+    grantedById: string | null;
+    note: string | null;
+    grantedAt: string;
+    achievement: Achievement;
+    grantedBy?: {
+        id: string;
+        email: string;
+        name: string | null;
+    } | null;
+}

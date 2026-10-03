@@ -17,6 +17,7 @@ import { CreateRecordDto } from '../contracts/create-record.dto.js';
 import { UpdateRecordDto } from '../contracts/update-record.dto.js';
 import { ListRecordsQueryDto } from '../contracts/list-records.dto.js';
 import { UserSkillsService } from '../../skills/services/user-skills.service.js';
+import { AchievementsService } from '../../gamification/services/achievements.service.js';
 
 @Injectable()
 export class RecordsService {
@@ -26,6 +27,7 @@ export class RecordsService {
         private validator: RecordValidatorService,
         private indexer: RecordIndexService,
         private userSkills: UserSkillsService,
+        private achievements: AchievementsService,
     ) { }
 
     async create(userId: string, entityId: string, data: CreateRecordDto) {
@@ -249,6 +251,7 @@ export class RecordsService {
                 projectId: true,
                 entityId: true,
                 data: true,
+                sprintId: true,
                 entity: { select: { fields: true } },
             },
         });
@@ -300,6 +303,11 @@ export class RecordsService {
 
         if (oldStatus !== 'done' && newStatus === 'done') {
             await this.processTaskCompletion(id, record.projectId, validated);
+            await this.checkTaskAchievements(
+                record.projectId,
+                record.sprintId,
+                validated,
+            );
         }
 
         return updated;
@@ -376,6 +384,81 @@ export class RecordsService {
             }
         } catch (err) {
             console.error('X-Matrix error:', err);
+        }
+    }
+
+    /**
+     * Проверяет автоматические ачивки за закрытые задачи.
+     *
+     * Считает задачи, закрытые этим assignee в ЭТОМ спринте.
+     * Если счётчик совпадает с порогом (1, 10, 50) — выдаёт ачивку.
+     *
+     * grantAutomatic идемпотентен: повторно ачивку не выдаст.
+     */
+    private async checkTaskAchievements(
+        projectId: string,
+        sprintId: string | null,
+        data: Record<string, unknown>,
+    ) {
+        try {
+            const assignee =
+                typeof data.assignee === 'string' ? data.assignee : null;
+            if (!assignee) return;
+            if (!sprintId) return; // задачи без спринта не считаем
+
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: projectId },
+                select: {
+                    workspace: { select: { organizationId: true } },
+                },
+            });
+            const organizationId = project?.workspace?.organizationId;
+            if (!organizationId) return;
+
+            // Все recordId с status=done в этом спринте
+            const doneIndexes = await this.prisma.client.recordIndex.findMany({
+                where: {
+                    projectId,
+                    fieldName: 'status',
+                    valueText: 'done',
+                    record: { sprintId },
+                },
+                select: { recordId: true },
+            });
+
+            const recordIds = doneIndexes.map((r) => r.recordId);
+            if (recordIds.length === 0) return;
+
+            // Из них — только те, где assignee = текущий
+            const assigneeIndexes = await this.prisma.client.recordIndex.findMany({
+                where: {
+                    recordId: { in: recordIds },
+                    fieldName: 'assignee',
+                    valueText: assignee,
+                },
+                select: { recordId: true },
+            });
+
+            const doneCount = assigneeIndexes.length;
+
+            const triggers: { count: number; code: string; note: string }[] = [
+                { count: 1, code: 'first_task', note: 'Закрыл первую задачу в спринте' },
+                { count: 10, code: 'ten_tasks', note: 'Закрыл 10 задач в спринте' },
+                { count: 50, code: 'fifty_tasks', note: 'Закрыл 50 задач в спринте' },
+            ];
+
+            for (const t of triggers) {
+                if (doneCount === t.count) {
+                    await this.achievements.grantAutomatic(
+                        assignee,
+                        organizationId,
+                        t.code,
+                        t.note,
+                    );
+                }
+            }
+        } catch (err) {
+            console.error('Achievements trigger error:', err);
         }
     }
 

@@ -11,13 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
+import { XpService } from '../../gamification/services/xp.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES } from '../../../common/types/roles.type.js';
 let EventsService = class EventsService {
     prisma;
     membership;
-    constructor(prisma, membership) {
+    xp;
+    constructor(prisma, membership, xp) {
         this.prisma = prisma;
         this.membership = membership;
+        this.xp = xp;
     }
     async create(userId, sprintId, data) {
         const sprint = await this.prisma.client.sprint.findUnique({
@@ -28,7 +31,7 @@ let EventsService = class EventsService {
             throw new ForbiddenException('Access denied to sprint');
         }
         await this.membership.assertProjectRole(userId, sprint.projectId, EDIT_ROLES);
-        return this.prisma.client.sprintEvent.create({
+        const event = await this.prisma.client.sprintEvent.create({
             data: {
                 sprintId,
                 type: data.type,
@@ -38,6 +41,10 @@ let EventsService = class EventsService {
                 createdById: userId,
             },
         });
+        if (data.xp > 0) {
+            await this.xp.addXp(userId, data.xp, 'SPRINT_EVENT', event.id, `Событие: ${data.title}`);
+        }
+        return event;
     }
     async remove(userId, id) {
         const event = await this.prisma.client.sprintEvent.findUnique({
@@ -56,7 +63,8 @@ let EventsService = class EventsService {
 EventsService = __decorate([
     Injectable(),
     __metadata("design:paramtypes", [PrismaService,
-        MembershipService])
+        MembershipService,
+        XpService])
 ], EventsService);
 export { EventsService };
 //# sourceMappingURL=events.service.js.map

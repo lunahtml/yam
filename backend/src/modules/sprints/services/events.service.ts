@@ -2,14 +2,17 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
+import { XpService } from '../../gamification/services/xp.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES } from '../../../common/types/roles.type.js';
 import { CreateEventDto } from '../contracts/create-event.dto.js';
+
 
 @Injectable()
 export class EventsService {
     constructor(
         private prisma: PrismaService,
         private membership: MembershipService,
+        private xp: XpService,
     ) { }
 
     async create(userId: string, sprintId: string, data: CreateEventDto) {
@@ -28,7 +31,7 @@ export class EventsService {
             EDIT_ROLES,
         );
 
-        return this.prisma.client.sprintEvent.create({
+        const event = await this.prisma.client.sprintEvent.create({
             data: {
                 sprintId,
                 type: data.type,
@@ -38,6 +41,18 @@ export class EventsService {
                 createdById: userId,
             },
         });
+
+        if (data.xp > 0) {
+            await this.xp.addXp(
+                userId,
+                data.xp,
+                'SPRINT_EVENT',
+                event.id,
+                `Событие: ${data.title}`,
+            );
+        }
+
+        return event;
     }
 
     async remove(userId: string, id: string) {

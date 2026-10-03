@@ -28,6 +28,7 @@ import { SkillsModule } from './modules/skills/skills.module.js';
 import { MembersModule } from './modules/members/members.module.js';
 import { InvitationsModule } from './modules/invitations/invitations.module.js';
 import { OnboardingModule } from './modules/onboarding/onboarding.module.js';
+import { GamificationModule } from './modules/gamification/gamification.module.js';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
@@ -58,6 +59,7 @@ import { OnboardingModule } from './modules/onboarding/onboarding.module.js';
         MembersModule,
         InvitationsModule,
         OnboardingModule,
+        GamificationModule,
     ],
     providers: [
         { provide: APP_GUARD, useClass: ThrottlerGuard },

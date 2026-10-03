@@ -11,13 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
+import { XpService } from '../../gamification/services/xp.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES } from '../../../common/types/roles.type.js';
 let IncrementsService = class IncrementsService {
     prisma;
     membership;
-    constructor(prisma, membership) {
+    xp;
+    constructor(prisma, membership, xp) {
         this.prisma = prisma;
         this.membership = membership;
+        this.xp = xp;
     }
     async create(userId, sprintId, data) {
         const sprint = await this.prisma.client.sprint.findUnique({
@@ -28,7 +31,7 @@ let IncrementsService = class IncrementsService {
             throw new ForbiddenException('Access denied to sprint');
         }
         await this.membership.assertProjectRole(userId, sprint.projectId, EDIT_ROLES);
-        return this.prisma.client.increment.create({
+        const increment = await this.prisma.client.increment.create({
             data: {
                 sprintId,
                 projectId: sprint.projectId,
@@ -39,6 +42,10 @@ let IncrementsService = class IncrementsService {
                 createdById: userId,
             },
         });
+        if (data.xp > 0) {
+            await this.xp.addXp(userId, data.xp, 'INCREMENT', increment.id, `Инкремент: ${data.name}`);
+        }
+        return increment;
     }
     async findByProject(userId, projectId) {
         await this.membership.assertProjectMember(userId, projectId);
@@ -87,7 +94,8 @@ let IncrementsService = class IncrementsService {
 IncrementsService = __decorate([
     Injectable(),
     __metadata("design:paramtypes", [PrismaService,
-        MembershipService])
+        MembershipService,
+        XpService])
 ], IncrementsService);
 export { IncrementsService };
 //# sourceMappingURL=increments.service.js.map

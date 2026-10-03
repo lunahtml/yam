@@ -232,3 +232,18 @@ export type TaskComplexity = Prisma.TaskComplexityModel
  * 
  */
 export type Invitation = Prisma.InvitationModel
+/**
+ * Model UserXpLog
+ * 
+ */
+export type UserXpLog = Prisma.UserXpLogModel
+/**
+ * Model Achievement
+ * 
+ */
+export type Achievement = Prisma.AchievementModel
+/**
+ * Model UserAchievement
+ * 
+ */
+export type UserAchievement = Prisma.UserAchievementModel
