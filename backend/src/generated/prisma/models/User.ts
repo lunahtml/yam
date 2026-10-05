@@ -268,6 +268,7 @@ export type UserWhereInput = {
   userXpLogs?: Prisma.UserXpLogListRelationFilter
   userAchievements?: Prisma.UserAchievementListRelationFilter
   grantedAchievements?: Prisma.UserAchievementListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -300,6 +301,7 @@ export type UserOrderByWithRelationInput = {
   userXpLogs?: Prisma.UserXpLogOrderByRelationAggregateInput
   userAchievements?: Prisma.UserAchievementOrderByRelationAggregateInput
   grantedAchievements?: Prisma.UserAchievementOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -335,6 +337,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   userXpLogs?: Prisma.UserXpLogListRelationFilter
   userAchievements?: Prisma.UserAchievementListRelationFilter
   grantedAchievements?: Prisma.UserAchievementListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -399,6 +402,7 @@ export type UserCreateInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -431,6 +435,7 @@ export type UserUncheckedCreateInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -463,6 +468,7 @@ export type UserUpdateInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -495,6 +501,7 @@ export type UserUncheckedUpdateInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -671,6 +678,20 @@ export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutCommentsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.UserUpsertWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
 }
 
 export type UserCreateNestedOneWithoutUploadedFilesInput = {
@@ -918,6 +939,7 @@ export type UserCreateWithoutOrganizationMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOrganizationMembershipsInput = {
@@ -949,6 +971,7 @@ export type UserUncheckedCreateWithoutOrganizationMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOrganizationMembershipsInput = {
@@ -996,6 +1019,7 @@ export type UserUpdateWithoutOrganizationMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrganizationMembershipsInput = {
@@ -1027,6 +1051,7 @@ export type UserUncheckedUpdateWithoutOrganizationMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWorkspaceMembershipsInput = {
@@ -1058,6 +1083,7 @@ export type UserCreateWithoutWorkspaceMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWorkspaceMembershipsInput = {
@@ -1089,6 +1115,7 @@ export type UserUncheckedCreateWithoutWorkspaceMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWorkspaceMembershipsInput = {
@@ -1136,6 +1163,7 @@ export type UserUpdateWithoutWorkspaceMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWorkspaceMembershipsInput = {
@@ -1167,6 +1195,7 @@ export type UserUncheckedUpdateWithoutWorkspaceMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProjectMembershipsInput = {
@@ -1198,6 +1227,7 @@ export type UserCreateWithoutProjectMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -1229,6 +1259,7 @@ export type UserUncheckedCreateWithoutProjectMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -1276,6 +1307,7 @@ export type UserUpdateWithoutProjectMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -1307,6 +1339,7 @@ export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedRecordsInput = {
@@ -1338,6 +1371,7 @@ export type UserCreateWithoutCreatedRecordsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedRecordsInput = {
@@ -1369,6 +1403,7 @@ export type UserUncheckedCreateWithoutCreatedRecordsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedRecordsInput = {
@@ -1416,6 +1451,7 @@ export type UserUpdateWithoutCreatedRecordsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedRecordsInput = {
@@ -1447,6 +1483,7 @@ export type UserUncheckedUpdateWithoutCreatedRecordsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -1478,6 +1515,7 @@ export type UserCreateWithoutCommentsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -1509,6 +1547,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -1556,6 +1595,7 @@ export type UserUpdateWithoutCommentsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -1572,6 +1612,151 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   createdRecords?: Prisma.RecordUncheckedUpdateManyWithoutCreatorNestedInput
+  uploadedFiles?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  createdUtmLinks?: Prisma.UtmLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+  sprintEvents?: Prisma.SprintEventUncheckedUpdateManyWithoutCreatedByNestedInput
+  increments?: Prisma.IncrementUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
+  userSkills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  createdEvidences?: Prisma.SkillEvidenceUncheckedUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+  sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutUserNestedInput
+  userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNotificationsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.UserStatus
+  tokenVersion?: number
+  organizationMemberships?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
+  workspaceMemberships?: Prisma.WorkspaceMemberCreateNestedManyWithoutUserInput
+  projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
+  createdRecords?: Prisma.RecordCreateNestedManyWithoutCreatorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  uploadedFiles?: Prisma.FileCreateNestedManyWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  createdUtmLinks?: Prisma.UtmLinkCreateNestedManyWithoutCreatedByInput
+  sprintEvents?: Prisma.SprintEventCreateNestedManyWithoutCreatedByInput
+  increments?: Prisma.IncrementCreateNestedManyWithoutCreatedByInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
+  userSkills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  createdEvidences?: Prisma.SkillEvidenceCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutInvitedByInput
+  sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutUserInput
+  userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+}
+
+export type UserUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.UserStatus
+  tokenVersion?: number
+  organizationMemberships?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
+  workspaceMemberships?: Prisma.WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
+  projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+  createdRecords?: Prisma.RecordUncheckedCreateNestedManyWithoutCreatorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  uploadedFiles?: Prisma.FileUncheckedCreateNestedManyWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  createdUtmLinks?: Prisma.UtmLinkUncheckedCreateNestedManyWithoutCreatedByInput
+  sprintEvents?: Prisma.SprintEventUncheckedCreateNestedManyWithoutCreatedByInput
+  increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutCreatedByInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
+  userSkills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  createdEvidences?: Prisma.SkillEvidenceUncheckedCreateNestedManyWithoutCreatedByInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+  sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutUserInput
+  userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+}
+
+export type UserCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+}
+
+export type UserUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UserUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  organizationMemberships?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
+  workspaceMemberships?: Prisma.WorkspaceMemberUpdateManyWithoutUserNestedInput
+  projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
+  createdRecords?: Prisma.RecordUpdateManyWithoutCreatorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  uploadedFiles?: Prisma.FileUpdateManyWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  createdUtmLinks?: Prisma.UtmLinkUpdateManyWithoutCreatedByNestedInput
+  sprintEvents?: Prisma.SprintEventUpdateManyWithoutCreatedByNestedInput
+  increments?: Prisma.IncrementUpdateManyWithoutCreatedByNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
+  userSkills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  createdEvidences?: Prisma.SkillEvidenceUpdateManyWithoutCreatedByNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutInvitedByNestedInput
+  sprintRetros?: Prisma.SprintRetroUpdateManyWithoutUserNestedInput
+  userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  tokenVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  organizationMemberships?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
+  workspaceMemberships?: Prisma.WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
+  projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+  createdRecords?: Prisma.RecordUncheckedUpdateManyWithoutCreatorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   uploadedFiles?: Prisma.FileUncheckedUpdateManyWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -1618,6 +1803,7 @@ export type UserCreateWithoutUploadedFilesInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUploadedFilesInput = {
@@ -1649,6 +1835,7 @@ export type UserUncheckedCreateWithoutUploadedFilesInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUploadedFilesInput = {
@@ -1696,6 +1883,7 @@ export type UserUpdateWithoutUploadedFilesInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUploadedFilesInput = {
@@ -1727,6 +1915,7 @@ export type UserUncheckedUpdateWithoutUploadedFilesInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutActivityLogsInput = {
@@ -1758,6 +1947,7 @@ export type UserCreateWithoutActivityLogsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivityLogsInput = {
@@ -1789,6 +1979,7 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -1836,6 +2027,7 @@ export type UserUpdateWithoutActivityLogsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivityLogsInput = {
@@ -1867,6 +2059,7 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -1898,6 +2091,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -1929,6 +2123,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -1976,6 +2171,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -2007,6 +2203,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEmailVerificationsInput = {
@@ -2038,6 +2235,7 @@ export type UserCreateWithoutEmailVerificationsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEmailVerificationsInput = {
@@ -2069,6 +2267,7 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEmailVerificationsInput = {
@@ -2116,6 +2315,7 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
@@ -2147,6 +2347,7 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedUtmLinksInput = {
@@ -2178,6 +2379,7 @@ export type UserCreateWithoutCreatedUtmLinksInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedUtmLinksInput = {
@@ -2209,6 +2411,7 @@ export type UserUncheckedCreateWithoutCreatedUtmLinksInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedUtmLinksInput = {
@@ -2256,6 +2459,7 @@ export type UserUpdateWithoutCreatedUtmLinksInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedUtmLinksInput = {
@@ -2287,6 +2491,7 @@ export type UserUncheckedUpdateWithoutCreatedUtmLinksInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSprintRetrosInput = {
@@ -2318,6 +2523,7 @@ export type UserCreateWithoutSprintRetrosInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSprintRetrosInput = {
@@ -2349,6 +2555,7 @@ export type UserUncheckedCreateWithoutSprintRetrosInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSprintRetrosInput = {
@@ -2396,6 +2603,7 @@ export type UserUpdateWithoutSprintRetrosInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSprintRetrosInput = {
@@ -2427,6 +2635,7 @@ export type UserUncheckedUpdateWithoutSprintRetrosInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSprintEventsInput = {
@@ -2458,6 +2667,7 @@ export type UserCreateWithoutSprintEventsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSprintEventsInput = {
@@ -2489,6 +2699,7 @@ export type UserUncheckedCreateWithoutSprintEventsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSprintEventsInput = {
@@ -2536,6 +2747,7 @@ export type UserUpdateWithoutSprintEventsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSprintEventsInput = {
@@ -2567,6 +2779,7 @@ export type UserUncheckedUpdateWithoutSprintEventsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutIncrementsInput = {
@@ -2598,6 +2811,7 @@ export type UserCreateWithoutIncrementsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutIncrementsInput = {
@@ -2629,6 +2843,7 @@ export type UserUncheckedCreateWithoutIncrementsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutIncrementsInput = {
@@ -2676,6 +2891,7 @@ export type UserUpdateWithoutIncrementsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIncrementsInput = {
@@ -2707,6 +2923,7 @@ export type UserUncheckedUpdateWithoutIncrementsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedTagsInput = {
@@ -2738,6 +2955,7 @@ export type UserCreateWithoutCreatedTagsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedTagsInput = {
@@ -2769,6 +2987,7 @@ export type UserUncheckedCreateWithoutCreatedTagsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedTagsInput = {
@@ -2816,6 +3035,7 @@ export type UserUpdateWithoutCreatedTagsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedTagsInput = {
@@ -2847,6 +3067,7 @@ export type UserUncheckedUpdateWithoutCreatedTagsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserSkillsInput = {
@@ -2878,6 +3099,7 @@ export type UserCreateWithoutUserSkillsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserSkillsInput = {
@@ -2909,6 +3131,7 @@ export type UserUncheckedCreateWithoutUserSkillsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserSkillsInput = {
@@ -2956,6 +3179,7 @@ export type UserUpdateWithoutUserSkillsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserSkillsInput = {
@@ -2987,6 +3211,7 @@ export type UserUncheckedUpdateWithoutUserSkillsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedEvidencesInput = {
@@ -3018,6 +3243,7 @@ export type UserCreateWithoutCreatedEvidencesInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedEvidencesInput = {
@@ -3049,6 +3275,7 @@ export type UserUncheckedCreateWithoutCreatedEvidencesInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedEvidencesInput = {
@@ -3096,6 +3323,7 @@ export type UserUpdateWithoutCreatedEvidencesInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedEvidencesInput = {
@@ -3127,6 +3355,7 @@ export type UserUncheckedUpdateWithoutCreatedEvidencesInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInvitationsInput = {
@@ -3158,6 +3387,7 @@ export type UserCreateWithoutInvitationsInput = {
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInvitationsInput = {
@@ -3189,6 +3419,7 @@ export type UserUncheckedCreateWithoutInvitationsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInvitationsInput = {
@@ -3236,6 +3467,7 @@ export type UserUpdateWithoutInvitationsInput = {
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInvitationsInput = {
@@ -3267,6 +3499,7 @@ export type UserUncheckedUpdateWithoutInvitationsInput = {
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserXpLogsInput = {
@@ -3298,6 +3531,7 @@ export type UserCreateWithoutUserXpLogsInput = {
   sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserXpLogsInput = {
@@ -3329,6 +3563,7 @@ export type UserUncheckedCreateWithoutUserXpLogsInput = {
   sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserXpLogsInput = {
@@ -3376,6 +3611,7 @@ export type UserUpdateWithoutUserXpLogsInput = {
   sprintRetros?: Prisma.SprintRetroUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserXpLogsInput = {
@@ -3407,6 +3643,7 @@ export type UserUncheckedUpdateWithoutUserXpLogsInput = {
   sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserAchievementsInput = {
@@ -3438,6 +3675,7 @@ export type UserCreateWithoutUserAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutUserInput
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserAchievementsInput = {
@@ -3469,6 +3707,7 @@ export type UserUncheckedCreateWithoutUserAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutUserInput
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   grantedAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutGrantedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserAchievementsInput = {
@@ -3505,6 +3744,7 @@ export type UserCreateWithoutGrantedAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroCreateNestedManyWithoutUserInput
   userXpLogs?: Prisma.UserXpLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGrantedAchievementsInput = {
@@ -3536,6 +3776,7 @@ export type UserUncheckedCreateWithoutGrantedAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroUncheckedCreateNestedManyWithoutUserInput
   userXpLogs?: Prisma.UserXpLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGrantedAchievementsInput = {
@@ -3583,6 +3824,7 @@ export type UserUpdateWithoutUserAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroUpdateManyWithoutUserNestedInput
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserAchievementsInput = {
@@ -3614,6 +3856,7 @@ export type UserUncheckedUpdateWithoutUserAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutUserNestedInput
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   grantedAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutGrantedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutGrantedAchievementsInput = {
@@ -3656,6 +3899,7 @@ export type UserUpdateWithoutGrantedAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroUpdateManyWithoutUserNestedInput
   userXpLogs?: Prisma.UserXpLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGrantedAchievementsInput = {
@@ -3687,6 +3931,7 @@ export type UserUncheckedUpdateWithoutGrantedAchievementsInput = {
   sprintRetros?: Prisma.SprintRetroUncheckedUpdateManyWithoutUserNestedInput
   userXpLogs?: Prisma.UserXpLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -3715,6 +3960,7 @@ export type UserCountOutputType = {
   userXpLogs: number
   userAchievements: number
   grantedAchievements: number
+  notifications: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3738,6 +3984,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   userXpLogs?: boolean | UserCountOutputTypeCountUserXpLogsArgs
   userAchievements?: boolean | UserCountOutputTypeCountUserAchievementsArgs
   grantedAchievements?: boolean | UserCountOutputTypeCountGrantedAchievementsArgs
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -3890,6 +4137,13 @@ export type UserCountOutputTypeCountGrantedAchievementsArgs<ExtArgs extends runt
   where?: Prisma.UserAchievementWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3921,6 +4175,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   userXpLogs?: boolean | Prisma.User$userXpLogsArgs<ExtArgs>
   userAchievements?: boolean | Prisma.User$userAchievementsArgs<ExtArgs>
   grantedAchievements?: boolean | Prisma.User$grantedAchievementsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3982,6 +4237,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   userXpLogs?: boolean | Prisma.User$userXpLogsArgs<ExtArgs>
   userAchievements?: boolean | Prisma.User$userAchievementsArgs<ExtArgs>
   grantedAchievements?: boolean | Prisma.User$grantedAchievementsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4010,6 +4266,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     userXpLogs: Prisma.$UserXpLogPayload<ExtArgs>[]
     userAchievements: Prisma.$UserAchievementPayload<ExtArgs>[]
     grantedAchievements: Prisma.$UserAchievementPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4435,6 +4692,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   userXpLogs<T extends Prisma.User$userXpLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userXpLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserXpLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userAchievements<T extends Prisma.User$userAchievementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userAchievementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   grantedAchievements<T extends Prisma.User$grantedAchievementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$grantedAchievementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5343,6 +5601,30 @@ export type User$grantedAchievementsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.UserAchievementScalarFieldEnum | Prisma.UserAchievementScalarFieldEnum[]
+}
+
+/**
+ * User.notifications
+ */
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

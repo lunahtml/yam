@@ -413,6 +413,7 @@ export const ModelName = {
   WorkflowStep: 'WorkflowStep',
   WorkflowTransition: 'WorkflowTransition',
   Comment: 'Comment',
+  Notification: 'Notification',
   File: 'File',
   ActivityLog: 'ActivityLog',
   RefreshToken: 'RefreshToken',
@@ -458,7 +459,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink" | "view" | "sprint" | "sprintGoal" | "sprintRetro" | "sprintMetric" | "sprintEvent" | "increment" | "epic" | "tag" | "category" | "skill" | "userSkill" | "skillEvidence" | "taskComplexity" | "invitation" | "userXpLog" | "achievement" | "userAchievement"
+    modelProps: "organization" | "organizationMember" | "workspace" | "workspaceMember" | "user" | "project" | "projectMember" | "projectModule" | "entity" | "field" | "record" | "recordIndex" | "workflow" | "workflowStep" | "workflowTransition" | "comment" | "notification" | "file" | "activityLog" | "refreshToken" | "emailVerification" | "loginAttempt" | "marketingDashboard" | "artifact" | "utmSource" | "utmMedium" | "utmCampaign" | "utmRule" | "utmLink" | "view" | "sprint" | "sprintGoal" | "sprintRetro" | "sprintMetric" | "sprintEvent" | "increment" | "epic" | "tag" | "category" | "skill" | "userSkill" | "skillEvidence" | "taskComplexity" | "invitation" | "userXpLog" | "achievement" | "userAchievement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1643,6 +1644,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CommentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CommentCountAggregateOutputType> | number
+        }
+      }
+    }
+    Notification: {
+      payload: Prisma.$NotificationPayload<ExtArgs>
+      fields: Prisma.NotificationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        findFirst: {
+          args: Prisma.NotificationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        findMany: {
+          args: Prisma.NotificationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        create: {
+          args: Prisma.NotificationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        createMany: {
+          args: Prisma.NotificationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        delete: {
+          args: Prisma.NotificationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        update: {
+          args: Prisma.NotificationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotificationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification>
+        }
+        groupBy: {
+          args: Prisma.NotificationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotificationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationCountAggregateOutputType> | number
         }
       }
     }
@@ -4117,6 +4192,22 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  projectId: 'projectId',
+  sourceId: 'sourceId',
+  sourceType: 'sourceType',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
 export const FileScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
@@ -4818,6 +4909,20 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'NotificationType'
+ */
+export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
+    
+
+
+/**
+ * Reference to a field of type 'NotificationType[]'
+ */
+export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
+
+
+/**
  * Reference to a field of type 'ArtifactType'
  */
 export type EnumArtifactTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ArtifactType'>
@@ -5137,6 +5242,7 @@ export type GlobalOmitConfig = {
   workflowStep?: Prisma.WorkflowStepOmit
   workflowTransition?: Prisma.WorkflowTransitionOmit
   comment?: Prisma.CommentOmit
+  notification?: Prisma.NotificationOmit
   file?: Prisma.FileOmit
   activityLog?: Prisma.ActivityLogOmit
   refreshToken?: Prisma.RefreshTokenOmit

@@ -44,7 +44,8 @@ import {
     SprintRetro,
     SprintRetroResponse,
     Achievement,
-    UserAchievement
+    UserAchievement,
+    Comment,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -992,5 +993,31 @@ export const api = {
             total: number;
             bySource: { source: string; total: number }[];
         }>(`/gamification/xp/user/${userId}`),
+
+
+
+    // ═══════════════════════════════════════════════════════════════
+    // COMMENTS
+    // ═══════════════════════════════════════════════════════════════
+
+    createComment: (recordId: string, data: { body: string }) =>
+        request<Comment>(`/records/${recordId}/comments`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getComments: (recordId: string) =>
+        request<Comment[]>(`/records/${recordId}/comments`),
+
+    updateComment: (id: string, data: { body: string }) =>
+        request<Comment>(`/comments/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteComment: (id: string) =>
+        request<void>(`/comments/${id}`, { method: 'DELETE' }),
+
+
 
 };

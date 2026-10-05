@@ -34,6 +34,8 @@ frontend/src/
 │   └── ProjectLayout.css                  ✅
 │
 ├── features/
+│   ├── comments/
+│       ├── CommentsSection.tsx ✅
 │   ├── team/
 │       ├── UserProfileModal.tsx          ✅
 │       ├── GrantAchievementModal.tsx          ✅
@@ -182,6 +184,13 @@ backend/src/
 │
 └── modules/
     │
+    ├──comments/
+        ├──comments.controller.ts ✅
+        ├──comments.module.ts ✅
+        ├──contracts/
+            ├──comment.dto.ts ✅
+        ├──services/
+            ├──comments.service.ts ✅
     ├── gamification/
     │   ├── achievements.controller.ts               ✅
     │   ├── gamification.controller.ts               ✅

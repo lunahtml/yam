@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { X, Save, Plus, Check, XCircle } from 'lucide-react';
 import { api } from '../../api/client';
 import { EntityRecord, Field, Tag, User } from '../../types/api';
+import CommentsSection from '../comments/CommentsSection';
 import './TaskDetailPopup.css';
 
 interface TaskDetailPopupProps {
@@ -45,36 +46,27 @@ export default function TaskDetailPopup({
         }
     };
     const [organizationId, setOrganizationId] = useState<string>('');
+    const [currentUserId, setCurrentUserId] = useState<string>('');
 
     useEffect(() => {
         if (!record.projectId) return;
 
-        //     api
-        //         .getProject(record.projectId)
-        //         .then(async (project: any) => {
-        //             if (project?.workspaceId) {
-        //                 const ws = await api.getWorkspace(project.workspaceId);
-        //                 if (ws?.organizationId) {
-        //                     setOrganizationId(ws.organizationId);
-        //                 }
-        //             }
-        //         })
-        //         .catch(() => { });
-        // }, [record.projectId]);
+        api
+            .getMe()
+            .then((me) => setCurrentUserId(me.id))
+            .catch(() => { });
 
         api
             .getProject(record.projectId)
-            .then(async (project: any) => {
-                console.log('PROJECT:', project);
+            .then(async (project) => {
                 if (project?.workspaceId) {
                     const ws = await api.getWorkspace(project.workspaceId);
-                    console.log('WORKSPACE:', ws);
                     if (ws?.organizationId) {
                         setOrganizationId(ws.organizationId);
                     }
                 }
             })
-            .catch((err) => console.error('ORG_LOAD_ERROR:', err));
+            .catch(() => { });
     }, [record.projectId]);
 
     const renderField = (field: Field) => {
@@ -266,11 +258,19 @@ export default function TaskDetailPopup({
                     Создано: {new Date(record.createdAt).toLocaleString('ru-RU')}
                     {record.creator && ` · ${record.creator.name ?? record.creator.email}`}
                 </div>
+
+                {currentUserId && (
+                    <div className="task-detail-comments">
+                        <CommentsSection
+                            recordId={record.id}
+                            currentUserId={currentUserId}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );
 }
-
 
 
 // ═══════════════════════════════════════════════════════════════

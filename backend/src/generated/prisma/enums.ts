@@ -56,6 +56,18 @@ export const ProjectStatus = {
 export type ProjectStatus = (typeof ProjectStatus)[keyof typeof ProjectStatus]
 
 
+export const NotificationType = {
+  MENTION: 'MENTION',
+  COMMENT: 'COMMENT',
+  ACHIEVEMENT: 'ACHIEVEMENT',
+  SPRINT_COMPLETED: 'SPRINT_COMPLETED',
+  INVITATION: 'INVITATION',
+  TASK_ASSIGNED: 'TASK_ASSIGNED'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
 export const ArtifactType = {
   WEBSITE: 'WEBSITE',
   SOCIAL: 'SOCIAL',

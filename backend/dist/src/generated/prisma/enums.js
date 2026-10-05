@@ -34,6 +34,14 @@ export const ProjectStatus = {
     ARCHIVED: 'ARCHIVED',
     COMPLETED: 'COMPLETED'
 };
+export const NotificationType = {
+    MENTION: 'MENTION',
+    COMMENT: 'COMMENT',
+    ACHIEVEMENT: 'ACHIEVEMENT',
+    SPRINT_COMPLETED: 'SPRINT_COMPLETED',
+    INVITATION: 'INVITATION',
+    TASK_ASSIGNED: 'TASK_ASSIGNED'
+};
 export const ArtifactType = {
     WEBSITE: 'WEBSITE',
     SOCIAL: 'SOCIAL',

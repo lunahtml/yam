@@ -235,6 +235,7 @@ export type ProjectWhereInput = {
   epics?: Prisma.EpicListRelationFilter
   taskComplexities?: Prisma.TaskComplexityListRelationFilter
   invitations?: Prisma.InvitationListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -268,6 +269,7 @@ export type ProjectOrderByWithRelationInput = {
   epics?: Prisma.EpicOrderByRelationAggregateInput
   taskComplexities?: Prisma.TaskComplexityOrderByRelationAggregateInput
   invitations?: Prisma.InvitationOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -304,6 +306,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   epics?: Prisma.EpicListRelationFilter
   taskComplexities?: Prisma.TaskComplexityListRelationFilter
   invitations?: Prisma.InvitationListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -366,6 +369,7 @@ export type ProjectCreateInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -398,6 +402,7 @@ export type ProjectUncheckedCreateInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -430,6 +435,7 @@ export type ProjectUpdateInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -462,6 +468,7 @@ export type ProjectUncheckedUpdateInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
@@ -673,6 +680,22 @@ export type ProjectUpdateOneRequiredWithoutWorkflowsNestedInput = {
   upsert?: Prisma.ProjectUpsertWithoutWorkflowsInput
   connect?: Prisma.ProjectWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutWorkflowsInput, Prisma.ProjectUpdateWithoutWorkflowsInput>, Prisma.ProjectUncheckedUpdateWithoutWorkflowsInput>
+}
+
+export type ProjectCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutNotificationsInput, Prisma.ProjectUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutNotificationsInput, Prisma.ProjectUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.ProjectUpsertWithoutNotificationsInput
+  disconnect?: Prisma.ProjectWhereInput | boolean
+  delete?: Prisma.ProjectWhereInput | boolean
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutNotificationsInput, Prisma.ProjectUpdateWithoutNotificationsInput>, Prisma.ProjectUncheckedUpdateWithoutNotificationsInput>
 }
 
 export type ProjectCreateNestedOneWithoutFilesInput = {
@@ -916,6 +939,7 @@ export type ProjectCreateWithoutWorkspaceInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutWorkspaceInput = {
@@ -947,6 +971,7 @@ export type ProjectUncheckedCreateWithoutWorkspaceInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutWorkspaceInput = {
@@ -1019,6 +1044,7 @@ export type ProjectCreateWithoutMembersInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -1050,6 +1076,7 @@ export type ProjectUncheckedCreateWithoutMembersInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -1097,6 +1124,7 @@ export type ProjectUpdateWithoutMembersInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -1128,6 +1156,7 @@ export type ProjectUncheckedUpdateWithoutMembersInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutModulesInput = {
@@ -1159,6 +1188,7 @@ export type ProjectCreateWithoutModulesInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutModulesInput = {
@@ -1190,6 +1220,7 @@ export type ProjectUncheckedCreateWithoutModulesInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutModulesInput = {
@@ -1237,6 +1268,7 @@ export type ProjectUpdateWithoutModulesInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutModulesInput = {
@@ -1268,6 +1300,7 @@ export type ProjectUncheckedUpdateWithoutModulesInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutEntitiesInput = {
@@ -1299,6 +1332,7 @@ export type ProjectCreateWithoutEntitiesInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutEntitiesInput = {
@@ -1330,6 +1364,7 @@ export type ProjectUncheckedCreateWithoutEntitiesInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutEntitiesInput = {
@@ -1377,6 +1412,7 @@ export type ProjectUpdateWithoutEntitiesInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutEntitiesInput = {
@@ -1408,6 +1444,7 @@ export type ProjectUncheckedUpdateWithoutEntitiesInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutRecordsInput = {
@@ -1439,6 +1476,7 @@ export type ProjectCreateWithoutRecordsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutRecordsInput = {
@@ -1470,6 +1508,7 @@ export type ProjectUncheckedCreateWithoutRecordsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutRecordsInput = {
@@ -1517,6 +1556,7 @@ export type ProjectUpdateWithoutRecordsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutRecordsInput = {
@@ -1548,6 +1588,7 @@ export type ProjectUncheckedUpdateWithoutRecordsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutWorkflowsInput = {
@@ -1579,6 +1620,7 @@ export type ProjectCreateWithoutWorkflowsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutWorkflowsInput = {
@@ -1610,6 +1652,7 @@ export type ProjectUncheckedCreateWithoutWorkflowsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutWorkflowsInput = {
@@ -1657,6 +1700,7 @@ export type ProjectUpdateWithoutWorkflowsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutWorkflowsInput = {
@@ -1673,6 +1717,151 @@ export type ProjectUncheckedUpdateWithoutWorkflowsInput = {
   modules?: Prisma.ProjectModuleUncheckedUpdateManyWithoutProjectNestedInput
   entities?: Prisma.EntityUncheckedUpdateManyWithoutProjectNestedInput
   records?: Prisma.RecordUncheckedUpdateManyWithoutProjectNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
+  artifacts?: Prisma.ArtifactUncheckedUpdateManyWithoutProjectNestedInput
+  utmSources?: Prisma.UtmSourceUncheckedUpdateManyWithoutProjectNestedInput
+  utmMediums?: Prisma.UtmMediumUncheckedUpdateManyWithoutProjectNestedInput
+  utmCampaigns?: Prisma.UtmCampaignUncheckedUpdateManyWithoutProjectNestedInput
+  utmRules?: Prisma.UtmRuleUncheckedUpdateManyWithoutProjectNestedInput
+  utmLinks?: Prisma.UtmLinkUncheckedUpdateManyWithoutProjectNestedInput
+  views?: Prisma.ViewUncheckedUpdateManyWithoutProjectNestedInput
+  sprints?: Prisma.SprintUncheckedUpdateManyWithoutProjectNestedInput
+  increments?: Prisma.IncrementUncheckedUpdateManyWithoutProjectNestedInput
+  epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
+  taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
+  invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectCreateWithoutNotificationsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  status?: $Enums.ProjectStatus
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workspace: Prisma.WorkspaceCreateNestedOneWithoutProjectsInput
+  members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
+  modules?: Prisma.ProjectModuleCreateNestedManyWithoutProjectInput
+  entities?: Prisma.EntityCreateNestedManyWithoutProjectInput
+  records?: Prisma.RecordCreateNestedManyWithoutProjectInput
+  workflows?: Prisma.WorkflowCreateNestedManyWithoutProjectInput
+  files?: Prisma.FileCreateNestedManyWithoutProjectInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardCreateNestedManyWithoutProjectInput
+  artifacts?: Prisma.ArtifactCreateNestedManyWithoutProjectInput
+  utmSources?: Prisma.UtmSourceCreateNestedManyWithoutProjectInput
+  utmMediums?: Prisma.UtmMediumCreateNestedManyWithoutProjectInput
+  utmCampaigns?: Prisma.UtmCampaignCreateNestedManyWithoutProjectInput
+  utmRules?: Prisma.UtmRuleCreateNestedManyWithoutProjectInput
+  utmLinks?: Prisma.UtmLinkCreateNestedManyWithoutProjectInput
+  views?: Prisma.ViewCreateNestedManyWithoutProjectInput
+  sprints?: Prisma.SprintCreateNestedManyWithoutProjectInput
+  increments?: Prisma.IncrementCreateNestedManyWithoutProjectInput
+  epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
+  taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
+  invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  workspaceId: string
+  name: string
+  description?: string | null
+  status?: $Enums.ProjectStatus
+  startDate?: Date | string | null
+  endDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+  modules?: Prisma.ProjectModuleUncheckedCreateNestedManyWithoutProjectInput
+  entities?: Prisma.EntityUncheckedCreateNestedManyWithoutProjectInput
+  records?: Prisma.RecordUncheckedCreateNestedManyWithoutProjectInput
+  workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutProjectInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutProjectInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutProjectInput
+  marketingDashboards?: Prisma.MarketingDashboardUncheckedCreateNestedManyWithoutProjectInput
+  artifacts?: Prisma.ArtifactUncheckedCreateNestedManyWithoutProjectInput
+  utmSources?: Prisma.UtmSourceUncheckedCreateNestedManyWithoutProjectInput
+  utmMediums?: Prisma.UtmMediumUncheckedCreateNestedManyWithoutProjectInput
+  utmCampaigns?: Prisma.UtmCampaignUncheckedCreateNestedManyWithoutProjectInput
+  utmRules?: Prisma.UtmRuleUncheckedCreateNestedManyWithoutProjectInput
+  utmLinks?: Prisma.UtmLinkUncheckedCreateNestedManyWithoutProjectInput
+  views?: Prisma.ViewUncheckedCreateNestedManyWithoutProjectInput
+  sprints?: Prisma.SprintUncheckedCreateNestedManyWithoutProjectInput
+  increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutProjectInput
+  epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
+  taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
+  invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutNotificationsInput, Prisma.ProjectUncheckedCreateWithoutNotificationsInput>
+}
+
+export type ProjectUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutNotificationsInput, Prisma.ProjectUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutNotificationsInput, Prisma.ProjectUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutNotificationsInput, Prisma.ProjectUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type ProjectUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workspace?: Prisma.WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
+  members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
+  modules?: Prisma.ProjectModuleUpdateManyWithoutProjectNestedInput
+  entities?: Prisma.EntityUpdateManyWithoutProjectNestedInput
+  records?: Prisma.RecordUpdateManyWithoutProjectNestedInput
+  workflows?: Prisma.WorkflowUpdateManyWithoutProjectNestedInput
+  files?: Prisma.FileUpdateManyWithoutProjectNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutProjectNestedInput
+  marketingDashboards?: Prisma.MarketingDashboardUpdateManyWithoutProjectNestedInput
+  artifacts?: Prisma.ArtifactUpdateManyWithoutProjectNestedInput
+  utmSources?: Prisma.UtmSourceUpdateManyWithoutProjectNestedInput
+  utmMediums?: Prisma.UtmMediumUpdateManyWithoutProjectNestedInput
+  utmCampaigns?: Prisma.UtmCampaignUpdateManyWithoutProjectNestedInput
+  utmRules?: Prisma.UtmRuleUpdateManyWithoutProjectNestedInput
+  utmLinks?: Prisma.UtmLinkUpdateManyWithoutProjectNestedInput
+  views?: Prisma.ViewUpdateManyWithoutProjectNestedInput
+  sprints?: Prisma.SprintUpdateManyWithoutProjectNestedInput
+  increments?: Prisma.IncrementUpdateManyWithoutProjectNestedInput
+  epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
+  taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
+  invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workspaceId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+  modules?: Prisma.ProjectModuleUncheckedUpdateManyWithoutProjectNestedInput
+  entities?: Prisma.EntityUncheckedUpdateManyWithoutProjectNestedInput
+  records?: Prisma.RecordUncheckedUpdateManyWithoutProjectNestedInput
+  workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutProjectNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutProjectNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutProjectNestedInput
   marketingDashboards?: Prisma.MarketingDashboardUncheckedUpdateManyWithoutProjectNestedInput
@@ -1719,6 +1908,7 @@ export type ProjectCreateWithoutFilesInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutFilesInput = {
@@ -1750,6 +1940,7 @@ export type ProjectUncheckedCreateWithoutFilesInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutFilesInput = {
@@ -1797,6 +1988,7 @@ export type ProjectUpdateWithoutFilesInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutFilesInput = {
@@ -1828,6 +2020,7 @@ export type ProjectUncheckedUpdateWithoutFilesInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutActivityLogsInput = {
@@ -1859,6 +2052,7 @@ export type ProjectCreateWithoutActivityLogsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutActivityLogsInput = {
@@ -1890,6 +2084,7 @@ export type ProjectUncheckedCreateWithoutActivityLogsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutActivityLogsInput = {
@@ -1937,6 +2132,7 @@ export type ProjectUpdateWithoutActivityLogsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutActivityLogsInput = {
@@ -1968,6 +2164,7 @@ export type ProjectUncheckedUpdateWithoutActivityLogsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutMarketingDashboardsInput = {
@@ -1999,6 +2196,7 @@ export type ProjectCreateWithoutMarketingDashboardsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutMarketingDashboardsInput = {
@@ -2030,6 +2228,7 @@ export type ProjectUncheckedCreateWithoutMarketingDashboardsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutMarketingDashboardsInput = {
@@ -2077,6 +2276,7 @@ export type ProjectUpdateWithoutMarketingDashboardsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutMarketingDashboardsInput = {
@@ -2108,6 +2308,7 @@ export type ProjectUncheckedUpdateWithoutMarketingDashboardsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutArtifactsInput = {
@@ -2139,6 +2340,7 @@ export type ProjectCreateWithoutArtifactsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutArtifactsInput = {
@@ -2170,6 +2372,7 @@ export type ProjectUncheckedCreateWithoutArtifactsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutArtifactsInput = {
@@ -2217,6 +2420,7 @@ export type ProjectUpdateWithoutArtifactsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutArtifactsInput = {
@@ -2248,6 +2452,7 @@ export type ProjectUncheckedUpdateWithoutArtifactsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutUtmSourcesInput = {
@@ -2279,6 +2484,7 @@ export type ProjectCreateWithoutUtmSourcesInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutUtmSourcesInput = {
@@ -2310,6 +2516,7 @@ export type ProjectUncheckedCreateWithoutUtmSourcesInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutUtmSourcesInput = {
@@ -2357,6 +2564,7 @@ export type ProjectUpdateWithoutUtmSourcesInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUtmSourcesInput = {
@@ -2388,6 +2596,7 @@ export type ProjectUncheckedUpdateWithoutUtmSourcesInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutUtmMediumsInput = {
@@ -2419,6 +2628,7 @@ export type ProjectCreateWithoutUtmMediumsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutUtmMediumsInput = {
@@ -2450,6 +2660,7 @@ export type ProjectUncheckedCreateWithoutUtmMediumsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutUtmMediumsInput = {
@@ -2497,6 +2708,7 @@ export type ProjectUpdateWithoutUtmMediumsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUtmMediumsInput = {
@@ -2528,6 +2740,7 @@ export type ProjectUncheckedUpdateWithoutUtmMediumsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutUtmCampaignsInput = {
@@ -2559,6 +2772,7 @@ export type ProjectCreateWithoutUtmCampaignsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutUtmCampaignsInput = {
@@ -2590,6 +2804,7 @@ export type ProjectUncheckedCreateWithoutUtmCampaignsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutUtmCampaignsInput = {
@@ -2637,6 +2852,7 @@ export type ProjectUpdateWithoutUtmCampaignsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUtmCampaignsInput = {
@@ -2668,6 +2884,7 @@ export type ProjectUncheckedUpdateWithoutUtmCampaignsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutUtmRulesInput = {
@@ -2699,6 +2916,7 @@ export type ProjectCreateWithoutUtmRulesInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutUtmRulesInput = {
@@ -2730,6 +2948,7 @@ export type ProjectUncheckedCreateWithoutUtmRulesInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutUtmRulesInput = {
@@ -2777,6 +2996,7 @@ export type ProjectUpdateWithoutUtmRulesInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUtmRulesInput = {
@@ -2808,6 +3028,7 @@ export type ProjectUncheckedUpdateWithoutUtmRulesInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutUtmLinksInput = {
@@ -2839,6 +3060,7 @@ export type ProjectCreateWithoutUtmLinksInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutUtmLinksInput = {
@@ -2870,6 +3092,7 @@ export type ProjectUncheckedCreateWithoutUtmLinksInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutUtmLinksInput = {
@@ -2917,6 +3140,7 @@ export type ProjectUpdateWithoutUtmLinksInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUtmLinksInput = {
@@ -2948,6 +3172,7 @@ export type ProjectUncheckedUpdateWithoutUtmLinksInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutViewsInput = {
@@ -2979,6 +3204,7 @@ export type ProjectCreateWithoutViewsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutViewsInput = {
@@ -3010,6 +3236,7 @@ export type ProjectUncheckedCreateWithoutViewsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutViewsInput = {
@@ -3057,6 +3284,7 @@ export type ProjectUpdateWithoutViewsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutViewsInput = {
@@ -3088,6 +3316,7 @@ export type ProjectUncheckedUpdateWithoutViewsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutSprintsInput = {
@@ -3119,6 +3348,7 @@ export type ProjectCreateWithoutSprintsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutSprintsInput = {
@@ -3150,6 +3380,7 @@ export type ProjectUncheckedCreateWithoutSprintsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutSprintsInput = {
@@ -3197,6 +3428,7 @@ export type ProjectUpdateWithoutSprintsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutSprintsInput = {
@@ -3228,6 +3460,7 @@ export type ProjectUncheckedUpdateWithoutSprintsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutIncrementsInput = {
@@ -3259,6 +3492,7 @@ export type ProjectCreateWithoutIncrementsInput = {
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutIncrementsInput = {
@@ -3290,6 +3524,7 @@ export type ProjectUncheckedCreateWithoutIncrementsInput = {
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutIncrementsInput = {
@@ -3337,6 +3572,7 @@ export type ProjectUpdateWithoutIncrementsInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutIncrementsInput = {
@@ -3368,6 +3604,7 @@ export type ProjectUncheckedUpdateWithoutIncrementsInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutEpicsInput = {
@@ -3399,6 +3636,7 @@ export type ProjectCreateWithoutEpicsInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutEpicsInput = {
@@ -3430,6 +3668,7 @@ export type ProjectUncheckedCreateWithoutEpicsInput = {
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutEpicsInput = {
@@ -3477,6 +3716,7 @@ export type ProjectUpdateWithoutEpicsInput = {
   increments?: Prisma.IncrementUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutEpicsInput = {
@@ -3508,6 +3748,7 @@ export type ProjectUncheckedUpdateWithoutEpicsInput = {
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutTaskComplexitiesInput = {
@@ -3539,6 +3780,7 @@ export type ProjectCreateWithoutTaskComplexitiesInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutProjectInput
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutTaskComplexitiesInput = {
@@ -3570,6 +3812,7 @@ export type ProjectUncheckedCreateWithoutTaskComplexitiesInput = {
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutProjectInput
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   invitations?: Prisma.InvitationUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutTaskComplexitiesInput = {
@@ -3617,6 +3860,7 @@ export type ProjectUpdateWithoutTaskComplexitiesInput = {
   increments?: Prisma.IncrementUpdateManyWithoutProjectNestedInput
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutTaskComplexitiesInput = {
@@ -3648,6 +3892,7 @@ export type ProjectUncheckedUpdateWithoutTaskComplexitiesInput = {
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutProjectNestedInput
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutInvitationsInput = {
@@ -3679,6 +3924,7 @@ export type ProjectCreateWithoutInvitationsInput = {
   increments?: Prisma.IncrementCreateNestedManyWithoutProjectInput
   epics?: Prisma.EpicCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutInvitationsInput = {
@@ -3710,6 +3956,7 @@ export type ProjectUncheckedCreateWithoutInvitationsInput = {
   increments?: Prisma.IncrementUncheckedCreateNestedManyWithoutProjectInput
   epics?: Prisma.EpicUncheckedCreateNestedManyWithoutProjectInput
   taskComplexities?: Prisma.TaskComplexityUncheckedCreateNestedManyWithoutProjectInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutInvitationsInput = {
@@ -3757,6 +4004,7 @@ export type ProjectUpdateWithoutInvitationsInput = {
   increments?: Prisma.IncrementUpdateManyWithoutProjectNestedInput
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutInvitationsInput = {
@@ -3788,6 +4036,7 @@ export type ProjectUncheckedUpdateWithoutInvitationsInput = {
   increments?: Prisma.IncrementUncheckedUpdateManyWithoutProjectNestedInput
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyWorkspaceInput = {
@@ -3830,6 +4079,7 @@ export type ProjectUpdateWithoutWorkspaceInput = {
   epics?: Prisma.EpicUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutWorkspaceInput = {
@@ -3861,6 +4111,7 @@ export type ProjectUncheckedUpdateWithoutWorkspaceInput = {
   epics?: Prisma.EpicUncheckedUpdateManyWithoutProjectNestedInput
   taskComplexities?: Prisma.TaskComplexityUncheckedUpdateManyWithoutProjectNestedInput
   invitations?: Prisma.InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -3900,6 +4151,7 @@ export type ProjectCountOutputType = {
   epics: number
   taskComplexities: number
   invitations: number
+  notifications: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3923,6 +4175,7 @@ export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   epics?: boolean | ProjectCountOutputTypeCountEpicsArgs
   taskComplexities?: boolean | ProjectCountOutputTypeCountTaskComplexitiesArgs
   invitations?: boolean | ProjectCountOutputTypeCountInvitationsArgs
+  notifications?: boolean | ProjectCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -4075,6 +4328,13 @@ export type ProjectCountOutputTypeCountInvitationsArgs<ExtArgs extends runtime.T
   where?: Prisma.InvitationWhereInput
 }
 
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4107,6 +4367,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   epics?: boolean | Prisma.Project$epicsArgs<ExtArgs>
   taskComplexities?: boolean | Prisma.Project$taskComplexitiesArgs<ExtArgs>
   invitations?: boolean | Prisma.Project$invitationsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Project$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -4171,6 +4432,7 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   epics?: boolean | Prisma.Project$epicsArgs<ExtArgs>
   taskComplexities?: boolean | Prisma.Project$taskComplexitiesArgs<ExtArgs>
   invitations?: boolean | Prisma.Project$invitationsArgs<ExtArgs>
+  notifications?: boolean | Prisma.Project$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4204,6 +4466,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     epics: Prisma.$EpicPayload<ExtArgs>[]
     taskComplexities: Prisma.$TaskComplexityPayload<ExtArgs>[]
     invitations: Prisma.$InvitationPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4630,6 +4893,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   epics<T extends Prisma.Project$epicsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$epicsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EpicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   taskComplexities<T extends Prisma.Project$taskComplexitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$taskComplexitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskComplexityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invitations<T extends Prisma.Project$invitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Project$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5546,6 +5810,30 @@ export type Project$invitationsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.InvitationScalarFieldEnum | Prisma.InvitationScalarFieldEnum[]
+}
+
+/**
+ * Project.notifications
+ */
+export type Project$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

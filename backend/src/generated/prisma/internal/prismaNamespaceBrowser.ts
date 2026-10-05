@@ -67,6 +67,7 @@ export const ModelName = {
   WorkflowStep: 'WorkflowStep',
   WorkflowTransition: 'WorkflowTransition',
   Comment: 'Comment',
+  Notification: 'Notification',
   File: 'File',
   ActivityLog: 'ActivityLog',
   RefreshToken: 'RefreshToken',
@@ -325,6 +326,22 @@ export const CommentScalarFieldEnum = {
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  projectId: 'projectId',
+  sourceId: 'sourceId',
+  sourceType: 'sourceType',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const FileScalarFieldEnum = {

@@ -29,6 +29,7 @@ import { MembersModule } from './modules/members/members.module.js';
 import { InvitationsModule } from './modules/invitations/invitations.module.js';
 import { OnboardingModule } from './modules/onboarding/onboarding.module.js';
 import { GamificationModule } from './modules/gamification/gamification.module.js';
+import { CommentsModule } from './modules/comments/comments.module.js';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
@@ -60,6 +61,7 @@ import { GamificationModule } from './modules/gamification/gamification.module.j
         InvitationsModule,
         OnboardingModule,
         GamificationModule,
+        CommentsModule,
     ],
     providers: [
         { provide: APP_GUARD, useClass: ThrottlerGuard },

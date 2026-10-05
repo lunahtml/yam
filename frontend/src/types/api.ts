@@ -785,3 +785,23 @@ export interface UserAchievement {
         name: string | null;
     } | null;
 }
+
+
+// ═══════════════════════════════════════════════════════════════
+// COMMENTS
+// ═══════════════════════════════════════════════════════════════
+
+export interface Comment {
+    id: string;
+    recordId: string;
+    userId: string;
+    body: string;
+    createdAt: string;
+    updatedAt: string;
+    user: {
+        id: string;
+        email: string;
+        name: string | null;
+        avatarUrl: string | null;
+    };
+}

@@ -98,6 +98,11 @@ export type WorkflowTransition = Prisma.WorkflowTransitionModel
  */
 export type Comment = Prisma.CommentModel
 /**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
  * Model File
  * 
  */
