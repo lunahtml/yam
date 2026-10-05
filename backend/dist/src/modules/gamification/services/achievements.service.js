@@ -11,12 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable, NotFoundException, ConflictException, } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
+import { XpService } from './xp.service.js';
 let AchievementsService = class AchievementsService {
     prisma;
     membership;
-    constructor(prisma, membership) {
+    xp;
+    constructor(prisma, membership, xp) {
         this.prisma = prisma;
         this.membership = membership;
+        this.xp = xp;
     }
     // ═══ CRUD ачивок ═══
     async create(userId, organizationId, data) {
@@ -63,14 +66,18 @@ let AchievementsService = class AchievementsService {
     async grantManual(grantedById, achievementId, data) {
         const achievement = await this.prisma.client.achievement.findUnique({
             where: { id: achievementId },
-            select: { organizationId: true },
+            select: {
+                organizationId: true,
+                label: true,
+                xpReward: true,
+            },
         });
         if (!achievement) {
             throw new NotFoundException('Achievement not found');
         }
+        // Проверяем только ВЫДАЮЩЕГО.
+        // Получатель может быть member проекта, но не организации — это ок.
         await this.membership.assertOrganizationMember(grantedById, achievement.organizationId);
-        // Проверяем, что target — member той же организации
-        await this.membership.assertOrganizationMember(data.userId, achievement.organizationId);
         const existing = await this.prisma.client.userAchievement.findUnique({
             where: {
                 userId_achievementId: {
@@ -82,7 +89,7 @@ let AchievementsService = class AchievementsService {
         if (existing) {
             throw new ConflictException('User already has this achievement');
         }
-        return this.prisma.client.userAchievement.create({
+        const result = await this.prisma.client.userAchievement.create({
             data: {
                 userId: data.userId,
                 achievementId,
@@ -90,6 +97,11 @@ let AchievementsService = class AchievementsService {
                 note: data.note,
             },
         });
+        // Начисляем XP за ачивку
+        if (achievement.xpReward > 0) {
+            await this.xp.addXp(data.userId, achievement.xpReward, 'MANUAL_GRANT', achievementId, `Ачивка: ${achievement.label}`);
+        }
+        return result;
     }
     async grantAutomatic(userId, organizationId, code, note) {
         const achievement = await this.prisma.client.achievement.findUnique({
@@ -107,13 +119,18 @@ let AchievementsService = class AchievementsService {
         });
         if (existing)
             return null;
-        return this.prisma.client.userAchievement.create({
+        const result = await this.prisma.client.userAchievement.create({
             data: {
                 userId,
                 achievementId: achievement.id,
                 note,
             },
         });
+        // Начисляем XP за ачивку
+        if (achievement.xpReward > 0) {
+            await this.xp.addXp(userId, achievement.xpReward, 'MANUAL_GRANT', achievement.id, `Ачивка: ${achievement.label}`);
+        }
+        return result;
     }
     async listByUser(userId, targetUserId) {
         const target = await this.prisma.client.user.findUnique({
@@ -138,7 +155,8 @@ let AchievementsService = class AchievementsService {
 AchievementsService = __decorate([
     Injectable(),
     __metadata("design:paramtypes", [PrismaService,
-        MembershipService])
+        MembershipService,
+        XpService])
 ], AchievementsService);
 export { AchievementsService };
 //# sourceMappingURL=achievements.service.js.map

@@ -7,6 +7,8 @@ import {
     Delete,
     Body,
     Param,
+    HttpCode,
+    HttpStatus,
 } from '@nestjs/common';
 import { SprintsService } from './services/sprints.service.js';
 import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
@@ -19,6 +21,10 @@ import {
     UpdateSprintSchema,
     UpdateSprintDto,
 } from './contracts/update-sprint.dto.js';
+import {
+    CompleteSprintSchema,
+    CompleteSprintDto,
+} from './contracts/complete-sprint.dto.js';
 
 @Controller('sprints')
 export class SprintsController {
@@ -63,7 +69,16 @@ export class SprintsController {
     ) {
         return this.sprintsService.update(userId, id, data);
     }
-
+    @Post(':id/complete')
+    @HttpCode(HttpStatus.OK)
+    async complete(
+        @CurrentUserId() userId: string,
+        @Param('id') id: string,
+        @Body(new ZodValidationPipe(CompleteSprintSchema))
+        data: CompleteSprintDto,
+    ) {
+        return this.sprintsService.complete(userId, id, data);
+    }
     @Delete(':id')
     async remove(
         @CurrentUserId() userId: string,

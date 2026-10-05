@@ -1,13 +1,12 @@
 //backend/src/modules/gamification/services/achievements.service.ts
 import {
     Injectable,
-    ForbiddenException,
     NotFoundException,
     ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
-import { EDIT_ROLES } from '../../../common/types/roles.type.js';
+import { XpService } from './xp.service.js';
 import {
     CreateAchievementDto,
     GrantAchievementDto,
@@ -18,6 +17,7 @@ export class AchievementsService {
     constructor(
         private prisma: PrismaService,
         private membership: MembershipService,
+        private xp: XpService,
     ) { }
 
     // ═══ CRUD ачивок ═══
@@ -88,21 +88,21 @@ export class AchievementsService {
     ) {
         const achievement = await this.prisma.client.achievement.findUnique({
             where: { id: achievementId },
-            select: { organizationId: true },
+            select: {
+                organizationId: true,
+                label: true,
+                xpReward: true,
+            },
         });
 
         if (!achievement) {
             throw new NotFoundException('Achievement not found');
         }
 
+        // Проверяем только ВЫДАЮЩЕГО.
+        // Получатель может быть member проекта, но не организации — это ок.
         await this.membership.assertOrganizationMember(
             grantedById,
-            achievement.organizationId,
-        );
-
-        // Проверяем, что target — member той же организации
-        await this.membership.assertOrganizationMember(
-            data.userId,
             achievement.organizationId,
         );
 
@@ -119,7 +119,7 @@ export class AchievementsService {
             throw new ConflictException('User already has this achievement');
         }
 
-        return this.prisma.client.userAchievement.create({
+        const result = await this.prisma.client.userAchievement.create({
             data: {
                 userId: data.userId,
                 achievementId,
@@ -127,6 +127,19 @@ export class AchievementsService {
                 note: data.note,
             },
         });
+
+        // Начисляем XP за ачивку
+        if (achievement.xpReward > 0) {
+            await this.xp.addXp(
+                data.userId,
+                achievement.xpReward,
+                'MANUAL_GRANT',
+                achievementId,
+                `Ачивка: ${achievement.label}`,
+            );
+        }
+
+        return result;
     }
 
     async grantAutomatic(
@@ -152,13 +165,26 @@ export class AchievementsService {
 
         if (existing) return null;
 
-        return this.prisma.client.userAchievement.create({
+        const result = await this.prisma.client.userAchievement.create({
             data: {
                 userId,
                 achievementId: achievement.id,
                 note,
             },
         });
+
+        // Начисляем XP за ачивку
+        if (achievement.xpReward > 0) {
+            await this.xp.addXp(
+                userId,
+                achievement.xpReward,
+                'MANUAL_GRANT',
+                achievement.id,
+                `Ачивка: ${achievement.label}`,
+            );
+        }
+
+        return result;
     }
 
     async listByUser(userId: string, targetUserId: string) {

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
+import { AchievementsService } from '../../gamification/services/achievements.service.js';
 import { CreateRetroDto } from '../contracts/sprint-retro.dto.js';
 
 type RetroField =
@@ -21,6 +22,7 @@ export class SprintRetrosService {
     constructor(
         private prisma: PrismaService,
         private membership: MembershipService,
+        private achievements: AchievementsService,
     ) { }
 
     async upsert(userId: string, sprintId: string, data: CreateRetroDto) {
@@ -41,7 +43,7 @@ export class SprintRetrosService {
 
         await this.membership.assertProjectMember(userId, sprint.projectId);
 
-        return this.prisma.client.sprintRetro.upsert({
+        const result = await this.prisma.client.sprintRetro.upsert({
             where: { sprintId_userId: { sprintId, userId } },
             create: {
                 sprintId,
@@ -68,6 +70,42 @@ export class SprintRetrosService {
                 notes: data.notes,
             },
         });
+
+        // Триггеры автоматических ачивок
+        try {
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: sprint.projectId },
+                select: { workspace: { select: { organizationId: true } } },
+            });
+            const organizationId = project?.workspace?.organizationId;
+
+            if (organizationId) {
+                const retroCount = await this.prisma.client.sprintRetro.count({
+                    where: { userId },
+                });
+
+                if (retroCount === 1) {
+                    await this.achievements.grantAutomatic(
+                        userId,
+                        organizationId,
+                        'first_retro',
+                        'Первая ретроспектива',
+                    );
+                }
+                if (retroCount === 10) {
+                    await this.achievements.grantAutomatic(
+                        userId,
+                        organizationId,
+                        'ten_retros',
+                        '10 ретроспектив',
+                    );
+                }
+            }
+        } catch (err) {
+            console.error('Retro achievements trigger error:', err);
+        }
+
+        return result;
     }
 
     async findBySprint(userId: string, sprintId: string) {

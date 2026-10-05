@@ -6,6 +6,8 @@ import { api } from '../../api/client';
 import { ProjectMember } from '../../types/api';
 import Button from '../../components/Button';
 import AddMemberModal from './AddMemberModal';
+import UserProfileModal from '../../features/team/UserProfileModal';
+import GrantAchievementModal from '../../features/team/GrantAchievementModal';
 import type { ProjectContext } from '../../layouts/ProjectLayout';
 import './TeamPage.css';
 
@@ -15,7 +17,8 @@ export default function TeamPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [showAdd, setShowAdd] = useState(false);
-
+    const [openedUserId, setOpenedUserId] = useState<string | null>(null);
+    const [grantingUserId, setGrantingUserId] = useState<string | null>(null);
     const load = async () => {
         setLoading(true);
         try {
@@ -72,7 +75,11 @@ export default function TeamPage() {
             ) : (
                 <div className="team-grid">
                     {members.map((m) => (
-                        <div key={m.id} className="team-member">
+                        <div
+                            key={m.id}
+                            className="team-member team-member-clickable"
+                            onClick={() => setOpenedUserId(m.userId)}
+                        >
                             <div className="team-member-header">
                                 {m.user.avatarUrl ? (
                                     <img
@@ -99,7 +106,10 @@ export default function TeamPage() {
 
                                 <button
                                     className="team-member-remove"
-                                    onClick={() => handleRemove(m.id)}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleRemove(m.id);
+                                    }}
                                     title="Удалить"
                                 >
                                     <Trash2 size={14} />
@@ -136,6 +146,40 @@ export default function TeamPage() {
                     }}
                 />
             )}
+
+            {openedUserId && (() => {
+                const m = members.find((x) => x.userId === openedUserId);
+                if (!m) return null;
+                return (
+                    <UserProfileModal
+                        userId={m.userId}
+                        userName={m.user.name ?? ''}
+                        userEmail={m.user.email}
+                        userAvatar={m.user.avatarUrl}
+                        onClose={() => setOpenedUserId(null)}
+                        onGrant={() => {
+                            setGrantingUserId(m.userId);
+                        }}
+                    />
+                );
+            })()}
+
+            {grantingUserId && (() => {
+                const m = members.find((x) => x.userId === grantingUserId);
+                if (!m) return null;
+                return (
+                    <GrantAchievementModal
+                        userId={m.userId}
+                        userName={m.user.name ?? m.user.email}
+                        onClose={() => setGrantingUserId(null)}
+                        onGranted={() => {
+                            setGrantingUserId(null);
+                            setOpenedUserId(null);
+                            load();
+                        }}
+                    />
+                );
+            })()}
         </div>
     );
 }

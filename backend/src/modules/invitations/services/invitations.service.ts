@@ -24,7 +24,6 @@ export class InvitationsService {
     async create(userId: string, projectId: string, data: CreateInvitationDto) {
         await this.membership.assertProjectRole(userId, projectId, EDIT_ROLES);
 
-        // Проверяем проект
         const project = await this.prisma.client.project.findUnique({
             where: { id: projectId },
             select: { id: true, name: true },
@@ -34,14 +33,12 @@ export class InvitationsService {
             throw new NotFoundException('Project not found');
         }
 
-        // Проверяем, не зарегистрирован ли user уже
         const existingUser = await this.prisma.client.user.findUnique({
             where: { email: data.email },
             select: { id: true },
         });
 
         if (existingUser) {
-            // Проверяем, не в проекте ли он
             const inProject = await this.prisma.client.projectMember.findUnique({
                 where: {
                     projectId_userId: { projectId, userId: existingUser.id },
@@ -53,7 +50,6 @@ export class InvitationsService {
             }
         }
 
-        // Проверяем, нет ли уже активного приглашения
         const existingInvite = await this.prisma.client.invitation.findFirst({
             where: {
                 projectId,
@@ -67,7 +63,6 @@ export class InvitationsService {
             throw new ConflictException('Invitation already sent to this email');
         }
 
-        // Создаём приглашение
         const token = randomBytes(32).toString('hex');
         const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
@@ -82,7 +77,6 @@ export class InvitationsService {
             },
         });
 
-        // Получаем имя приглашающего
         const inviter = await this.prisma.client.user.findUnique({
             where: { id: userId },
             select: { name: true, email: true },
@@ -91,7 +85,6 @@ export class InvitationsService {
         const inviterName = inviter?.name ?? inviter?.email ?? 'Кто-то';
         const inviteUrl = `${process.env.APP_URL ?? 'http://localhost'}/invite/${token}`;
 
-        // Отправляем письмо
         await this.email.sendProjectInvitation(
             data.email,
             project.name,
@@ -158,29 +151,83 @@ export class InvitationsService {
             );
         }
 
-        // Проверяем, не в проекте ли уже
-        const existing = await this.prisma.client.projectMember.findUnique({
-            where: {
-                projectId_userId: {
-                    projectId: invitation.projectId,
-                    userId,
+        // Узнаём организацию и workspace через проект
+        const project = await this.prisma.client.project.findUnique({
+            where: { id: invitation.projectId },
+            select: {
+                id: true,
+                workspaceId: true,
+                workspace: {
+                    select: { organizationId: true },
                 },
             },
         });
 
-        if (!existing) {
-            await this.prisma.client.projectMember.create({
-                data: {
-                    projectId: invitation.projectId,
-                    userId,
-                    role: invitation.role as 'owner' | 'admin' | 'member' | 'viewer',
-                },
-            });
+        if (!project) {
+            throw new NotFoundException('Project not found');
         }
 
-        await this.prisma.client.invitation.update({
-            where: { id: invitation.id },
-            data: { acceptedAt: new Date() },
+        const organizationId = project.workspace.organizationId;
+        const workspaceId = project.workspaceId;
+
+        // Всё в транзакции: либо присоединяем во все три уровня, либо ничего
+        await this.prisma.client.$transaction(async (tx) => {
+            // 1. OrganizationMember (если ещё нет)
+            const orgMember = await tx.organizationMember.findUnique({
+                where: {
+                    organizationId_userId: { organizationId, userId },
+                },
+            });
+
+            if (!orgMember) {
+                await tx.organizationMember.create({
+                    data: {
+                        organizationId,
+                        userId,
+                        role: 'MEMBER',
+                    },
+                });
+            }
+
+            // 2. WorkspaceMember (если ещё нет)
+            const wsMember = await tx.workspaceMember.findUnique({
+                where: {
+                    workspaceId_userId: { workspaceId, userId },
+                },
+            });
+
+            if (!wsMember) {
+                await tx.workspaceMember.create({
+                    data: {
+                        workspaceId,
+                        userId,
+                        role: 'member',
+                    },
+                });
+            }
+
+            // 3. ProjectMember (если ещё нет)
+            const projMember = await tx.projectMember.findUnique({
+                where: {
+                    projectId_userId: { projectId: invitation.projectId, userId },
+                },
+            });
+
+            if (!projMember) {
+                await tx.projectMember.create({
+                    data: {
+                        projectId: invitation.projectId,
+                        userId,
+                        role: invitation.role as 'owner' | 'admin' | 'member' | 'viewer',
+                    },
+                });
+            }
+
+            // 4. Помечаем инвайт принятым
+            await tx.invitation.update({
+                where: { id: invitation.id },
+                data: { acceptedAt: new Date() },
+            });
         });
 
         return {

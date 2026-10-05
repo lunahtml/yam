@@ -546,6 +546,26 @@ export const api = {
 
     getSprintRecords: (id: string) =>
         request<EntityRecord[]>(`/sprints/${id}/records`),
+
+
+    completeSprint: (id: string, data: {
+        goals: { id: string; action: 'ACHIEVED' | 'CARRIED_OVER' | 'MOVED_BACKLOG' | 'CANCELLED' }[];
+        createNextSprint: boolean;
+        nextSprint?: {
+            name: string;
+            startDate: string;
+            endDate: string;
+            goal?: string;
+        };
+        carryOverTasks: boolean;
+    }) =>
+        request<{ sprint: Sprint; nextSprint: Sprint | null }>(
+            `/sprints/${id}/complete`,
+            {
+                method: 'POST',
+                body: JSON.stringify(data),
+            },
+        ),
     // ═══════════════════════════════════════════════════════════════
     // SPRINT GOALS
     // ═══════════════════════════════════════════════════════════════
@@ -966,5 +986,11 @@ export const api = {
                 createdAt: string;
             }[];
         }>('/gamification/xp/me'),
+
+    getUserXp: (userId: string) =>
+        request<{
+            total: number;
+            bySource: { source: string; total: number }[];
+        }>(`/gamification/xp/user/${userId}`),
 
 };

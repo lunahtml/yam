@@ -11,12 +11,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 //backend/src/modules/sprints/sprints.controller.ts
-import { Controller, Get, Post, Put, Delete, Body, Param, } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpCode, HttpStatus, } from '@nestjs/common';
 import { SprintsService } from './services/sprints.service.js';
 import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
 import { CreateSprintSchema, } from './contracts/create-sprint.dto.js';
 import { UpdateSprintSchema, } from './contracts/update-sprint.dto.js';
+import { CompleteSprintSchema, } from './contracts/complete-sprint.dto.js';
 let SprintsController = class SprintsController {
     sprintsService;
     constructor(sprintsService) {
@@ -36,6 +37,9 @@ let SprintsController = class SprintsController {
     }
     async update(userId, id, data) {
         return this.sprintsService.update(userId, id, data);
+    }
+    async complete(userId, id, data) {
+        return this.sprintsService.complete(userId, id, data);
     }
     async remove(userId, id) {
         return this.sprintsService.remove(userId, id);
@@ -83,6 +87,16 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], SprintsController.prototype, "update", null);
+__decorate([
+    Post(':id/complete'),
+    HttpCode(HttpStatus.OK),
+    __param(0, CurrentUserId()),
+    __param(1, Param('id')),
+    __param(2, Body(new ZodValidationPipe(CompleteSprintSchema))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:returntype", Promise)
+], SprintsController.prototype, "complete", null);
 __decorate([
     Delete(':id'),
     __param(0, CurrentUserId()),

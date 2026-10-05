@@ -3,6 +3,7 @@ import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
 import { XpService } from '../../gamification/services/xp.service.js';
+import { AchievementsService } from '../../gamification/services/achievements.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES } from '../../../common/types/roles.type.js';
 import {
     CreateIncrementDto,
@@ -15,6 +16,7 @@ export class IncrementsService {
         private prisma: PrismaService,
         private membership: MembershipService,
         private xp: XpService,
+        private achievements: AchievementsService,
     ) { }
 
     async create(userId: string, sprintId: string, data: CreateIncrementDto) {
@@ -53,6 +55,40 @@ export class IncrementsService {
                 increment.id,
                 `Инкремент: ${data.name}`,
             );
+        }
+
+        // Триггеры автоматических ачивок
+        try {
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: sprint.projectId },
+                select: { workspace: { select: { organizationId: true } } },
+            });
+            const organizationId = project?.workspace?.organizationId;
+
+            if (organizationId) {
+                const incCount = await this.prisma.client.increment.count({
+                    where: { createdById: userId },
+                });
+
+                if (incCount === 1) {
+                    await this.achievements.grantAutomatic(
+                        userId,
+                        organizationId,
+                        'first_increment',
+                        'Первый инкремент',
+                    );
+                }
+                if (incCount === 10) {
+                    await this.achievements.grantAutomatic(
+                        userId,
+                        organizationId,
+                        'ten_increments',
+                        '10 инкрементов',
+                    );
+                }
+            }
+        } catch (err) {
+            console.error('Increment achievements trigger error:', err);
         }
 
         return increment;

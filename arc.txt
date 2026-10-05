@@ -34,8 +34,15 @@ frontend/src/
 │   └── ProjectLayout.css                  ✅
 │
 ├── features/
+│   ├── team/
+│       ├── UserProfileModal.tsx          ✅
+│       ├── GrantAchievementModal.tsx          ✅
+│   ├── sprints/
+│       ├── CompleteSprintModal.tsx       ✅
 │   ├── gamification/
 │       ├── achievementTemplates.ts       ✅
+│       ├── ranks.ts       ✅
+│       ├── RankBadge.tsx       ✅
 │   ├── skills/
 │   │   ├── XMatrix.tsx                   ✅
 │   ├── artifacts/
@@ -326,6 +333,7 @@ backend/src/
     │   ├── sprint-retros.controller.ts              ✅
     │   ├── sprints.module.ts                        ✅
     │   ├── contracts/
+    │   │   ├── complete-sprint.dto.ts               ✅
     │   │   ├── create-epic.dto.ts                   ✅
     │   │   ├── sprint-goal.dto.ts                   ✅
     │   │   ├── sprint-retro.dto.ts                  ✅

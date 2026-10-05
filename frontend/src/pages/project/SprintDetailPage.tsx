@@ -28,8 +28,6 @@ import {
     Award,
     Heart,
     Zap,
-    // ArrowRightLeft,
-    // Archive,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import {
@@ -48,6 +46,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import InfoPopup from '../../components/InfoPopup';
 import SprintStatusButton from '../../components/SprintStatusButton';
+import CompleteSprintModal from '../../features/sprints/CompleteSprintModal';
 import './SprintDetailPage.css';
 
 type Tab = 'overview' | 'goals' | 'tasks' | 'metrics' | 'increments' | 'events' | 'retro';
@@ -90,15 +89,6 @@ const GOAL_STATUS_COLORS: Record<GoalStatus, string> = {
     CANCELLED: 'goal-status-cancelled',
 };
 
-const RETRO_CRITERIA: { key: keyof RetroRatings; label: string; icon: LucideIcon }[] = [
-    { key: 'goalAchievement', label: 'Достижение целей', icon: Target },
-    { key: 'teamwork', label: 'Командная работа', icon: Users },
-    { key: 'process', label: 'Процесс', icon: Gauge },
-    { key: 'quality', label: 'Качество', icon: Award },
-    { key: 'speed', label: 'Скорость', icon: Zap },
-    { key: 'overall', label: 'Общая оценка', icon: Heart },
-];
-
 interface RetroRatings {
     goalAchievement: number;
     teamwork: number;
@@ -107,6 +97,15 @@ interface RetroRatings {
     speed: number;
     overall: number;
 }
+
+const RETRO_CRITERIA: { key: keyof RetroRatings; label: string; icon: LucideIcon }[] = [
+    { key: 'goalAchievement', label: 'Достижение целей', icon: Target },
+    { key: 'teamwork', label: 'Командная работа', icon: Users },
+    { key: 'process', label: 'Процесс', icon: Gauge },
+    { key: 'quality', label: 'Качество', icon: Award },
+    { key: 'speed', label: 'Скорость', icon: Zap },
+    { key: 'overall', label: 'Общая оценка', icon: Heart },
+];
 
 export default function SprintDetailPage() {
     const { projectId, sprintId } = useParams<{ projectId: string; sprintId: string }>();
@@ -118,6 +117,7 @@ export default function SprintDetailPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [editing, setEditing] = useState(false);
+    const [showCompleteModal, setShowCompleteModal] = useState(false);
     const [saving, setSaving] = useState(false);
 
     const [editName, setEditName] = useState('');
@@ -154,6 +154,12 @@ export default function SprintDetailPage() {
         status: 'PLANNED' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED',
     ) => {
         if (!sprint) return;
+
+        if (status === 'COMPLETED' && sprint.status === 'ACTIVE') {
+            setShowCompleteModal(true);
+            return;
+        }
+
         setError('');
         try {
             await api.updateSprint(sprint.id, { status });
@@ -161,6 +167,23 @@ export default function SprintDetailPage() {
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to update');
         }
+    };
+
+    const handleCompleteConfirm = async (data: {
+        goals: { id: string; action: 'ACHIEVED' | 'CARRIED_OVER' | 'MOVED_BACKLOG' | 'CANCELLED' }[];
+        createNextSprint: boolean;
+        nextSprint?: {
+            name: string;
+            startDate: string;
+            endDate: string;
+            goal?: string;
+        };
+        carryOverTasks: boolean;
+    }) => {
+        if (!sprint) return;
+        await api.completeSprint(sprint.id, data);
+        setShowCompleteModal(false);
+        navigate(`/projects/${projectId}/sprints`);
     };
 
     const startEditing = () => {
@@ -392,10 +415,7 @@ export default function SprintDetailPage() {
                     </div>
 
                     {tab === 'overview' && (
-                        <SprintOverview
-                            metrics={metrics}
-                            goals={goals}
-                        />
+                        <SprintOverview metrics={metrics} goals={goals} />
                     )}
                     {tab === 'goals' && (
                         <SprintGoalsTab
@@ -428,6 +448,15 @@ export default function SprintDetailPage() {
                         />
                     )}
                 </>
+            )}
+
+            {showCompleteModal && (
+                <CompleteSprintModal
+                    sprintName={`Спринт #${sprint.number} · ${sprint.name}`}
+                    goals={goals}
+                    onClose={() => setShowCompleteModal(false)}
+                    onConfirm={handleCompleteConfirm}
+                />
             )}
         </div>
     );

@@ -11,12 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable, ForbiddenException, BadRequestException, } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
+import { AchievementsService } from '../../gamification/services/achievements.service.js';
 let SprintRetrosService = class SprintRetrosService {
     prisma;
     membership;
-    constructor(prisma, membership) {
+    achievements;
+    constructor(prisma, membership, achievements) {
         this.prisma = prisma;
         this.membership = membership;
+        this.achievements = achievements;
     }
     async upsert(userId, sprintId, data) {
         const sprint = await this.prisma.client.sprint.findUnique({
@@ -30,7 +33,7 @@ let SprintRetrosService = class SprintRetrosService {
             throw new BadRequestException('Retro is allowed only for active or completed sprint');
         }
         await this.membership.assertProjectMember(userId, sprint.projectId);
-        return this.prisma.client.sprintRetro.upsert({
+        const result = await this.prisma.client.sprintRetro.upsert({
             where: { sprintId_userId: { sprintId, userId } },
             create: {
                 sprintId,
@@ -57,6 +60,29 @@ let SprintRetrosService = class SprintRetrosService {
                 notes: data.notes,
             },
         });
+        // Триггеры автоматических ачивок
+        try {
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: sprint.projectId },
+                select: { workspace: { select: { organizationId: true } } },
+            });
+            const organizationId = project?.workspace?.organizationId;
+            if (organizationId) {
+                const retroCount = await this.prisma.client.sprintRetro.count({
+                    where: { userId },
+                });
+                if (retroCount === 1) {
+                    await this.achievements.grantAutomatic(userId, organizationId, 'first_retro', 'Первая ретроспектива');
+                }
+                if (retroCount === 10) {
+                    await this.achievements.grantAutomatic(userId, organizationId, 'ten_retros', '10 ретроспектив');
+                }
+            }
+        }
+        catch (err) {
+            console.error('Retro achievements trigger error:', err);
+        }
+        return result;
     }
     async findBySprint(userId, sprintId) {
         const sprint = await this.prisma.client.sprint.findUnique({
@@ -114,7 +140,8 @@ let SprintRetrosService = class SprintRetrosService {
 SprintRetrosService = __decorate([
     Injectable(),
     __metadata("design:paramtypes", [PrismaService,
-        MembershipService])
+        MembershipService,
+        AchievementsService])
 ], SprintRetrosService);
 export { SprintRetrosService };
 //# sourceMappingURL=sprint-retros.service.js.map

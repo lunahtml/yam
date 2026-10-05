@@ -12,15 +12,18 @@ import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
 import { XpService } from '../../gamification/services/xp.service.js';
+import { AchievementsService } from '../../gamification/services/achievements.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES } from '../../../common/types/roles.type.js';
 let EventsService = class EventsService {
     prisma;
     membership;
     xp;
-    constructor(prisma, membership, xp) {
+    achievements;
+    constructor(prisma, membership, xp, achievements) {
         this.prisma = prisma;
         this.membership = membership;
         this.xp = xp;
+        this.achievements = achievements;
     }
     async create(userId, sprintId, data) {
         const sprint = await this.prisma.client.sprint.findUnique({
@@ -44,6 +47,25 @@ let EventsService = class EventsService {
         if (data.xp > 0) {
             await this.xp.addXp(userId, data.xp, 'SPRINT_EVENT', event.id, `Событие: ${data.title}`);
         }
+        // Триггер автоматической ачивки
+        try {
+            const project = await this.prisma.client.project.findUnique({
+                where: { id: sprint.projectId },
+                select: { workspace: { select: { organizationId: true } } },
+            });
+            const organizationId = project?.workspace?.organizationId;
+            if (organizationId) {
+                const eventCount = await this.prisma.client.sprintEvent.count({
+                    where: { createdById: userId },
+                });
+                if (eventCount === 1) {
+                    await this.achievements.grantAutomatic(userId, organizationId, 'first_event', 'Первое событие спринта');
+                }
+            }
+        }
+        catch (err) {
+            console.error('Event achievements trigger error:', err);
+        }
         return event;
     }
     async remove(userId, id) {
@@ -64,7 +86,8 @@ EventsService = __decorate([
     Injectable(),
     __metadata("design:paramtypes", [PrismaService,
         MembershipService,
-        XpService])
+        XpService,
+        AchievementsService])
 ], EventsService);
 export { EventsService };
 //# sourceMappingURL=events.service.js.map

@@ -9,7 +9,9 @@ import Button from '../../components/Button';
 import InfoPopup from '../../components/InfoPopup';
 import type { ProjectContext } from '../../layouts/ProjectLayout';
 import {
-    ACHIEVEMENT_TEMPLATES,
+    AUTOMATIC_TEMPLATES,
+    MANUAL_TEMPLATES,
+    ALL_TEMPLATES,
 } from '../../features/gamification/achievementTemplates';
 import './SettingsPage.css';
 
@@ -82,7 +84,7 @@ export default function SettingsPage() {
             return;
         }
 
-        const template = ACHIEVEMENT_TEMPLATES.find((t) => t.code === templateCode);
+        const template = ALL_TEMPLATES.find((t) => t.code === templateCode);
         if (!template) return;
 
         setCode(template.code);
@@ -90,7 +92,7 @@ export default function SettingsPage() {
         setIcon(template.icon);
         setDescription(template.description);
         setXpReward(String(template.xpReward));
-        setIsAutomatic(true);
+        setIsAutomatic(template.isAutomatic);
     };
 
     const handleCreate = async () => {
@@ -198,12 +200,23 @@ export default function SettingsPage() {
                                 value={selectedTemplate}
                                 onChange={(e) => handleTemplateSelect(e.target.value)}
                             >
-                                <option value="">— Ручная (своя) —</option>
-                                {ACHIEVEMENT_TEMPLATES.map((t) => (
-                                    <option key={t.code} value={t.code}>
-                                        {t.icon} {t.label} · +{t.xpReward} XP
-                                    </option>
-                                ))}
+                                <option value="">— Своя (ввести вручную) —</option>
+
+                                <optgroup label="🤖 Автоматические (система выдаёт сама)">
+                                    {AUTOMATIC_TEMPLATES.map((t) => (
+                                        <option key={t.code} value={t.code}>
+                                            {t.icon} {t.label} · +{t.xpReward} XP
+                                        </option>
+                                    ))}
+                                </optgroup>
+
+                                <optgroup label="🎁 Ручные (PO награждает)">
+                                    {MANUAL_TEMPLATES.map((t) => (
+                                        <option key={t.code} value={t.code}>
+                                            {t.icon} {t.label} · +{t.xpReward} XP
+                                        </option>
+                                    ))}
+                                </optgroup>
                             </select>
                             <span className="settings-achievement-form-hint">
                                 Автоматические ачивки выдают сами — по коду из списка.

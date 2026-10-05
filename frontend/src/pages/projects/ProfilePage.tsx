@@ -16,6 +16,7 @@ import { api } from '../../api/client';
 import Input from '../../components/Input';
 import SkillDetailPopup from './SkillDetailPopup';
 import XMatrix from '../../features/skills/XMatrix';
+import RankBadge from '../../features/gamification/RankBadge';
 import InfoPopup from '../../components/InfoPopup';
 import Button from '../../components/Button';
 import './ProfilePage.css';
@@ -256,6 +257,8 @@ export default function ProfilePage() {
                                     </p>
                                 </InfoPopup>
                             </h3>
+
+                            <RankBadge totalXp={xp.total} />
 
                             <div className="profile-xp-total">
                                 <span className="profile-xp-total-value">
