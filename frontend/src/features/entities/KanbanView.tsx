@@ -11,9 +11,20 @@ import {
     useDroppable,
     useDraggable,
 } from '@dnd-kit/core';
-import { Plus, Trash2, Clock, AlertCircle, Zap } from 'lucide-react';
+import {
+    Plus,
+    Trash2,
+    Clock,
+    AlertCircle,
+    Zap,
+    Layers,
+    Target,
+    Calendar,
+    Archive,
+    Inbox,
+} from 'lucide-react';
 import { api } from '../../api/client';
-import { EntityRecord, Field } from '../../types/api';
+import { EntityRecord, Field, Sprint } from '../../types/api';
 import TaskDetailPopup from './TaskDetailPopup';
 import TaskQuickForm from './TaskQuickForm';
 import './KanbanView.css';
@@ -50,6 +61,13 @@ const COLUMN_LABELS: Record<string, string> = {
     churned: 'Ушёл',
 };
 
+const SPRINT_STATUS_LABELS: Record<Sprint['status'], string> = {
+    PLANNED: 'Запланирован',
+    ACTIVE: 'Активен',
+    COMPLETED: 'Завершён',
+    CANCELLED: 'Отменён',
+};
+
 export default function KanbanView({
     entityId,
     fields,
@@ -64,6 +82,10 @@ export default function KanbanView({
     const [quickCreateColumn, setQuickCreateColumn] = useState<string | null>(
         null,
     );
+
+    // Информация о спринте для баннера
+    const [sprintInfo, setSprintInfo] = useState<Sprint | null>(null);
+    const [sprintLoading, setSprintLoading] = useState(false);
 
     const groupField = config.groupBy as string | undefined;
     const groupFieldDef = groupField
@@ -97,7 +119,32 @@ export default function KanbanView({
 
     useEffect(() => {
         loadRecords();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entityId, sprintId]);
+
+    // Загружаем инфо о спринте для баннера
+    useEffect(() => {
+        if (!sprintId) {
+            setSprintInfo(null);
+            return;
+        }
+        let cancelled = false;
+        setSprintLoading(true);
+        api
+            .getSprint(sprintId)
+            .then((s) => {
+                if (!cancelled) setSprintInfo(s);
+            })
+            .catch(() => {
+                if (!cancelled) setSprintInfo(null);
+            })
+            .finally(() => {
+                if (!cancelled) setSprintLoading(false);
+            });
+        return () => {
+            cancelled = true;
+        };
+    }, [sprintId]);
 
     const columns: KanbanColumn[] = (() => {
         if (!groupFieldDef) return [{ key: 'all', label: 'Все записи' }];
@@ -235,6 +282,12 @@ export default function KanbanView({
 
     return (
         <>
+            <SprintBanner
+                sprintId={sprintId}
+                sprint={sprintInfo}
+                loading={sprintLoading}
+            />
+
             <DndContext
                 sensors={sensors}
                 onDragStart={handleDragStart}
@@ -316,6 +369,92 @@ export default function KanbanView({
     );
 }
 
+// ═══════════════════════════════════════════════════════════════
+// SprintBanner — информация о текущем фильтре спринта
+// ═══════════════════════════════════════════════════════════════
+
+function SprintBanner({
+    sprintId,
+    sprint,
+    loading,
+}: {
+    sprintId: string | null | undefined;
+    sprint: Sprint | null;
+    loading: boolean;
+}) {
+    // undefined → «Все задачи», баннер не показываем
+    if (sprintId === undefined) return null;
+
+    // null → бэклог
+    if (sprintId === null) {
+        return (
+            <div className="kanban-banner kanban-banner-backlog">
+                <div className="kanban-banner-icon-wrap">
+                    <Inbox size={18} />
+                </div>
+                <div className="kanban-banner-content">
+                    <div className="kanban-banner-title">Бэклог</div>
+                    <div className="kanban-banner-sub">Задачи без спринта</div>
+                </div>
+            </div>
+        );
+    }
+
+    // Загрузка
+    if (loading && !sprint) {
+        return (
+            <div className="kanban-banner kanban-banner-loading">
+                Загрузка спринта...
+            </div>
+        );
+    }
+
+    if (!sprint) return null;
+
+    const isActive = sprint.status === 'ACTIVE';
+    const Icon = isActive ? Zap : Archive;
+    const dateRange = `${new Date(sprint.startDate).toLocaleDateString('ru-RU')} — ${new Date(sprint.endDate).toLocaleDateString('ru-RU')}`;
+
+    return (
+        <div
+            className={`kanban-banner ${isActive ? 'kanban-banner-active' : 'kanban-banner-past'
+                }`}
+        >
+            <div className="kanban-banner-icon-wrap">
+                <Icon size={18} />
+            </div>
+
+            <div className="kanban-banner-content">
+                <div className="kanban-banner-title">
+                    <span>Спринт #{sprint.number}</span>
+                    <span className="kanban-banner-status">
+                        {SPRINT_STATUS_LABELS[sprint.status]}
+                    </span>
+                </div>
+                <div className="kanban-banner-meta">
+                    <span className="kanban-banner-name">{sprint.name}</span>
+                    <span className="kanban-banner-sep">·</span>
+                    <span className="kanban-banner-dates">
+                        <Calendar size={12} />
+                        {dateRange}
+                    </span>
+                </div>
+            </div>
+
+            {sprint.goal && (
+                <div className="kanban-banner-goal">
+                    <Target size={14} />
+                    {sprint.goal}
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KanbanColumn
+// ═══════════════════════════════════════════════════════════════
+
 function KanbanColumn({
     column,
     records,
@@ -368,6 +507,10 @@ function KanbanColumn({
         </div>
     );
 }
+
+// ═══════════════════════════════════════════════════════════════
+// KanbanCard
+// ═══════════════════════════════════════════════════════════════
 
 function KanbanCard({
     record,

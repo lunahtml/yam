@@ -290,3 +290,138 @@
     margin-top: 4px;
     width: fit-content;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SPRINT BANNER (над доской)
+   ═══════════════════════════════════════════════════════════════ */
+
+.kanban-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    flex-wrap: wrap;
+}
+
+.kanban-banner-active {
+    background: linear-gradient(
+        90deg,
+        rgba(34, 197, 94, 0.10),
+        rgba(34, 197, 94, 0.03)
+    );
+    border-color: rgba(34, 197, 94, 0.35);
+}
+
+.kanban-banner-past {
+    background: var(--bg-surface);
+    border-color: var(--border);
+}
+
+.kanban-banner-backlog {
+    background: linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.10),
+        rgba(148, 163, 184, 0.03)
+    );
+    border-color: rgba(148, 163, 184, 0.3);
+}
+
+.kanban-banner-loading {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 13px;
+}
+
+.kanban-banner-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.kanban-banner-active .kanban-banner-icon-wrap {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.35);
+    color: rgb(34, 197, 94);
+}
+
+.kanban-banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.kanban-banner-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.kanban-banner-status {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.kanban-banner-active .kanban-banner-status {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.35);
+    color: rgb(34, 197, 94);
+}
+
+.kanban-banner-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.kanban-banner-name {
+    color: var(--text-secondary);
+}
+
+.kanban-banner-sep {
+    color: var(--text-dim);
+}
+
+.kanban-banner-dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.kanban-banner-goal {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 12px;
+    max-width: 100%;
+}

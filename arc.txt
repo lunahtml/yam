@@ -50,6 +50,7 @@ frontend/src/
 │   ├── artifacts/
 │   │   ├── ArtifactForm.tsx              ✅
 │   ├── entities/
+│   │   ├── RecordFieldsEditor.tsx          ✅
 │   │   ├── EntityDetailPage.tsx          ✅
 │   │   ├── EntityDetailPage.css          ✅
 │   │   ├── FieldForm.tsx                 ✅
@@ -104,6 +105,7 @@ frontend/src/
     │   ├── SkillDetailPopup.tsx          ✅
     │   └── SkillDetailPopup.css          ✅
     └── project/
+        ├── TaskDetailPage.tsx            ✅
         ├── EpicDetailPage.tsx            ✅
         ├── EpicDetailPage.css            ✅
         ├── EpicsPage.tsx                 ✅

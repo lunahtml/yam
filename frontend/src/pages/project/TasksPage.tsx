@@ -1,6 +1,6 @@
 //frontend/src/pages/project/TasksPage.tsx
-import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useEffect, useState, useMemo } from 'react';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 import {
     ListTodo,
     Plus,
@@ -36,18 +36,61 @@ const STATUS_LABELS: Record<string, string> = {
     CANCELLED: 'Отменён',
 };
 
-type SprintFilter = 'backlog' | 'all' | string;
-
+/**
+ * sprintParam в URL: 'active' | 'backlog' | 'all' | <sprintId>
+ * sprintFilterValue для API: undefined (все) | null (бэклог) | <sprintId>
+ */
 export default function TasksPage() {
     const { projectId } = useOutletContext<ProjectContext>();
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const [entities, setEntities] = useState<Entity[]>([]);
     const [templates, setTemplates] = useState<EntityTemplate[]>([]);
     const [sprints, setSprints] = useState<Sprint[]>([]);
     const [activeEntity, setActiveEntity] = useState<Entity | null>(null);
-    const [sprintFilter, setSprintFilter] = useState<SprintFilter>('all');
     const [loading, setLoading] = useState(true);
     const [showTemplates, setShowTemplates] = useState(false);
     const [error, setError] = useState('');
+
+    const sprintParam = searchParams.get('sprint') ?? '';
+
+    const activeSprint = useMemo(
+        () => sprints.find((s) => s.status === 'ACTIVE') ?? null,
+        [sprints],
+    );
+
+    /**
+     * Реальное значение фильтра для API.
+     * - '' или 'all'   → undefined (все записи)
+     * - 'backlog'      → null (только бэклог)
+     * - 'active'       → id активного спринта (или undefined, если активного нет)
+     * - <sprintId>     → этот id
+     */
+    const sprintFilterValue: string | null | undefined = useMemo(() => {
+        if (!sprintParam || sprintParam === 'all') return undefined;
+        if (sprintParam === 'backlog') return null;
+        if (sprintParam === 'active') {
+            return activeSprint ? activeSprint.id : undefined;
+        }
+        return sprintParam;
+    }, [sprintParam, activeSprint]);
+
+    /** Значение для <select> — реальный id или 'all'/'backlog' */
+    const sprintSelectValue = useMemo(() => {
+        if (!sprintParam || sprintParam === 'all') return 'all';
+        if (sprintParam === 'active') {
+            return activeSprint ? activeSprint.id : 'all';
+        }
+        return sprintParam;
+    }, [sprintParam, activeSprint]);
+
+    /** Спринт для заголовка (или null) */
+    const headerSprint = useMemo(() => {
+        if (sprintFilterValue === undefined || sprintFilterValue === null) {
+            return null;
+        }
+        return sprints.find((s) => s.id === sprintFilterValue) ?? null;
+    }, [sprintFilterValue, sprints]);
 
     const loadEntities = async () => {
         setLoading(true);
@@ -71,7 +114,31 @@ export default function TasksPage() {
     useEffect(() => {
         loadEntities();
         api.getEntityTemplates().then(setTemplates).catch(() => { });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projectId]);
+
+    // Инициализация URL: если sprint не задан — ставим 'active' (или 'all' если нет активного)
+    useEffect(() => {
+        if (loading) return;
+        if (searchParams.has('sprint')) return;
+
+        const next = new URLSearchParams(searchParams);
+        next.set('sprint', activeSprint ? 'active' : 'all');
+        setSearchParams(next, { replace: true });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading, activeSprint]);
+
+    const handleSelectSprint = (value: string) => {
+        const next = new URLSearchParams(searchParams);
+        if (value === 'all' || value === 'backlog') {
+            next.set('sprint', value);
+        } else if (activeSprint && activeSprint.id === value) {
+            next.set('sprint', 'active');
+        } else {
+            next.set('sprint', value);
+        }
+        setSearchParams(next);
+    };
 
     const handleCreateFromTemplate = async (key: string) => {
         setError('');
@@ -119,11 +186,6 @@ export default function TasksPage() {
 
     const formatDate = (iso: string) =>
         new Date(iso).toLocaleDateString('ru-RU');
-
-    const activeSprint =
-        sprintFilter !== 'all' && sprintFilter !== 'backlog'
-            ? sprints.find((s) => s.id === sprintFilter) ?? null
-            : null;
 
     return (
         <div className="tasks-page">
@@ -217,58 +279,59 @@ export default function TasksPage() {
                                     </label>
                                     <select
                                         className="tasks-sprint-select"
-                                        value={sprintFilter}
-                                        onChange={(e) => setSprintFilter(e.target.value)}
+                                        value={sprintSelectValue}
+                                        onChange={(e) => handleSelectSprint(e.target.value)}
                                     >
                                         <option value="all">Все задачи</option>
                                         <option value="backlog">Только бэклог</option>
                                         {sprints.map((s) => (
                                             <option key={s.id} value={s.id}>
                                                 Спринт #{s.number} · {s.name}
+                                                {s.status === 'ACTIVE' ? ' (активный)' : ''}
                                             </option>
                                         ))}
                                     </select>
                                 </div>
 
-                                {activeSprint && (
+                                {headerSprint && (
                                     <SprintStatusButton
-                                        status={activeSprint.status}
+                                        status={headerSprint.status}
                                         onStatusChange={(status) =>
-                                            handleStatusChange(activeSprint.id, status)
+                                            handleStatusChange(headerSprint.id, status)
                                         }
                                         size="small"
                                     />
                                 )}
                             </div>
 
-                            {activeSprint && (
+                            {headerSprint && (
                                 <div className="tasks-sprint-header">
                                     <div className="tasks-sprint-header-title">
                                         <Layers size={16} />
-                                        <strong>Спринт #{activeSprint.number}</strong>
+                                        <strong>Спринт #{headerSprint.number}</strong>
                                         <span className="tasks-sprint-header-name">
-                                            {activeSprint.name}
+                                            {headerSprint.name}
                                         </span>
                                         <span className="tasks-sprint-header-status">
-                                            {STATUS_LABELS[activeSprint.status]}
+                                            {STATUS_LABELS[headerSprint.status]}
                                         </span>
                                     </div>
 
-                                    {activeSprint.goal && (
+                                    {headerSprint.goal && (
                                         <div className="tasks-sprint-header-goal">
                                             <Target size={14} />
-                                            {activeSprint.goal}
+                                            {headerSprint.goal}
                                         </div>
                                     )}
 
                                     <div className="tasks-sprint-header-dates">
                                         <Calendar size={12} />
-                                        {formatDate(activeSprint.startDate)} — {formatDate(activeSprint.endDate)}
-                                        {activeSprint.epic && (
+                                        {formatDate(headerSprint.startDate)} — {formatDate(headerSprint.endDate)}
+                                        {headerSprint.epic && (
                                             <>
                                                 <span className="tasks-sprint-header-sep">·</span>
                                                 <Layers size={12} />
-                                                {activeSprint.epic.name}
+                                                {headerSprint.epic.name}
                                             </>
                                         )}
                                     </div>
@@ -278,13 +341,7 @@ export default function TasksPage() {
                             <EntityDetailPage
                                 entityId={activeEntity.id}
                                 entityLabel={activeEntity.label}
-                                sprintFilter={
-                                    sprintFilter === 'all'
-                                        ? undefined
-                                        : sprintFilter === 'backlog'
-                                            ? null
-                                            : sprintFilter
-                                }
+                                sprintFilter={sprintFilterValue}
                             />
                         </>
                     )}

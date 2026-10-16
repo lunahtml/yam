@@ -1,10 +1,12 @@
-//frontend\src\features\entities\RecordsTable.tsx
+//frontend/src/features/entities/RecordsTable.tsx
 import { useEffect, useState } from 'react';
-import { Plus, Trash2, Pencil, ArrowUp, ArrowDown } from 'lucide-react';
+import { Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { api } from '../../api/client';
 import { EntityRecord, Field } from '../../types/api';
-import RecordForm from './RecordForm';
 import Button from '../../components/Button';
+import RecordForm from './RecordForm';
+import type { ProjectContext } from '../../layouts/ProjectLayout';
 
 interface RecordsTableProps {
     entityId: string;
@@ -12,11 +14,12 @@ interface RecordsTableProps {
 }
 
 export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
+    const navigate = useNavigate();
+    const { projectId } = useOutletContext<ProjectContext>();
     const [records, setRecords] = useState<EntityRecord[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const [editingRecord, setEditingRecord] = useState<EntityRecord | null>(null);
     const [sortBy, setSortBy] = useState<string | undefined>();
     const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
 
@@ -36,12 +39,12 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
 
     useEffect(() => {
         loadRecords();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entityId, sortBy, sortDir]);
 
     const handleCreate = async (data: Record<string, unknown>) => {
         setLoading(true);
         setError('');
-
         try {
             await api.createRecord(entityId, data);
             setShowForm(false);
@@ -53,31 +56,18 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
         }
     };
 
-    const handleUpdate = async (data: Record<string, unknown>) => {
-        if (!editingRecord) return;
-        setLoading(true);
-        setError('');
-
-        try {
-            await api.updateRecord(editingRecord.id, data);
-            setEditingRecord(null);
-            await loadRecords();
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to update');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const handleDelete = async (id: string) => {
         if (!confirm('Удалить запись?')) return;
-
         try {
             await api.deleteRecord(id);
             await loadRecords();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to delete');
         }
+    };
+
+    const handleOpenRecord = (id: string) => {
+        navigate(`/projects/${projectId}/tasks/${id}`);
     };
 
     const handleSort = (fieldName: string) => {
@@ -91,7 +81,6 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
 
     const formatValue = (value: unknown, fieldType: string): string => {
         if (value === null || value === undefined) return '—';
-
         if (fieldType === 'boolean') return value ? 'Да' : 'Нет';
         if (fieldType === 'date') {
             try {
@@ -102,7 +91,6 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
         }
         if (Array.isArray(value)) return value.join(', ');
         if (typeof value === 'object') return JSON.stringify(value);
-
         return String(value);
     };
 
@@ -124,8 +112,7 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
                 </div>
             )}
 
-            {/* Кнопка создания */}
-            {!showForm && !editingRecord && fields.length > 0 && (
+            {!showForm && fields.length > 0 && (
                 <div style={{ marginBottom: 16 }}>
                     <Button
                         onClick={() => setShowForm(true)}
@@ -137,7 +124,6 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
                 </div>
             )}
 
-            {/* Форма создания */}
             {showForm && (
                 <div style={{ marginBottom: 24 }}>
                     <RecordForm
@@ -150,21 +136,6 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
                 </div>
             )}
 
-            {/* Форма редактирования */}
-            {editingRecord && (
-                <div style={{ marginBottom: 24 }}>
-                    <RecordForm
-                        fields={fields}
-                        initialData={editingRecord.data}
-                        onSubmit={handleUpdate}
-                        onCancel={() => setEditingRecord(null)}
-                        loading={loading}
-                        submitLabel="Сохранить"
-                    />
-                </div>
-            )}
-
-            {/* Таблица */}
             {records.length === 0 ? (
                 <div
                     style={{
@@ -247,10 +218,10 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
                                             color: 'var(--text-secondary)',
                                             textTransform: 'uppercase',
                                             letterSpacing: 0.5,
-                                            width: 100,
+                                            width: 60,
                                         }}
                                     >
-                                        Действия
+
                                     </th>
                                 </tr>
                             </thead>
@@ -258,12 +229,15 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
                                 {records.map((r) => (
                                     <tr
                                         key={r.id}
+                                        onClick={() => handleOpenRecord(r.id)}
                                         style={{
                                             borderBottom: '1px solid var(--border)',
                                             transition: 'background 0.15s',
+                                            cursor: 'pointer',
                                         }}
                                         onMouseEnter={(e) => {
-                                            e.currentTarget.style.background = 'var(--bg-elevated)';
+                                            e.currentTarget.style.background =
+                                                'var(--bg-elevated)';
                                         }}
                                         onMouseLeave={(e) => {
                                             e.currentTarget.style.background = 'transparent';
@@ -293,30 +267,18 @@ export default function RecordsTable({ entityId, fields }: RecordsTableProps) {
                                             }}
                                         >
                                             <button
-                                                onClick={() => {
-                                                    setEditingRecord(r);
-                                                    setShowForm(false);
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDelete(r.id);
                                                 }}
-                                                style={iconButtonStyle}
-                                                onMouseEnter={(e) => {
-                                                    e.currentTarget.style.background =
-                                                        'rgba(34, 211, 238, 0.1)';
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    e.currentTarget.style.background = 'transparent';
-                                                }}
-                                            >
-                                                <Pencil size={14} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(r.id)}
                                                 style={iconButtonStyle}
                                                 onMouseEnter={(e) => {
                                                     e.currentTarget.style.background =
                                                         'rgba(239, 68, 68, 0.1)';
                                                 }}
                                                 onMouseLeave={(e) => {
-                                                    e.currentTarget.style.background = 'transparent';
+                                                    e.currentTarget.style.background =
+                                                        'transparent';
                                                 }}
                                             >
                                                 <Trash2 size={14} />

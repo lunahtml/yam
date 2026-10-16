@@ -41,6 +41,7 @@ import TagsPage from './pages/project/TagsPage';
 import SettingsPage from './pages/project/SettingsPage';
 import EpicsPage from './pages/project/EpicsPage';
 import EpicDetailPage from './pages/project/EpicDetailPage';
+import TaskDetailPage from './pages/project/TaskDetailPage';
 export default function App() {
     return (
         <Routes>
@@ -73,6 +74,7 @@ export default function App() {
                     <Route path="epics/:epicId" element={<EpicDetailPage />} />
                     <Route path="sprints/:sprintId" element={<SprintDetailPage />} />
                     <Route path="tasks" element={<TasksPage />} />
+                    <Route path="tasks/:recordId" element={<TaskDetailPage />} />
                     <Route path="artifacts" element={<ArtifactsPage />} />
                     <Route path="utm" element={<UtmPage />} />
                     <Route path="marketing" element={<MarketingPage />} />
