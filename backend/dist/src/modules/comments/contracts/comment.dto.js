@@ -2,6 +2,7 @@
 import { z } from 'zod';
 export const CreateCommentSchema = z.object({
     body: z.string().min(1).max(5000),
+    parentId: z.string().uuid().optional(),
 });
 export const UpdateCommentSchema = z.object({
     body: z.string().min(1).max(5000),

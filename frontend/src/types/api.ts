@@ -339,6 +339,7 @@ export interface EntityRecord {
     createdById: string;
     createdAt: string;
     updatedAt: string;
+    canEdit?: boolean;   // ← ДОБАВЛЕНО
     creator?: {
         id: string;
         email: string;
@@ -795,6 +796,7 @@ export interface Comment {
     id: string;
     recordId: string;
     userId: string;
+    parentId: string | null;
     body: string;
     createdAt: string;
     updatedAt: string;
@@ -804,4 +806,31 @@ export interface Comment {
         name: string | null;
         avatarUrl: string | null;
     };
+    replies?: Comment[];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════════
+
+export type NotificationType =
+    | 'MENTION'
+    | 'COMMENT'
+    | 'ACHIEVEMENT'
+    | 'SPRINT_COMPLETED'
+    | 'INVITATION'
+    | 'TASK_ASSIGNED';
+
+export interface Notification {
+    id: string;
+    userId: string;
+    type: NotificationType;
+    title: string;
+    body: string | null;
+    projectId: string | null;
+    sourceId: string | null;
+    sourceType: string | null;
+    readAt: string | null;
+    createdAt: string;
+    project?: { id: string; name: string } | null;
 }

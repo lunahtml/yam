@@ -153,7 +153,7 @@ export default function TaskDetailPage() {
                         {copied ? 'Скопировано' : 'Ссылка'}
                     </button>
 
-                    {!editing && (
+                    {!editing && record.canEdit !== false && (
                         <button
                             className="task-page-edit-btn"
                             onClick={() => setEditing(true)}
@@ -231,6 +231,7 @@ export default function TaskDetailPage() {
                         <CommentsSection
                             recordId={record.id}
                             currentUserId={currentUserId}
+                            canComment={record.canEdit !== false}
                         />
                     )}
                 </div>

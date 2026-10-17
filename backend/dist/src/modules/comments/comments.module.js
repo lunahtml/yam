@@ -8,10 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Module } from '@nestjs/common';
 import { CommentsController } from './comments.controller.js';
 import { CommentsService } from './services/comments.service.js';
+import { NotificationsModule } from '../notifications/notifications.module.js';
 let CommentsModule = class CommentsModule {
 };
 CommentsModule = __decorate([
     Module({
+        imports: [NotificationsModule],
         controllers: [CommentsController],
         providers: [CommentsService],
         exports: [CommentsService],

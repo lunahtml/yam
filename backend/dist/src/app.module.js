@@ -35,6 +35,7 @@ import { InvitationsModule } from './modules/invitations/invitations.module.js';
 import { OnboardingModule } from './modules/onboarding/onboarding.module.js';
 import { GamificationModule } from './modules/gamification/gamification.module.js';
 import { CommentsModule } from './modules/comments/comments.module.js';
+import { NotificationsModule } from './modules/notifications/notifications.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -70,6 +71,7 @@ AppModule = __decorate([
             OnboardingModule,
             GamificationModule,
             CommentsModule,
+            NotificationsModule,
         ],
         providers: [
             { provide: APP_GUARD, useClass: ThrottlerGuard },

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../../infra/prisma/prisma.service.js';
 // import { ProjectRole } from '../types/roles.type.js';
-import { PRIVILEGED_ROLES } from '../types/roles.type.js';
+import { PRIVILEGED_ROLES, EDIT_ROLES } from '../types/roles.type.js';
 let MembershipService = class MembershipService {
     prisma;
     constructor(prisma) {
@@ -89,6 +89,65 @@ let MembershipService = class MembershipService {
             throw new ForbiddenException('Insufficient role');
         }
         return membership;
+    }
+    /**
+ * Проверяет доступ к записи.
+ * Возвращает { record, project, canEdit }.
+ *
+ * canEdit = true — только если юзер член ПРОЕКТА с ролью редактирования.
+ * canEdit = false — если юзер только член ОРГАНИЗАЦИИ (read-only).
+ *
+ * Бросает ForbiddenException, если нет ни того, ни другого.
+ */
+    async assertRecordAccess(userId, recordId) {
+        const record = await this.prisma.client.record.findUnique({
+            where: { id: recordId },
+            select: {
+                id: true,
+                projectId: true,
+                entityId: true,
+                sprintId: true,
+                createdById: true,
+                project: {
+                    select: {
+                        id: true,
+                        workspaceId: true,
+                        workspace: { select: { organizationId: true } },
+                    },
+                },
+            },
+        });
+        if (!record) {
+            throw new ForbiddenException('Access denied to record');
+        }
+        const { projectId } = record;
+        const workspaceId = record.project.workspaceId;
+        const organizationId = record.project.workspace.organizationId;
+        // 1) Является ли членом проекта?
+        const projMembership = await this.prisma.client.projectMember.findUnique({
+            where: { projectId_userId: { projectId, userId } },
+        });
+        // 2) Или имеет привилегированную роль в workspace?
+        const wsMembership = await this.prisma.client.workspaceMember.findUnique({
+            where: {
+                workspaceId_userId: { workspaceId, userId },
+            },
+        });
+        const hasEditRole = (projMembership &&
+            EDIT_ROLES.includes(projMembership.role)) ||
+            (wsMembership &&
+                PRIVILEGED_ROLES.includes(wsMembership.role));
+        // 3) Или член организации (read-only)?
+        const orgMembership = await this.prisma.client.organizationMember.findUnique({
+            where: { organizationId_userId: { organizationId, userId } },
+        });
+        if (!hasEditRole && !orgMembership) {
+            throw new ForbiddenException('Access denied to record');
+        }
+        return {
+            record,
+            canEdit: hasEditRole,
+        };
     }
 };
 MembershipService = __decorate([

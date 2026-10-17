@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 //backend/src/modules/entities/services/entities.service.ts
-import { Injectable, ForbiddenException, ConflictException, BadRequestException, } from '@nestjs/common';
+import { Injectable, ForbiddenException, ConflictException, BadRequestException, NotFoundException, } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES, } from '../../../common/types/roles.type.js';
@@ -128,19 +128,37 @@ let EntitiesService = class EntitiesService {
     async findById(userId, id) {
         const entity = await this.prisma.client.entity.findUnique({
             where: { id },
-            select: { id: true, projectId: true },
-        });
-        if (!entity) {
-            throw new ForbiddenException('Access denied to entity');
-        }
-        await this.membership.assertProjectMember(userId, entity.projectId);
-        return this.prisma.client.entity.findUnique({
-            where: { id },
-            include: {
-                fields: { orderBy: { createdAt: 'asc' } },
-                _count: { select: { records: true } },
+            select: {
+                id: true,
+                projectId: true,
+                name: true,
+                label: true,
+                icon: true,
+                color: true,
+                isSystem: true,
+                createdAt: true,
+                updatedAt: true,
+                fields: true,
+                project: {
+                    select: {
+                        workspace: { select: { organizationId: true } },
+                    },
+                },
             },
         });
+        if (!entity) {
+            throw new NotFoundException('Entity not found');
+        }
+        const organizationId = entity.project.workspace.organizationId;
+        // Проверяем: член проекта ИЛИ член организации
+        try {
+            await this.membership.assertProjectMember(userId, entity.projectId);
+        }
+        catch {
+            await this.membership.assertOrganizationMember(userId, organizationId);
+        }
+        const { project: _drop, ...rest } = entity;
+        return rest;
     }
     async update(userId, id, data) {
         const entity = await this.prisma.client.entity.findUnique({

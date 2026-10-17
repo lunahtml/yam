@@ -158,15 +158,8 @@ let RecordsService = class RecordsService {
         };
     }
     async findById(userId, id) {
+        const { canEdit } = await this.membership.assertRecordAccess(userId, id);
         const record = await this.prisma.client.record.findUnique({
-            where: { id },
-            select: { projectId: true },
-        });
-        if (!record) {
-            throw new ForbiddenException('Access denied to record');
-        }
-        await this.membership.assertProjectMember(userId, record.projectId);
-        return this.prisma.client.record.findUnique({
             where: { id },
             include: {
                 entity: {
@@ -178,6 +171,7 @@ let RecordsService = class RecordsService {
                 },
             },
         });
+        return { ...record, canEdit };
     }
     async update(userId, id, data) {
         const record = await this.prisma.client.record.findUnique({

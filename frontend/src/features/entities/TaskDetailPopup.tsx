@@ -100,18 +100,21 @@ export default function TaskDetailPopup({
                         data={data}
                         onChange={update}
                         organizationId={organizationId}
+                        readOnly={record.canEdit === false}
                     />
                 </div>
 
                 <div className="task-detail-footer">
-                    <button
-                        className="task-detail-btn task-detail-btn-primary"
-                        onClick={handleSave}
-                        disabled={saving}
-                    >
-                        <Save size={16} />
-                        {saving ? 'Сохранение...' : 'Сохранить'}
-                    </button>
+                    {record.canEdit !== false && (
+                        <button
+                            className="task-detail-btn task-detail-btn-primary"
+                            onClick={handleSave}
+                            disabled={saving}
+                        >
+                            <Save size={16} />
+                            {saving ? 'Сохранение...' : 'Сохранить'}
+                        </button>
+                    )}
                     <button
                         className="task-detail-btn task-detail-btn-secondary"
                         onClick={onClose}
@@ -130,6 +133,7 @@ export default function TaskDetailPopup({
                         <CommentsSection
                             recordId={record.id}
                             currentUserId={currentUserId}
+                            canComment={record.canEdit !== false}
                         />
                     </div>
                 )}

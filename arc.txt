@@ -36,6 +36,7 @@ frontend/src/
 ├── features/
 │   ├── comments/
 │       ├── CommentsSection.tsx ✅
+│       ├── MentionPicker.tsx ✅
 │   ├── team/
 │       ├── UserProfileModal.tsx          ✅
 │       ├── GrantAchievementModal.tsx          ✅
@@ -109,8 +110,6 @@ frontend/src/
         ├── EpicDetailPage.tsx            ✅
         ├── EpicDetailPage.css            ✅
         ├── EpicsPage.tsx                 ✅
-        ├── ProjectLayout.tsx             ✅
-        ├── ProjectLayout.css             ✅
         ├── AddMemberModal.tsx            ✅
         ├── AddMemberModal.css            ✅
         ├── OverviewPage.tsx              ✅
@@ -186,6 +185,11 @@ backend/src/
 │
 └── modules/
     │
+    ├──notifications/
+        ├──services/
+            ├──notifications.service.ts ✅
+        ├──notifications.module.ts ✅
+        ├──notifications.controller.ts ✅
     ├──comments/
         ├──comments.controller.ts ✅
         ├──comments.module.ts ✅

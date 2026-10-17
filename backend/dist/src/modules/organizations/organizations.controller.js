@@ -11,7 +11,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 //backend/src/modules/organizations/organizations.controller.ts
-import { Controller, Get, Post, Put, Delete, Body, Param, } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, } from '@nestjs/common';
 import { OrganizationsService } from './services/organizations.service.js';
 import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
@@ -36,6 +36,10 @@ let OrganizationsController = class OrganizationsController {
     }
     async remove(userId, id) {
         return this.organizationsService.remove(userId, id);
+    }
+    async getMembers(userId, id, q, limit) {
+        const parsedLimit = Math.min(Math.max(parseInt(limit ?? '20', 10) || 20, 1), 50);
+        return this.organizationsService.getMembers(userId, id, q, parsedLimit);
     }
 };
 __decorate([
@@ -78,6 +82,16 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], OrganizationsController.prototype, "remove", null);
+__decorate([
+    Get(':id/members'),
+    __param(0, CurrentUserId()),
+    __param(1, Param('id')),
+    __param(2, Query('q')),
+    __param(3, Query('limit')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, String]),
+    __metadata("design:returntype", Promise)
+], OrganizationsController.prototype, "getMembers", null);
 OrganizationsController = __decorate([
     Controller('organizations'),
     __metadata("design:paramtypes", [OrganizationsService])

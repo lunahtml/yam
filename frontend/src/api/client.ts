@@ -46,6 +46,7 @@ import {
     Achievement,
     UserAchievement,
     Comment,
+    Notification,
     // Workflow,
     // WorkflowStep,
 } from '../types/api';
@@ -1000,7 +1001,7 @@ export const api = {
     // COMMENTS
     // ═══════════════════════════════════════════════════════════════
 
-    createComment: (recordId: string, data: { body: string }) =>
+    createComment: (recordId: string, data: { body: string; parentId?: string }) =>
         request<Comment>(`/records/${recordId}/comments`, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -1017,6 +1018,44 @@ export const api = {
 
     deleteComment: (id: string) =>
         request<void>(`/comments/${id}`, { method: 'DELETE' }),
+
+
+    // ═══════════════════════════════════════════════════════════════
+    // NOTIFICATIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    getNotifications: () =>
+        request<Notification[]>('/notifications'),
+
+    getUnreadNotificationsCount: () =>
+        request<{ count: number }>('/notifications/unread-count'),
+
+    markNotificationRead: (id: string) =>
+        request<Notification>(`/notifications/${id}/read`, {
+            method: 'PATCH',
+        }),
+
+    markAllNotificationsRead: () =>
+        request<{ count: number }>('/notifications/read-all', {
+            method: 'PATCH',
+        }),
+
+    // ═══════════════════════════════════════════════════════════════
+    // ORGANIZATION MEMBERS (для mention-пикера)
+    // ═══════════════════════════════════════════════════════════════
+
+    getOrganizationMembers: (organizationId: string, q?: string, limit = 20) => {
+        const params = new URLSearchParams();
+        if (q && q.trim()) params.set('q', q.trim());
+        params.set('limit', String(limit));
+        return request<{
+            id: string;
+            email: string;
+            name: string | null;
+            avatarUrl: string | null;
+            role: string;
+        }[]>(`/organizations/${organizationId}/members?${params.toString()}`);
+    },
 
 
 

@@ -4184,6 +4184,7 @@ export const CommentScalarFieldEnum = {
   id: 'id',
   recordId: 'recordId',
   userId: 'userId',
+  parentId: 'parentId',
   body: 'body',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

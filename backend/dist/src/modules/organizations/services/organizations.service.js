@@ -76,6 +76,54 @@ let OrganizationsService = class OrganizationsService {
             role: m.role,
         }));
     }
+    /**
+     * Возвращает участников организации.
+     * Используется для mention-пикера в комментариях.
+     *
+     * q — поиск по name / email (case-insensitive, contains).
+     * limit — максимум 50.
+     */
+    async getMembers(userId, organizationId, q, limit) {
+        await this.membership.assertOrganizationMember(userId, organizationId);
+        const where = {
+            organizationId,
+            ...(q && q.trim().length > 0
+                ? {
+                    user: {
+                        OR: [
+                            { name: { contains: q.trim(), mode: 'insensitive' } },
+                            { email: { contains: q.trim(), mode: 'insensitive' } },
+                        ],
+                    },
+                }
+                : {}),
+        };
+        const members = await this.prisma.client.organizationMember.findMany({
+            where,
+            take: limit,
+            orderBy: { user: { name: 'asc' } },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        name: true,
+                        avatarUrl: true,
+                        status: true,
+                    },
+                },
+            },
+        });
+        return members
+            .filter((m) => m.user.status === 'ACTIVE')
+            .map((m) => ({
+            id: m.user.id,
+            email: m.user.email,
+            name: m.user.name,
+            avatarUrl: m.user.avatarUrl,
+            role: m.role,
+        }));
+    }
 };
 OrganizationsService = __decorate([
     Injectable(),

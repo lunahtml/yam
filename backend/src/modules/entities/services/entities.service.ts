@@ -4,6 +4,7 @@ import {
     ForbiddenException,
     ConflictException,
     BadRequestException,
+    NotFoundException,
 } from '@nestjs/common';
 import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
@@ -153,24 +154,41 @@ export class EntitiesService {
     async findById(userId: string, id: string) {
         const entity = await this.prisma.client.entity.findUnique({
             where: { id },
-            select: { id: true, projectId: true },
+            select: {
+                id: true,
+                projectId: true,
+                name: true,
+                label: true,
+                icon: true,
+                color: true,
+                isSystem: true,
+                createdAt: true,
+                updatedAt: true,
+                fields: true,
+                project: {
+                    select: {
+                        workspace: { select: { organizationId: true } },
+                    },
+                },
+            },
         });
 
         if (!entity) {
-            throw new ForbiddenException('Access denied to entity');
+            throw new NotFoundException('Entity not found');
         }
 
-        await this.membership.assertProjectMember(userId, entity.projectId);
+        const organizationId = entity.project.workspace.organizationId;
 
-        return this.prisma.client.entity.findUnique({
-            where: { id },
-            include: {
-                fields: { orderBy: { createdAt: 'asc' } },
-                _count: { select: { records: true } },
-            },
-        });
+        // Проверяем: член проекта ИЛИ член организации
+        try {
+            await this.membership.assertProjectMember(userId, entity.projectId);
+        } catch {
+            await this.membership.assertOrganizationMember(userId, organizationId);
+        }
+
+        const { project: _drop, ...rest } = entity;
+        return rest;
     }
-
     async update(userId: string, id: string, data: UpdateEntityDto) {
         const entity = await this.prisma.client.entity.findUnique({
             where: { id },

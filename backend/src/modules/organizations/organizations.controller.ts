@@ -7,6 +7,7 @@ import {
     Delete,
     Body,
     Param,
+    Query,
 } from '@nestjs/common';
 import { OrganizationsService } from './services/organizations.service.js';
 import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
@@ -63,4 +64,21 @@ export class OrganizationsController {
     ) {
         return this.organizationsService.remove(userId, id);
     }
+
+
+    @Get(':id/members')
+    async getMembers(
+        @CurrentUserId() userId: string,
+        @Param('id') id: string,
+        @Query('q') q?: string,
+        @Query('limit') limit?: string,
+    ) {
+        const parsedLimit = Math.min(
+            Math.max(parseInt(limit ?? '20', 10) || 20, 1),
+            50,
+        );
+        return this.organizationsService.getMembers(userId, id, q, parsedLimit);
+    }
+
+
 }
