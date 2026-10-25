@@ -213,6 +213,7 @@ export const WorkflowScalarFieldEnum = {
     projectId: 'projectId',
     entityId: 'entityId',
     name: 'name',
+    isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

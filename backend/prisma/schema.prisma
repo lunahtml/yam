@@ -353,10 +353,11 @@ model RecordIndex {
 // ═══════════════════════════════════════════════════════════════
 
 model Workflow {
-    id        String @id @default(uuid(7)) @db.Uuid
-    projectId String @db.Uuid
-    entityId  String @db.Uuid
+    id        String  @id @default(uuid(7)) @db.Uuid
+    projectId String  @db.Uuid
+    entityId  String  @db.Uuid
     name      String
+    isActive  Boolean @default(false)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -370,6 +371,7 @@ model Workflow {
     @@unique([projectId, entityId, name])
     @@index([projectId])
     @@index([entityId])
+    @@index([entityId, isActive])
     @@map("workflows")
 }
 

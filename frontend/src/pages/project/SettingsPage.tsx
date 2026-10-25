@@ -1,7 +1,7 @@
 //frontend/src/pages/project/SettingsPage.tsx
 import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import { Settings, Trophy, Plus, Trash2 } from 'lucide-react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import { Settings, Trophy, Plus, Trash2, GitBranch, ChevronRight } from 'lucide-react';
 import { api } from '../../api/client';
 import { Achievement } from '../../types/api';
 import Input from '../../components/Input';
@@ -17,7 +17,7 @@ import './SettingsPage.css';
 
 export default function SettingsPage() {
     const { projectId } = useOutletContext<ProjectContext>();
-
+    const navigate = useNavigate();
     const [organizationId, setOrganizationId] = useState('');
     const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [loading, setLoading] = useState(true);
@@ -348,6 +348,32 @@ export default function SettingsPage() {
                         ))}
                     </div>
                 )}
+            </div>
+
+            <div className="settings-section">
+                <h2 className="settings-section-title">
+                    <GitBranch size={20} />
+                    Управление процессом
+                </h2>
+
+                <button
+                    className="settings-link-card"
+                    onClick={() =>
+                        navigate(`/projects/${projectId}/settings/workflows`)
+                    }
+                >
+                    <div className="settings-link-icon">
+                        <GitBranch size={22} />
+                    </div>
+                    <div className="settings-link-content">
+                        <div className="settings-link-title">Workflow</div>
+                        <div className="settings-link-desc">
+                            Правила переходов между статусами задач. Управляй
+                            шагами и разрешёнными переходами.
+                        </div>
+                    </div>
+                    <ChevronRight size={18} className="settings-link-arrow" />
+                </button>
             </div>
 
             <div className="settings-section">

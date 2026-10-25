@@ -142,6 +142,8 @@ frontend/src/
         ├── TagsPage.css                  ✅
         ├── SettingsPage.tsx              ✅
         └── SettingsPage.css              ✅
+        └── WorkflowsPage.tsx              ✅
+        └── WorkflowDetailPage.tsx              ✅
 backend/src/
 │
 ├── main.ts                                          ✅
@@ -425,7 +427,13 @@ backend/src/
     ├── teams/                                       ⬜
     ├── roles/                                       ⬜
     ├── permissions/                                 ⬜
-    ├── workflows/                                   ⬜
+    ├── workflows/                                   
+        ├── workflows.controller.ts                  ✅                 
+        ├── workflows.module.ts                      ✅             
+        ├── services/                                   
+            ├── workflows.service.ts                 ✅                  
+        ├── contracts/                                   
+            ├── workflow.dto.ts                      ✅           
     ├── automations/                                 ⬜
     ├── comments/                                    ⬜
     ├── activity/                                    ⬜

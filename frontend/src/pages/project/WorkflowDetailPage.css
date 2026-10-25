@@ -1,0 +1,433 @@
+/* frontend/src/pages/project/WorkflowDetailPage.css */
+
+.wf-detail {
+    padding: 0;
+}
+
+.wf-detail-loading,
+.wf-detail-error {
+    padding: 60px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.wf-detail-error {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.wf-detail-back {
+    background: transparent;
+    border: none;
+    color: var(--cyan);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.wf-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.wf-detail-title-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    flex: 1;
+}
+
+.wf-detail-title-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 24px var(--accent-glow);
+    flex-shrink: 0;
+}
+
+.wf-detail-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 4px 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wf-detail-name-pencil {
+    opacity: 0.4;
+    transition: opacity 0.15s;
+}
+
+.wf-detail-name:hover .wf-detail-name-pencil {
+    opacity: 1;
+}
+
+.wf-detail-name-edit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.wf-detail-name-input {
+    padding: 6px 10px;
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.wf-detail-name-save,
+.wf-detail-name-cancel {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+}
+
+.wf-detail-name-save:hover {
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.wf-detail-name-cancel:hover {
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.wf-detail-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.wf-detail-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+.wf-detail-status-active {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--success);
+    border-color: rgba(34, 197, 94, 0.4);
+}
+
+.wf-detail-section {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.wf-detail-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.wf-detail-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.wf-detail-empty {
+    padding: 32px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wf-detail-empty-hint {
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+/* ═══ ШАГИ ═══ */
+
+.wf-steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wf-step-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.wf-step-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.wf-step-order {
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.wf-step-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    min-width: 0;
+}
+
+.wf-step-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid var(--border-bright);
+    border-radius: 6px;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font-size: 13px;
+    min-width: 0;
+}
+
+.wf-step-colors {
+    display: flex;
+    gap: 4px;
+}
+
+.wf-step-color-btn {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s;
+}
+
+.wf-step-color-btn:hover {
+    transform: scale(1.15);
+}
+
+.wf-step-color-btn-active {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+.wf-step-edit,
+.wf-step-save,
+.wf-step-cancel {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+.wf-step-edit:hover {
+    background: var(--bg-surface);
+    color: var(--cyan);
+}
+
+.wf-step-save:hover {
+    color: var(--success);
+}
+
+.wf-step-cancel:hover {
+    color: var(--error);
+}
+
+.wf-step-delete {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+
+.wf-step-delete:hover {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.wf-step-form {
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wf-step-form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+}
+
+.wf-step-form-colors {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wf-step-form-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.wf-step-form-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ═══ ПЕРЕХОДЫ ═══ */
+
+.wf-transition-add {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.wf-transition-select {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    min-width: 140px;
+    flex: 1;
+}
+
+.wf-transition-arrow {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.wf-transitions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wf-transition-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.wf-transition-step {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    padding: 4px 10px;
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+}
+
+.wf-transition-delete {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.wf-transition-delete:hover {
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.wf-detail-hint {
+    padding: 14px 18px;
+    background: rgba(34, 211, 238, 0.06);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.wf-detail-hint strong {
+    color: var(--cyan-bright);
+}

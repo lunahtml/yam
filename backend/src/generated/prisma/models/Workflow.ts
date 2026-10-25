@@ -29,6 +29,7 @@ export type WorkflowMinAggregateOutputType = {
   projectId: string | null
   entityId: string | null
   name: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -38,6 +39,7 @@ export type WorkflowMaxAggregateOutputType = {
   projectId: string | null
   entityId: string | null
   name: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -47,6 +49,7 @@ export type WorkflowCountAggregateOutputType = {
   projectId: number
   entityId: number
   name: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -58,6 +61,7 @@ export type WorkflowMinAggregateInputType = {
   projectId?: true
   entityId?: true
   name?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -67,6 +71,7 @@ export type WorkflowMaxAggregateInputType = {
   projectId?: true
   entityId?: true
   name?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -76,6 +81,7 @@ export type WorkflowCountAggregateInputType = {
   projectId?: true
   entityId?: true
   name?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -158,6 +164,7 @@ export type WorkflowGroupByOutputType = {
   projectId: string
   entityId: string
   name: string
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: WorkflowCountAggregateOutputType | null
@@ -188,6 +195,7 @@ export type WorkflowWhereInput = {
   projectId?: Prisma.UuidFilter<"Workflow"> | string
   entityId?: Prisma.UuidFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
+  isActive?: Prisma.BoolFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -201,6 +209,7 @@ export type WorkflowOrderByWithRelationInput = {
   projectId?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
@@ -218,6 +227,7 @@ export type WorkflowWhereUniqueInput = Prisma.AtLeast<{
   projectId?: Prisma.UuidFilter<"Workflow"> | string
   entityId?: Prisma.UuidFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
+  isActive?: Prisma.BoolFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -231,6 +241,7 @@ export type WorkflowOrderByWithAggregationInput = {
   projectId?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.WorkflowCountOrderByAggregateInput
@@ -246,6 +257,7 @@ export type WorkflowScalarWhereWithAggregatesInput = {
   projectId?: Prisma.UuidWithAggregatesFilter<"Workflow"> | string
   entityId?: Prisma.UuidWithAggregatesFilter<"Workflow"> | string
   name?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
+  isActive?: Prisma.BoolWithAggregatesFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Workflow"> | Date | string
 }
@@ -253,6 +265,7 @@ export type WorkflowScalarWhereWithAggregatesInput = {
 export type WorkflowCreateInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutWorkflowsInput
@@ -266,6 +279,7 @@ export type WorkflowUncheckedCreateInput = {
   projectId: string
   entityId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   steps?: Prisma.WorkflowStepUncheckedCreateNestedManyWithoutWorkflowInput
@@ -275,6 +289,7 @@ export type WorkflowUncheckedCreateInput = {
 export type WorkflowUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutWorkflowsNestedInput
@@ -288,6 +303,7 @@ export type WorkflowUncheckedUpdateInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   steps?: Prisma.WorkflowStepUncheckedUpdateManyWithoutWorkflowNestedInput
@@ -299,6 +315,7 @@ export type WorkflowCreateManyInput = {
   projectId: string
   entityId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -306,6 +323,7 @@ export type WorkflowCreateManyInput = {
 export type WorkflowUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -315,6 +333,7 @@ export type WorkflowUncheckedUpdateManyInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -340,6 +359,7 @@ export type WorkflowCountOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -349,6 +369,7 @@ export type WorkflowMaxOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -358,6 +379,7 @@ export type WorkflowMinOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -482,6 +504,7 @@ export type WorkflowUpdateOneRequiredWithoutTransitionsNestedInput = {
 export type WorkflowCreateWithoutProjectInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   entity: Prisma.EntityCreateNestedOneWithoutWorkflowsInput
@@ -493,6 +516,7 @@ export type WorkflowUncheckedCreateWithoutProjectInput = {
   id?: string
   entityId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   steps?: Prisma.WorkflowStepUncheckedCreateNestedManyWithoutWorkflowInput
@@ -533,6 +557,7 @@ export type WorkflowScalarWhereInput = {
   projectId?: Prisma.UuidFilter<"Workflow"> | string
   entityId?: Prisma.UuidFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
+  isActive?: Prisma.BoolFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
 }
@@ -540,6 +565,7 @@ export type WorkflowScalarWhereInput = {
 export type WorkflowCreateWithoutEntityInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutWorkflowsInput
@@ -551,6 +577,7 @@ export type WorkflowUncheckedCreateWithoutEntityInput = {
   id?: string
   projectId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   steps?: Prisma.WorkflowStepUncheckedCreateNestedManyWithoutWorkflowInput
@@ -586,6 +613,7 @@ export type WorkflowUpdateManyWithWhereWithoutEntityInput = {
 export type WorkflowCreateWithoutStepsInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutWorkflowsInput
@@ -598,6 +626,7 @@ export type WorkflowUncheckedCreateWithoutStepsInput = {
   projectId: string
   entityId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   transitions?: Prisma.WorkflowTransitionUncheckedCreateNestedManyWithoutWorkflowInput
@@ -622,6 +651,7 @@ export type WorkflowUpdateToOneWithWhereWithoutStepsInput = {
 export type WorkflowUpdateWithoutStepsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutWorkflowsNestedInput
@@ -634,6 +664,7 @@ export type WorkflowUncheckedUpdateWithoutStepsInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transitions?: Prisma.WorkflowTransitionUncheckedUpdateManyWithoutWorkflowNestedInput
@@ -642,6 +673,7 @@ export type WorkflowUncheckedUpdateWithoutStepsInput = {
 export type WorkflowCreateWithoutTransitionsInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutWorkflowsInput
@@ -654,6 +686,7 @@ export type WorkflowUncheckedCreateWithoutTransitionsInput = {
   projectId: string
   entityId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   steps?: Prisma.WorkflowStepUncheckedCreateNestedManyWithoutWorkflowInput
@@ -678,6 +711,7 @@ export type WorkflowUpdateToOneWithWhereWithoutTransitionsInput = {
 export type WorkflowUpdateWithoutTransitionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutWorkflowsNestedInput
@@ -690,6 +724,7 @@ export type WorkflowUncheckedUpdateWithoutTransitionsInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   steps?: Prisma.WorkflowStepUncheckedUpdateManyWithoutWorkflowNestedInput
@@ -699,6 +734,7 @@ export type WorkflowCreateManyProjectInput = {
   id?: string
   entityId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -706,6 +742,7 @@ export type WorkflowCreateManyProjectInput = {
 export type WorkflowUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entity?: Prisma.EntityUpdateOneRequiredWithoutWorkflowsNestedInput
@@ -717,6 +754,7 @@ export type WorkflowUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   steps?: Prisma.WorkflowStepUncheckedUpdateManyWithoutWorkflowNestedInput
@@ -727,6 +765,7 @@ export type WorkflowUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -735,6 +774,7 @@ export type WorkflowCreateManyEntityInput = {
   id?: string
   projectId: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -742,6 +782,7 @@ export type WorkflowCreateManyEntityInput = {
 export type WorkflowUpdateWithoutEntityInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutWorkflowsNestedInput
@@ -753,6 +794,7 @@ export type WorkflowUncheckedUpdateWithoutEntityInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   steps?: Prisma.WorkflowStepUncheckedUpdateManyWithoutWorkflowNestedInput
@@ -763,6 +805,7 @@ export type WorkflowUncheckedUpdateManyWithoutEntityInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -812,6 +855,7 @@ export type WorkflowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   projectId?: boolean
   entityId?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -826,6 +870,7 @@ export type WorkflowSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   projectId?: boolean
   entityId?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -837,6 +882,7 @@ export type WorkflowSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   projectId?: boolean
   entityId?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -848,11 +894,12 @@ export type WorkflowSelectScalar = {
   projectId?: boolean
   entityId?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type WorkflowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "entityId" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["workflow"]>
+export type WorkflowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "entityId" | "name" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["workflow"]>
 export type WorkflowInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   entity?: boolean | Prisma.EntityDefaultArgs<ExtArgs>
@@ -882,6 +929,7 @@ export type $WorkflowPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     projectId: string
     entityId: string
     name: string
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["workflow"]>
@@ -1315,6 +1363,7 @@ export interface WorkflowFieldRefs {
   readonly projectId: Prisma.FieldRef<"Workflow", 'String'>
   readonly entityId: Prisma.FieldRef<"Workflow", 'String'>
   readonly name: Prisma.FieldRef<"Workflow", 'String'>
+  readonly isActive: Prisma.FieldRef<"Workflow", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Workflow", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Workflow", 'DateTime'>
 }

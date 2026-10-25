@@ -3,6 +3,7 @@ import {
     Injectable,
     ForbiddenException,
     NotFoundException,
+    BadRequestException,
 } from '@nestjs/common';
 import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
@@ -18,7 +19,7 @@ import { UpdateRecordDto } from '../contracts/update-record.dto.js';
 import { ListRecordsQueryDto } from '../contracts/list-records.dto.js';
 import { UserSkillsService } from '../../skills/services/user-skills.service.js';
 import { AchievementsService } from '../../gamification/services/achievements.service.js';
-
+import { WorkflowsService } from '../../workflows/services/workflows.service.js';
 @Injectable()
 export class RecordsService {
     constructor(
@@ -28,6 +29,7 @@ export class RecordsService {
         private indexer: RecordIndexService,
         private userSkills: UserSkillsService,
         private achievements: AchievementsService,
+        private workflows: WorkflowsService,
     ) { }
 
     async create(userId: string, entityId: string, data: CreateRecordDto) {
@@ -258,6 +260,44 @@ export class RecordsService {
             record.projectId,
             EDIT_ROLES,
         );
+
+        // ═══ ПРОВЕРКА ПЕРЕХОДА WORKFLOW (fail-open) ═══
+        // Проверяем только если меняется поле status и workflow активен.
+        if (data.data && typeof data.data === 'object') {
+            const oldData = record.data as Record<string, unknown>;
+            const oldStatus =
+                typeof oldData.status === 'string' ? oldData.status : null;
+            const newStatus =
+                typeof data.data.status === 'string'
+                    ? (data.data.status as string)
+                    : null;
+
+            if (
+                oldStatus !== null &&
+                newStatus !== null &&
+                oldStatus !== newStatus
+            ) {
+                const activeWorkflow = await this.workflows.findActiveForEntity(
+                    userId,
+                    record.entityId,
+                );
+
+                if (activeWorkflow) {
+                    const allowed = await this.workflows.canTransition(
+                        activeWorkflow.id,
+                        oldStatus,
+                        newStatus,
+                    );
+
+                    if (!allowed) {
+                        throw new BadRequestException(
+                            `Переход "${oldStatus}" → "${newStatus}" не разрешён workflow «${activeWorkflow.name}»`,
+                        );
+                    }
+                }
+                // Если активного workflow нет — разрешаем (fail-open)
+            }
+        }
 
         const validated = data.data
             ? this.validator.validate(data.data, record.entity.fields)

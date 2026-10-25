@@ -7,9 +7,9 @@ import { RecordIndexService } from './services/record-index.service.js';
 import { SkillsModule } from '../skills/skills.module.js';
 import { SprintsModule } from '../sprints/sprints.module.js';
 import { GamificationModule } from '../gamification/gamification.module.js';
-
+import { WorkflowsModule } from '../workflows/workflows.module.js';
 @Module({
-    imports: [SkillsModule, SprintsModule, GamificationModule],
+    imports: [SkillsModule, SprintsModule, GamificationModule, WorkflowsModule],
     controllers: [RecordsController],
     providers: [
         RecordsService,

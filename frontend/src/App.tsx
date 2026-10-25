@@ -42,6 +42,8 @@ import SettingsPage from './pages/project/SettingsPage';
 import EpicsPage from './pages/project/EpicsPage';
 import EpicDetailPage from './pages/project/EpicDetailPage';
 import TaskDetailPage from './pages/project/TaskDetailPage';
+import WorkflowsPage from './pages/project/WorkflowsPage';
+import WorkflowDetailPage from './pages/project/WorkflowDetailPage';
 export default function App() {
     return (
         <Routes>
@@ -86,6 +88,11 @@ export default function App() {
                     <Route path="skills" element={<SkillsPage />} />
                     <Route path="tags" element={<TagsPage />} />
                     <Route path="settings" element={<SettingsPage />} />
+                    <Route path="settings/workflows" element={<WorkflowsPage />} />
+                    <Route
+                        path="settings/workflows/:workflowId"
+                        element={<WorkflowDetailPage />}
+                    />
                 </Route>
             </Route>
 

@@ -399,16 +399,6 @@ export interface View {
 // WORKFLOWS
 // ═══════════════════════════════════════════════════════════════
 
-export interface Workflow {
-    id: string;
-    projectId: string;
-    entityId: string;
-    name: string;
-    createdAt: string;
-    updatedAt: string;
-    steps?: WorkflowStep[];
-}
-
 export interface WorkflowStep {
     id: string;
     workflowId: string;
@@ -417,6 +407,32 @@ export interface WorkflowStep {
     color: string | null;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface WorkflowTransition {
+    id: string;
+    workflowId: string;
+    fromStepId: string;
+    toStepId: string;
+    name: string | null;
+    conditions: Record<string, unknown> | null;
+    actions: Record<string, unknown> | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Workflow {
+    id: string;
+    projectId: string;
+    entityId: string;
+    name: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+    steps: WorkflowStep[];
+    transitions: WorkflowTransition[];
+    entity?: { id: string; name: string; label: string };
+    _count?: { transitions: number };
 }
 
 export interface EntityTemplateField {

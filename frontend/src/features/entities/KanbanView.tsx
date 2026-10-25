@@ -1,5 +1,5 @@
 //frontend/src/features/entities/KanbanView.tsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
     DndContext,
     DragEndEvent,
@@ -22,9 +22,10 @@ import {
     Calendar,
     Archive,
     Inbox,
+    Lock,
 } from 'lucide-react';
 import { api } from '../../api/client';
-import { EntityRecord, Field, Sprint } from '../../types/api';
+import { EntityRecord, Field, Sprint, Workflow } from '../../types/api';
 import TaskDetailPopup from './TaskDetailPopup';
 import TaskQuickForm from './TaskQuickForm';
 import './KanbanView.css';
@@ -87,6 +88,10 @@ export default function KanbanView({
     const [sprintInfo, setSprintInfo] = useState<Sprint | null>(null);
     const [sprintLoading, setSprintLoading] = useState(false);
 
+    // Активный workflow для entity (null — нет)
+    const [workflow, setWorkflow] = useState<Workflow | null>(null);
+    const [workflowLoaded, setWorkflowLoaded] = useState(false);
+
     const groupField = config.groupBy as string | undefined;
     const groupFieldDef = groupField
         ? fields.find((f) => f.name === groupField)
@@ -122,7 +127,7 @@ export default function KanbanView({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entityId, sprintId]);
 
-    // Загружаем инфо о спринте для баннера
+    // Загрузка инфо о спринте
     useEffect(() => {
         if (!sprintId) {
             setSprintInfo(null);
@@ -146,7 +151,27 @@ export default function KanbanView({
         };
     }, [sprintId]);
 
-    const columns: KanbanColumn[] = (() => {
+    // Загрузка активного workflow (fail-open: ошибки игнорируем)
+    useEffect(() => {
+        let cancelled = false;
+        setWorkflowLoaded(false);
+        api
+            .getActiveWorkflowForEntity(entityId)
+            .then((wf) => {
+                if (!cancelled) setWorkflow(wf);
+            })
+            .catch(() => {
+                if (!cancelled) setWorkflow(null);
+            })
+            .finally(() => {
+                if (!cancelled) setWorkflowLoaded(true);
+            });
+        return () => {
+            cancelled = true;
+        };
+    }, [entityId]);
+
+    const columns: KanbanColumn[] = useMemo(() => {
         if (!groupFieldDef) return [{ key: 'all', label: 'Все записи' }];
 
         if (
@@ -171,7 +196,7 @@ export default function KanbanView({
         }
 
         return [{ key: 'all', label: 'Все записи' }];
-    })();
+    }, [groupFieldDef]);
 
     const getRecordColumn = (record: EntityRecord): string => {
         if (!groupFieldDef) return 'all';
@@ -179,6 +204,51 @@ export default function KanbanView({
         if (value === null || value === undefined) return '';
         return String(value);
     };
+
+    /**
+     * Карта разрешённых переходов: Map<fromStepName, Set<toStepName>>
+     * Строится из workflow.steps и workflow.transitions.
+     * null — workflow нет или не загружен → любое направление разрешено.
+     */
+    const allowedTransitions = useMemo<Map<string, Set<string>> | null>(() => {
+        if (!workflow) return null;
+        const stepById = new Map(workflow.steps.map((s) => [s.id, s.name]));
+        const map = new Map<string, Set<string>>();
+        for (const t of workflow.transitions) {
+            const from = stepById.get(t.fromStepId);
+            const to = stepById.get(t.toStepId);
+            if (!from || !to) continue;
+            if (!map.has(from)) map.set(from, new Set());
+            map.get(from)!.add(to);
+        }
+        return map;
+    }, [workflow]);
+
+    /**
+     * Проверка: разрешён ли переход fromColumn → toColumn?
+     * fail-open: если workflow нет → true.
+     * Если шага нет в workflow → true (не блокируем то, чего нет в правилах).
+     * from === to → true (не переход).
+     */
+    const isTransitionAllowed = (fromColumn: string, toColumn: string): boolean => {
+        if (fromColumn === toColumn) return true;
+        if (!allowedTransitions) return true;
+        const allowed = allowedTransitions.get(fromColumn);
+        if (!allowed) return true; // шаг не описан в workflow → fail-open
+        return allowed.has(toColumn);
+    };
+
+    /**
+     * Набор разрешённых target-колонок для активной карточки при drag.
+     * null — workflow нет → подсветку не делаем.
+     */
+    const activeSourceColumn = useMemo<string | null>(() => {
+        if (!activeId || !allowedTransitions) return null;
+        const rec = records.find((r) => r.id === activeId);
+        if (!rec) return null;
+        return getRecordColumn(rec);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeId, allowedTransitions, records]);
 
     const handleDragStart = (event: DragStartEvent) => {
         setActiveId(String(event.active.id));
@@ -198,6 +268,16 @@ export default function KanbanView({
 
         const oldColumn = getRecordColumn(record);
         if (oldColumn === newColumn) return;
+
+        // ПРОВЕРКА WORKFLOW
+        if (!isTransitionAllowed(oldColumn, newColumn)) {
+            const wfName = workflow?.name ?? 'workflow';
+            setError(
+                `Переход «${COLUMN_LABELS[oldColumn] ?? oldColumn}» → «${COLUMN_LABELS[newColumn] ?? newColumn}» не разрешён в «${wfName}»`,
+            );
+            setTimeout(() => setError(''), 5000);
+            return;
+        }
 
         setRecords((prev) =>
             prev.map((r) =>
@@ -256,10 +336,6 @@ export default function KanbanView({
         return <div className="kanban-loading">Загрузка...</div>;
     }
 
-    if (error) {
-        return <div className="kanban-error">{error}</div>;
-    }
-
     if (!groupFieldDef) {
         return (
             <div className="kanban-empty">
@@ -288,6 +364,25 @@ export default function KanbanView({
                 loading={sprintLoading}
             />
 
+            {workflow && workflowLoaded && (
+                <div className="kanban-workflow-banner">
+                    <Lock size={14} />
+                    <span className="kanban-workflow-banner-name">
+                        Workflow «{workflow.name}»
+                    </span>
+                    <span className="kanban-workflow-banner-hint">
+                        переходы ограничены
+                    </span>
+                </div>
+            )}
+
+            {error && (
+                <div className="kanban-error-banner">
+                    <AlertCircle size={14} />
+                    {error}
+                </div>
+            )}
+
             <DndContext
                 sensors={sensors}
                 onDragStart={handleDragStart}
@@ -299,6 +394,20 @@ export default function KanbanView({
                             (r) => getRecordColumn(r) === col.key,
                         );
 
+                        // Подсветка для колонки при drag
+                        let dragState: 'allowed' | 'blocked' | null = null;
+                        if (activeSourceColumn !== null) {
+                            if (col.key === activeSourceColumn) {
+                                dragState = null; // исходная колонка — нейтрально
+                            } else if (
+                                isTransitionAllowed(activeSourceColumn, col.key)
+                            ) {
+                                dragState = 'allowed';
+                            } else {
+                                dragState = 'blocked';
+                            }
+                        }
+
                         return (
                             <KanbanColumn
                                 key={col.key}
@@ -309,6 +418,7 @@ export default function KanbanView({
                                 onOpen={(r) => setOpenedRecord(r)}
                                 onQuickCreate={() => setQuickCreateColumn(col.key)}
                                 activeId={activeId}
+                                dragState={dragState}
                             />
                         );
                     })}
@@ -370,7 +480,7 @@ export default function KanbanView({
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SprintBanner — информация о текущем фильтре спринта
+// SprintBanner (без изменений)
 // ═══════════════════════════════════════════════════════════════
 
 function SprintBanner({
@@ -382,10 +492,8 @@ function SprintBanner({
     sprint: Sprint | null;
     loading: boolean;
 }) {
-    // undefined → «Все задачи», баннер не показываем
     if (sprintId === undefined) return null;
 
-    // null → бэклог
     if (sprintId === null) {
         return (
             <div className="kanban-banner kanban-banner-backlog">
@@ -400,7 +508,6 @@ function SprintBanner({
         );
     }
 
-    // Загрузка
     if (loading && !sprint) {
         return (
             <div className="kanban-banner kanban-banner-loading">
@@ -452,7 +559,7 @@ function SprintBanner({
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KanbanColumn
+// KanbanColumn — с dragState
 // ═══════════════════════════════════════════════════════════════
 
 function KanbanColumn({
@@ -463,6 +570,7 @@ function KanbanColumn({
     onOpen,
     onQuickCreate,
     activeId,
+    dragState,
 }: {
     column: KanbanColumn;
     records: EntityRecord[];
@@ -471,13 +579,21 @@ function KanbanColumn({
     onOpen: (r: EntityRecord) => void;
     onQuickCreate: () => void;
     activeId: string | null;
+    dragState: 'allowed' | 'blocked' | null;
 }) {
     const { setNodeRef, isOver } = useDroppable({ id: column.key });
+
+    const dragClass =
+        dragState === 'allowed'
+            ? 'kanban-column-allowed'
+            : dragState === 'blocked'
+                ? 'kanban-column-blocked'
+                : '';
 
     return (
         <div
             ref={setNodeRef}
-            className={`kanban-column ${isOver ? 'kanban-column-over' : ''}`}
+            className={`kanban-column ${isOver ? 'kanban-column-over' : ''} ${dragClass}`}
         >
             <div className="kanban-column-header">
                 <div className="kanban-column-title">{column.label}</div>
@@ -509,7 +625,7 @@ function KanbanColumn({
 }
 
 // ═══════════════════════════════════════════════════════════════
-// KanbanCard
+// KanbanCard — без изменений
 // ═══════════════════════════════════════════════════════════════
 
 function KanbanCard({

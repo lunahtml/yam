@@ -47,8 +47,9 @@ import {
     UserAchievement,
     Comment,
     Notification,
-    // Workflow,
-    // WorkflowStep,
+    Workflow,
+    WorkflowStep,
+    WorkflowTransition,
 } from '../types/api';
 
 async function request<T>(
@@ -503,7 +504,86 @@ export const api = {
     deleteView: (id: string) =>
         request<void>(`/views/${id}`, { method: 'DELETE' }),
 
+    // ═══════════════════════════════════════════════════════════════
+    // WORKFLOWS
+    // ═══════════════════════════════════════════════════════════════
 
+    createWorkflow: (projectId: string, entityId: string, data: {
+        name: string;
+        isActive?: boolean;
+    }) =>
+        request<Workflow>(`/workflows/project/${projectId}/entity/${entityId}`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    getWorkflowsByEntity: (entityId: string) =>
+        request<Workflow[]>(`/workflows/entity/${entityId}`),
+
+    getActiveWorkflowForEntity: (entityId: string) =>
+        request<Workflow | null>(`/workflows/entity/${entityId}/active`),
+
+    getWorkflow: (id: string) =>
+        request<Workflow>(`/workflows/${id}`),
+
+    updateWorkflow: (id: string, data: {
+        name?: string;
+        isActive?: boolean;
+    }) =>
+        request<Workflow>(`/workflows/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteWorkflow: (id: string) =>
+        request<void>(`/workflows/${id}`, { method: 'DELETE' }),
+
+    addWorkflowStep: (workflowId: string, data: {
+        name: string;
+        order: number;
+        color?: string;
+    }) =>
+        request<WorkflowStep>(`/workflows/${workflowId}/steps`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    updateWorkflowStep: (workflowId: string, stepId: string, data: {
+        name?: string;
+        order?: number;
+        color?: string;
+    }) =>
+        request<WorkflowStep>(`/workflows/${workflowId}/steps/${stepId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
+
+    deleteWorkflowStep: (workflowId: string, stepId: string) =>
+        request<void>(`/workflows/${workflowId}/steps/${stepId}`, {
+            method: 'DELETE',
+        }),
+
+    addWorkflowTransition: (workflowId: string, data: {
+        fromStepId: string;
+        toStepId: string;
+        name?: string;
+    }) =>
+        request<WorkflowTransition>(`/workflows/${workflowId}/transitions`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }),
+
+    deleteWorkflowTransition: (workflowId: string, transitionId: string) =>
+        request<void>(`/workflows/${workflowId}/transitions/${transitionId}`, {
+            method: 'DELETE',
+        }),
+
+    canWorkflowTransition: (workflowId: string, from: string, to: string) => {
+        const params = new URLSearchParams({ from, to });
+        return request<{ allowed: boolean }>(
+            `/workflows/${workflowId}/can-transition?${params.toString()}`,
+        );
+    },
 
     getEntityTemplates: () =>
         request<EntityTemplate[]>('/entities/templates'),

@@ -31,7 +31,7 @@ import { OnboardingModule } from './modules/onboarding/onboarding.module.js';
 import { GamificationModule } from './modules/gamification/gamification.module.js';
 import { CommentsModule } from './modules/comments/comments.module.js';
 import { NotificationsModule } from './modules/notifications/notifications.module.js';
-
+import { WorkflowsModule } from './modules/workflows/workflows.module.js';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
@@ -65,6 +65,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
         GamificationModule,
         CommentsModule,
         NotificationsModule,
+        WorkflowsModule,
     ],
     providers: [
         { provide: APP_GUARD, useClass: ThrottlerGuard },

@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 //backend/src/modules/records/services/records.service.ts
-import { Injectable, ForbiddenException, NotFoundException, } from '@nestjs/common';
+import { Injectable, ForbiddenException, NotFoundException, BadRequestException, } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
 import { EDIT_ROLES, DESTRUCTIVE_ROLES, } from '../../../common/types/roles.type.js';
@@ -16,6 +16,7 @@ import { RecordValidatorService } from './record-validator.service.js';
 import { RecordIndexService } from './record-index.service.js';
 import { UserSkillsService } from '../../skills/services/user-skills.service.js';
 import { AchievementsService } from '../../gamification/services/achievements.service.js';
+import { WorkflowsService } from '../../workflows/services/workflows.service.js';
 let RecordsService = class RecordsService {
     prisma;
     membership;
@@ -23,13 +24,15 @@ let RecordsService = class RecordsService {
     indexer;
     userSkills;
     achievements;
-    constructor(prisma, membership, validator, indexer, userSkills, achievements) {
+    workflows;
+    constructor(prisma, membership, validator, indexer, userSkills, achievements, workflows) {
         this.prisma = prisma;
         this.membership = membership;
         this.validator = validator;
         this.indexer = indexer;
         this.userSkills = userSkills;
         this.achievements = achievements;
+        this.workflows = workflows;
     }
     async create(userId, entityId, data) {
         const entity = await this.prisma.client.entity.findUnique({
@@ -188,6 +191,27 @@ let RecordsService = class RecordsService {
             throw new ForbiddenException('Access denied to record');
         }
         await this.membership.assertProjectRole(userId, record.projectId, EDIT_ROLES);
+        // ═══ ПРОВЕРКА ПЕРЕХОДА WORKFLOW (fail-open) ═══
+        // Проверяем только если меняется поле status и workflow активен.
+        if (data.data && typeof data.data === 'object') {
+            const oldData = record.data;
+            const oldStatus = typeof oldData.status === 'string' ? oldData.status : null;
+            const newStatus = typeof data.data.status === 'string'
+                ? data.data.status
+                : null;
+            if (oldStatus !== null &&
+                newStatus !== null &&
+                oldStatus !== newStatus) {
+                const activeWorkflow = await this.workflows.findActiveForEntity(userId, record.entityId);
+                if (activeWorkflow) {
+                    const allowed = await this.workflows.canTransition(activeWorkflow.id, oldStatus, newStatus);
+                    if (!allowed) {
+                        throw new BadRequestException(`Переход "${oldStatus}" → "${newStatus}" не разрешён workflow «${activeWorkflow.name}»`);
+                    }
+                }
+                // Если активного workflow нет — разрешаем (fail-open)
+            }
+        }
         const validated = data.data
             ? this.validator.validate(data.data, record.entity.fields)
             : record.data;
@@ -360,7 +384,8 @@ RecordsService = __decorate([
         RecordValidatorService,
         RecordIndexService,
         UserSkillsService,
-        AchievementsService])
+        AchievementsService,
+        WorkflowsService])
 ], RecordsService);
 export { RecordsService };
 //# sourceMappingURL=records.service.js.map
