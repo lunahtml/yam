@@ -23,6 +23,8 @@ import {
     UpdateStepDto,
     CreateTransitionSchema,
     CreateTransitionDto,
+    UpdateTransitionSchema,
+    UpdateTransitionDto,
 } from './contracts/workflow.dto.js';
 
 @Controller('workflows')
@@ -91,10 +93,8 @@ export class WorkflowsController {
         @Query('from') from: string,
         @Query('to') to: string,
     ) {
-        // Проверка доступа
         await this.service.findById(userId, id);
-        const allowed = await this.service.canTransition(id, from, to);
-        return { allowed };
+        return this.service.canTransition(id, from, to);
     }
 
     // ═══ STEPS ═══
@@ -141,16 +141,23 @@ export class WorkflowsController {
         return this.service.addTransition(userId, workflowId, data);
     }
 
+    @Put(':id/transitions/:transitionId')
+    async updateTransition(
+        @CurrentUserId() userId: string,
+        @Param('id') workflowId: string,
+        @Param('transitionId') transitionId: string,
+        @Body(new ZodValidationPipe(UpdateTransitionSchema))
+        data: UpdateTransitionDto,
+    ) {
+        return this.service.updateTransition(userId, workflowId, transitionId, data);
+    }
+
     @Delete(':id/transitions/:transitionId')
     async removeTransition(
         @CurrentUserId() userId: string,
         @Param('id') workflowId: string,
         @Param('transitionId') transitionId: string,
     ) {
-        return this.service.removeTransition(
-            userId,
-            workflowId,
-            transitionId,
-        );
+        return this.service.removeTransition(userId, workflowId, transitionId);
     }
 }

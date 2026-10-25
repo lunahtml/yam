@@ -431,3 +431,33 @@
 .wf-detail-hint strong {
     color: var(--cyan-bright);
 }
+
+.wf-transition-conditions {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    transition: all 0.15s;
+    margin-left: auto;
+}
+
+.wf-transition-conditions:hover {
+    color: var(--accent-bright);
+    border-color: var(--accent);
+}
+
+.wf-transition-conditions-count {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    padding: 0 5px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+}

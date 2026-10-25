@@ -11,11 +11,13 @@ import {
     Zap,
     ArrowRight,
     Pencil,
+    Filter,
 } from 'lucide-react';
 import { api } from '../../api/client';
-import { Workflow } from '../../types/api';
+import { Workflow, WorkflowTransition } from '../../types/api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import TransitionConditionsModal from './TransitionConditionsModal';
 import './WorkflowDetailPage.css';
 
 const STEP_COLORS = [
@@ -58,7 +60,9 @@ export default function WorkflowDetailPage() {
     // Переименование workflow
     const [editingName, setEditingName] = useState(false);
     const [nameDraft, setNameDraft] = useState('');
-
+    // Модалка условий перехода
+    const [conditionsTransition, setConditionsTransition] =
+        useState<WorkflowTransition | null>(null);
     const load = async () => {
         if (!workflowId) return;
         setLoading(true);
@@ -537,6 +541,18 @@ export default function WorkflowDetailPage() {
                                                 {to?.name ?? '?'}
                                             </span>
                                             <button
+                                                className="wf-transition-conditions"
+                                                onClick={() => setConditionsTransition(t)}
+                                                title="Настроить условия"
+                                            >
+                                                <Filter size={14} />
+                                                {t.conditions && t.conditions.length > 0 && (
+                                                    <span className="wf-transition-conditions-count">
+                                                        {t.conditions.length}
+                                                    </span>
+                                                )}
+                                            </button>
+                                            <button
                                                 className="wf-transition-delete"
                                                 onClick={() =>
                                                     handleDeleteTransition(t.id)
@@ -559,6 +575,23 @@ export default function WorkflowDetailPage() {
                 будет разрешать только эти переходы. Если workflow выключен —
                 переходы свободные.
             </div>
+            {conditionsTransition && (() => {
+                const from = stepsById.get(conditionsTransition.fromStepId);
+                const to = stepsById.get(conditionsTransition.toStepId);
+                return (
+                    <TransitionConditionsModal
+                        workflowId={workflow.id}
+                        transition={conditionsTransition}
+                        fromName={from?.name ?? '?'}
+                        toName={to?.name ?? '?'}
+                        onClose={() => setConditionsTransition(null)}
+                        onSaved={async () => {
+                            setConditionsTransition(null);
+                            await load();
+                        }}
+                    />
+                );
+            })()}
         </div>
     );
 }

@@ -409,13 +409,24 @@ export interface WorkflowStep {
     updatedAt: string;
 }
 
+export type TransitionConditionType =
+    | 'checklist_done'
+    | 'field_required'
+    | 'field_value';
+
+export interface TransitionCondition {
+    type: TransitionConditionType;
+    field?: string;
+    value?: string | number | boolean;
+}
+
 export interface WorkflowTransition {
     id: string;
     workflowId: string;
     fromStepId: string;
     toStepId: string;
     name: string | null;
-    conditions: Record<string, unknown> | null;
+    conditions: TransitionCondition[] | null;
     actions: Record<string, unknown> | null;
     createdAt: string;
     updatedAt: string;

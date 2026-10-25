@@ -4,7 +4,6 @@ import {
     NotFoundException,
     BadRequestException,
     ConflictException,
-    ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../infra/prisma/prisma.service.js';
 import { MembershipService } from '../../../common/services/membership.service.js';
@@ -15,7 +14,9 @@ import {
     CreateStepDto,
     UpdateStepDto,
     CreateTransitionDto,
+    UpdateTransitionDto,   // ← ДОБАВЛЕНО
 } from '../contracts/workflow.dto.js';
+import { Prisma } from '../../../generated/prisma/client.js';
 
 @Injectable()
 export class WorkflowsService {
@@ -348,7 +349,6 @@ export class WorkflowsService {
             EDIT_ROLES,
         );
 
-        // Проверка: оба шага принадлежат этому workflow
         const steps = await this.prisma.client.workflowStep.findMany({
             where: {
                 id: { in: [data.fromStepId, data.toStepId] },
@@ -363,7 +363,6 @@ export class WorkflowsService {
             );
         }
 
-        // Проверка: нет дубля
         const existing = await this.prisma.client.workflowTransition.findFirst({
             where: {
                 workflowId,
@@ -382,6 +381,7 @@ export class WorkflowsService {
                 fromStepId: data.fromStepId,
                 toStepId: data.toStepId,
                 name: data.name,
+                conditions: (data.conditions as Prisma.InputJsonValue) ?? Prisma.JsonNull,
             },
         });
     }
@@ -413,26 +413,56 @@ export class WorkflowsService {
             where: { id: transitionId },
         });
     }
+    async updateTransition(
+        userId: string,
+        workflowId: string,
+        transitionId: string,
+        data: UpdateTransitionDto,
+    ) {
+        const transition = await this.prisma.client.workflowTransition.findUnique({
+            where: { id: transitionId },
+            select: {
+                workflowId: true,
+                workflow: { select: { projectId: true } },
+            },
+        });
 
-    // ═══════════════════════════════════════════════════════════════
-    // CAN TRANSITION (fail-open)
-    // ═══════════════════════════════════════════════════════════════
+        if (!transition || transition.workflowId !== workflowId) {
+            throw new NotFoundException('Transition not found');
+        }
 
+        await this.membership.assertProjectRole(
+            userId,
+            transition.workflow.projectId,
+            EDIT_ROLES,
+        );
+
+        return this.prisma.client.workflowTransition.update({
+            where: { id: transitionId },
+            data: {
+                ...(data.name !== undefined ? { name: data.name } : {}),
+                ...(data.conditions !== undefined
+                    ? { conditions: data.conditions as Prisma.InputJsonValue }
+                    : {}),
+            },
+        });
+    }
     /**
-     * Проверяет, разрешён ли переход from → to в workflow.
+     * Проверяет переход + условия.
      *
-     * Логика fail-open:
-     * - workflow не найден → true (разрешено)
-     * - from === to → true (не переход)
-     * - переход найден → true
-     * - переход не найден → false (запрещено)
+     * Возвращает { allowed, reason? }.
+     * - allowed: true → переход разрешён
+     * - allowed: false → причина в reason
+     *
+     * Fail-open: если workflow нет / шага нет в workflow / from === to → true.
      */
     async canTransition(
         workflowId: string,
         fromName: string,
         toName: string,
-    ): Promise<boolean> {
-        if (fromName === toName) return true;
+        recordData?: Record<string, unknown>,
+    ): Promise<{ allowed: boolean; reason?: string }> {
+        if (fromName === toName) return { allowed: true };
 
         const workflow = await this.prisma.client.workflow.findUnique({
             where: { id: workflowId },
@@ -442,22 +472,115 @@ export class WorkflowsService {
                     select: {
                         fromStepId: true,
                         toStepId: true,
+                        conditions: true,
                     },
                 },
             },
         });
 
-        if (!workflow) return true;
+        if (!workflow) return { allowed: true };
 
         const fromStep = workflow.steps.find((s) => s.name === fromName);
         const toStep = workflow.steps.find((s) => s.name === toName);
 
-        // Если шага нет в workflow — fail-open (разрешаем)
-        // Это может быть статус вне workflow — не блокируем
-        if (!fromStep || !toStep) return true;
+        if (!fromStep || !toStep) return { allowed: true };
 
-        return workflow.transitions.some(
+        const transition = workflow.transitions.find(
             (t) => t.fromStepId === fromStep.id && t.toStepId === toStep.id,
         );
+
+        if (!transition) {
+            return {
+                allowed: false,
+                reason: `Переход «${fromName}» → «${toName}» не разрешён`,
+            };
+        }
+
+        // Проверка условий
+        const condResult = this.evaluateConditions(
+            transition.conditions,
+            recordData ?? {},
+        );
+
+        if (!condResult.allowed) {
+            return {
+                allowed: false,
+                reason: condResult.failedCondition ?? 'Условие перехода не выполнено',
+            };
+        }
+
+        return { allowed: true };
+    }
+
+    /**
+ * Проверяет массив условий против данных записи.
+ * Возвращает { allowed: boolean, failedCondition?: string }.
+ *
+ * Пустой массив / null → allowed: true.
+ * Все условия должны быть выполнены (AND).
+ */
+    evaluateConditions(
+        conditions: unknown,
+        recordData: Record<string, unknown>,
+    ): { allowed: boolean; failedCondition?: string } {
+        if (!conditions || !Array.isArray(conditions) || conditions.length === 0) {
+            return { allowed: true };
+        }
+
+        for (const cond of conditions) {
+            if (!cond || typeof cond !== 'object') continue;
+            const c = cond as { type?: string; field?: string; value?: unknown };
+
+            switch (c.type) {
+                case 'checklist_done': {
+                    const checklist = recordData.checklist;
+                    if (Array.isArray(checklist) && checklist.length > 0) {
+                        const allDone = checklist.every(
+                            (item) =>
+                                item &&
+                                typeof item === 'object' &&
+                                (item as { done?: boolean }).done === true,
+                        );
+                        if (!allDone) {
+                            return {
+                                allowed: false,
+                                failedCondition: 'Не все пункты чеклиста выполнены',
+                            };
+                        }
+                    }
+                    // Если чеклиста нет или он пуст — условие выполнено (пустой чеклист не блокирует)
+                    break;
+                }
+
+                case 'field_required': {
+                    if (!c.field) continue;
+                    const val = recordData[c.field];
+                    if (val === null || val === undefined || val === '') {
+                        return {
+                            allowed: false,
+                            failedCondition: `Поле «${c.field}» обязательно`,
+                        };
+                    }
+                    break;
+                }
+
+                case 'field_value': {
+                    if (!c.field) continue;
+                    const val = recordData[c.field];
+                    if (val !== c.value) {
+                        return {
+                            allowed: false,
+                            failedCondition: `Поле «${c.field}» должно быть «${String(c.value)}»`,
+                        };
+                    }
+                    break;
+                }
+
+                default:
+                    continue;
+            }
+        }
+
+        return { allowed: true };
     }
 }

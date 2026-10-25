@@ -50,6 +50,7 @@ import {
     Workflow,
     WorkflowStep,
     WorkflowTransition,
+    TransitionCondition,
 } from '../types/api';
 
 async function request<T>(
@@ -567,12 +568,21 @@ export const api = {
         fromStepId: string;
         toStepId: string;
         name?: string;
+        conditions?: TransitionCondition[];
     }) =>
         request<WorkflowTransition>(`/workflows/${workflowId}/transitions`, {
             method: 'POST',
             body: JSON.stringify(data),
         }),
 
+    updateWorkflowTransition: (workflowId: string, transitionId: string, data: {
+        name?: string;
+        conditions?: TransitionCondition[];
+    }) =>
+        request<WorkflowTransition>(`/workflows/${workflowId}/transitions/${transitionId}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        }),
     deleteWorkflowTransition: (workflowId: string, transitionId: string) =>
         request<void>(`/workflows/${workflowId}/transitions/${transitionId}`, {
             method: 'DELETE',

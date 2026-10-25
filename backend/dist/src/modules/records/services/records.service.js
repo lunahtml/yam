@@ -204,9 +204,12 @@ let RecordsService = class RecordsService {
                 oldStatus !== newStatus) {
                 const activeWorkflow = await this.workflows.findActiveForEntity(userId, record.entityId);
                 if (activeWorkflow) {
-                    const allowed = await this.workflows.canTransition(activeWorkflow.id, oldStatus, newStatus);
-                    if (!allowed) {
-                        throw new BadRequestException(`Переход "${oldStatus}" → "${newStatus}" не разрешён workflow «${activeWorkflow.name}»`);
+                    // Будущие данные: старое + новое (чтобы условия видели актуальное)
+                    const futureData = { ...oldData, ...data.data };
+                    const result = await this.workflows.canTransition(activeWorkflow.id, oldStatus, newStatus, futureData);
+                    if (!result.allowed) {
+                        throw new BadRequestException(result.reason ??
+                            `Переход "${oldStatus}" → "${newStatus}" не разрешён workflow «${activeWorkflow.name}»`);
                     }
                 }
                 // Если активного workflow нет — разрешаем (fail-open)

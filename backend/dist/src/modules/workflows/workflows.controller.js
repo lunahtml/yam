@@ -15,7 +15,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, } from '@nestjs
 import { WorkflowsService } from './services/workflows.service.js';
 import { CurrentUserId } from '../../common/decorators/current-user-id.decorator.js';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe.js';
-import { CreateWorkflowSchema, UpdateWorkflowSchema, CreateStepSchema, UpdateStepSchema, CreateTransitionSchema, } from './contracts/workflow.dto.js';
+import { CreateWorkflowSchema, UpdateWorkflowSchema, CreateStepSchema, UpdateStepSchema, CreateTransitionSchema, UpdateTransitionSchema, } from './contracts/workflow.dto.js';
 let WorkflowsController = class WorkflowsController {
     service;
     constructor(service) {
@@ -41,10 +41,8 @@ let WorkflowsController = class WorkflowsController {
         return this.service.remove(userId, id);
     }
     async canTransition(userId, id, from, to) {
-        // Проверка доступа
         await this.service.findById(userId, id);
-        const allowed = await this.service.canTransition(id, from, to);
-        return { allowed };
+        return this.service.canTransition(id, from, to);
     }
     // ═══ STEPS ═══
     async addStep(userId, workflowId, data) {
@@ -59,6 +57,9 @@ let WorkflowsController = class WorkflowsController {
     // ═══ TRANSITIONS ═══
     async addTransition(userId, workflowId, data) {
         return this.service.addTransition(userId, workflowId, data);
+    }
+    async updateTransition(userId, workflowId, transitionId, data) {
+        return this.service.updateTransition(userId, workflowId, transitionId, data);
     }
     async removeTransition(userId, workflowId, transitionId) {
         return this.service.removeTransition(userId, workflowId, transitionId);
@@ -162,6 +163,16 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], WorkflowsController.prototype, "addTransition", null);
+__decorate([
+    Put(':id/transitions/:transitionId'),
+    __param(0, CurrentUserId()),
+    __param(1, Param('id')),
+    __param(2, Param('transitionId')),
+    __param(3, Body(new ZodValidationPipe(UpdateTransitionSchema))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, Object]),
+    __metadata("design:returntype", Promise)
+], WorkflowsController.prototype, "updateTransition", null);
 __decorate([
     Delete(':id/transitions/:transitionId'),
     __param(0, CurrentUserId()),

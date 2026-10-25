@@ -283,14 +283,18 @@ export class RecordsService {
                 );
 
                 if (activeWorkflow) {
-                    const allowed = await this.workflows.canTransition(
+                    // Будущие данные: старое + новое (чтобы условия видели актуальное)
+                    const futureData = { ...oldData, ...data.data };
+                    const result = await this.workflows.canTransition(
                         activeWorkflow.id,
                         oldStatus,
                         newStatus,
+                        futureData,
                     );
 
-                    if (!allowed) {
+                    if (!result.allowed) {
                         throw new BadRequestException(
+                            result.reason ??
                             `Переход "${oldStatus}" → "${newStatus}" не разрешён workflow «${activeWorkflow.name}»`,
                         );
                     }
